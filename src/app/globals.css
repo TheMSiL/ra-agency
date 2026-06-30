@@ -349,12 +349,12 @@ a {
 		box-shadow: 0 0 28px rgba(250, 138, 22, 0.38) inset;
 	}
 
-	.ads_block {
-		background: url('/ads.png');
+	.services_block {
+		background: url('/service-bg.png');
 		background-size: cover;
 	}
 
-	.ads_block::after {
+	.services_block::after {
 		position: absolute;
 		content: '';
 		top: 0;
@@ -366,7 +366,7 @@ a {
 		box-shadow: 0 0 30.3px 5px rgba(250, 138, 22, 0.3);
 	}
 
-	.ads_block:last-child::before {
+	.services_block:last-child::before {
 		position: absolute;
 		content: '';
 		bottom: 0;
@@ -378,7 +378,7 @@ a {
 		box-shadow: 0 0 30.3px 5px rgba(250, 138, 22, 0.3);
 	}
 
-	.ads_circle {
+	.services_circle {
 		background: rgba(250, 140, 22, 0.692);
 		border: 1px solid rgba(250, 138, 22, 0.8);
 		box-shadow: 0 0 30.3px rgba(250, 138, 22, 0.3);

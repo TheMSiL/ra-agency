@@ -1,4 +1,4 @@
-import AdsBlock from "@/components/AdsBlock";
+import ServicesBlock from "@/components/ServicesBlock";
 import Cases from "@/components/Cases";
 import Footer from "@/components/Footer";
 import HeroHome from "@/components/HeroHome";
@@ -6,7 +6,7 @@ import Numbers from "@/components/Numbers";
 import Reviews from "@/components/Reviews";
 import Talk from "@/components/Talk";
 
-const tgAds = {
+const telegramService = {
   title: 'TELEGRAM ADS',
   subtitle: 'Effective Telegram advertising at any scale. Target audience and fast results',
   items: [
@@ -17,7 +17,7 @@ const tgAds = {
   icon: '/tg.png'
 }
 
-const metaAds = {
+const metaService = {
   title: 'META ADS',
   subtitle: 'Turnkey Facebook & Instagram ads. Funnel building and ROAS/CPA optimization',
   items: [
@@ -29,7 +29,7 @@ const metaAds = {
   icon: '/meta.png'
 }
 
-const googleAds = {
+const googleService = {
   title: 'Google Ads',
   subtitle: 'Search, YouTube, Display & Performance Max. Capturing hot demand + remarketing',
   items: [
@@ -45,9 +45,9 @@ export default function page() {
   return (
     <div className="wrapper">
       <HeroHome />
-      <AdsBlock title={tgAds.title} subtitle={tgAds.subtitle} items={tgAds.items} icon={tgAds.icon} />
-      <AdsBlock title={metaAds.title} subtitle={metaAds.subtitle} items={metaAds.items} icon={metaAds.icon} />
-      <AdsBlock title={googleAds.title} subtitle={googleAds.subtitle} items={googleAds.items} icon={googleAds.icon} />
+      <ServicesBlock title={telegramService.title} subtitle={telegramService.subtitle} items={telegramService.items} icon={telegramService.icon} />
+      <ServicesBlock title={metaService.title} subtitle={metaService.subtitle} items={metaService.items} icon={metaService.icon} />
+      <ServicesBlock title={googleService.title} subtitle={googleService.subtitle} items={googleService.items} icon={googleService.icon} />
       <Numbers />
       <div className="underFooter">
         <Cases />

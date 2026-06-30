@@ -4,18 +4,18 @@ import Image from "next/image";
 
 import Button from "./Button";
 
-interface AdsBlockProps {
+interface ServicesBlockProps {
 	title: string;
 	subtitle: string;
 	items: string[];
 	icon: string;
 }
 
-export default function AdsBlock({ title, subtitle, items, icon }: AdsBlockProps) {
+export default function ServicesBlock({ title, subtitle, items, icon }: ServicesBlockProps) {
 	const isCompactTimeline = items.length === 3;
 
 	return (
-		<div className="ads_block relative px-8 pb-9 pt-14">
+		<div className="services_block relative px-8 pb-9 pt-14">
 			<div className="content_container">
 				<div className="relative z-10">
 					<div className="mb-7 flex items-center justify-center gap-[160px]">
@@ -56,7 +56,7 @@ export default function AdsBlock({ title, subtitle, items, icon }: AdsBlockProps
 							{items.map((item, index) => {
 								return (
 									<div key={`${item}-${index}`} className="flex min-w-0 flex-col items-center gap-2 text-center">
-										<span className="relative z-10 size-3 rounded-full ads_circle" />
+										<span className="relative z-10 size-3 rounded-full services_circle" />
 										<p className="max-w-[360px] text-xl">
 											{item}
 										</p>
