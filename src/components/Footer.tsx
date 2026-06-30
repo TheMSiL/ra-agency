@@ -51,7 +51,7 @@ const legal = [
 
 export default function Footer() {
 	return (
-		<footer className="footer pb-20">
+		<footer className="footer pb-20 overflow-hidden">
 			<div className="content_container relative">
 				<h1 className="home_hero-title" data-title="RA AGENCY">
 					RA AGENCY
