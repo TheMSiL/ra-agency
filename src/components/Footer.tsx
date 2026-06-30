@@ -71,7 +71,7 @@ export default function Footer() {
 							</a>
 						</div>
 					</div>
-					<Image className="absolute top-[200px] left-1/2 -translate-x-1/2" src='/logo_footer.png' alt="footer_logo" width={450} height={450} />
+					<Image className="absolute top-[200px] left-1/2 -translate-x-1/2" src='/logo_footer.png' alt="footer_logo" width={450} height={315} />
 					<div className="flex items-start gap-20">
 						<div>
 							<h5 className="text-lg uppercase text-[#FA8A16] font-display">Navigation</h5>
