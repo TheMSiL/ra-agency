@@ -1,6 +1,7 @@
 import ServicesBlock from "@/components/ServicesBlock";
 import Cases from "@/components/Cases";
 import Footer from "@/components/Footer";
+import FloatingTelegramButton from "@/components/FloatingTelegramButton";
 import HeroHome from "@/components/HeroHome";
 import Numbers from "@/components/Numbers";
 import Reviews from "@/components/Reviews";
@@ -55,6 +56,7 @@ export default function page() {
         <Talk />
       </div>
       <Footer />
+      <FloatingTelegramButton />
     </div>
   );
 }

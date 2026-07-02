@@ -27,6 +27,10 @@ body {
 	color: #fff7ed;
 }
 
+body.scroll_locked {
+	overscroll-behavior: none;
+}
+
 .font-display {
 	font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
 }
@@ -43,11 +47,11 @@ a {
 
 @layer components {
 	.wrapper {
-		@apply max-w-[1920px] mx-auto min-h-[100dvh] bg-[#090400] overflow-x-hidden;
+		@apply min-h-[100dvh] bg-[#090400] overflow-x-hidden;
 	}
 
 	.content_container {
-		@apply w-full px-12;
+		@apply w-full px-12 max-w-[1920px] mx-auto;
 	}
 }
 
@@ -358,11 +362,10 @@ a {
 		position: absolute;
 		content: '';
 		top: 0;
-		left: 50%;
-		transform: translateX(-50%);
+		left: 0;
 		background: #fa8a16;
 		height: 0.5px;
-		width: calc(100% - 96px);
+		width: 100%;
 		box-shadow: 0 0 30.3px 5px rgba(250, 138, 22, 0.3);
 	}
 
@@ -898,6 +901,46 @@ a {
 		background: rgba(0, 0, 0, 0.45);
 	}
 
+	.floating_tg_btn {
+		position: fixed;
+		right: 38px;
+		bottom: 38px;
+		z-index: 2500;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 80px;
+		height: 80px;
+		padding: 20px;
+		border: 2.282px solid #fa8a16;
+		border-radius: 22815.535px;
+		background: rgba(0, 0, 0, 0.35);
+		box-shadow: 0 0 73.1px 0 rgba(250, 138, 22, 0.4) inset;
+		cursor: pointer;
+		backdrop-filter: blur(8px);
+		transition:
+			transform 0.3s ease,
+			background 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.floating_tg_btn img {
+		width: 74px;
+		height: auto;
+	}
+
+	.floating_tg_btn:hover {
+		background: rgba(0, 0, 0, 0.52);
+		box-shadow: 0 0 58px 0 rgba(250, 138, 22, 0.54) inset;
+		transform: translateY(-4px);
+	}
+
+	body.burger_menu_open .floating_tg_btn {
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(12px) scale(0.92);
+	}
+
 	.contact_modal {
 		position: fixed;
 		inset: 0;
@@ -1290,6 +1333,17 @@ a {
 			right: 20px;
 			width: 40px;
 			height: 36px;
+		}
+
+		.floating_tg_btn {
+			right: 18px;
+			bottom: 18px;
+			width: 86px;
+			height: 86px;
+		}
+
+		.floating_tg_btn img {
+			width: 52px;
 		}
 	}
 }

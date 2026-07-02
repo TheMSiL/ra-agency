@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
 import BurgerSvg from "../../public/svg/BurgerSvg";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const menuItems = [
 	{ label: "Home", href: "#home" },
@@ -20,6 +21,16 @@ const menuItems = [
 export default function Burger() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeHref, setActiveHref] = useState("#home");
+
+	useBodyScrollLock(isOpen);
+
+	useEffect(() => {
+		document.body.classList.toggle("burger_menu_open", isOpen);
+
+		return () => {
+			document.body.classList.remove("burger_menu_open");
+		};
+	}, [isOpen]);
 
 	useEffect(() => {
 		function updateActiveHref() {
