@@ -1135,9 +1135,10 @@ a {
 	}
 
 	.talk_btn {
+		aspect-ratio: 1;
 		width: 250px;
 		height: 250px;
-		border-radius: 475.728px 509.709px;
+		border-radius: 50%;
 		border: 2.427px solid #fa8a16;
 		background: rgba(0, 0, 0, 0.15);
 		display: flex;
@@ -2154,12 +2155,18 @@ a {
 		}
 
 		.contact_modal {
+			align-items: flex-start;
+			justify-content: center;
+			overflow-x: hidden;
+			overflow-y: auto;
 			padding: 20px;
+			-webkit-overflow-scrolling: touch;
 		}
 
 		.contact_form {
 			width: 100%;
 			min-height: auto;
+			margin: 16px 0 20px;
 			padding: 72px 24px 28px;
 		}
 
@@ -2226,41 +2233,18 @@ a {
 		}
 
 		.reviews_slider {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 16px 14px;
+			display: block;
 			margin-top: 26px;
 		}
 
 		.reviews_track {
-			grid-column: 1 / -1;
-			grid-row: 1;
 			width: 100%;
 			flex: initial;
-		}
-
-		.reviews_slider .review_arrow-cont:first-child {
-			grid-column: 1;
-			grid-row: 2;
-			justify-self: end;
-		}
-
-		.reviews_slider .review_arrow-cont:last-child {
-			grid-column: 2;
-			grid-row: 2;
-			justify-self: start;
+			touch-action: pan-y;
 		}
 
 		.review_arrow-cont {
-			width: 48px;
-			height: 48px;
-			padding: 10px 13px;
-			border-width: 4px;
-		}
-
-		.review_arrow-cont img {
-			width: 18px;
-			height: auto;
+			display: none;
 		}
 
 		.review_card-active {
@@ -2476,12 +2460,12 @@ a {
 			top: auto;
 			bottom: 18px;
 			left: 50%;
-			width: min(calc(100vw - 64px), 340px);
-			height: 44px;
+			width: 168px;
+			height: 168px;
 			margin: 0;
-			border-width: 1px;
-			border-radius: 6px 20px;
-			font-size: 10px;
+			border-width: 2px;
+			border-radius: 50%;
+			font-size: 12px;
 			line-height: 130%;
 			transform: translateX(-50%);
 		}

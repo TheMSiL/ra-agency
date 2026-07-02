@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const reviewsData = [
 	{
@@ -92,6 +92,7 @@ function ReviewCard({
 
 export default function Reviews() {
 	const [activeIndex, setActiveIndex] = useState(1);
+	const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 	const [animation, setAnimation] = useState<{
 		direction: 'prev' | 'next';
 		phase: 'exit' | 'enter';
@@ -123,6 +124,31 @@ export default function Reviews() {
 		}, 860);
 	}
 
+	function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+		const touch = event.touches[0];
+		touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+	}
+
+	function handleTouchEnd(event: React.TouchEvent<HTMLDivElement>) {
+		const start = touchStartRef.current;
+		const touch = event.changedTouches[0];
+		touchStartRef.current = null;
+
+		if (!start || !touch || animation) {
+			return;
+		}
+
+		const deltaX = touch.clientX - start.x;
+		const deltaY = touch.clientY - start.y;
+		const isHorizontalSwipe = Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25;
+
+		if (!isHorizontalSwipe) {
+			return;
+		}
+
+		changeReview(deltaX < 0 ? 'next' : 'prev');
+	}
+
 	return (
 		<div className="reviews sm:pb-28 pb-20 xl:pb-48">
 			<div className="content_container">
@@ -137,7 +163,7 @@ export default function Reviews() {
 					>
 						<Image src='/review_arrow.svg' alt="" width={24} height={35} />
 					</button>
-					<div className={trackClassName}>
+					<div className={trackClassName} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 						<ReviewCard key={`prev-${prevReview.id}`} review={prevReview} position="prev" />
 						<ReviewCard key={`active-${activeReview.id}`} review={activeReview} position="active" />
 						<ReviewCard key={`next-${nextReview.id}`} review={nextReview} position="next" />
