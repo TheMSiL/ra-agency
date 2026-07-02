@@ -51,15 +51,15 @@ const legal = [
 
 export default function Footer() {
 	return (
-		<footer className="footer pb-20 overflow-hidden">
-			<div className="content_container relative">
-				<h1 className="home_hero-title" data-title="RA AGENCY">
+		<footer className="footer pt-10">
+			<div className="content_container footer_container">
+				<h1 className="home_hero-title footer_title" data-title="RA AGENCY">
 					RA AGENCY
 				</h1>
-				<div className="flex items-start justify-between">
-					<div>
-						<p className="text-xl opacity-70 max-w-[620px] mb-8">Performance marketing partner for high-growth brands.We build and scale acquisition systems with predictable ROI across Telegram Ads, Meta, Google, and beyond.</p>
-						<div className="burger_socials" aria-label="Social links">
+				<div className="footer_layout">
+					<div className="footer_intro">
+						<p className="footer_text">Performance marketing partner for high-growth brands.We build and scale acquisition systems with predictable ROI across Telegram Ads, Meta, Google, and beyond.</p>
+						<div className="burger_socials footer_socials" aria-label="Social links">
 							<a href="#" aria-label="Telegram">
 								<Image src="/tg.svg" alt="" width={30} height={30} />
 							</a>
@@ -71,38 +71,38 @@ export default function Footer() {
 							</a>
 						</div>
 					</div>
-					<Image className="absolute top-[200px] left-1/2 -translate-x-1/2" src='/logo_footer.png' alt="footer_logo" width={450} height={315} />
-					<div className="flex items-start gap-20">
-						<div>
-							<h5 className="text-lg uppercase text-[#FA8A16] font-display">Navigation</h5>
-							<ul className="grid gap-3 mt-3">
+					<Image className="footer_logo-bg" src='/logo_footer.png' alt="footer_logo" width={450} height={396} />
+					<div className="footer_nav">
+						<div className="footer_nav-column">
+							<h5 className="footer_nav-title">Navigation</h5>
+							<ul className="footer_nav-list">
 								{
 									navigation.map((link) => {
-										return <li className="text-lg font-light opacity-70 duration-300 hover:opacity-100" key={link.title}>
+										return <li className="footer_nav-item" key={link.title}>
 											<a href={link.href}>{link.title}</a>
 										</li>
 									})
 								}
 							</ul>
 						</div>
-						<div>
-							<h5 className="text-lg uppercase text-[#FA8A16] font-display">Navigation</h5>
-							<ul className="grid gap-3 mt-3">
+						<div className="footer_nav-column">
+							<h5 className="footer_nav-title">Services</h5>
+							<ul className="footer_nav-list">
 								{
 									services.map((link) => {
-										return <li className="text-lg font-light opacity-70 duration-300 hover:opacity-100" key={link.title}>
+										return <li className="footer_nav-item" key={link.title}>
 											<a href={link.href}>{link.title}</a>
 										</li>
 									})
 								}
 							</ul>
 						</div>
-						<div>
-							<h5 className="text-lg uppercase text-[#FA8A16] font-display">Navigation</h5>
-							<ul className="grid gap-3 mt-3">
+						<div className="footer_nav-column">
+							<h5 className="footer_nav-title">Legal</h5>
+							<ul className="footer_nav-list">
 								{
 									legal.map((link) => {
-										return <li className="text-lg font-light opacity-70 duration-300 hover:opacity-100" key={link.title}>
+										return <li className="footer_nav-item" key={link.title}>
 											<a href={link.href}>{link.title}</a>
 										</li>
 									})

@@ -49,7 +49,7 @@ export default function Numbers() {
 			<div className="numbers_grid">
 				{statItems.map((item) => (
 					<article className="numbers_card" key={item.subtitle}>
-						<h3 className="numbers_card-title">{item.subtitle}</h3>
+						<h3 className="numbers_card-title numbers_gradient-text">{item.subtitle}</h3>
 						<p className="numbers_card-text">{item.description}</p>
 						<strong className="numbers_value numbers_gradient-text">
 							{item.title}

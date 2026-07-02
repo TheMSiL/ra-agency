@@ -66,6 +66,13 @@ export default function Cases() {
 	return (
 		<div className="cases pt-44 pb-16">
 			<div className="content_container">
+				<div className="cases_intro cases_intro-mobile">
+					<h2 className="cases_title">
+						Case Studies and
+						<span className="numbers_gradient-text">Success Stories</span>
+					</h2>
+					<p className="cases_intro-text">Examples of advertising campaigns we launched and scaled for our clients</p>
+				</div>
 				<div className={`cases_layout ${isExpanded ? 'cases_layout-expanded' : ''}`}>
 					<div className="cases_side">
 						{leftCases.map((caseItem) => (

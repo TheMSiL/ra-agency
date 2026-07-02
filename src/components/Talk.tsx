@@ -9,11 +9,11 @@ export default function Talk() {
 	const [isFormOpen, setIsFormOpen] = useState(false);
 
 	return (
-		<div>
+		<section className="talk_section">
 			<div className="content_container">
 				<h2 className="numbers_title text-center numbers_gradient-text mb-32">Are you ready to talk?</h2>
-				<div className="relative flex items-center justify-center">
-					<Image src='/radar.png' alt="radar" width={1400} height={590} />
+				<div className="talk_radar">
+					<Image className="talk_radar-img" src='/radar.png' alt="radar" width={1400} height={590} />
 					<button className="talk_btn" type="button" onClick={() => setIsFormOpen(true)}>
 						Message us on
 						Telegram
@@ -22,6 +22,6 @@ export default function Talk() {
 			</div>
 
 			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
-		</div >
+		</section>
 	);
 }

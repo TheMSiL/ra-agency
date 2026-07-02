@@ -5,21 +5,21 @@ import Button from "./Button";
 
 export default function HeroHome() {
 	return (
-		<section id="home" className='relative pb-[90px]'>
+		<section id="home" className="home_hero">
 			<Header />
-			<div className="content_container">
+			<div className="content_container home_hero-container">
 				<h1 className="home_hero-title" data-title="RA AGENCY">
 					RA AGENCY
 				</h1>
-				<Image src='/hero_img.png' alt="hero_img" width={1218} height={812} loading="eager" className="absolute top-[18%] left-1/2 -translate-x-1/2" />
-				<div className='mt-[500px] mb-28 flex items-center justify-between gap-20 relative z-50'>
-					<div>
-						<h2 className="font-display text-5xl mb-4">Performance marketing</h2>
-						<p className="text-2xl">We don’t buy clicks. We take minds.</p>
+				<Image src='/hero_img.png' alt="hero_img" width={1218} height={812} loading="eager" className="home_hero-image" />
+				<div className="home_hero-content">
+					<div className="home_hero-copy">
+						<h2 className="home_hero-heading">Performance marketing</h2>
+						<p className="home_hero-text">We don’t buy clicks. We take minds.</p>
 					</div>
-					<Button title='Message us on Telegram' extra="py-10 px-20" />
+					<Button title='Message us on Telegram' extra="home_hero-btn" />
 				</div>
-				<h2 className="font-display relative z-50 text-6xx">What we do</h2>
+				<h2 className="home_hero-next">What we do</h2>
 			</div>
 		</section>
 	);

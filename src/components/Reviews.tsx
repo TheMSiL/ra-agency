@@ -124,7 +124,7 @@ export default function Reviews() {
 	}
 
 	return (
-		<div className="reviews pb-48">
+		<div className="reviews sm:pb-28 pb-20 xl:pb-48">
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title">REVIEW</h2>
 				<div className="reviews_slider">

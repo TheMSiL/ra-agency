@@ -16,7 +16,7 @@ export default function FloatingTelegramButton() {
 				aria-label="Open contact form"
 				onClick={() => setIsFormOpen(true)}
 			>
-				<Image src="/tg_btn.svg" alt="" width={94} height={74} priority />
+				<Image src="/tg_btn.svg" alt="tg" width={52} height={41} priority />
 			</button>
 
 			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
