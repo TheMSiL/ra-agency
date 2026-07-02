@@ -158,6 +158,8 @@ a {
 		width: min(430px, 100vw);
 		height: 100dvh;
 		padding: 44px 20px 21px 35px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
 		flex-direction: column;
 		background-color: #261100;
 		background-image:
@@ -209,7 +211,7 @@ a {
 	.burger_nav a {
 		color: #c8c0ba;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 32px;
+		font-size: 28px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%;
@@ -227,20 +229,21 @@ a {
 		color: #fa8a16;
 		text-shadow: 0 0 30.3px rgba(250, 138, 22, 0.3);
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 54px;
+		font-size: 44px;
 		font-style: normal;
 		font-weight: 400;
-		line-height: 140%; /* 89.6px */
+		line-height: 130%;
 		text-transform: uppercase;
 		opacity: 1;
 	}
 
 	.burger_footer {
 		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 20px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
 		margin-top: auto;
+		padding-top: 28px;
 	}
 
 	.burger_socials {
@@ -290,6 +293,78 @@ a {
 
 	.burger_brand:hover {
 		opacity: 1;
+	}
+
+	@media (max-width: 560px) {
+		.burger_button {
+			width: 38px;
+			height: 52px;
+		}
+
+		.burger_menu {
+			width: 100vw;
+			padding: 28px 20px 24px;
+		}
+
+		.burger_close {
+			width: 38px;
+			height: 34px;
+		}
+
+		.burger_nav {
+			gap: 9px;
+			margin-top: 42px;
+		}
+
+		.burger_nav a {
+			font-size: 22px;
+			line-height: 132%;
+		}
+
+		.burger_nav a.active {
+			font-size: 32px;
+			line-height: 120%;
+		}
+
+		.burger_footer {
+			gap: 14px;
+			padding-top: 24px;
+		}
+
+		.burger_socials {
+			gap: 8px;
+		}
+
+		.burger_socials a {
+			width: 46px;
+			height: 40px;
+		}
+	}
+
+	@media (max-height: 720px) {
+		.burger_menu {
+			padding-top: 24px;
+			padding-bottom: 20px;
+		}
+
+		.burger_nav {
+			gap: 8px;
+			margin-top: 28px;
+		}
+
+		.burger_nav a {
+			font-size: 22px;
+			line-height: 128%;
+		}
+
+		.burger_nav a.active {
+			font-size: 32px;
+			line-height: 120%;
+		}
+
+		.burger_footer {
+			padding-top: 22px;
+		}
 	}
 
 	.home_hero {
@@ -2085,7 +2160,7 @@ a {
 		.contact_form {
 			width: 100%;
 			min-height: auto;
-			padding: 58px 24px 28px;
+			padding: 72px 24px 28px;
 		}
 
 		.contact_form-title {
