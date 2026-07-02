@@ -105,7 +105,7 @@ export default function Reviews() {
 		animation ? `reviews_track-${animation.direction}-${animation.phase}` : '',
 	].filter(Boolean).join(' ');
 
-	function changeReview(direction: 'prev' | 'next') {
+	function startReviewTransition(nextIndex: number, direction: 'prev' | 'next') {
 		if (animation) {
 			return;
 		}
@@ -113,15 +113,30 @@ export default function Reviews() {
 		setAnimation({ direction, phase: 'exit' });
 
 		window.setTimeout(() => {
-			setActiveIndex((current) =>
-				getWrappedIndex(direction === 'next' ? current + 1 : current - 1)
-			);
+			setActiveIndex(nextIndex);
 			setAnimation({ direction, phase: 'enter' });
 		}, 320);
 
 		window.setTimeout(() => {
 			setAnimation(null);
 		}, 860);
+	}
+
+	function changeReview(direction: 'prev' | 'next') {
+		startReviewTransition(
+			getWrappedIndex(direction === 'next' ? activeIndex + 1 : activeIndex - 1),
+			direction
+		);
+	}
+
+	function goToReview(nextIndex: number) {
+		if (nextIndex === activeIndex || animation) {
+			return;
+		}
+
+		const forwardDistance = getWrappedIndex(nextIndex - activeIndex);
+		const backwardDistance = getWrappedIndex(activeIndex - nextIndex);
+		startReviewTransition(nextIndex, forwardDistance <= backwardDistance ? 'next' : 'prev');
 	}
 
 	function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
@@ -167,6 +182,19 @@ export default function Reviews() {
 						<ReviewCard key={`prev-${prevReview.id}`} review={prevReview} position="prev" />
 						<ReviewCard key={`active-${activeReview.id}`} review={activeReview} position="active" />
 						<ReviewCard key={`next-${nextReview.id}`} review={nextReview} position="next" />
+					</div>
+					<div className="reviews_pagination" aria-label="Review pagination">
+						{reviewsData.map((review, index) => (
+							<button
+								key={review.id}
+								className={`reviews_pagination-dot ${index === activeIndex ? 'active' : ''}`}
+								type="button"
+								aria-label={`Go to review ${index + 1}`}
+								aria-current={index === activeIndex ? 'true' : undefined}
+								disabled={animation !== null}
+								onClick={() => goToReview(index)}
+							/>
+						))}
 					</div>
 					<button
 						className="review_arrow-cont"

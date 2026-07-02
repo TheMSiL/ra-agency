@@ -965,6 +965,10 @@ a {
 		margin-top: 50px;
 	}
 
+	.reviews_pagination {
+		display: none;
+	}
+
 	.review_card {
 		position: relative;
 		z-index: 1;
@@ -2243,6 +2247,41 @@ a {
 			touch-action: pan-y;
 		}
 
+		.reviews_pagination {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 9px;
+			margin-top: 22px;
+		}
+
+		.reviews_pagination-dot {
+			width: 9px;
+			height: 9px;
+			padding: 0;
+			border: 1px solid rgba(250, 138, 22, 0.72);
+			border-radius: 999px;
+			background: rgba(250, 138, 22, 0.18);
+			box-shadow: 0 0 18px rgba(250, 138, 22, 0.18);
+			cursor: pointer;
+			transition:
+				width 0.3s ease,
+				background 0.3s ease,
+				box-shadow 0.3s ease,
+				opacity 0.3s ease;
+		}
+
+		.reviews_pagination-dot.active {
+			width: 24px;
+			background: #fa8a16;
+			box-shadow: 0 0 20px rgba(250, 138, 22, 0.58);
+		}
+
+		.reviews_pagination-dot:disabled {
+			cursor: default;
+			opacity: 0.72;
+		}
+
 		.review_arrow-cont {
 			display: none;
 		}
@@ -2250,6 +2289,14 @@ a {
 		.review_card-active {
 			padding: 24px 20px 22px;
 			border-radius: 7px 20px;
+		}
+
+		.cases_stat-value {
+			font-size: 18px;
+		}
+
+		.cases_stat-label {
+			font-size: 12px;
 		}
 
 		.review_card-head {
