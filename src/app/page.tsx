@@ -6,6 +6,7 @@ import HeroHome from "@/components/HeroHome";
 import Numbers from "@/components/Numbers";
 import Reviews from "@/components/Reviews";
 import Talk from "@/components/Talk";
+import Trust from "@/components/Trust";
 
 const telegramService = {
   title: 'TELEGRAM ADS',
@@ -52,6 +53,7 @@ export default function page() {
       <Numbers />
       <div className="underFooter">
         <Cases />
+        <Trust />
         <Reviews />
         <Talk />
       </div>

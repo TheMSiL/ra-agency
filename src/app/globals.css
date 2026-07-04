@@ -756,6 +756,89 @@ a {
 		-webkit-text-fill-color: transparent;
 	}
 
+	.trust {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.trust .content_container {
+		position: relative;
+		z-index: 1;
+	}
+
+	.trust_marquee {
+		position: relative;
+		width: 100%;
+		margin-top: 42px;
+		padding-block: 28px;
+		overflow: hidden;
+	}
+
+	.trust_marquee::before,
+	.trust_marquee::after {
+		position: absolute;
+		top: 45%;
+		z-index: 2;
+		width: min(18vw, 420px);
+		height: 228px;
+		content: '';
+		border-radius: 837px;
+		background: linear-gradient(90deg, #1a0c02 71.63%, rgba(26, 12, 2, 0) 100%);
+		filter: blur(21.200000762939453px);
+		pointer-events: none;
+		transform: translateY(-50%);
+	}
+
+	.trust_marquee::before {
+		left: -124px;
+		transform: translateY(-50%) rotate(180deg);
+	}
+
+	.trust_marquee::after {
+		right: -124px;
+	}
+
+	.trust_track {
+		display: flex;
+		width: max-content;
+		align-items: center;
+		gap: clamp(36px, 5vw, 92px);
+		animation: trustMarquee 28s linear infinite;
+		will-change: transform;
+	}
+
+	.trust_logo {
+		display: flex;
+		width: 128px;
+		height: 128px;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+	}
+
+	.trust_logo img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	@keyframes trustMarquee {
+		from {
+			transform: translateX(0);
+		}
+
+		to {
+			transform: translateX(calc(-50% - clamp(18px, 2.5vw, 46px)));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.trust_track {
+			animation-play-state: paused;
+		}
+	}
+
 	.underFooter {
 		background: url('/underFooter.png');
 		background-repeat: no-repeat;
@@ -911,20 +994,16 @@ a {
 		padding: 12px 16px;
 		align-items: center;
 		justify-content: center;
-		border: 6px solid #d56c2b;
+		border: 0;
 		background: #0d0500;
-		box-shadow:
-			0 0 0 1px rgba(250, 138, 22, 0.75),
-			inset 0 0 42px rgba(250, 138, 22, 0.08);
+		box-shadow: inset 0 0 42px rgba(250, 138, 22, 0.08);
 		cursor: pointer;
 		transition: 0.3s ease;
 	}
 
 	.review_arrow-cont:hover {
-		border-color: #fa8a16;
 		background: #160800;
 		box-shadow:
-			0 0 0 1px rgba(250, 138, 22, 0.95),
 			0 0 26px rgba(250, 138, 22, 0.36),
 			inset 0 0 34px rgba(250, 138, 22, 0.18);
 	}
@@ -1072,6 +1151,8 @@ a {
 		gap: 8px;
 		font-size: 20px;
 		line-height: 1;
+		text-shadow: none;
+		-webkit-text-stroke: 0;
 	}
 
 	.review_card-footer time {
@@ -1140,8 +1221,8 @@ a {
 
 	.talk_btn {
 		aspect-ratio: 1;
-		width: 250px;
-		height: 250px;
+		width: 200px;
+		height: 200px;
 		border-radius: 50%;
 		border: 2.427px solid #fa8a16;
 		background: rgba(0, 0, 0, 0.15);
@@ -1569,22 +1650,70 @@ a {
 	}
 
 	@keyframes reviewSingleFadeOut {
-		from {
+		0% {
 			opacity: 1;
+			transform: translateX(0) scale(1);
 		}
 
-		to {
+		68% {
+			opacity: 0.28;
+			transform: translateX(-34px) scale(0.975);
+		}
+
+		100% {
 			opacity: 0;
+			transform: translateX(-44px) scale(0.97);
 		}
 	}
 
 	@keyframes reviewSingleFadeIn {
-		from {
+		0% {
 			opacity: 0;
+			transform: translateX(44px) scale(0.97);
 		}
 
-		to {
+		62% {
+			opacity: 0.92;
+			transform: translateX(7px) scale(0.997);
+		}
+
+		100% {
 			opacity: 1;
+			transform: translateX(0) scale(1);
+		}
+	}
+
+	@keyframes reviewSingleFadeOutPrev {
+		0% {
+			opacity: 1;
+			transform: translateX(0) scale(1);
+		}
+
+		68% {
+			opacity: 0.28;
+			transform: translateX(34px) scale(0.975);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateX(44px) scale(0.97);
+		}
+	}
+
+	@keyframes reviewSingleFadeInPrev {
+		0% {
+			opacity: 0;
+			transform: translateX(-44px) scale(0.97);
+		}
+
+		62% {
+			opacity: 0.92;
+			transform: translateX(-7px) scale(0.997);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateX(0) scale(1);
 		}
 	}
 
@@ -1609,8 +1738,8 @@ a {
 
 	@media (max-width: 1350px) {
 		.talk_btn {
-			width: 200px;
-			height: 200px;
+			width: 170px;
+			height: 170px;
 			padding: 10px;
 		}
 	}
@@ -1750,21 +1879,37 @@ a {
 			min-height: 430px;
 			padding: 34px 36px 28px;
 			transform: none;
-			will-change: opacity;
+			will-change: opacity, transform;
 		}
 
-		.reviews_track-next-exit .review_card-active,
+		.reviews_track-next-exit .review_card-active {
+			animation: reviewSingleFadeOut 0.36s cubic-bezier(0.42, 0, 0.58, 1) both;
+		}
+
 		.reviews_track-prev-exit .review_card-active {
-			animation: reviewSingleFadeOut 0.3s ease-in both;
+			animation: reviewSingleFadeOutPrev 0.36s cubic-bezier(0.42, 0, 0.58, 1)
+				both;
 		}
 
-		.reviews_track-next-enter .review_card-active,
+		.reviews_track-next-enter .review_card-active {
+			animation: reviewSingleFadeIn 0.64s cubic-bezier(0.33, 1, 0.68, 1) both;
+		}
+
 		.reviews_track-prev-enter .review_card-active {
-			animation: reviewSingleFadeIn 0.44s ease-out both;
+			animation: reviewSingleFadeInPrev 0.64s cubic-bezier(0.33, 1, 0.68, 1)
+				both;
 		}
 
 		.review_card-text {
 			max-height: 300px;
+		}
+
+		.trust_marquee::before {
+			left: -84px;
+		}
+
+		.trust_marquee::after {
+			right: -84px;
 		}
 	}
 
@@ -2005,6 +2150,11 @@ a {
 			max-width: none;
 			font-size: 16px;
 			line-height: 1.28;
+		}
+
+		.trust_logo {
+			width: 80px;
+			height: 80px;
 		}
 
 		.services_btn {
@@ -2310,6 +2460,14 @@ a {
 			height: 52px;
 		}
 
+		.trust_marquee::before {
+			left: -44px;
+		}
+
+		.trust_marquee::after {
+			right: -44px;
+		}
+
 		.review_card-footer {
 			flex-wrap: wrap;
 			gap: 10px 16px;
@@ -2507,8 +2665,8 @@ a {
 			top: auto;
 			bottom: 18px;
 			left: 50%;
-			width: 168px;
-			height: 168px;
+			width: 148px;
+			height: 148px;
 			margin: 0;
 			border-width: 2px;
 			border-radius: 50%;
@@ -2516,5 +2674,15 @@ a {
 			line-height: 130%;
 			transform: translateX(-50%);
 		}
+	}
+}
+
+@media (max-width: 480px) {
+	.trust_marquee::before {
+		left: -34px;
+	}
+
+	.trust_marquee::after {
+		right: -34px;
 	}
 }

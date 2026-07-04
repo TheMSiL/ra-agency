@@ -64,7 +64,7 @@ export default function Cases() {
 	const rightCases = isExpanded ? casesData.slice(3, 6) : casesData.slice(0, 1);
 
 	return (
-		<div className="cases pt-44 pb-16">
+		<div className="cases pt-44">
 			<div className="content_container">
 				<div className="cases_intro cases_intro-mobile">
 					<h2 className="cases_title">

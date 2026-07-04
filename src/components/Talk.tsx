@@ -13,7 +13,7 @@ export default function Talk() {
 			<div className="content_container">
 				<h2 className="numbers_title text-center numbers_gradient-text mb-32">Are you ready to talk?</h2>
 				<div className="talk_radar">
-					<Image className="talk_radar-img" src='/radar.png' alt="radar" width={1400} height={590} />
+					<Image className="talk_radar-img" src='/radar_new.png' alt="radar" width={1400} height={590} />
 					<button className="talk_btn" type="button" onClick={() => setIsFormOpen(true)}>
 						Message us on
 						Telegram
