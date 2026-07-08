@@ -2981,7 +2981,7 @@ a {
 		}
 
 		.what_we_do-item_content {
-			max-width: min(220px, 52vw);
+			max-width: 100%;
 		}
 
 		.what_we_do-item--title {

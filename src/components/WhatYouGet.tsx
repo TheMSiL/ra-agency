@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import type { CSSProperties, TouchEvent as ReactTouchEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 const items = [
@@ -22,10 +22,17 @@ const items = [
 	},
 ];
 
+const SWIPE_THRESHOLD_PX = 40;
+
 export default function WhatYouGet() {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [lineStep, setLineStep] = useState(0);
 	const isAutoPaused = useRef(false);
+
+	const touchStartX = useRef(0);
+	const touchStartY = useRef(0);
+	const touchDeltaX = useRef(0);
+	const isSwiping = useRef(false);
 
 	useEffect(() => {
 		const intervalId = window.setInterval(() => {
@@ -42,13 +49,13 @@ export default function WhatYouGet() {
 	}, []);
 
 	const goTo = (nextIndex: number) => {
-		const clampedIndex = Math.max(0, Math.min(items.length - 1, nextIndex));
+		const loopedIndex = ((nextIndex % items.length) + items.length) % items.length;
 
-		if (clampedIndex === activeIndex) {
+		if (loopedIndex === activeIndex) {
 			return;
 		}
 
-		setActiveIndex(clampedIndex);
+		setActiveIndex(loopedIndex);
 		setLineStep((currentStep) => currentStep + 1);
 	};
 
@@ -57,13 +64,63 @@ export default function WhatYouGet() {
 		goTo(nextIndex);
 	};
 
+	const handleTouchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
+		const touch = event.touches[0];
+		touchStartX.current = touch.clientX;
+		touchStartY.current = touch.clientY;
+		touchDeltaX.current = 0;
+		isSwiping.current = false;
+	};
+
+	const handleTouchMove = (event: ReactTouchEvent<HTMLDivElement>) => {
+		const touch = event.touches[0];
+		const deltaX = touch.clientX - touchStartX.current;
+		const deltaY = touch.clientY - touchStartY.current;
+
+		touchDeltaX.current = deltaX;
+
+		if (!isSwiping.current && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+			isSwiping.current = true;
+		}
+
+		if (isSwiping.current) {
+			event.preventDefault();
+		}
+	};
+
+	const handleTouchEnd = () => {
+		if (!isSwiping.current) {
+			return;
+		}
+
+		const deltaX = touchDeltaX.current;
+
+		if (Math.abs(deltaX) >= SWIPE_THRESHOLD_PX) {
+			isAutoPaused.current = true;
+
+			if (deltaX < 0) {
+				goTo(activeIndex + 1);
+			} else {
+				goTo(activeIndex - 1);
+			}
+		}
+
+		isSwiping.current = false;
+		touchDeltaX.current = 0;
+	};
+
 	return (
 		<section className="what_you_get">
 			<div className="content_container what_container">
 				<h2 className="services_title numbers_gradient-text !capitalize">What you get ?</h2>
 
 				<div className="what_slider" style={{ "--active": activeIndex } as CSSProperties}>
-					<div className="what_track">
+					<div
+						className="what_track"
+						onTouchStart={handleTouchStart}
+						onTouchMove={handleTouchMove}
+						onTouchEnd={handleTouchEnd}
+					>
 						{items.map((item, index) => (
 							<article
 								className={`what_panel ${index === activeIndex ? "active" : ""}`}
