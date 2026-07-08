@@ -17,7 +17,7 @@ const marqueeIcons = [...icons, ...icons]
 
 export default function Trust() {
 	return (
-		<section className='trust pt-20 sm:pt-32 pb-20'>
+		<section className='trust pt-20 sm:pt-32'>
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title uppercase">We’re trusted by</h2>
 			</div>
