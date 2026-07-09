@@ -1,103 +1,59 @@
-'use client';
-
-import { useState } from "react";
-
-import Button from "./Button";
-import CaseCard from "./CaseCard";
-
-const casesData = [
-	{
-		id: 'case-1',
-		title: 'company name',
-		budget: '$400k',
-		new_users: '221,837',
-		geo: 'mix',
-		cpu: '1,8$'
-	},
-	{
-		id: 'case-2',
-		title: 'company name',
-		budget: '$400k',
-		new_users: '221,837',
-		geo: 'mix',
-		cpu: '1,8$'
-	},
-	{
-		id: 'case-3',
-		title: 'company name',
-		budget: '$400k',
-		new_users: '221,837',
-		geo: 'mix',
-		cpu: '1,8$'
-	},
-	{
-		id: 'case-4',
-		title: 'company name',
-		budget: '$400k',
-		new_users: '221,837',
-		geo: 'mix',
-		cpu: '1,8$'
-	},
-	{
-		id: 'case-5',
-		title: 'company name',
-		budget: '$400k',
-		new_users: '221,837',
-		geo: 'mix',
-		cpu: '1,8$'
-	},
-	{
-		id: 'case-6',
-		title: 'company name',
-		budget: '$400k',
-		new_users: '221,837',
-		geo: 'mix',
-		cpu: '1,8$'
-	},
-]
-
-export type CaseItem = (typeof casesData)[number];
+import Link from "next/link";
+import { casesItems } from "@/data/cases";
+import CasesCard from "./CasesCard";
 
 export default function Cases() {
-	const [isExpanded, setIsExpanded] = useState(false);
-	const leftCases = isExpanded ? casesData.slice(0, 3) : casesData.slice(1, 3);
-	const rightCases = isExpanded ? casesData.slice(3, 6) : casesData.slice(0, 1);
+	const visibleCases = casesItems.slice(0, 4);
 
 	return (
-		<div className="cases pt-44">
+		<section className="pt-20">
 			<div className="content_container">
-				<div className="cases_intro cases_intro-mobile">
-					<h2 className="cases_title">
-						Case Studies and
-						<span className="numbers_gradient-text">Success Stories</span>
-					</h2>
-					<p className="cases_intro-text">Examples of advertising campaigns we launched and scaled for our clients</p>
-				</div>
-				<div className={`cases_layout ${isExpanded ? 'cases_layout-expanded' : ''}`}>
-					<div className="cases_side">
-						{leftCases.map((caseItem) => (
-							<CaseCard key={caseItem.id} caseItem={caseItem} />
-						))}
-					</div>
-					<div className="cases_main">
-						<div className="cases_intro">
-							<h2 className="cases_title">
-								Case Studies and
-								<span className="numbers_gradient-text">Success Stories</span>
-							</h2>
-							<p className="cases_intro-text">Examples of advertising campaigns we launched and scaled for our clients</p>
-						</div>
-						{rightCases.map((caseItem) => (
-							<CaseCard key={caseItem.id} caseItem={caseItem} />
-						))}
+				<div className="cases_row">
+					{visibleCases.slice(0, 1).map((item) => (
+						<CasesCard
+							key={item.id}
+							company_name={item.company_name}
+							company_logo={item.company_logo}
+							case_title={item.case_title}
+							id={item.id}
+							problem={item.problem}
+							fix={item.fix}
+							work={item.work}
+							triumph={item.triumph}
+							type={item.type}
+						/>
+					))}
+
+					<div className='cases_head cases_block'>
+						<h2 className="numbers_gradient-text numbers_title uppercase max-w-[700px] ml-auto text-right">Case Studies and Success Stories</h2>
+						<p className="text-right text-2xl opacity-70">Examples of advertising campaigns we launched and scaled for our clients</p>
 					</div>
 				</div>
-				<Button
-					title={isExpanded ? "Less cases" : "More cases"}
-					extra="block py-5 px-[28px] w-[400px] mx-auto"
-					onClick={() => setIsExpanded((current) => !current)}
-				/>
+				<div className="cases_row">
+					<div className="cases_bottom-items">
+						{
+							visibleCases.slice(1).map((item) => (
+								<CasesCard
+									key={item.id}
+									company_name={item.company_name}
+									company_logo={item.company_logo}
+									case_title={item.case_title}
+									id={item.id}
+									problem={item.problem}
+									fix={item.fix}
+									work={item.work}
+									triumph={item.triumph}
+									type={item.type}
+								/>
+							))
+						}
+					</div>
+					<Link href="/cases" className='cases_block cases_other'>
+						<h3>70+</h3>
+						<p>View other projects</p>
+					</Link>
+				</div>
 			</div>
-		</div>
+		</section>
 	);
 }

@@ -1,0 +1,46 @@
+import type { CasesCardProps } from "@/data/cases";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function CasesCard({ company_name, company_logo, case_title, problem, fix, work, triumph, type }: CasesCardProps) {
+	return (
+		<div className="cases_card overflow-hidden cases_block">
+			<Image className="absolute bottom-0 right-0 pointer-events-none" src='/cases_card-bg.png' alt="bg" width={500} height={500} />
+			<div className="cases_card-type cases_block">
+				<p>{type} </p>ads
+			</div>
+			<div className="cases_card-main">
+				<div className="cases_card-main--company">
+					<Image width={40} height={40} src={company_logo} alt={company_name} />
+					<p>{company_name}</p>
+				</div>
+				<h4 className="cases_card-main--title numbers_gradient-text">
+					{case_title}
+				</h4>
+			</div>
+			<div className="cases_card-info">
+				<div className="cases_card-info--items">
+					<div className="cases_card-info--item cases_block">
+						<p className="cases_card-info--item-title">The Problem:</p>
+						<p className="cases_card-info--item-desc">{problem}</p>
+					</div>
+					<div className="cases_card-info--item cases_block">
+						<p className="cases_card-info--item-title">Our Fix:</p>
+						<p className="cases_card-info--item-desc">{fix}</p>
+					</div>
+					<div className="cases_card-info--item cases_block">
+						<p className="cases_card-info--item-title">The Work:</p>
+						<p className="cases_card-info--item-desc">{work}</p>
+					</div>
+					<div className="cases_card-info--item cases_block">
+						<p className="cases_card-info--item-title">The Triumph:</p>
+						<p className="cases_card-info--item-desc">{triumph}</p>
+					</div>
+				</div>
+				<Link href='#' className="cases_card-info--item cases_card-arrow cases_block">
+					<Image src='/cases_card-arrow.png' alt="" width={31} height={45} />
+				</Link>
+			</div>
+		</div>
+	);
+}
