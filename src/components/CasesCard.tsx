@@ -2,7 +2,7 @@ import type { CasesCardProps } from "@/data/cases";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CasesCard({ company_name, company_logo, case_title, problem, fix, work, triumph, type }: CasesCardProps) {
+export default function CasesCard({ company_name, company_logo, case_title, problem, fix, work, triumph, type, id }: CasesCardProps) {
 	return (
 		<div className="cases_card overflow-hidden cases_block">
 			<Image className="absolute bottom-0 right-0 pointer-events-none" src='/cases_card-bg.png' alt="bg" width={500} height={500} />
@@ -37,7 +37,7 @@ export default function CasesCard({ company_name, company_logo, case_title, prob
 						<p className="cases_card-info--item-desc">{triumph}</p>
 					</div>
 				</div>
-				<Link href='#' className="cases_card-info--item cases_card-arrow cases_block">
+				<Link href={`/cases/${id}`} className="cases_card-info--item cases_card-arrow cases_block" aria-label={`Read case: ${case_title}`}>
 					<Image src='/cases_card-arrow.png' alt="" width={31} height={45} />
 				</Link>
 			</div>

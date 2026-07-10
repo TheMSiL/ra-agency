@@ -1,0 +1,343 @@
+/* Motion and reduced-motion rules. Keep base component styles in globals.css. */
+	@keyframes trustMarquee {
+		from {
+			transform: translateX(0);
+		}
+
+		to {
+			transform: translateX(calc(-50% - clamp(18px, 2.5vw, 46px)));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.trust_track {
+			animation-play-state: paused;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.home_hero .hero_reveal {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+
+	@keyframes whatContentIn {
+		from {
+			opacity: 0;
+			filter: blur(8px);
+			transform: translateY(22px);
+		}
+
+		to {
+			opacity: 1;
+			filter: blur(0);
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes whatCountIn {
+		from {
+			opacity: 0;
+			text-shadow: 0 0 0 rgba(250, 138, 22, 0);
+			transform: translateY(14px) scale(0.96);
+		}
+
+		to {
+			opacity: 1;
+			text-shadow: 0 0 26px rgba(250, 138, 22, 0.24);
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	@keyframes reviewActiveExitNext {
+		from {
+			opacity: 1;
+			transform: translate(-50%, -50%);
+		}
+
+		to {
+			opacity: 0.62;
+			transform: translate(-58%, -50%) scale(0.985);
+		}
+	}
+
+	@keyframes reviewCrossfadeInNext {
+		from {
+			opacity: 0;
+			translate: 26px 0;
+			scale: 0.985;
+		}
+
+		to {
+			opacity: 1;
+			translate: 0 0;
+			scale: 1;
+		}
+	}
+
+	@keyframes reviewContentReveal {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes reviewContentHide {
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes reviewContentLift {
+		from {
+			opacity: 0;
+			translate: 0 10px;
+			filter: blur(3px);
+		}
+
+		to {
+			opacity: 1;
+			translate: 0 0;
+			filter: blur(0);
+		}
+	}
+
+	@keyframes reviewCrossfadeInPrev {
+		from {
+			opacity: 0;
+			translate: -26px 0;
+			scale: 0.985;
+		}
+
+		to {
+			opacity: 1;
+			translate: 0 0;
+			scale: 1;
+		}
+	}
+
+	@keyframes reviewCrossfadeOutNext {
+		from {
+			opacity: 1;
+			translate: 0 0;
+		}
+		to {
+			opacity: 0;
+			translate: -22px 0;
+		}
+	}
+
+	@keyframes reviewCrossfadeOutPrev {
+		from {
+			opacity: 1;
+			translate: 0 0;
+		}
+		to {
+			opacity: 0;
+			translate: 22px 0;
+		}
+	}
+
+	@keyframes reviewSideSettle {
+		from {
+			opacity: 0.16;
+		}
+		to {
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes reviewActiveExitPrev {
+		from {
+			opacity: 1;
+			transform: translate(-50%, -50%);
+		}
+
+		to {
+			opacity: 0.62;
+			transform: translate(-42%, -50%) scale(0.985);
+		}
+	}
+
+	@keyframes reviewActiveEnterNext {
+		from {
+			opacity: 0.68;
+			transform: translate(-42%, -50%) scale(0.985);
+		}
+
+		to {
+			opacity: 1;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	@keyframes reviewActiveEnterPrev {
+		from {
+			opacity: 0.68;
+			transform: translate(-58%, -50%) scale(0.985);
+		}
+
+		to {
+			opacity: 1;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	@keyframes reviewSideExitSoft {
+		from {
+			opacity: 0.3;
+		}
+
+		to {
+			opacity: 0.18;
+		}
+	}
+
+	@keyframes reviewSideExitNext {
+		from {
+			opacity: 0.3;
+			transform: translateX(-18px);
+		}
+
+		to {
+			opacity: 0.2;
+			transform: translateX(-54px);
+		}
+	}
+
+	@keyframes reviewSideExitPrev {
+		from {
+			opacity: 0.3;
+			transform: translateX(18px);
+		}
+
+		to {
+			opacity: 0.2;
+			transform: translateX(54px);
+		}
+	}
+
+	@keyframes reviewSideEnterSoft {
+		from {
+			opacity: 0.18;
+		}
+
+		to {
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes reviewSideEnterNext {
+		from {
+			opacity: 0.2;
+			transform: translateX(-54px);
+		}
+
+		to {
+			opacity: 0.3;
+			transform: translateX(-18px);
+		}
+	}
+
+	@keyframes reviewSideEnterPrev {
+		from {
+			opacity: 0.2;
+			transform: translateX(54px);
+		}
+
+		to {
+			opacity: 0.3;
+			transform: translateX(18px);
+		}
+	}
+
+	@keyframes reviewSingleFadeOut {
+		0% {
+			opacity: 1;
+			transform: translateX(0) scale(1);
+		}
+
+		68% {
+			opacity: 0.28;
+			transform: translateX(-34px) scale(0.975);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateX(-44px) scale(0.97);
+		}
+	}
+
+	@keyframes reviewSingleFadeIn {
+		0% {
+			opacity: 0;
+			transform: translateX(44px) scale(0.97);
+		}
+
+		62% {
+			opacity: 0.92;
+			transform: translateX(7px) scale(0.997);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateX(0) scale(1);
+		}
+	}
+
+	@keyframes reviewSingleFadeOutPrev {
+		0% {
+			opacity: 1;
+			transform: translateX(0) scale(1);
+		}
+
+		68% {
+			opacity: 0.28;
+			transform: translateX(34px) scale(0.975);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateX(44px) scale(0.97);
+		}
+	}
+
+	@keyframes reviewSingleFadeInPrev {
+		0% {
+			opacity: 0;
+			transform: translateX(-44px) scale(0.97);
+		}
+
+		62% {
+			opacity: 0.92;
+			transform: translateX(-7px) scale(0.997);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateX(0) scale(1);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.what_we_do-item,
+		.what_we_do-line-marker {
+			transition: none;
+		}
+
+		.review_card-active,
+		.review_card-prev,
+		.review_card-next {
+			animation: none;
+		}
+
+		.review_card-outgoing {
+			display: none;
+		}
+	}

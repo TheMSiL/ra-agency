@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { I18nProvider } from "@/context/I18nContext";
 import "./globals.css";
+import "./animations.css";
+import "./responsive.css";
 
 export const metadata: Metadata = {
   title: "RA Agency",
