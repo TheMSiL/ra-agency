@@ -7,7 +7,7 @@ const icons = [
 	'/trust/4.svg',
 	'/trust/5.svg',
 	'/trust/6.svg',
-	'/trust/7.svg',
+	'/trust/7.png',
 	'/trust/8.svg',
 	'/trust/9.svg',
 	'/trust/10.svg',

@@ -1,7 +1,8 @@
 'use client';
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { gsap } from "gsap";
+import { useLayoutEffect, useRef, useState } from "react";
 
 const reviewsData = [
 	{
@@ -84,31 +85,76 @@ export default function Reviews() {
 	const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 	const [animation, setAnimation] = useState<{
 		direction: 'prev' | 'next';
-		phase: 'exit' | 'enter';
+		previousIndex: number;
 	} | null>(null);
+	const trackRef = useRef<HTMLDivElement>(null);
 	const prevReview = reviewsData[getWrappedIndex(activeIndex - 1)];
 	const activeReview = reviewsData[activeIndex];
 	const nextReview = reviewsData[getWrappedIndex(activeIndex + 1)];
 	const trackClassName = [
 		'reviews_track',
-		animation ? `reviews_track-${animation.direction}-${animation.phase}` : '',
+		animation ? `reviews_track-${animation.direction}` : '',
 	].filter(Boolean).join(' ');
+
+	useLayoutEffect(() => {
+		if (!animation || !trackRef.current) {
+			return;
+		}
+
+		const track = trackRef.current;
+		const incoming = Array.from(track.children).find(
+			(element) => element.classList.contains('review_card-active')
+		) as HTMLElement | undefined;
+		const outgoing = track.querySelector<HTMLElement>('.review_card-outgoing');
+		const sideCards = Array.from(
+			track.querySelectorAll<HTMLElement>(':scope > .review_card-prev, :scope > .review_card-next')
+		);
+
+		if (!incoming || !outgoing || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			setAnimation(null);
+			return;
+		}
+
+		const incomingContent = incoming.children;
+		const context = gsap.context(() => {
+			gsap.set(incoming, { autoAlpha: 1 });
+			gsap.set(incomingContent, { autoAlpha: 0, y: 16 });
+			gsap.set(outgoing, { autoAlpha: 1 });
+			gsap.set(sideCards, { autoAlpha: 0.12 });
+
+			gsap.timeline({
+				defaults: { overwrite: 'auto' },
+				onComplete: () => setAnimation(null),
+			})
+				.to(outgoing, {
+					autoAlpha: 0,
+					duration: 0.42,
+					ease: 'power2.out',
+				}, 0)
+				.to(incomingContent, {
+					autoAlpha: 1,
+					y: 0,
+					duration: 0.68,
+					stagger: 0.055,
+					ease: 'power3.out',
+				}, 0.18)
+				.to(sideCards, {
+					autoAlpha: 0.3,
+					duration: 0.72,
+					ease: 'power2.out',
+				}, 0.12);
+		}, track);
+
+		return () => context.revert();
+	}, [animation]);
 
 	function startReviewTransition(nextIndex: number, direction: 'prev' | 'next') {
 		if (animation) {
 			return;
 		}
 
-		setAnimation({ direction, phase: 'exit' });
-
-		window.setTimeout(() => {
-			setActiveIndex(nextIndex);
-			setAnimation({ direction, phase: 'enter' });
-		}, 360);
-
-		window.setTimeout(() => {
-			setAnimation(null);
-		}, 1040);
+		setAnimation({ direction, previousIndex: activeIndex });
+		setActiveIndex(nextIndex);
 	}
 
 	function changeReview(direction: 'prev' | 'next') {
@@ -167,9 +213,14 @@ export default function Reviews() {
 					>
 						<Image src='/review_arrow.svg' alt="" width={24} height={35} />
 					</button>
-					<div className={trackClassName} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+					<div ref={trackRef} className={trackClassName} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 						<ReviewCard key={`prev-${prevReview.id}`} review={prevReview} position="prev" />
 						<ReviewCard key={`active-${activeReview.id}`} review={activeReview} position="active" />
+						{animation && (
+							<div className="review_card-outgoing" aria-hidden="true">
+								<ReviewCard review={reviewsData[animation.previousIndex]} position="active" />
+							</div>
+						)}
 						<ReviewCard key={`next-${nextReview.id}`} review={nextReview} position="next" />
 					</div>
 					<div className="reviews_pagination" aria-label="Review pagination">

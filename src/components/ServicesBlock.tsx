@@ -1,8 +1,13 @@
 'use client'
 
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { useLayoutEffect, useRef } from "react";
 
 import Button from "./Button";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ServicesBlockProps {
 	title: string;
@@ -13,9 +18,69 @@ interface ServicesBlockProps {
 
 export default function ServicesBlock({ title, subtitle, items, icon }: ServicesBlockProps) {
 	const isCompactTimeline = items.length === 3;
+	const blockRef = useRef<HTMLElement>(null);
+
+	useLayoutEffect(() => {
+		const block = blockRef.current;
+
+		if (!block) {
+			return;
+		}
+
+		const context = gsap.context(() => {
+			const media = gsap.matchMedia();
+
+			media.add(
+				{
+					desktop: '(min-width: 769px)',
+					allowMotion: '(prefers-reduced-motion: no-preference)',
+				},
+				(mediaContext) => {
+					const { desktop, allowMotion } = mediaContext.conditions as {
+						desktop: boolean;
+						allowMotion: boolean;
+					};
+
+					if (!desktop || !allowMotion) {
+						gsap.set(block, { clearProps: 'height' });
+						return;
+					}
+
+					const getExpandedHeight = () => {
+						gsap.set(block, { height: 'auto' });
+						const height = block.offsetHeight;
+						gsap.set(block, { height: 118 });
+						return height;
+					};
+
+					const tween = gsap.fromTo(
+						block,
+						{ height: 118 },
+						{
+							height: getExpandedHeight,
+							ease: 'power2.inOut',
+							scrollTrigger: {
+								trigger: block,
+								start: 'top 88%',
+								end: 'top 38%',
+								scrub: 1.15,
+								invalidateOnRefresh: true,
+							},
+						},
+					);
+
+					return () => tween.kill();
+				},
+			);
+
+			return () => media.revert();
+		}, block);
+
+		return () => context.revert();
+	}, []);
 
 	return (
-		<section className="services_block">
+		<section className="services_block" ref={blockRef}>
 			<div className="content_container">
 				<div className="services_inner">
 					<div className="services_header">

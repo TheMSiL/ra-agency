@@ -1133,46 +1133,44 @@ a {
 		opacity: 1;
 	}
 
-	.reviews_track-next-exit .review_card-active {
-		animation: reviewActiveExitNext 0.32s ease-in both;
+	.review_card-outgoing {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 7;
+		width: min(660px, calc(100vw - 96px));
+		transform: translate(-50%, -50%);
+		pointer-events: none;
 	}
 
-	.reviews_track-prev-exit .review_card-active {
-		animation: reviewActiveExitPrev 0.32s ease-in both;
+	.home_hero .hero_reveal {
+		opacity: 0;
+		visibility: hidden;
 	}
 
-	.reviews_track-next-exit .review_card-prev,
-	.reviews_track-prev-exit .review_card-next {
-		animation: reviewSideExitSoft 0.32s ease-in both;
+	@media (prefers-reduced-motion: reduce) {
+		.home_hero .hero_reveal {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
-	.reviews_track-next-exit .review_card-next {
-		animation: reviewSideExitNext 0.32s ease-in both;
+	.review_card-outgoing .review_card-active {
+		position: relative;
+		top: auto;
+		left: auto;
+		width: 100%;
+		transform: none;
+		border-color: transparent;
+		background: transparent;
+		box-shadow: none;
 	}
 
-	.reviews_track-prev-exit .review_card-prev {
-		animation: reviewSideExitPrev 0.32s ease-in both;
-	}
-
-	.reviews_track-next-enter .review_card-active {
-		animation: reviewActiveEnterNext 0.58s cubic-bezier(0.16, 1, 0.3, 1) both;
-	}
-
-	.reviews_track-prev-enter .review_card-active {
-		animation: reviewActiveEnterPrev 0.58s cubic-bezier(0.16, 1, 0.3, 1) both;
-	}
-
-	.reviews_track-next-enter .review_card-prev,
-	.reviews_track-prev-enter .review_card-next {
-		animation: reviewSideEnterSoft 0.58s cubic-bezier(0.16, 1, 0.3, 1) both;
-	}
-
-	.reviews_track-next-enter .review_card-next {
-		animation: reviewSideEnterNext 0.58s cubic-bezier(0.16, 1, 0.3, 1) both;
-	}
-
-	.reviews_track-prev-enter .review_card-prev {
-		animation: reviewSideEnterPrev 0.58s cubic-bezier(0.16, 1, 0.3, 1) both;
+	.reviews_track-next > .review_card-active,
+	.reviews_track-prev > .review_card-active,
+	.reviews_track-next .review_card-outgoing,
+	.reviews_track-prev .review_card-outgoing {
+		will-change: opacity, transform;
 	}
 
 	.talk_radar {
@@ -2326,6 +2324,73 @@ a {
 		}
 	}
 
+	@keyframes reviewCrossfadeInNext {
+		from {
+			opacity: 0;
+			translate: 26px 0;
+			scale: 0.985;
+		}
+
+		to {
+			opacity: 1;
+			translate: 0 0;
+			scale: 1;
+		}
+	}
+
+	@keyframes reviewContentReveal {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	@keyframes reviewContentHide {
+		from { opacity: 1; }
+		to { opacity: 0; }
+	}
+
+	@keyframes reviewContentLift {
+		from {
+			opacity: 0;
+			translate: 0 10px;
+			filter: blur(3px);
+		}
+
+		to {
+			opacity: 1;
+			translate: 0 0;
+			filter: blur(0);
+		}
+	}
+
+	@keyframes reviewCrossfadeInPrev {
+		from {
+			opacity: 0;
+			translate: -26px 0;
+			scale: 0.985;
+		}
+
+		to {
+			opacity: 1;
+			translate: 0 0;
+			scale: 1;
+		}
+	}
+
+	@keyframes reviewCrossfadeOutNext {
+		from { opacity: 1; translate: 0 0; }
+		to { opacity: 0; translate: -22px 0; }
+	}
+
+	@keyframes reviewCrossfadeOutPrev {
+		from { opacity: 1; translate: 0 0; }
+		to { opacity: 0; translate: 22px 0; }
+	}
+
+	@keyframes reviewSideSettle {
+		from { opacity: 0.16; }
+		to { opacity: 0.3; }
+	}
+
 	@keyframes reviewActiveExitPrev {
 		from {
 			opacity: 1;
@@ -2509,6 +2574,10 @@ a {
 		.review_card-next {
 			animation: none;
 		}
+
+		.review_card-outgoing {
+			display: none;
+		}
 	}
 
 	@media (max-width: 900px) {
@@ -2517,6 +2586,10 @@ a {
 			padding-top: 72px;
 			--what-line-segment: 96px;
 			--what-line-gap: 74px;
+		}
+
+		.home_hero-visible {
+			min-height: auto;
 		}
 
 		.what_we_do-scene {
@@ -2751,6 +2824,13 @@ a {
 			padding: 34px 36px 28px;
 			transform: none;
 			will-change: opacity, transform;
+		}
+
+		.review_card-outgoing {
+			top: 0;
+			left: 0;
+			width: 100%;
+			transform: none;
 		}
 
 		.reviews_track-next-exit .review_card-active {
