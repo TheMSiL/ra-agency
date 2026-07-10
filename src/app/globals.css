@@ -1175,14 +1175,44 @@ a {
 
 	.talk_radar {
 		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		width: min(100%, 1920px);
+		aspect-ratio: 1920 / 1044;
+		margin-inline: auto;
+		overflow: hidden;
 	}
 
 	.talk_radar-img {
-		width: min(100%, 1400px);
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.talk_radar-beam-svg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+		pointer-events: none;
+	}
+
+	.talk_radar-beam {
+		mix-blend-mode: screen;
+		will-change: transform;
+	}
+
+	.talk_radar-icon {
+		position: absolute;
+		z-index: 3;
+		width: clamp(54px, 6.4vw, 120px);
 		height: auto;
+		opacity: 0;
+		visibility: hidden;
+		transform: translate(-50%, -50%) scale(0.86);
+		will-change: opacity, transform, filter;
+		pointer-events: none;
 	}
 
 	.talk_btn {
@@ -1204,11 +1234,12 @@ a {
 		line-height: 140%; /* 22.4px */
 		text-transform: uppercase;
 		position: absolute;
-		top: 58%;
-		left: 50%;
-		transform: translateX(-50%);
+		top: 0;
+		left: 0;
+		z-index: 5;
 		backdrop-filter: blur(10px);
-		transition: 300ms ease;
+		transition: background 300ms ease;
+		will-change: transform;
 	}
 
 	.talk_btn:hover {
@@ -2672,8 +2703,8 @@ a {
 
 	@media (max-width: 1350px) {
 		.talk_btn {
-			width: 170px;
-			height: 170px;
+			width: 150px;
+			height: 150px;
 			padding: 10px;
 		}
 	}
@@ -3273,23 +3304,22 @@ a {
 		}
 
 		.talk_radar {
-			min-height: 420px;
-			align-items: flex-end;
-			overflow: visible;
+			min-height: 0;
+			overflow: hidden;
 		}
 
 		.talk_radar-img {
-			width: max(100vw, 900px);
+			width: 100%;
 			max-width: none;
 		}
 
 		.talk_btn {
-			top: 75%;
-			width: 168px;
-			height: 168px;
+			top: 0;
+			left: 0;
+			width: 128px;
+			height: 128px;
 			font-size: 12px;
 			line-height: 135%;
-			transform: translate(-50%, -50%);
 		}
 
 		.numbers {
@@ -3855,33 +3885,31 @@ a {
 		}
 
 		.talk_radar {
-			min-height: 390px;
+			min-height: 0;
 			overflow: hidden;
 		}
 
 		.talk_radar-img {
 			position: absolute;
-			right: auto;
-			bottom: 0;
-			left: 50%;
-			width: 760px;
+			inset: 0;
+			width: 100%;
+			height: 100%;
 			max-width: none;
-			transform: translateX(-50%);
+			transform: none;
 		}
 
 		.talk_btn {
 			position: absolute;
-			top: auto;
-			bottom: 18px;
-			left: 50%;
-			width: 148px;
-			height: 148px;
+			top: 0;
+			bottom: auto;
+			left: 0;
+			width: 88px;
+			height: 88px;
 			margin: 0;
 			border-width: 2px;
 			border-radius: 50%;
-			font-size: 12px;
-			line-height: 130%;
-			transform: translateX(-50%);
+			font-size: 10px;
+			line-height: 100%;
 		}
 	}
 }
