@@ -32,6 +32,7 @@ export default function Talk() {
 
 		const context = gsap.context(() => {
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const canFollowPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 			const scanner = { angle: -32 };
 			const revealEase = gsap.parseEase('power2.out');
 			const trailEase = gsap.parseEase('power2.inOut');
@@ -120,14 +121,18 @@ export default function Talk() {
 				handlePointerLeave();
 			};
 
-			radar.addEventListener('pointermove', handlePointerMove);
-			radar.addEventListener('pointerleave', handlePointerLeave);
+			if (canFollowPointer) {
+				radar.addEventListener('pointermove', handlePointerMove);
+				radar.addEventListener('pointerleave', handlePointerLeave);
+			}
 			window.addEventListener('resize', handleResize);
 
 			return () => {
 				scannerTween.kill();
-				radar.removeEventListener('pointermove', handlePointerMove);
-				radar.removeEventListener('pointerleave', handlePointerLeave);
+				if (canFollowPointer) {
+					radar.removeEventListener('pointermove', handlePointerMove);
+					radar.removeEventListener('pointerleave', handlePointerLeave);
+				}
 				window.removeEventListener('resize', handleResize);
 			};
 		}, radar);
@@ -155,7 +160,7 @@ export default function Talk() {
 					{radarItems.map((item, index) => (
 						<Image
 							key={item.label}
-							className="talk_radar-icon"
+							className={`talk_radar-icon talk_radar-icon--${item.label.toLowerCase().replaceAll(' ', '-')}`}
 							src={item.src}
 							alt={item.label}
 							width={120}

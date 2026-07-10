@@ -76,7 +76,7 @@ const BASE_END_PROGRESS = START_PROGRESS + items.length - 1.54;
 
 const getItemLeftFraction = (sceneWidth: number) => {
 	if (sceneWidth < 640) {
-		return 0.26;
+		return 0.21;
 	}
 
 	if (sceneWidth < 901) {
@@ -193,12 +193,25 @@ export default function WhatWeDo() {
 					const { centerX, centerY, itemXOffset, itemLift } = circleMetrics;
 					const upperY = centerY + Math.tan(upper.angle) * itemXOffset;
 					const lowerY = centerY + Math.tan(lower.angle) * itemXOffset;
-					const itemY = (upperY + lowerY) / 2 - itemLift;
+					const isNarrowScene = scene.clientWidth < 640;
+					const itemY = (upperY + lowerY) / 2 - (isNarrowScene ? 0 : itemLift);
 					const itemX = centerX + itemXOffset;
 
 					const midAngle = (upper.angle + lower.angle) / 2;
 					const rotation = (midAngle * 180) / Math.PI * 0.55;
-					const scale = lerp(upper.scale, lower.scale, 0.5);
+					const orbitScale = lerp(upper.scale, lower.scale, 0.5);
+					let scale = orbitScale;
+
+					if (isNarrowScene) {
+						const rotationInRadians = Math.abs(rotation * Math.PI / 180);
+						const projectedHeight =
+							node.offsetHeight * Math.cos(rotationInRadians) +
+							node.offsetWidth * Math.sin(rotationInRadians);
+						const availableHeight = Math.abs(lowerY - upperY) - 24;
+						const fitScale = projectedHeight > 0 ? availableHeight / projectedHeight : 1;
+
+						scale = Math.min(orbitScale, gsap.utils.clamp(0.62, 1, fitScale));
+					}
 
 					gsap.set(node, {
 						left: itemX,

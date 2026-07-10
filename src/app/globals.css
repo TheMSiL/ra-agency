@@ -1745,6 +1745,7 @@ a {
 		position: relative;
 		min-height: 820px;
 		margin-top: 24px;
+		overflow: hidden;
 	}
 
 	.what_we_do-item {
@@ -2370,13 +2371,21 @@ a {
 	}
 
 	@keyframes reviewContentReveal {
-		from { opacity: 0; }
-		to { opacity: 1; }
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	@keyframes reviewContentHide {
-		from { opacity: 1; }
-		to { opacity: 0; }
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
 	}
 
 	@keyframes reviewContentLift {
@@ -2408,18 +2417,34 @@ a {
 	}
 
 	@keyframes reviewCrossfadeOutNext {
-		from { opacity: 1; translate: 0 0; }
-		to { opacity: 0; translate: -22px 0; }
+		from {
+			opacity: 1;
+			translate: 0 0;
+		}
+		to {
+			opacity: 0;
+			translate: -22px 0;
+		}
 	}
 
 	@keyframes reviewCrossfadeOutPrev {
-		from { opacity: 1; translate: 0 0; }
-		to { opacity: 0; translate: 22px 0; }
+		from {
+			opacity: 1;
+			translate: 0 0;
+		}
+		to {
+			opacity: 0;
+			translate: 22px 0;
+		}
 	}
 
 	@keyframes reviewSideSettle {
-		from { opacity: 0.16; }
-		to { opacity: 0.3; }
+		from {
+			opacity: 0.16;
+		}
+		to {
+			opacity: 0.3;
+		}
 	}
 
 	@keyframes reviewActiveExitPrev {
@@ -2617,6 +2642,12 @@ a {
 			padding-top: 72px;
 			--what-line-segment: 96px;
 			--what-line-gap: 74px;
+		}
+
+		.underFooter {
+			background-repeat: repeat;
+			background-size: contain;
+			background-position: center bottom;
 		}
 
 		.home_hero-visible {
@@ -3591,7 +3622,7 @@ a {
 		}
 
 		.what_we_do-item {
-			width: min(78vw, 330px);
+			width: calc(79% - 12px);
 		}
 
 		.what_we_do-item_content {
@@ -3847,7 +3878,7 @@ a {
 		}
 
 		.tg_hero-image {
-			width: min(146vw, 540px);
+			width: min(100vw, 540px);
 			margin-top: 18px;
 		}
 
@@ -3885,7 +3916,10 @@ a {
 		}
 
 		.talk_radar {
+			width: 124%;
+			max-width: none;
 			min-height: 0;
+			margin-left: -12%;
 			overflow: hidden;
 		}
 
@@ -3898,9 +3932,24 @@ a {
 			transform: none;
 		}
 
+		.talk_radar-icon--cpa {
+			left: 55% !important;
+			top: 49% !important;
+		}
+
+		.talk_radar-icon--roas {
+			left: 65% !important;
+			top: 80% !important;
+		}
+
+		.talk_radar-icon--cac {
+			left: 25% !important;
+			top: 71% !important;
+		}
+
 		.talk_btn {
 			position: absolute;
-			top: 0;
+			top: 15%;
 			bottom: auto;
 			left: 0;
 			width: 88px;
@@ -3908,7 +3957,7 @@ a {
 			margin: 0;
 			border-width: 2px;
 			border-radius: 50%;
-			font-size: 10px;
+			font-size: 8px;
 			line-height: 100%;
 		}
 	}
