@@ -6,16 +6,16 @@ import { useEffect, useState } from "react";
 import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
 import BurgerSvg from "../../public/svg/BurgerSvg";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import Link from "next/link";
 
 const menuItems = [
-	{ label: "Home", href: "#home" },
-	{ label: "about us", href: "#about" },
-	{ label: "cases", href: "#cases" },
+	{ label: "Home", href: "/" },
+	{ label: "about us", href: "/about" },
+	{ label: "cases", href: "/cases" },
 	{ label: "contact", href: "#contact" },
-	{ label: "google ads", href: "#google-ads" },
-	{ label: "telegram ads", href: "#telegram-ads" },
-	{ label: "meta ads", href: "#meta-ads" },
-	{ label: "open ai ads", href: "#open-ai-ads" },
+	{ label: "google ads", href: "/google-ads" },
+	{ label: "telegram ads", href: "/telegram-ads" },
+	{ label: "meta ads", href: "/meta-ads" },
 ];
 
 export default function Burger() {
@@ -82,14 +82,14 @@ export default function Burger() {
 
 				<nav className="burger_nav" aria-label="Main menu">
 					{menuItems.map((item) => (
-						<a
+						<Link
 							key={item.href}
 							href={item.href}
 							className={activeHref === item.href ? "active" : ""}
 							onClick={() => handleMenuClick(item.href)}
 						>
 							{item.label}
-						</a>
+						</Link>
 					))}
 				</nav>
 
@@ -106,9 +106,9 @@ export default function Burger() {
 						</a>
 					</div>
 
-					<a href="#home" className="burger_brand" onClick={() => handleMenuClick("#home")}>
+					<Link href="/" className="burger_brand" onClick={() => handleMenuClick("#home")}>
 						RA AGENCY.TECH
-					</a>
+					</Link>
 				</div>
 			</aside>
 		</div>

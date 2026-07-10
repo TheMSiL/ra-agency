@@ -2,7 +2,10 @@
 "use client";
 
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type WhatWeDoItem = {
 	index: string;
@@ -67,8 +70,10 @@ const SCENE_SLOTS = [
 	{ angle: -Math.PI + 11 * SLOT_STEP, opacity: 0, scale: 0.52, zIndex: 0 },
 ] as const;
 
-// 48 s total = 4 s per slot, so the active item holds longer.
-const LOOP_DURATION = 48;
+const PIN_SCROLL_DISTANCE = 1800;
+const START_PROGRESS = 8;
+const BASE_END_PROGRESS = START_PROGRESS + items.length - 1.54;
+
 const getItemLeftFraction = (sceneWidth: number) => {
 	if (sceneWidth < 640) {
 		return 0.26;
@@ -110,6 +115,14 @@ function interpolateSlots<T extends Record<string, number>>(slots: readonly T[],
 	}, {});
 }
 
+function getEndProgress(sceneWidth: number, sceneHeight: number) {
+	const wideProgress = gsap.utils.clamp(0, 1, (sceneWidth - 1200) / 1100);
+	const tallProgress = gsap.utils.clamp(0, 1, (sceneHeight - 820) / 520);
+	const adaptiveTrim = Math.max(wideProgress, tallProgress) * 0.46;
+
+	return BASE_END_PROGRESS - adaptiveTrim;
+}
+
 export default function WhatWeDo() {
 	const rootRef = useRef<HTMLDivElement | null>(null);
 	const sceneRef = useRef<HTMLDivElement | null>(null);
@@ -139,6 +152,8 @@ export default function WhatWeDo() {
 				radiusX: 0,
 				radiusY: 0,
 				itemXOffset: 0,
+				itemLift: 0,
+				endProgress: BASE_END_PROGRESS,
 			};
 
 			const updateCircleMetrics = () => {
@@ -151,6 +166,8 @@ export default function WhatWeDo() {
 				circleMetrics.radiusY = circleBox.height / 2;
 				// Horizontal distance from circle center to where item column sits.
 				circleMetrics.itemXOffset = sceneBox.width * getItemLeftFraction(sceneBox.width) - circleMetrics.centerX;
+				circleMetrics.itemLift = Math.min(92, Math.max(42, sceneBox.height * 0.09));
+				circleMetrics.endProgress = getEndProgress(sceneBox.width, sceneBox.height);
 			};
 
 			const applyFrame = () => {
@@ -173,10 +190,10 @@ export default function WhatWeDo() {
 						return;
 					}
 
-					const { centerX, centerY, itemXOffset } = circleMetrics;
+					const { centerX, centerY, itemXOffset, itemLift } = circleMetrics;
 					const upperY = centerY + Math.tan(upper.angle) * itemXOffset;
 					const lowerY = centerY + Math.tan(lower.angle) * itemXOffset;
-					const itemY = (upperY + lowerY) / 2;
+					const itemY = (upperY + lowerY) / 2 - itemLift;
 					const itemX = centerX + itemXOffset;
 
 					const midAngle = (upper.angle + lower.angle) / 2;
@@ -241,7 +258,7 @@ export default function WhatWeDo() {
 					};
 
 					updateCircleMetrics();
-					progress.value = 0;
+					progress.value = START_PROGRESS;
 					applyFrame();
 
 					if (
@@ -256,16 +273,28 @@ export default function WhatWeDo() {
 					const handleResize = () => {
 						updateCircleMetrics();
 						applyFrame();
+						ScrollTrigger.refresh();
 					};
 
 					window.addEventListener("resize", handleResize);
 
 					const tween = gsap.to(progress, {
-						value: SCENE_SLOTS.length,
-						duration: LOOP_DURATION,
+						value: () => circleMetrics.endProgress,
 						ease: "none",
-						repeat: -1,
 						onUpdate: applyFrame,
+						scrollTrigger: {
+							trigger: root,
+							start: "top top",
+							end: `+=${PIN_SCROLL_DISTANCE}`,
+							scrub: 1,
+							pin: true,
+							anticipatePin: 1,
+							invalidateOnRefresh: true,
+							onRefresh: () => {
+								updateCircleMetrics();
+								applyFrame();
+							},
+						},
 					});
 
 					return () => {
