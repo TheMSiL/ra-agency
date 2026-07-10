@@ -82,7 +82,7 @@ export default function Talk() {
 
 			const scannerTween = gsap.to(scanner, {
 				angle: 328,
-				duration: 5.4,
+				duration: 3.8,
 				repeat: -1,
 				ease: 'none',
 				onUpdate: updateScanner,

@@ -70,8 +70,8 @@ export default function Numbers() {
 						if (!counter) return;
 						gsap.to(counter, {
 							value: counter.target,
-							duration: 2.7,
-							delay: index * 0.12,
+							duration: 8,
+							delay: index * 0.3,
 							ease: 'power2.out',
 							onUpdate: () => {
 								counter.node.textContent = `${counter.prefix}${counter.value.toFixed(counter.decimals)}${counter.suffix}`;

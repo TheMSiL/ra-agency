@@ -61,9 +61,9 @@ export default function ServicesBlock({ title, subtitle, items, icon }: Services
 							ease: 'power2.inOut',
 							scrollTrigger: {
 								trigger: block,
-								start: 'top 88%',
-								end: 'top 38%',
-								scrub: 1.15,
+								start: 'top 95%',
+								end: 'top 5%',
+								scrub: 1.6,
 								invalidateOnRefresh: true,
 							},
 						},
