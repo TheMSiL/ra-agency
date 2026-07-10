@@ -901,6 +901,26 @@
 	}
 }
 @media (max-width: 760px) {
+	.privacy_policy-page > .trust {
+		padding-bottom: 64px;
+	}
+
+	.privacy_policy-page > .footer {
+		background-image:
+			linear-gradient(to bottom, #090400 0, rgba(9, 4, 0, 0.65) 28px, transparent 90px),
+			url('/footer_bg.png');
+	}
+
+	.privacy_policy-content {
+		padding-top: 42px;
+		padding-bottom: 80px;
+	}
+
+	.privacy_policy-body {
+		gap: 28px;
+		margin-top: 64px;
+	}
+
 	.case_page-main {
 		padding-top: 48px;
 	}

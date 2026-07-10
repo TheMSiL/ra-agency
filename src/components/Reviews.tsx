@@ -118,7 +118,6 @@ export default function Reviews() {
 		const incomingContent = incoming.children;
 		const context = gsap.context(() => {
 			gsap.set(incoming, { autoAlpha: 1 });
-			gsap.set(incomingContent, { autoAlpha: 0, y: 16 });
 			gsap.set(outgoing, { autoAlpha: 1 });
 			gsap.set(sideCards, { autoAlpha: 0.12 });
 
@@ -131,9 +130,8 @@ export default function Reviews() {
 					duration: 0.42,
 					ease: 'power2.out',
 				}, 0)
-				.to(incomingContent, {
-					autoAlpha: 1,
-					y: 0,
+				.from(incomingContent, {
+					autoAlpha: 0,
 					duration: 0.68,
 					stagger: 0.055,
 					ease: 'power3.out',

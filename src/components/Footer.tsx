@@ -1,50 +1,51 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const navigation = [
 	{
-		href: '#',
+		href: '/cases',
 		title: 'Cases'
 	},
 	{
-		href: '#',
+		href: '/about-us',
 		title: 'About Us'
 	},
 	{
-		href: '#',
+		href: '/blog',
 		title: 'Blog'
 	},
 	{
-		href: '#',
+		href: '#contact',
 		title: 'Contact'
 	},
 ]
 
 const services = [
 	{
-		href: '#',
+		href: '/telegram-ads',
 		title: 'Telegram Ads'
 	},
 	{
-		href: '#',
+		href: '/google-ads',
 		title: 'Google Ads'
 	},
 	{
-		href: '#',
+		href: '/meta-ads',
 		title: 'Meta Ads'
 	},
 ]
 
 const legal = [
 	{
-		href: '#',
+		href: '/privacy-policy',
 		title: 'Privacy Policy'
 	},
 	{
-		href: '#',
+		href: '/terms-of-service',
 		title: 'Terms of Service'
 	},
 	{
-		href: '#',
+		href: '/cookie-policy',
 		title: 'Cookie Policy'
 	},
 ]
@@ -79,7 +80,7 @@ export default function Footer() {
 								{
 									navigation.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<a href={link.href}>{link.title}</a>
+											<Link href={link.href}>{link.title}</Link>
 										</li>
 									})
 								}
