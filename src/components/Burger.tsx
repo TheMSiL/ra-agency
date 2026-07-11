@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 
 import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
@@ -13,7 +14,7 @@ const menuItems = [
 	{ label: "Home", href: "/" },
 	{ label: "about us", href: "/about" },
 	{ label: "cases", href: "/cases" },
-	{ label: "contact", href: "/#contact" },
+	{ label: "contact", href: "/", scrollToFooter: true },
 	{ label: "google ads", href: "/google-ads" },
 	{ label: "telegram ads", href: "/telegram-ads" },
 	{ label: "meta ads", href: "/meta-ads" },
@@ -21,7 +22,6 @@ const menuItems = [
 
 export default function Burger() {
 	const [isOpen, setIsOpen] = useState(false);
-	const [activeHash, setActiveHash] = useState("");
 	const pathname = usePathname();
 
 	useBodyScrollLock(isOpen);
@@ -34,26 +34,25 @@ export default function Burger() {
 		};
 	}, [isOpen]);
 
-	useEffect(() => {
-		function updateActiveHash() {
-			setActiveHash(window.location.hash);
-		}
-
-		updateActiveHash();
-		window.addEventListener("hashchange", updateActiveHash);
-
-		return () => window.removeEventListener("hashchange", updateActiveHash);
-	}, []);
-
-	function handleMenuClick(href: string) {
-		setActiveHash(href.includes("#") ? `#${href.split("#")[1]}` : "");
+	function handleMenuClick() {
 		setIsOpen(false);
 	}
 
-	function isItemActive(href: string) {
-		if (href === "/#contact") return activeHash === "#contact";
-		if (href === "/") return pathname === "/" && activeHash !== "#contact";
+	function handleContactClick(event: MouseEvent<HTMLAnchorElement>) {
+		event.preventDefault();
+		setIsOpen(false);
 
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				window.scrollTo({
+					top: document.documentElement.scrollHeight,
+					behavior: "smooth",
+				});
+			});
+		});
+	}
+
+	function isItemActive(href: string) {
 		return pathname === href || pathname.startsWith(`${href}/`);
 	}
 
@@ -92,10 +91,10 @@ export default function Burger() {
 				<nav className="burger_nav" aria-label="Main menu">
 					{menuItems.map((item) => (
 						<Link
-							key={item.href}
+							key={item.label}
 							href={item.href}
-							className={isItemActive(item.href) ? "active" : ""}
-							onClick={() => handleMenuClick(item.href)}
+							className={!item.scrollToFooter && isItemActive(item.href) ? "active" : ""}
+							onClick={item.scrollToFooter ? handleContactClick : handleMenuClick}
 						>
 							{item.label}
 						</Link>
@@ -115,7 +114,7 @@ export default function Burger() {
 						</a>
 					</div>
 
-					<Link href="/" className="burger_brand" onClick={() => handleMenuClick("#home")}>
+					<Link href="/" className="burger_brand" onClick={handleMenuClick}>
 						RA AGENCY.TECH
 					</Link>
 				</div>

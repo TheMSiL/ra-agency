@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 
 const POSTS_PER_PAGE = 6;
 
-export default function BlogPage() {
+export default function BlogPageContent() {
 	const [featuredPost, ...posts] = blogPosts;
 	const gridRef = useRef<HTMLDivElement>(null);
 	const [page, setPage] = useState(1);
@@ -65,7 +65,7 @@ export default function BlogPage() {
 			<div className="blog_grid" ref={gridRef}>
 				{currentPosts.map((post) => <BlogCard key={post.id} post={post} />)}
 			</div>
-			<div className="cases_pagination" aria-label="Blog pagination">
+			<div className="cases_pagination blog_pagination" aria-label="Blog pagination">
 				{Array.from({ length: pageCount }, (_, index) => {
 					const pageNumber = index + 1;
 

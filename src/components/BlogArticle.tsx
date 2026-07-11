@@ -1,7 +1,7 @@
 import type { BlogPost } from "@/data/blogs";
 import { getRecommendedPosts } from "@/data/blogs";
 import Image from "next/image";
-import BlogCard from "./BlogCard";
+import Link from "next/link";
 import Footer from "./Footer";
 import Header from "./Header";
 import Talk from "./Talk";
@@ -29,8 +29,13 @@ export default function BlogArticle({ post }: { post: BlogPost }) {
 					</div>
 					{recommendations.length > 0 && (
 						<section className="blog_recommended">
-							<h2 className="font-display">Recommended articles</h2>
-							<div className="blog_recommended-grid">{recommendations.map((item) => <BlogCard key={item.id} post={item} />)}</div>
+							<div className="blog_recommended-grid">
+								{recommendations.map((item) => (
+									<Link key={item.id} href={`/blog/${item.id}`} className="blog_recommended-link" aria-label={item.title}>
+										<Image src={item.image} alt={item.title} width={800} height={500} />
+									</Link>
+								))}
+							</div>
 						</section>
 					)}
 				</main>

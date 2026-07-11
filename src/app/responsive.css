@@ -216,6 +216,92 @@
 }
 
 @media (max-width: 1250px) {
+	.about_hero-title {
+		font-size: min(17vw, calc((100svh - 130px) / 1.75));
+	}
+
+	.about_hero-title span {
+		margin-top: 48px;
+	}
+
+	.we_build {
+		min-height: 700px;
+	}
+
+	.we_build-title {
+		top: 40%;
+		font-size: clamp(36px, 6vw, 62px);
+	}
+
+	.we_build-card {
+		width: min(40%, 430px);
+		padding: 20px 22px;
+	}
+
+	.we_build-card h3 {
+		margin-bottom: 20px;
+	}
+
+	.footer {
+		padding-bottom: 56px;
+	}
+
+	.footer_container {
+		display: grid;
+	}
+
+	.footer .footer_title {
+		margin-top: 0;
+		font-size: clamp(48px, 8vw, 82px);
+		text-align: center;
+	}
+
+	.footer_layout,
+	.footer_intro {
+		display: contents;
+	}
+
+	.footer_text {
+		position: relative;
+		z-index: 30;
+		order: 2;
+		max-width: 620px;
+		margin: 18px auto 0;
+		font-size: 18px;
+		line-height: 1.35;
+		text-align: center;
+	}
+
+	.footer_nav {
+		position: relative;
+		z-index: 30;
+		order: 3;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		width: 100%;
+		gap: 28px;
+		margin-top: 30px;
+		text-align: center;
+	}
+
+	.footer_nav-list {
+		justify-items: center;
+	}
+
+	.footer_socials {
+		position: relative;
+		z-index: 30;
+		order: 4;
+		justify-content: center;
+		margin-top: 28px;
+	}
+
+	.footer_logo-bg {
+		top: 50%;
+		width: 450px;
+		transform: translate(-50%, -50%);
+	}
+
 	.cases_row:last-child {
 		flex-direction: column;
 	}
@@ -388,6 +474,14 @@
 }
 
 @media (max-width: 900px) {
+	.about_hero {
+		height: auto;
+		min-height: 450px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.what_we_do {
 		min-height: auto;
 		padding-top: 72px;
@@ -444,6 +538,29 @@
 
 	.service_hero-bottom .home_hero-text {
 		max-width: 450px;
+	}
+
+	.tg_hero .home_hero-container {
+		position: relative;
+		height: 100svh;
+		min-height: 100svh;
+	}
+
+	.tg_hero .service_hero-content {
+		top: auto;
+		right: 32px;
+		bottom: 140px;
+		left: 32px;
+		margin: 0;
+	}
+
+	.service_hero-bottom {
+		gap: 24px;
+	}
+
+	.service_hero-bottom .home_hero-btn {
+		flex: 0 0 auto;
+		margin: 0;
 	}
 
 	.case_step {
@@ -636,9 +753,10 @@
 	}
 
 	.footer_logo-bg {
-		top: 160px;
+		top: 50%;
 		width: 450px;
 		opacity: 0.5;
+		transform: translate(-50%, -50%);
 	}
 
 	.services_block {
@@ -990,6 +1108,121 @@
 }
 
 @media (max-width: 768px) {
+	.about_pioneering-intro {
+		min-height: 0;
+		padding: 36px 24px;
+	}
+	.about_pioneering-intro h2 {
+		font-size: clamp(28px, 6vw, 36px);
+	}
+	.about_pioneering-grid {
+		grid-template-columns: 1fr;
+	}
+	.about_pioneering-card {
+		min-height: 0;
+		padding: 30px 24px;
+	}
+	.about_pioneering-card + .about_pioneering-card {
+		border-top: 1px solid rgba(250, 138, 22, 0.72);
+		border-left: 0;
+	}
+	.about_pioneering-card p {
+		min-height: 0;
+	}
+	.about_pioneering-card strong {
+		margin-top: 24px;
+		font-size: clamp(52px, 16vw, 82px);
+	}
+
+	.about_hero {
+		height: auto;
+		min-height: 540px;
+	}
+
+	.about_hero-title {
+		font-size: min(21vw, calc((100svh - 160px) / 1.7));
+		line-height: 0.88;
+	}
+
+	.about_hero-title span {
+		margin-top: 28px;
+	}
+
+	.we_build {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+		min-height: 0;
+		padding: 56px 0 80px;
+	}
+	.we_build-title,
+	.we_build > .we_build-card:nth-child(2),
+	.we_build > .we_build-card:nth-child(3),
+	.we_build > .we_build-card:nth-child(4) {
+		position: static;
+		width: min(100%, 420px);
+		transform: none;
+	}
+	.we_build-title {
+		order: 2;
+		margin-block: 18px;
+		font-size: clamp(28px, 7vw, 48px);
+		white-space: normal;
+		text-align: center;
+		width: 100%;
+	}
+	.we_build-card {
+		max-width: none;
+		align-self: center;
+		padding: 22px 24px;
+	}
+	.we_build-card h3 {
+		margin-bottom: 18px;
+		font-size: 20px;
+	}
+	.we_build-card p {
+		font-size: 14px;
+		text-align: left;
+	}
+	.we_build-card--1 {
+		order: 1;
+	}
+	.we_build-card--2 {
+		order: 3;
+	}
+	.we_build-card--3 {
+		order: 4;
+	}
+
+	.cases_page-main {
+		background:
+			radial-gradient(
+				circle at 8% 58%,
+				rgba(250, 138, 22, 0.14) 0,
+				transparent 34%
+			),
+			radial-gradient(
+				circle at 88% 72%,
+				rgba(250, 138, 22, 0.16) 0,
+				transparent 36%
+			),
+			radial-gradient(
+				ellipse at 50% 74%,
+				rgba(250, 138, 22, 0.16) 0,
+				transparent 52%
+			),
+			linear-gradient(
+				180deg,
+				#090400 0%,
+				#090400 24%,
+				#100701 52%,
+				#1a0c03 82%,
+				#160a02 100%
+			);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+	}
+
 	.service_hero-content {
 		right: 24px;
 		bottom: 48px;
@@ -1130,6 +1363,26 @@
 }
 
 @media (max-width: 640px) {
+	.service_hero--meta {
+		background-position: 28% center;
+	}
+
+	.blog_article-header {
+		padding: 20px;
+	}
+
+	.blog_article-meta {
+		font-size: 18px;
+	}
+
+	.blog_article-meta time {
+		font-size: 14px;
+	}
+
+	.blog_recommended {
+		margin-top: 40px;
+	}
+
 	.what_pin {
 		padding-block: 52px 70px;
 	}
@@ -1161,7 +1414,7 @@
 	}
 
 	.cases_card-main--title {
-		font-size: 24px;
+		font-size: 22px;
 	}
 
 	.what_panel {
@@ -1281,6 +1534,41 @@
 }
 
 @media (max-width: 560px) {
+	.about_hero {
+		height: calc(100svh - 107px);
+		min-height: 420px;
+	}
+
+	.about_hero-title {
+		font-size: min(22vw, calc((100svh - 150px) / 1.75));
+		line-height: 0.92;
+	}
+
+	.about_hero-title span {
+		margin-top: 18px;
+	}
+
+	.about_pioneering-intro h2 {
+		font-size: clamp(22px, 4vw, 30px);
+	}
+
+	.we_build {
+		gap: 16px;
+		padding: 38px 0 60px;
+	}
+
+	.we_build-title {
+		width: 100%;
+		margin-block: 12px;
+		font-size: clamp(24px, 7.4vw, 36px);
+		line-height: 1.25;
+	}
+
+	.we_build-card {
+		width: 100%;
+		padding: 20px;
+	}
+
 	.burger_button {
 		width: 43px;
 		height: 60px;
@@ -1526,9 +1814,10 @@
 	}
 
 	.footer_logo-bg {
-		top: 142px;
+		top: 50%;
 		width: 330px;
 		opacity: 0.5;
+		transform: translate(-50%, -50%);
 	}
 
 	.floating_tg_btn {
@@ -1650,6 +1939,28 @@
 		font-size: 11px;
 	}
 
+	.tg_hero .service_hero-content {
+		top: auto;
+		right: 20px;
+		left: 20px;
+		margin: 0;
+	}
+
+	.service_hero-content .sub_hero-title {
+		margin-bottom: 14px;
+		white-space: normal;
+	}
+
+	.service_hero-bottom {
+		gap: 18px;
+	}
+
+	.service_hero-bottom .home_hero-btn {
+		width: 100%;
+		min-height: 60px;
+		margin: 0;
+	}
+
 	.talk_section .numbers_title {
 		padding-inline: 20px;
 		margin-bottom: 32px;
@@ -1726,5 +2037,11 @@
 	.blog_article {
 		padding-top: 36px;
 		padding-bottom: 72px;
+	}
+
+	
+	.numbers_title,
+	.services_title {
+		font-size: 28px !important;
 	}
 }
