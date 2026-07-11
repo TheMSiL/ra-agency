@@ -52,7 +52,7 @@ const legal = [
 
 export default function Footer() {
 	return (
-		<footer className="footer pt-10">
+		<footer id="contact" className="footer pt-10">
 			<div className="content_container footer_container">
 				<h1 className="home_hero-title footer_title" data-title="RA AGENCY">
 					RA AGENCY

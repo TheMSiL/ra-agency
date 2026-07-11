@@ -1,0 +1,42 @@
+import type { BlogPost } from "@/data/blogs";
+import { getRecommendedPosts } from "@/data/blogs";
+import Image from "next/image";
+import BlogCard from "./BlogCard";
+import Footer from "./Footer";
+import Header from "./Header";
+import Talk from "./Talk";
+
+export default function BlogArticle({ post }: { post: BlogPost }) {
+	const recommendations = getRecommendedPosts(post);
+
+	return (
+		<div className="wrapper blog_article-page">
+			<div className="blog_page-content">
+				<Header />
+				<main className="content_container blog_article">
+					<header className="blog_article-header">
+						<div className="blog_article-meta"><span>{post.type}</span><time>{post.date}</time></div>
+						<h1>{post.title}</h1>
+					</header>
+					<p className="blog_article-lead">{post.description}</p>
+					<Image className="blog_article-image" src={post.image} alt="" width={1600} height={900} priority />
+					<div className="blog_article-body">
+						{post.content.map((block, index) => {
+							if (block.type === "heading") return <h2 key={index}>{block.text}</h2>;
+							if (block.type === "list") return <ul key={index}>{block.items.map((item) => <li key={item}>{item}</li>)}</ul>;
+							return <p key={index}>{block.text}</p>;
+						})}
+					</div>
+					{recommendations.length > 0 && (
+						<section className="blog_recommended">
+							<h2 className="font-display">Recommended articles</h2>
+							<div className="blog_recommended-grid">{recommendations.map((item) => <BlogCard key={item.id} post={item} />)}</div>
+						</section>
+					)}
+				</main>
+			</div>
+			<Talk />
+			<Footer />
+		</div>
+	);
+}

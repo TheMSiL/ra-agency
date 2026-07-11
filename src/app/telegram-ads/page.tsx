@@ -1,4 +1,4 @@
-import SubHero from "@/components/SubHero";
+import Hero from "@/components/Hero";
 import WhatYouGet from "@/components/WhatYouGet";
 import WhatWeDo from "@/components/WhatWeDo";
 import Cases from "@/components/Cases";
@@ -10,7 +10,7 @@ import FloatingTelegramButton from "@/components/FloatingTelegramButton";
 export default function TgAdsPage() {
 	return (
 		<div className="wrapper">
-			<SubHero type='tg' />
+			<Hero type="tg" />
 			<WhatYouGet />
 			<WhatWeDo />
 			<div className="underFooter">

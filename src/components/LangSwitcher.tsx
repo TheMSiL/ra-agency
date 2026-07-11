@@ -19,13 +19,13 @@ export default function LangSwitcher() {
 		<div className="relative">
 			<button
 				type="button"
-				className={`flex items-center gap-1 cursor-pointer px-4 py-1 lang_switcher duration-300 ${isOpen ? "active" : ""}`}
+				className={`flex items-center gap-[5px] cursor-pointer px-[18px] py-[6px] lang_switcher duration-300 ${isOpen ? "active" : ""}`}
 				aria-expanded={isOpen}
 				aria-haspopup="listbox"
 				aria-label={t("language.switcherLabel")}
 				onClick={() => setIsOpen((value) => !value)}
 			>
-				<span className="font-medium text-[13px] leading-[140%]">
+				<span className="font-medium text-[14px] leading-[140%]">
 					{currentLocale.label}
 				</span>
 				<span className={`lang_switcher_arrow ${isOpen ? "active" : ""}`}>

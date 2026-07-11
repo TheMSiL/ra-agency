@@ -2,7 +2,7 @@ import ServicesBlock from "@/components/ServicesBlock";
 import Cases from "@/components/Cases";
 import Footer from "@/components/Footer";
 import FloatingTelegramButton from "@/components/FloatingTelegramButton";
-import HeroHome from "@/components/HeroHome";
+import Hero from "@/components/Hero";
 import Numbers from "@/components/Numbers";
 import Reviews from "@/components/Reviews";
 import Talk from "@/components/Talk";
@@ -46,7 +46,7 @@ const googleService = {
 export default function page() {
   return (
     <div className="wrapper">
-      <HeroHome />
+      <Hero />
       <ServicesBlock title={telegramService.title} subtitle={telegramService.subtitle} items={telegramService.items} icon={telegramService.icon} />
       <ServicesBlock title={metaService.title} subtitle={metaService.subtitle} items={metaService.items} icon={metaService.icon} />
       <ServicesBlock title={googleService.title} subtitle={googleService.subtitle} items={googleService.items} icon={googleService.icon} />

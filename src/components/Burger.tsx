@@ -7,12 +7,13 @@ import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
 import BurgerSvg from "../../public/svg/BurgerSvg";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
 	{ label: "Home", href: "/" },
 	{ label: "about us", href: "/about" },
 	{ label: "cases", href: "/cases" },
-	{ label: "contact", href: "#contact" },
+	{ label: "contact", href: "/#contact" },
 	{ label: "google ads", href: "/google-ads" },
 	{ label: "telegram ads", href: "/telegram-ads" },
 	{ label: "meta ads", href: "/meta-ads" },
@@ -20,7 +21,8 @@ const menuItems = [
 
 export default function Burger() {
 	const [isOpen, setIsOpen] = useState(false);
-	const [activeHref, setActiveHref] = useState("#home");
+	const [activeHash, setActiveHash] = useState("");
+	const pathname = usePathname();
 
 	useBodyScrollLock(isOpen);
 
@@ -33,19 +35,26 @@ export default function Burger() {
 	}, [isOpen]);
 
 	useEffect(() => {
-		function updateActiveHref() {
-			setActiveHref(window.location.hash || "#home");
+		function updateActiveHash() {
+			setActiveHash(window.location.hash);
 		}
 
-		updateActiveHref();
-		window.addEventListener("hashchange", updateActiveHref);
+		updateActiveHash();
+		window.addEventListener("hashchange", updateActiveHash);
 
-		return () => window.removeEventListener("hashchange", updateActiveHref);
+		return () => window.removeEventListener("hashchange", updateActiveHash);
 	}, []);
 
 	function handleMenuClick(href: string) {
-		setActiveHref(href);
+		setActiveHash(href.includes("#") ? `#${href.split("#")[1]}` : "");
 		setIsOpen(false);
+	}
+
+	function isItemActive(href: string) {
+		if (href === "/#contact") return activeHash === "#contact";
+		if (href === "/") return pathname === "/" && activeHash !== "#contact";
+
+		return pathname === href || pathname.startsWith(`${href}/`);
 	}
 
 	return (
@@ -85,7 +94,7 @@ export default function Burger() {
 						<Link
 							key={item.href}
 							href={item.href}
-							className={activeHref === item.href ? "active" : ""}
+							className={isItemActive(item.href) ? "active" : ""}
 							onClick={() => handleMenuClick(item.href)}
 						>
 							{item.label}
