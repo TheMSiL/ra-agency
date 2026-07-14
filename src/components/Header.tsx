@@ -2,17 +2,19 @@ import Image from "next/image";
 
 import Burger from "./Burger";
 import LangSwitcher from "./LangSwitcher";
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 
 export default function Header() {
 	return (
-		<header className="pt-10 header relative z-10">
+		<header className="pt-5 header relative z-10">
 			<div className="content_container flex items-center justify-between">
-				<Link href='/'>
+				<LocalizedLink href='/'>
 					<Image src='/logo.svg' alt="logo" width={50} height={35} loading="eager" />
-				</Link>
+				</LocalizedLink>
 				<div className="flex items-center gap-10">
-					<LangSwitcher />
+					<div className="header_lang_switcher">
+						<LangSwitcher />
+					</div>
 					<Burger />
 				</div>
 			</div>

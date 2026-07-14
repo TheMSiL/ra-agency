@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 
 const navigation = [
 	{
@@ -7,7 +7,7 @@ const navigation = [
 		title: 'Cases'
 	},
 	{
-		href: '/about-us',
+		href: '/about',
 		title: 'About Us'
 	},
 	{
@@ -54,7 +54,7 @@ export default function Footer() {
 	return (
 		<footer id="contact" className="footer pt-10">
 			<div className="content_container footer_container">
-				<h1 className="home_hero-title footer_title" data-title="RA AGENCY">
+				<h1 className="home_hero-title footer_title " data-title="RA AGENCY">
 					RA AGENCY
 				</h1>
 				<div className="footer_layout">
@@ -80,7 +80,7 @@ export default function Footer() {
 								{
 									navigation.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<Link href={link.href}>{link.title}</Link>
+											<LocalizedLink href={link.href}>{link.title}</LocalizedLink>
 										</li>
 									})
 								}
@@ -92,7 +92,7 @@ export default function Footer() {
 								{
 									services.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<a href={link.href}>{link.title}</a>
+											<LocalizedLink href={link.href}>{link.title}</LocalizedLink>
 										</li>
 									})
 								}
@@ -104,7 +104,7 @@ export default function Footer() {
 								{
 									legal.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<a href={link.href}>{link.title}</a>
+											<LocalizedLink href={link.href}>{link.title}</LocalizedLink>
 										</li>
 									})
 								}

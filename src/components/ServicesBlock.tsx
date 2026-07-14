@@ -43,33 +43,76 @@ export default function ServicesBlock({ title, subtitle, items, icon }: Services
 
 					if (!desktop || !allowMotion) {
 						gsap.set(block, { clearProps: 'height' });
+						gsap.set('.services_timeline-line, .services_circle, .services_item-text', {
+							clearProps: 'all',
+						});
 						return;
 					}
 
+					const collapsedHeight = 118;
 					const getExpandedHeight = () => {
 						gsap.set(block, { height: 'auto' });
-						const height = block.offsetHeight;
-						gsap.set(block, { height: 118 });
-						return height;
+						// scrollHeight includes the section's bottom padding, even while it is clipped.
+						const height = Math.ceil(block.scrollHeight);
+						gsap.set(block, { height: collapsedHeight });
+						return height + 1;
 					};
 
-					const tween = gsap.fromTo(
-						block,
-						{ height: 118 },
-						{
+					gsap.set('.services_timeline-line', { scaleX: 0, transformOrigin: 'center center' });
+					gsap.set('.services_circle', { autoAlpha: 0, scale: 0 });
+					gsap.set('.services_item-text', { autoAlpha: 0, y: 14 });
+
+					const timeline = gsap.timeline({
+						scrollTrigger: {
+							trigger: block,
+							start: 'top 95%',
+							end: 'top 35%',
+							scrub: 1.6,
+							invalidateOnRefresh: true,
+						},
+					});
+
+					timeline.fromTo(block, { height: collapsedHeight }, {
 							height: getExpandedHeight,
 							ease: 'power2.inOut',
-							scrollTrigger: {
-								trigger: block,
-								start: 'top 95%',
-								end: 'top 5%',
-								scrub: 1.6,
-								invalidateOnRefresh: true,
-							},
-						},
-					);
+							duration: 1,
+						});
 
-					return () => tween.kill();
+					const detailsTimeline = gsap.timeline({
+						scrollTrigger: {
+							trigger: block,
+							start: 'top 72%',
+							end: 'top 5%',
+							scrub: 2.2,
+							invalidateOnRefresh: true,
+						},
+					});
+
+					detailsTimeline
+						.to('.services_timeline-line', {
+							scaleX: 1,
+							ease: 'power2.out',
+							duration: 0.55,
+						})
+						.to('.services_circle', {
+							autoAlpha: 1,
+							scale: 1,
+							ease: 'back.out(1.8)',
+							stagger: 0.07,
+							duration: 0.32,
+						}, 0.36)
+						.to('.services_item-text', {
+							autoAlpha: 1,
+							y: 0,
+							ease: 'power2.out',
+							stagger: 0.07,
+							duration: 0.42,
+						}, 0.56);
+
+					return () => {
+						timeline.kill();
+						detailsTimeline.kill();
+					};
 				},
 			);
 

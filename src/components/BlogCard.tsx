@@ -1,6 +1,6 @@
 import type { BlogPost } from "@/data/blogs";
 import Image from "next/image";
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 
 export default function BlogCard({ post }: { post: BlogPost }) {
 	return (
@@ -10,7 +10,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
 				<p className="blog_card-meta">{post.type} | {post.date}</p>
 				<h2>{post.title}</h2>
 				<p className="blog_card-description">{post.description}</p>
-				<Link href={`/blog/${post.id}`} className="blog_read-more">Read more</Link>
+				<LocalizedLink href={`/blog/${post.id}`} className="blog_read-more">Read more</LocalizedLink>
 			</div>
 		</article>
 	);

@@ -297,8 +297,8 @@
 	}
 
 	.footer_logo-bg {
-		top: 50%;
-		width: 450px;
+		top: calc(50% + 20px);
+		width: 420px;
 		transform: translate(-50%, -50%);
 	}
 
@@ -753,9 +753,9 @@
 	}
 
 	.footer_logo-bg {
-		top: 50%;
-		width: 450px;
-		opacity: 0.5;
+		top: calc(50% + 16px);
+		width: 410px;
+		opacity: 1;
 		transform: translate(-50%, -50%);
 	}
 
@@ -970,6 +970,10 @@
 		font-size: 13px;
 	}
 
+	#home .home_hero-btn {
+		margin-top: 0;
+	}
+
 	.home_hero-next {
 		margin-top: 0;
 		font-size: 40px;
@@ -1100,6 +1104,7 @@
 	.floating_tg_btn img {
 		width: 40px;
 	}
+
 
 	.review_card-head h3 {
 		font-size: 20px;
@@ -1253,6 +1258,11 @@
 		width: min(100%, 320px);
 		margin: 0;
 	}
+
+	#home .home_hero-btn {
+		width: min(100%, 320px);
+		margin: 0;
+	}
 }
 
 @media (max-width: 760px) {
@@ -1359,6 +1369,16 @@
 
 	.burger_footer {
 		padding-top: 22px;
+	}
+}
+
+@media (max-width: 768px) {
+	.header_lang_switcher {
+		display: none;
+	}
+
+	.burger_languages {
+		display: flex;
 	}
 }
 
@@ -1782,8 +1802,7 @@
 	}
 
 	.footer_text {
-		margin-top: 16px;
-		font-size: 16px;
+		display: none;
 	}
 
 	.footer_nav {
@@ -1814,9 +1833,9 @@
 	}
 
 	.footer_logo-bg {
-		top: 50%;
+		top: calc(50% + 10px);
 		width: 330px;
-		opacity: 0.5;
+		opacity: 1;
 		transform: translate(-50%, -50%);
 	}
 
@@ -1830,6 +1849,7 @@
 	.floating_tg_btn img {
 		width: 34px;
 	}
+
 
 	.services_block {
 		padding-block: 42px 30px;
@@ -1959,6 +1979,12 @@
 		width: 100%;
 		min-height: 60px;
 		margin: 0;
+	}
+
+	#home .home_hero-btn {
+		width: 100%;
+		min-height: 60px;
+		margin: 18px 0 0;
 	}
 
 	.talk_section .numbers_title {

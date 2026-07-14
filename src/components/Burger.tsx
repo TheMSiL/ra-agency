@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 
 import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
@@ -9,12 +8,14 @@ import BurgerSvg from "../../public/svg/BurgerSvg";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useI18n } from "@/context/I18nContext";
+import LangSwitcher from "./LangSwitcher";
 
 const menuItems = [
 	{ label: "Home", href: "/" },
 	{ label: "about us", href: "/about" },
 	{ label: "cases", href: "/cases" },
-	{ label: "contact", href: "/", scrollToFooter: true },
+	{ label: "blog", href: "/blog", },
 	{ label: "google ads", href: "/google-ads" },
 	{ label: "telegram ads", href: "/telegram-ads" },
 	{ label: "meta ads", href: "/meta-ads" },
@@ -23,6 +24,7 @@ const menuItems = [
 export default function Burger() {
 	const [isOpen, setIsOpen] = useState(false);
 	const pathname = usePathname();
+	const { localizedPath } = useI18n();
 
 	useBodyScrollLock(isOpen);
 
@@ -38,22 +40,9 @@ export default function Burger() {
 		setIsOpen(false);
 	}
 
-	function handleContactClick(event: MouseEvent<HTMLAnchorElement>) {
-		event.preventDefault();
-		setIsOpen(false);
-
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				window.scrollTo({
-					top: document.documentElement.scrollHeight,
-					behavior: "smooth",
-				});
-			});
-		});
-	}
-
 	function isItemActive(href: string) {
-		return pathname === href || pathname.startsWith(`${href}/`);
+		const path = localizedPath(href);
+		return pathname === path || pathname.startsWith(`${path}/`);
 	}
 
 	return (
@@ -79,22 +68,25 @@ export default function Burger() {
 				className={`burger_menu ${isOpen ? "active" : ""}`}
 				aria-hidden={!isOpen}
 			>
-				<button
-					type="button"
-					className="burger_close"
-					aria-label="Close menu"
-					onClick={() => setIsOpen(false)}
-				>
-					<BurgerCloseSvg />
-				</button>
+				<div className="burger_topbar">
+					<LangSwitcher variant="burger" onLocaleChange={handleMenuClick} />
+					<button
+						type="button"
+						className="burger_close"
+						aria-label="Close menu"
+						onClick={() => setIsOpen(false)}
+					>
+						<BurgerCloseSvg />
+					</button>
+				</div>
 
 				<nav className="burger_nav" aria-label="Main menu">
 					{menuItems.map((item) => (
 						<Link
 							key={item.label}
-							href={item.href}
-							className={!item.scrollToFooter && isItemActive(item.href) ? "active" : ""}
-							onClick={item.scrollToFooter ? handleContactClick : handleMenuClick}
+							href={localizedPath(item.href)}
+							className={isItemActive(item.href) ? "active" : ""}
+							onClick={handleMenuClick}
 						>
 							{item.label}
 						</Link>
@@ -114,7 +106,7 @@ export default function Burger() {
 						</a>
 					</div>
 
-					<Link href="/" className="burger_brand" onClick={handleMenuClick}>
+					<Link href={localizedPath("/")} className="burger_brand" onClick={handleMenuClick}>
 						RA AGENCY.TECH
 					</Link>
 				</div>

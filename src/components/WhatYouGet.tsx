@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import type { CSSProperties, TouchEvent as ReactTouchEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -29,6 +30,40 @@ const items = [
 const SWIPE_THRESHOLD_PX = 40;
 const PIN_SCROLL_DISTANCE = 1500;
 
+function AnimatedCount({ value }: { value: string }) {
+	const [displayedValue, setDisplayedValue] = useState(value);
+	const currentRef = useRef<HTMLSpanElement | null>(null);
+	const nextRef = useRef<HTMLSpanElement | null>(null);
+
+	useLayoutEffect(() => {
+		if (value === displayedValue || !currentRef.current || !nextRef.current) return;
+
+		const current = currentRef.current;
+		const next = nextRef.current;
+		const timeline = gsap.timeline({
+			onComplete: () => {
+				flushSync(() => setDisplayedValue(value));
+				gsap.set(current, { yPercent: 0, autoAlpha: 1 });
+				gsap.set(next, { yPercent: 100, autoAlpha: 0 });
+			},
+		});
+
+		gsap.set(next, { yPercent: 100, autoAlpha: 1 });
+		timeline
+			.to(current, { yPercent: -100, duration: 0.42, ease: "power3.inOut" }, 0)
+			.to(next, { yPercent: 0, duration: 0.42, ease: "power3.inOut" }, 0);
+
+		return () => timeline.kill();
+	}, [value, displayedValue]);
+
+	return (
+		<span className="what_count font-display" aria-live="polite">
+			<span className="what_count-value" ref={currentRef}>{displayedValue}</span>
+			<span className="what_count-value what_count-value-next" ref={nextRef} aria-hidden="true">{value}</span>
+		</span>
+	);
+}
+
 export default function WhatYouGet() {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [lineStep, setLineStep] = useState(0);
@@ -38,6 +73,7 @@ export default function WhatYouGet() {
 	const trackRef = useRef<HTMLDivElement | null>(null);
 	const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 	const activeIndexRef = useRef(0);
+	const wheelLockedRef = useRef(false);
 
 	const touchStartX = useRef(0);
 	const touchStartY = useRef(0);
@@ -55,35 +91,74 @@ export default function WhatYouGet() {
 				return;
 			}
 
-			const updateActiveIndex = (progress: number) => {
-				const nextIndex = Math.round(progress * (items.length - 1));
+			const setStep = (nextIndex: number, animate = true) => {
+				const boundedIndex = Math.min(items.length - 1, Math.max(0, nextIndex));
+				const distance = track.scrollWidth - slider.clientWidth;
 
-				if (nextIndex === activeIndexRef.current) {
-					return;
-				}
+				gsap.to(track, {
+					x: -(distance * boundedIndex) / (items.length - 1),
+					duration: animate ? 0.72 : 0,
+					ease: "power3.inOut",
+					overwrite: true,
+				});
 
-				activeIndexRef.current = nextIndex;
-				setActiveIndex(nextIndex);
-				setLineStep(nextIndex);
+				if (boundedIndex === activeIndexRef.current) return;
+				activeIndexRef.current = boundedIndex;
+				setActiveIndex(boundedIndex);
+				setLineStep(boundedIndex);
 			};
 
-			const tween = gsap.to(track, {
-				x: () => -(track.scrollWidth - slider.clientWidth),
-				ease: "none",
-				scrollTrigger: {
-					trigger: section,
-					start: "top top",
-					end: `+=${PIN_SCROLL_DISTANCE}`,
-					scrub: 1,
-					pin,
-					anticipatePin: 1,
-					invalidateOnRefresh: true,
-					onUpdate: (self) => updateActiveIndex(self.progress),
-					onRefresh: (self) => updateActiveIndex(self.progress),
-				},
+			const updateActiveIndex = (progress: number, animate = true) => {
+				const nextIndex = Math.round(progress * (items.length - 1));
+				setStep(nextIndex, animate);
+			};
+
+			const trigger = ScrollTrigger.create({
+				trigger: section,
+				start: "top top",
+				end: `+=${PIN_SCROLL_DISTANCE}`,
+				pin,
+				anticipatePin: 1,
+				invalidateOnRefresh: true,
+				onUpdate: (self) => updateActiveIndex(self.progress),
+				onRefresh: (self) => updateActiveIndex(self.progress, false),
 			});
 
-			scrollTriggerRef.current = tween.scrollTrigger ?? null;
+			const onWheel = (event: WheelEvent) => {
+				if (!trigger.isActive || Math.abs(event.deltaY) < 4) return;
+
+				const direction = event.deltaY > 0 ? 1 : -1;
+				const currentIndex = activeIndexRef.current;
+				const atBoundary = direction > 0
+					? currentIndex === items.length - 1
+					: currentIndex === 0;
+
+				if (atBoundary) return;
+
+				event.preventDefault();
+				if (wheelLockedRef.current) return;
+				wheelLockedRef.current = true;
+
+				const nextIndex = currentIndex + direction;
+				setStep(nextIndex);
+				const targetProgress = nextIndex / (items.length - 1);
+				window.scrollTo({
+					top: trigger.start + (trigger.end - trigger.start) * targetProgress,
+					behavior: "smooth",
+				});
+
+				window.setTimeout(() => {
+					wheelLockedRef.current = false;
+				}, 760);
+			};
+
+			window.addEventListener("wheel", onWheel, { passive: false });
+			scrollTriggerRef.current = trigger;
+
+			return () => {
+				window.removeEventListener("wheel", onWheel);
+				trigger.kill();
+			};
 		}, sectionRef);
 
 		return () => {
@@ -100,6 +175,21 @@ export default function WhatYouGet() {
 		}
 
 		const trigger = scrollTriggerRef.current;
+		const track = trackRef.current;
+		const slider = sliderRef.current;
+
+		activeIndexRef.current = boundedIndex;
+		setActiveIndex(boundedIndex);
+		setLineStep(boundedIndex);
+
+		if (track && slider) {
+			gsap.to(track, {
+				x: -((track.scrollWidth - slider.clientWidth) * boundedIndex) / (items.length - 1),
+				duration: 0.72,
+				ease: "power3.inOut",
+				overwrite: true,
+			});
+		}
 
 		if (trigger) {
 			const targetProgress = boundedIndex / (items.length - 1);
@@ -111,10 +201,6 @@ export default function WhatYouGet() {
 			});
 			return;
 		}
-
-		activeIndexRef.current = boundedIndex;
-		setActiveIndex(boundedIndex);
-		setLineStep(boundedIndex);
 	};
 
 	const handlePaginationClick = (nextIndex: number) => {
@@ -199,9 +285,7 @@ export default function WhatYouGet() {
 						</div>
 					</div>
 					<div className="what_footer" aria-label="What you get progress">
-						<span className="what_count font-display" key={items[activeIndex].kicker}>
-							{items[activeIndex].kicker}
-						</span>
+						<AnimatedCount value={items[activeIndex].kicker} />
 						<div className="what_dots">
 							{items.map((item, index) => (
 								<button

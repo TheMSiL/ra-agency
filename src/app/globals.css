@@ -495,6 +495,7 @@ a {
 		padding: 28px 72px;
 	}
 
+
 	.home_hero-next-wrap {
 		position: relative;
 		z-index: 90;
@@ -627,6 +628,8 @@ a {
 		top: 6px;
 		height: 1px;
 		background: rgba(250, 138, 22, 0.5);
+		transform-origin: center;
+		will-change: transform;
 	}
 
 	.services_items {
@@ -647,6 +650,7 @@ a {
 		max-width: 360px;
 		font-size: clamp(18px, 1.3vw, 20px);
 		line-height: 1.28;
+		will-change: transform, opacity;
 	}
 
 	.services_btn {
@@ -690,6 +694,44 @@ a {
 		background: rgba(250, 140, 22, 0.692);
 		border: 1px solid rgba(250, 138, 22, 0.8);
 		box-shadow: 0 0 30.3px rgba(250, 138, 22, 0.3);
+		will-change: transform, opacity;
+	}
+
+	.burger_topbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+	}
+
+	.burger_languages {
+		display: none;
+		align-items: center;
+		overflow: hidden;
+		border: 1px solid rgba(250, 138, 22, 0.75);
+		border-radius: 0 12px;
+		background: rgba(0, 0, 0, 0.42);
+		box-shadow: 0 0 34px rgba(250, 138, 22, 0.18) inset;
+	}
+
+	.burger_languages button {
+		min-width: 50px;
+		padding: 9px 13px;
+		color: rgba(255, 247, 237, 0.66);
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 12px;
+		line-height: 1;
+		transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+	}
+
+	.burger_languages button + button {
+		border-left: 1px solid rgba(250, 138, 22, 0.35);
+	}
+
+	.burger_languages button.active {
+		color: #090400;
+		background: #fa8a16;
+		box-shadow: 0 0 22px rgba(250, 138, 22, 0.42);
 	}
 
 	.numbers {
@@ -833,6 +875,13 @@ a {
 		margin-top: 42px;
 		padding-block: 28px;
 		overflow: hidden;
+		cursor: grab;
+		touch-action: pan-y;
+		user-select: none;
+	}
+
+	.trust_marquee.is-dragging {
+		cursor: grabbing;
 	}
 
 	.trust_marquee::before,
@@ -864,7 +913,6 @@ a {
 		width: max-content;
 		align-items: center;
 		gap: clamp(36px, 5vw, 92px);
-		animation: trustMarquee 28s linear infinite;
 		will-change: transform;
 	}
 
@@ -882,6 +930,8 @@ a {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
+		user-select: none;
+		-webkit-user-drag: none;
 	}
 
 	.underFooter {
@@ -1193,10 +1243,33 @@ a {
 			box-shadow 0.3s ease;
 	}
 
+	.floating_tg_morph {
+		right: auto;
+		bottom: auto;
+		z-index: 2500;
+		padding: 0;
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 16px;
+		line-height: 1.4;
+		text-transform: uppercase;
+		white-space: nowrap;
+		opacity: 0;
+		visibility: hidden;
+		will-change: left, top, width, height, border-radius;
+	}
+
+	.floating_tg_label,
+	.floating_tg_icon {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		will-change: opacity, transform;
+	}
+
 	.floating_tg_btn img {
 		width: 52px;
 		height: auto;
-		transform: translate(-2px, 2px);
 	}
 
 	.floating_tg_btn:hover {
@@ -1387,6 +1460,15 @@ a {
 		font-size: clamp(72px, calc((min(100vw, 1920px) - 96px) * 0.118), 226px);
 		line-height: 1.05;
 		margin-bottom: 10px;
+		background: linear-gradient(180deg, #ffffff 0%, #f5e8dc 46%, #f0a044 100%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.footer_title::after {
+		display: none;
 	}
 
 	.footer_layout {
@@ -1413,12 +1495,12 @@ a {
 
 	.footer_logo-bg {
 		position: absolute;
-		top: -90px;
+		top: -128px;
 		left: 50%;
 		z-index: 10;
-		width: 450px;
+		width: 430px;
 		height: auto;
-		opacity: 0.5;
+		opacity: 1;
 		pointer-events: none;
 		transform: translateX(-50%);
 	}
@@ -1584,12 +1666,26 @@ a {
 	}
 
 	.what_count {
+		position: relative;
 		display: block;
+		width: 2.2ch;
+		height: 1em;
+		overflow: hidden;
 		color: #fff;
 		font-size: clamp(44px, 4.2vw, 64px);
 		line-height: 1;
 		text-align: center;
-		animation: whatCountIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	.what_count-value {
+		position: absolute;
+		inset: 0;
+		display: block;
+	}
+
+	.what_count-value-next {
+		opacity: 0;
+		visibility: hidden;
 	}
 
 	.what_footer {
@@ -2451,6 +2547,10 @@ a {
 	.blog_page-content > * {
 		position: relative;
 		z-index: 1;
+	}
+
+	.blog_page-content > .header {
+		z-index: 3000;
 	}
 
 	.blog_top {

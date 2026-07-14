@@ -24,6 +24,7 @@ type I18nContextValue = {
 	currentLocale: (typeof locales)[number];
 	locales: typeof locales;
 	t: (key: TranslationKey) => string;
+	localizedPath: (path: string) => string;
 };
 
 const storageKey = "ra-agency-locale";
@@ -61,11 +62,17 @@ function subscribeToLocaleChange(callback: () => void) {
 	};
 }
 
-export function I18nProvider({ children }: { children: React.ReactNode }) {
+export function I18nProvider({
+	children,
+	initialLocale = defaultLocale,
+}: {
+	children: React.ReactNode;
+	initialLocale?: Locale;
+}) {
 	const locale = useSyncExternalStore<Locale>(
 		subscribeToLocaleChange,
 		getStoredLocale,
-		() => defaultLocale
+		() => initialLocale
 	);
 
 	useEffect(() => {
@@ -84,6 +91,10 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 		(key: TranslationKey) => dictionaries[locale][key] ?? dictionaries.en[key],
 		[locale]
 	);
+	const localizedPath = useCallback(
+		(path: string) => path === "/" ? `/${locale}` : `/${locale}${path.startsWith("/") ? path : `/${path}`}`,
+		[locale]
+	);
 
 	const value = useMemo(
 		() => ({
@@ -92,8 +103,9 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 			currentLocale,
 			locales,
 			t,
+			localizedPath,
 		}),
-		[currentLocale, locale, setLocale, t]
+		[currentLocale, locale, localizedPath, setLocale, t]
 	);
 
 	return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

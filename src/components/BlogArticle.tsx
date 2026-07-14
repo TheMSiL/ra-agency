@@ -1,7 +1,7 @@
 import type { BlogPost } from "@/data/blogs";
 import { getRecommendedPosts } from "@/data/blogs";
 import Image from "next/image";
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 import Footer from "./Footer";
 import Header from "./Header";
 import Talk from "./Talk";
@@ -31,9 +31,9 @@ export default function BlogArticle({ post }: { post: BlogPost }) {
 						<section className="blog_recommended">
 							<div className="blog_recommended-grid">
 								{recommendations.map((item) => (
-									<Link key={item.id} href={`/blog/${item.id}`} className="blog_recommended-link" aria-label={item.title}>
+									<LocalizedLink key={item.id} href={`/blog/${item.id}`} className="blog_recommended-link" aria-label={item.title}>
 										<Image src={item.image} alt={item.title} width={800} height={500} />
-									</Link>
+									</LocalizedLink>
 								))}
 							</div>
 						</section>

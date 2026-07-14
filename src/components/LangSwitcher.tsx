@@ -1,18 +1,48 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { useI18n } from "@/context/I18nContext";
 import type { Locale } from "@/i18n/config";
 import ArrowDownSwitcherSvg from "../../public/svg/ArrowDownSwitcherSvg";
 
 
-export default function LangSwitcher() {
+interface LangSwitcherProps {
+	variant?: "header" | "burger";
+	onLocaleChange?: () => void;
+}
+
+export default function LangSwitcher({ variant = "header", onLocaleChange }: LangSwitcherProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const { currentLocale, locales, setLocale, t } = useI18n();
+	const pathname = usePathname();
+	const router = useRouter();
 
 	function handleLocaleChange(locale: Locale) {
 		setLocale(locale);
 		setIsOpen(false);
+		onLocaleChange?.();
+		const segments = pathname.split("/");
+		segments[1] = locale;
+		router.push(segments.join("/") || `/${locale}`);
+	}
+
+	if (variant === "burger") {
+		return (
+			<div className="burger_languages" aria-label={t("language.switcherLabel")}>
+				{locales.map((locale) => (
+					<button
+						type="button"
+						key={locale.code}
+						className={currentLocale.code === locale.code ? "active" : ""}
+						aria-pressed={currentLocale.code === locale.code}
+						onClick={() => handleLocaleChange(locale.code)}
+					>
+						{locale.label}
+					</button>
+				))}
+			</div>
+		);
 	}
 
 	return (

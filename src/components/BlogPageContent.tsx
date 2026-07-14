@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 import { blogPosts } from "@/data/blogs";
 import BlogCard from "./BlogCard";
 import { useRef, useState } from "react";
@@ -31,9 +31,9 @@ export default function BlogPageContent() {
 					<h2 className="mb-3 2xl:text-4xl text-2xl sm:text-3xl font-display">{featuredPost.title}</h2>
 					<p className="opacity-70 text-base 2xl:text-xl">{featuredPost.description}</p>
 					<p className="my-3 font-display opacity-70">{featuredPost.date}</p>
-					<Link href={`/blog/${featuredPost.id}`} className="blog_read-more">
+					<LocalizedLink href={`/blog/${featuredPost.id}`} className="blog_read-more">
 						Read more
-					</Link>
+					</LocalizedLink>
 				</div>
 				<Image className="blog_top-image" src={featuredPost.image} alt="" width={800} height={533} />
 			</div>

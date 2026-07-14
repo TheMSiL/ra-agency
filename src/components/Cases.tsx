@@ -1,4 +1,4 @@
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 import { casesItems } from "@/data/cases";
 import CasesCard from "./CasesCard";
 
@@ -48,10 +48,10 @@ export default function Cases() {
 							))
 						}
 					</div>
-					<Link href="/cases" className='cases_block cases_other'>
+					<LocalizedLink href="/cases" className='cases_block cases_other'>
 						<h3>70+</h3>
 						<p>View other projects</p>
-					</Link>
+					</LocalizedLink>
 				</div>
 			</div>
 		</section>

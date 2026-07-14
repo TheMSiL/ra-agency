@@ -1,6 +1,6 @@
 import type { CasesCardProps } from "@/data/cases";
 import Image from "next/image";
-import Link from "next/link";
+import LocalizedLink from "./LocalizedLink";
 
 export default function CasesCard({ company_name, company_logo, case_title, problem, fix, work, triumph, type, id }: CasesCardProps) {
 	return (
@@ -37,9 +37,9 @@ export default function CasesCard({ company_name, company_logo, case_title, prob
 						<p className="cases_card-info--item-desc">{triumph}</p>
 					</div>
 				</div>
-				<Link href={`/cases/${id}`} className="cases_card-info--item cases_card-arrow cases_block" aria-label={`Read case: ${case_title}`}>
+				<LocalizedLink href={`/cases/${id}`} className="cases_card-info--item cases_card-arrow cases_block" aria-label={`Read case: ${case_title}`}>
 					<Image src='/cases_card-arrow.png' alt="" width={31} height={45} />
-				</Link>
+				</LocalizedLink>
 			</div>
 		</div>
 	);
