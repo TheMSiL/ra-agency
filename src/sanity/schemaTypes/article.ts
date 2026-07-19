@@ -53,6 +53,8 @@ export const article = defineType({
 			{ title: "Published", value: "published" }, { title: "Unpublished", value: "unpublished" },
 		] }, validation: (rule) => rule.required() }),
 		defineField({ name: "publishedAt", title: "Publication date", type: "datetime", group: "publication" }),
+		defineField({ name: "readTime", title: "Reading time (minutes)", type: "number", group: "publication", validation: (rule) => rule.required().integer().min(1) }),
+		defineField({ name: "views", title: "Views", type: "number", group: "publication", initialValue: 0, validation: (rule) => rule.required().integer().min(0) }),
 		defineField({ name: "isFeatured", title: "Featured article", type: "boolean", group: "publication", initialValue: false }),
 		defineField({ name: "metaTitle", title: "Meta title", type: "string", group: "seo", validation: (rule) => rule.max(60) }),
 		defineField({ name: "metaDescription", title: "Meta description", type: "text", rows: 3, group: "seo", validation: (rule) => rule.max(160) }),

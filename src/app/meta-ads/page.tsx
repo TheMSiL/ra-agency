@@ -13,7 +13,7 @@ export default function TgAdsPage() {
 			<Hero type="meta" />
 			<WhatYouGet />
 			<WhatWeDo />
-			<div className="underFooter">
+			<div className="section_background">
 				<Cases />
 				<Reviews />
 				<Talk />

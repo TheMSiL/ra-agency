@@ -2,9 +2,10 @@
 
 import { gsap } from "gsap";
 import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import Button from "./Button";
+import ContactModal from "./ContactModal";
 import Header from "./Header";
 
 type HeroType = "home" | "tg" | "meta" | "google";
@@ -29,6 +30,7 @@ const serviceContent: Record<Exclude<HeroType, "home">, { title: string; text: s
 
 export default function Hero({ type = "home" }: { type?: HeroType }) {
 	const heroRef = useRef<HTMLElement>(null);
+	const [isContactOpen, setIsContactOpen] = useState(false);
 	const isHome = type === "home";
 	const content = isHome ? null : serviceContent[type];
 
@@ -58,7 +60,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 	return (
 		<section
 			id={isHome ? "home" : "tg_home"}
-			className={`home_hero${isHome ? "" : ` tg_hero service_hero--${type}`}`}
+			className={`home_hero${isHome ? " section_background" : ` tg_hero service_hero--${type}`}`}
 			ref={heroRef}
 			style={content ? { backgroundImage: `url(${content.background})` } : undefined}
 		>
@@ -67,22 +69,26 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				<div className="content_container home_hero-container">
 					{isHome && <h1 className="home_hero-title" data-title="RA AGENCY">RA AGENCY</h1>}
 					{isHome && (
-						<Image src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image hero_reveal" />
+						<>
+							<span className="home_hero-planet-glow" aria-hidden="true" />
+							<Image src="/planet.png" alt="" width={1165} height={783} loading="eager" className="home_hero-planet" aria-hidden="true" />
+							<Image src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image hero_reveal" />
+						</>
 					)}
 					{isHome ? (
 						<div className="home_hero-content">
-							<div className="home_hero-copy">
+							<div className="mb-5">
 								<h2 className="home_hero-heading hero_reveal">Performance marketing</h2>
 								<p className="home_hero-text hero_reveal">We don’t buy clicks. We take minds.</p>
 							</div>
-							<Button title="Message us on Telegram" extra="home_hero-btn hero_reveal" />
+							<Button title="Message us on Telegram" extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
 						</div>
 					) : (
 						<div className="service_hero-content">
 							<h1 className="home_hero-title sub_hero-title hero_reveal" data-title={content?.title}>{content?.title}</h1>
 							<div className="service_hero-bottom">
 								<p className="home_hero-text opacity-80 hero_reveal">{content?.text}</p>
-								<Button title="Message us on Telegram" extra="home_hero-btn hero_reveal" />
+								<Button title="Message us on Telegram" extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
 							</div>
 						</div>
 					)}
@@ -95,6 +101,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 					</div>
 				</div>
 			)}
+			<ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 		</section>
 	);
 }

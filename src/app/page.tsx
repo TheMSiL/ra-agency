@@ -1,10 +1,10 @@
-import ServicesBlock from "@/components/ServicesBlock";
 import Cases from "@/components/Cases";
-import Footer from "@/components/Footer";
 import FloatingTelegramButton from "@/components/FloatingTelegramButton";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Numbers from "@/components/Numbers";
 import Reviews from "@/components/Reviews";
+import ServicesBlock from "@/components/ServicesBlock";
 import Talk from "@/components/Talk";
 import Trust from "@/components/Trust";
 
@@ -40,7 +40,7 @@ const googleService = {
     'Conversion & ROI optimization',
     'Scaling without efficiency loss'
   ],
-  icon: '/google.png'
+  icon: '/googleAds.png'
 }
 
 export default function page() {
@@ -50,8 +50,8 @@ export default function page() {
       <ServicesBlock title={telegramService.title} subtitle={telegramService.subtitle} items={telegramService.items} icon={telegramService.icon} />
       <ServicesBlock title={metaService.title} subtitle={metaService.subtitle} items={metaService.items} icon={metaService.icon} />
       <ServicesBlock title={googleService.title} subtitle={googleService.subtitle} items={googleService.items} icon={googleService.icon} />
-      <Numbers />
-      <div className="underFooter">
+      <div className="section_background">
+        <Numbers />
         <Cases />
         <Trust />
         <Reviews />

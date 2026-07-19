@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
-import BurgerSvg from "../../public/svg/BurgerSvg";
+import { useI18n } from "@/context/I18nContext";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useI18n } from "@/context/I18nContext";
+import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
+import BurgerSvg from "../../public/svg/BurgerSvg";
 import LangSwitcher from "./LangSwitcher";
 
 const menuItems = [
@@ -42,6 +42,11 @@ export default function Burger() {
 
 	function isItemActive(href: string) {
 		const path = localizedPath(href);
+
+		if (href === "/") {
+			return pathname === path;
+		}
+
 		return pathname === path || pathname.startsWith(`${path}/`);
 	}
 
@@ -62,10 +67,9 @@ export default function Burger() {
 				className={`burger_overlay ${isOpen ? "active" : ""}`}
 				onClick={() => setIsOpen(false)}
 			/>
-
 			<aside
 				id="burger-menu"
-				className={`burger_menu ${isOpen ? "active" : ""}`}
+				className={`burger_menu section_background  ${isOpen ? "active" : ""}`}
 				aria-hidden={!isOpen}
 			>
 				<div className="burger_topbar">

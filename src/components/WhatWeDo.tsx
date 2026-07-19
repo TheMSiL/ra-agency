@@ -328,7 +328,7 @@ export default function WhatWeDo() {
 	}, []);
 
 	return (
-		<div className="what_we_do" ref={rootRef}>
+		<div className="what_we_do section_background" ref={rootRef}>
 			<div className="content_container">
 				<h2 className="services_title numbers_gradient-text !text-start !capitalize">What we do?</h2>
 				<div className="what_we_do-scene" ref={sceneRef}>

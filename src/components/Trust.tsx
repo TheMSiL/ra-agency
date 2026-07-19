@@ -5,16 +5,16 @@ import Image from 'next/image'
 import { useLayoutEffect, useRef } from 'react'
 
 const icons = [
-	'/trust/1.svg',
-	'/trust/2.svg',
-	'/trust/3.svg',
-	'/trust/4.svg',
-	'/trust/5.svg',
-	'/trust/6.svg',
-	'/trust/7.png',
-	'/trust/8.svg',
-	'/trust/9.svg',
-	'/trust/10.svg',
+	{ title: 'mira', icon: '/trust/1.svg' },
+	{ title: 'title', icon: '/trust/2.svg' },
+	{ title: 'Tribute', icon: '/trust/3.svg' },
+	{ title: 'G-Gate Conference (GGC)', icon: '/trust/4.svg' },
+	{ title: 'Spekter', icon: '/trust/5.svg' },
+	{ title: 'Gift fest telegram', icon: '/trust/6.svg' },
+	{ title: 'OPen Sea', icon: '/trust/7.svg' },
+	{ title: 'goat gaming', icon: '/trust/8.svg' },
+	{ title: 'Pudcy Party', icon: '/trust/9.svg' },
+	{ title: 'Boinkers', icon: '/trust/10.svg' },
 ]
 
 const marqueeIcons = [...icons, ...icons]
@@ -98,15 +98,16 @@ export default function Trust() {
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title uppercase">We’re trusted by</h2>
 			</div>
-				<div className="trust_marquee" ref={marqueeRef} aria-label="Trusted company logos">
-					<div className="trust_track" ref={trackRef}>
-						{marqueeIcons.map((icon, index) => (
-							<div className="trust_logo" key={`${icon}-${index}`} aria-hidden={index >= icons.length}>
-								<Image src={icon} alt="" width={128} height={128} />
-							</div>
-						))}
-					</div>
+			<div className="trust_marquee" ref={marqueeRef} aria-label="Trusted company logos">
+				<div className="trust_track" ref={trackRef}>
+					{marqueeIcons.map((icon, index) => (
+						<div className="trust_logo" key={`${icon}-${index}`} aria-hidden={index >= icons.length}>
+							<Image src={icon.icon} alt="" width={128} height={128} />
+							<p className='text-center'>{icon.title}</p>
+						</div>
+					))}
 				</div>
+			</div>
 		</section>
 	);
 }

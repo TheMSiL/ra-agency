@@ -36,7 +36,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
 	return (
 		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={onClose}>
-			<form className="contact_form" onClick={(event) => event.stopPropagation()} onSubmit={(event) => event.preventDefault()}>
+			<form className="contact_form section_background" onClick={(event) => event.stopPropagation()} onSubmit={(event) => event.preventDefault()}>
 				<button className="contact_form-close" type="button" aria-label="Close form" onClick={onClose}>
 					x
 				</button>

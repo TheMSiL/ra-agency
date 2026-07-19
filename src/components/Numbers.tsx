@@ -88,36 +88,39 @@ export default function Numbers() {
 
 	return (
 		<section className="numbers" ref={rootRef}>
-			<div className="numbers_top">
-				<div className="numbers_intro">
-					<h2 className="numbers_title">
-						Numbers We Stand
-						<span className="numbers_gradient-text block w-fit">Behind</span>
-					</h2>
-					<p className="numbers_intro-text">
-						Every number reflects campaigns that deliver real results.
-					</p>
-				</div>
+			<div className="content_container">
+				<div className="numbers_top">
+					<div className="numbers_intro">
+						<h2 className="numbers_title">
+							Numbers We Stand
+							<span className="numbers_gradient-text block w-fit">Behind</span>
+						</h2>
+						<p className="numbers_intro-text">
+							Every number reflects campaigns that deliver real results.
+						</p>
+					</div>
 
-				<article className="numbers_card numbers_card-featured">
-					<h3 className="numbers_card-title numbers_gradient-text">{featuredItem.subtitle}</h3>
-					<p className="numbers_card-text">{featuredItem.description}</p>
-					<strong className="numbers_value numbers_gradient-text" ref={(node) => { valueRefs.current[0] = node; }}>
-						{featuredItem.title}
-					</strong>
-				</article>
-			</div>
-
-			<div className="numbers_grid">
-				{statItems.map((item, index) => (
-					<article className="numbers_card" key={item.subtitle}>
-						<h3 className="numbers_card-title numbers_gradient-text">{item.subtitle}</h3>
-						<p className="numbers_card-text">{item.description}</p>
-						<strong className="numbers_value numbers_gradient-text" ref={(node) => { valueRefs.current[index + 1] = node; }}>
-							{item.title}
+					<article className="numbers_card numbers_card-featured">
+						<h3 className="numbers_card-title numbers_gradient-text">{featuredItem.subtitle}</h3>
+						<p className="numbers_card-text">{featuredItem.description}</p>
+						<strong className="numbers_value numbers_gradient-text" ref={(node) => { valueRefs.current[0] = node; }}>
+							{featuredItem.title}
 						</strong>
 					</article>
-				))}
+				</div>
+
+				<div className="numbers_grid">
+					{statItems.map((item, index) => (
+						<article className="numbers_card" key={item.subtitle}>
+							<h3 className="numbers_card-title numbers_gradient-text">{item.subtitle}</h3>
+							<p className="numbers_card-text">{item.description}</p>
+							<strong className="numbers_value numbers_gradient-text" ref={(node) => { valueRefs.current[index + 1] = node; }}>
+								{item.title}
+							</strong>
+						</article>
+					))}
+				</div>
+
 			</div>
 		</section>
 	)

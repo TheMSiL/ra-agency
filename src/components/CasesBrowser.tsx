@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
 import type { CaseType } from "@/data/cases";
 import { casesItems } from "@/data/cases";
+import { useMemo, useRef, useState } from "react";
 import CasesCard from "./CasesCard";
 
 const CASES_PER_PAGE = 9;
@@ -59,6 +59,20 @@ function FilterIcon() {
 					strokeLinejoin="round"
 				/>
 			</g>
+		</svg>
+	);
+}
+
+function PaginationArrow({ direction }: { direction: "prev" | "next" }) {
+	return (
+		<svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+			<path
+				d={direction === "prev" ? "M14.5 5L7.5 12L14.5 19" : "M9.5 5L16.5 12L9.5 19"}
+				stroke="currentColor"
+				strokeWidth="1.8"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
 		</svg>
 	);
 }
@@ -177,23 +191,44 @@ export default function CasesBrowser() {
 					<div className="cases_empty cases_block">No cases found</div>
 				)}
 
-				<div className="cases_pagination" aria-label="Cases pagination">
-					{Array.from({ length: pageCount }, (_, index) => {
-						const pageNumber = index + 1;
+				<div className="cases_pagination cases_catalog-pagination" aria-label="Cases pagination">
+					<button
+						type="button"
+						className="cases_pagination-arrow cases_pagination-arrow--prev"
+						aria-label="Previous page"
+						disabled={safePage === 1}
+						onClick={() => goToPage(safePage - 1)}
+					>
+						<PaginationArrow direction="prev" />
+					</button>
 
-						return (
-							<button
-								key={pageNumber}
-								type="button"
-								className={`cases_pagination-dot ${
-									pageNumber === safePage ? "active" : ""
-								}`}
-								aria-label={`Page ${pageNumber}`}
-								aria-current={pageNumber === safePage ? "page" : undefined}
-								onClick={() => goToPage(pageNumber)}
-							/>
-						);
-					})}
+					<div className="cases_pagination-dots">
+						{Array.from({ length: pageCount }, (_, index) => {
+							const pageNumber = index + 1;
+
+							return (
+								<button
+									key={pageNumber}
+									type="button"
+									className={`cases_pagination-dot ${pageNumber === safePage ? "active" : ""
+										}`}
+									aria-label={`Page ${pageNumber}`}
+									aria-current={pageNumber === safePage ? "page" : undefined}
+									onClick={() => goToPage(pageNumber)}
+								/>
+							);
+						})}
+					</div>
+
+					<button
+						type="button"
+						className="cases_pagination-arrow cases_pagination-arrow--next"
+						aria-label="Next page"
+						disabled={safePage === pageCount}
+						onClick={() => goToPage(safePage + 1)}
+					>
+						<PaginationArrow direction="next" />
+					</button>
 				</div>
 			</div>
 		</main>

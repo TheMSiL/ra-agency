@@ -73,10 +73,10 @@ export default function ServicesBlock({ title, subtitle, items, icon }: Services
 					});
 
 					timeline.fromTo(block, { height: collapsedHeight }, {
-							height: getExpandedHeight,
-							ease: 'power2.inOut',
-							duration: 1,
-						});
+						height: getExpandedHeight,
+						ease: 'power2.inOut',
+						duration: 1,
+					});
 
 					const detailsTimeline = gsap.timeline({
 						scrollTrigger: {
@@ -123,7 +123,7 @@ export default function ServicesBlock({ title, subtitle, items, icon }: Services
 	}, []);
 
 	return (
-		<section className="services_block" ref={blockRef}>
+		<section className="services_block section_background " ref={blockRef}>
 			<div className="content_container">
 				<div className="services_inner">
 					<div className="services_header">

@@ -84,8 +84,8 @@ export default function TermsOfServicePage() {
 						</section>
 					</div>
 				</main>
+				<Talk />
 			</section>
-			<Talk />
 			<Footer />
 		</div>
 	);

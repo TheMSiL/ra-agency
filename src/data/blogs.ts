@@ -9,6 +9,8 @@ export interface BlogPost {
 	id: string;
 	type: BlogType;
 	date: string;
+	readTime: number;
+	views: number;
 	title: string;
 	description: string;
 	image: string;
@@ -21,6 +23,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'telegram-ads',
 		type: 'Telegram Ads',
 		date: '09.07.2026',
+		readTime: 6,
+		views: 1337,
 		title: 'How to start your channel and gain first subscribers?',
 		description:
 			'Three practical ways to attract your first subscribers and build a strong foundation for Telegram channel growth.',
@@ -58,6 +62,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'meta-ads-launch',
 		type: 'Meta Ads',
 		date: '10.07.2026',
+		readTime: 5,
+		views: 982,
 		title: 'Quick launch of advertising campaigns',
 		description:
 			'A practical framework for launching Meta campaigns quickly without sacrificing clean tracking and useful tests.',
@@ -89,6 +95,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'google-ads-launch',
 		type: 'Google Ads',
 		date: '10.07.2026',
+		readTime: 7,
+		views: 1204,
 		title: 'Quick launch of advertising campaigns',
 		description:
 			'How to capture high-intent search demand and launch Google Ads with a structure that is ready to optimize.',
@@ -120,6 +128,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'telegram-ads-optimization',
 		type: 'Telegram Ads',
 		date: '11.07.2026',
+		readTime: 6,
+		views: 864,
 		title: 'How to optimize Telegram Ads after launch',
 		description:
 			'A practical guide to reading early campaign signals, improving targeting, and scaling Telegram Ads without wasting budget.',
@@ -157,6 +167,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'meta-ads-launch1',
 		type: 'Meta Ads',
 		date: '10.07.2026',
+		readTime: 5,
+		views: 756,
 		title: 'Quick launch of advertising campaigns',
 		description:
 			'A practical framework for launching Meta campaigns quickly without sacrificing clean tracking and useful tests.',
@@ -188,6 +200,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'google-ads-launch1',
 		type: 'Google Ads',
 		date: '10.07.2026',
+		readTime: 7,
+		views: 1098,
 		title: 'Quick launch of advertising campaigns',
 		description:
 			'How to capture high-intent search demand and launch Google Ads with a structure that is ready to optimize.',
@@ -219,6 +233,8 @@ export const blogPosts: BlogPost[] = [
 		id: 'telegram-ads-optimization1',
 		type: 'Telegram Ads',
 		date: '11.07.2026',
+		readTime: 6,
+		views: 643,
 		title: 'How to optimize Telegram Ads after launch',
 		description:
 			'A practical guide to reading early campaign signals, improving targeting, and scaling Telegram Ads without wasting budget.',

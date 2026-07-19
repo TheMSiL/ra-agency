@@ -1,7 +1,8 @@
+import type { CaseResult, CasesCardProps, CaseStep } from "@/data/cases";
+import Background from "./Background";
 import Footer from "./Footer";
 import Header from "./Header";
 import Talk from "./Talk";
-import type { CaseResult, CasesCardProps, CaseStep } from "@/data/cases";
 
 function getFallbackSteps(item: CasesCardProps): CaseStep[] {
 	return [
@@ -27,35 +28,37 @@ export default function CaseDetails({ caseItem }: { caseItem: CasesCardProps }) 
 
 	return (
 		<div className="wrapper">
-			<div className="case_page">
-				<Header />
-				<main className="case_page-main content_container">
-				<h1 className="case_page-title font-display numbers_gradient-text">{caseItem.case_title}</h1>
-				<section className="case_timeline" aria-label={`${caseItem.steps ?? steps.length} project steps`}>
-					{steps.map((step, index) => (
-						<article className="case_step" key={`${step.title}-${index}`}>
-							<div className="case_step-card">
-								<h2 className="font-display">{step.title}</h2>
-								<p>{step.description}</p>
+			<Background>
+				<div className="case_page">
+					<Header />
+					<main className="case_page-main content_container">
+						<h1 className="case_page-title font-display numbers_gradient-text">{caseItem.case_title}</h1>
+						<section className="case_timeline" aria-label={`${caseItem.steps ?? steps.length} project steps`}>
+							{steps.map((step, index) => (
+								<article className="case_step" key={`${step.title}-${index}`}>
+									<div className="case_step-card">
+										<h2 className="font-display">{step.title}</h2>
+										<p>{step.description}</p>
+									</div>
+									<span className="case_step-number" aria-hidden="true">[{index + 1}]</span>
+								</article>
+							))}
+						</section>
+						<section className="case_results">
+							<h2 className="font-display">Results</h2>
+							<div className="case_results-grid">
+								{results.map((result) => (
+									<article className="case_result-card" key={result.title}>
+										<h3 className="numbers_gradient-text">{result.title}</h3>
+										<p className="font-display numbers_gradient-text">{result.value}</p>
+									</article>
+								))}
 							</div>
-							<span className="case_step-number" aria-hidden="true">[{index + 1}]</span>
-						</article>
-					))}
-				</section>
-				<section className="case_results">
-					<h2 className="font-display">Results</h2>
-					<div className="case_results-grid">
-						{results.map((result) => (
-							<article className="case_result-card" key={result.title}>
-								<h3 className="numbers_gradient-text">{result.title}</h3>
-								<p className="font-display numbers_gradient-text">{result.value}</p>
-							</article>
-						))}
-					</div>
-				</section>
-				</main>
-			</div>
-			<Talk />
+						</section>
+					</main>
+					<Talk />
+				</div>
+			</Background>
 			<Footer />
 		</div>
 	);

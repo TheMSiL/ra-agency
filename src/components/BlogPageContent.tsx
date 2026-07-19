@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import LocalizedLink from "./LocalizedLink";
 import { blogPosts } from "@/data/blogs";
-import BlogCard from "./BlogCard";
+import Image from "next/image";
 import { useRef, useState } from "react";
+import BlogCard from "./BlogCard";
+import LocalizedLink from "./LocalizedLink";
+import BlogPostMeta from "./BlogPostMeta";
 
 const POSTS_PER_PAGE = 6;
 
@@ -30,7 +31,7 @@ export default function BlogPageContent() {
 					<h3 className="mb-4 2xl:text-3xl text-xl sm:text-2xl font-display">{featuredPost.type}</h3>
 					<h2 className="mb-3 2xl:text-4xl text-2xl sm:text-3xl font-display">{featuredPost.title}</h2>
 					<p className="opacity-70 text-base 2xl:text-xl">{featuredPost.description}</p>
-					<p className="my-3 font-display opacity-70">{featuredPost.date}</p>
+					<BlogPostMeta date={featuredPost.date} readTime={featuredPost.readTime} views={featuredPost.views} className="my-3" />
 					<LocalizedLink href={`/blog/${featuredPost.id}`} className="blog_read-more">
 						Read more
 					</LocalizedLink>
@@ -40,7 +41,7 @@ export default function BlogPageContent() {
 			<div className="blog_bottom flex xl:flex-row flex-col items-stretch justify-between gap-5">
 				<form className="blog_subscribe">
 					<h4 className="2xl:text-3xl text-2xl font-display mb-5">Subscribe to our newsletter for regular quality insights</h4>
-					<div className="flex items-stretch w-full">
+					<div className="flex sm:flex-row flex-col gap-5 sm:gap-10 items-stretch w-full">
 						<input className="blog_subscribe-input blog_subscribe-input--desktop" type="email" placeholder="perfectmail@raagency.hello" />
 						<input className="blog_subscribe-input blog_subscribe-input--mobile" type="email" placeholder="Email" />
 						<button className="blog_subscribe-btn" type="submit">Subscribe</button>

@@ -53,7 +53,9 @@ function AnimatedCount({ value }: { value: string }) {
 			.to(current, { yPercent: -100, duration: 0.42, ease: "power3.inOut" }, 0)
 			.to(next, { yPercent: 0, duration: 0.42, ease: "power3.inOut" }, 0);
 
-		return () => timeline.kill();
+		return () => {
+			timeline.kill();
+		};
 	}, [value, displayedValue]);
 
 	return (
@@ -252,7 +254,7 @@ export default function WhatYouGet() {
 
 	return (
 		<section className="what_you_get" ref={sectionRef}>
-			<div className="what_pin" ref={pinRef}>
+			<div className="what_pin section_background" ref={pinRef}>
 				<div className="content_container what_container">
 					<h2 className="services_title numbers_gradient-text !capitalize">What you get ?</h2>
 

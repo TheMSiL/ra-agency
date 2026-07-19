@@ -8,7 +8,7 @@ export default function AboutPage() {
 	return (
 		<div className="wrapper">
 			<AboutContent />
-			<div className="underFooter">
+			<div className="section_background">
 				<Cases />
 				<Reviews />
 				<Talk />
