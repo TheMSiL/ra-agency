@@ -1,7 +1,7 @@
 "use client";
 
 import { blogPosts } from "@/data/blogs";
-import Image from "next/image";
+import Image from "./VersionedImage";
 import { useRef, useState } from "react";
 import BlogCard from "./BlogCard";
 import LocalizedLink from "./LocalizedLink";

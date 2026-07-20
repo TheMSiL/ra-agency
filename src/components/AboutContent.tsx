@@ -1,7 +1,7 @@
 "use client";
 
 import { gsap } from "gsap";
-import Image from "next/image";
+import Image from "./VersionedImage";
 import { useLayoutEffect, useRef } from "react";
 import Header from "./Header";
 import AboutPioneering from "./AboutPioneering";

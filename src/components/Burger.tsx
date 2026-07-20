@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./VersionedImage";
 import { useEffect, useState } from "react";
 
 import { useI18n } from "@/context/I18nContext";

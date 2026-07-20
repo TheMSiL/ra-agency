@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "./VersionedImage";
 import type { CSSProperties, TouchEvent as ReactTouchEvent } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";

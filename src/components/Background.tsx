@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from './VersionedImage'
 import type { ComponentPropsWithoutRef } from 'react'
 
 type BackgroundProps = ComponentPropsWithoutRef<'div'>

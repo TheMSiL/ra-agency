@@ -1,7 +1,7 @@
 "use client";
 
 import { gsap } from "gsap";
-import Image from "next/image";
+import Image from "./VersionedImage";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import ContactModal from "@/components/ContactModal";

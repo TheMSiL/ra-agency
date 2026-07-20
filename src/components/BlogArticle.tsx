@@ -1,6 +1,6 @@
 import type { BlogPost } from "@/data/blogs";
 import { getRecommendedPosts } from "@/data/blogs";
-import Image from "next/image";
+import Image from "./VersionedImage";
 import LocalizedLink from "./LocalizedLink";
 import Footer from "./Footer";
 import Header from "./Header";

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "./VersionedImage";
 import LocalizedLink from "./LocalizedLink";
 
 const navigation = [

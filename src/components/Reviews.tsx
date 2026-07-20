@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+import Image from "./VersionedImage";
 import { gsap } from "gsap";
 import { useLayoutEffect, useRef, useState } from "react";
 

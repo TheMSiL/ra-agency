@@ -2,7 +2,7 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
+import Image from "./VersionedImage";
 import { useLayoutEffect, useRef } from "react";
 
 import Button from "./Button";
