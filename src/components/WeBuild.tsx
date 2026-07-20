@@ -57,15 +57,15 @@ export default function WeBuild() {
 			})
 				.fromTo(".we_build-dna",
 					{
-						x: isVerticalScene ? 0 : "-6vw",
+						x: isVerticalScene ? 0 : "-2vw",
 						y: isVerticalScene ? "-3vh" : 0,
-						rotation: isVerticalScene ? 52.5 : -2.5,
+						rotation: isVerticalScene ? 52.5 : 12,
 						scale: 1.05,
 					},
 					{
-						x: isVerticalScene ? 0 : "6vw",
+						x: isVerticalScene ? 0 : "2vw",
 						y: isVerticalScene ? "3vh" : 0,
-						rotation: isVerticalScene ? 57 : 2,
+						rotation: isVerticalScene ? 57 : 16,
 						scale: 1,
 						ease: "none",
 						duration: 1,
@@ -85,7 +85,7 @@ export default function WeBuild() {
 	return (
 		<Background>
 			<section className="we_build" ref={rootRef}>
-				<Image className="we_build-dna" src="/dnk.png" alt="DNA double helix" width={2048} height={1365} sizes="100vw" />
+				<Image className="we_build-dna" src="/dna-helix-v3.png" alt="DNA double helix" width={1971} height={798} sizes="100vw" />
 				{buildItems.map((item, index) => (
 					<div className={`we_build-item we_build-item--${index + 1}`} key={item.title}>
 						<span className="we_build-connector" aria-hidden="true" />

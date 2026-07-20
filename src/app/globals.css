@@ -507,7 +507,7 @@ a {
 	#home .home_hero-content {
 		position: absolute;
 		right: 48px;
-		bottom: clamp(120px, 14dvh, 180px);
+		bottom: clamp(24px, 3dvh, 48px);
 		left: 48px;
 		margin: 0;
 		z-index: 120;
@@ -525,7 +525,7 @@ a {
 	.service_hero-content {
 		position: absolute;
 		right: 48px;
-		bottom: clamp(90px, 14dvh, 150px);
+		bottom: clamp(24px, 3dvh, 48px);
 		left: 48px;
 		z-index: 120;
 	}
@@ -1012,43 +1012,21 @@ a {
 	}
 
 	.trust_logo {
-		display: flex;
-		width: 420px;
-		flex: 0 0 auto;
-		align-items: center;
-		justify-content: center;
-		flex-direction: row;
-		gap: 18px;
-		text-align: left;
-	}
-
-	.trust_logo--png {
+		display: grid;
 		width: auto;
+		height: 76px;
+		flex: 0 0 auto;
+		place-items: center;
 	}
 
 	.trust_logo img {
-		width: 96px;
-		height: 96px;
+		width: auto;
+		height: 76px;
+		max-width: none;
+		max-height: none;
 		object-fit: contain;
 		user-select: none;
 		-webkit-user-drag: none;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.trust_logo--png img {
-		width: auto;
-		height: auto;
-		max-width: none;
-	}
-
-	.trust_logo p {
-		width: auto;
-		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 26px;
-		text-transform: uppercase;
-		white-space: nowrap;
 	}
 
 	.underFooter {
@@ -1085,19 +1063,21 @@ a {
 		margin-top: 46px;
 	}
 
-	.reviews_slider .review_arrow-cont {
+	.reviews_slider > .review_arrow-cont {
 		position: absolute;
 		top: 50%;
-		z-index: 10;
+		z-index: 30;
 		transform: translateY(-50%);
 	}
 
-	.reviews_slider .review_arrow-cont:first-child {
-		left: 0;
+	.reviews_slider > .review_arrow-cont:first-of-type {
+		left: -20px;
+		right: auto;
 	}
 
-	.reviews_slider .review_arrow-cont:last-child {
-		right: 0;
+	.reviews_slider > .review_arrow-cont:last-of-type {
+		left: auto;
+		right: -20px;
 	}
 
 	.reviews_track {
@@ -1257,6 +1237,47 @@ a {
 
 	.review_card.review_card-active {
 		opacity: 1;
+	}
+
+	.reviews_deck {
+		display: block;
+		width: min(1180px, calc(100vw - 180px));
+		min-height: 540px;
+		perspective: 1600px;
+		overflow: hidden;
+	}
+
+	.review_deck-card {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: min(660px, calc(100vw - 96px));
+		height: 470px;
+		min-height: 0;
+		transform: none;
+		transform-origin: center bottom;
+		overflow: hidden;
+		backface-visibility: hidden;
+		will-change: transform, opacity;
+	}
+
+	.review_deck-card.review_card-active {
+		top: 50%;
+		left: 50%;
+		width: min(660px, calc(100vw - 96px));
+		transform: none;
+	}
+
+	.review_deck-card:not(.review_card-active) {
+		pointer-events: none;
+	}
+
+	.review_deck-card:not(.review_card-active) > * {
+		opacity: 0;
+	}
+
+	.review_deck-card .review_card-text {
+		min-height: 0;
 	}
 
 	.review_card-outgoing {
@@ -1684,9 +1705,12 @@ a {
 	}
 
 	.footer_title {
-		font-size: clamp(72px, calc((min(100vw, 1920px) - 96px) * 0.118), 226px);
+		width: 100%;
+		font-size: clamp(72px, calc((min(100vw, 2400px) - 96px) * 0.1458), 336px);
 		line-height: 1.05;
 		margin-bottom: 10px;
+		text-align: center;
+		white-space: nowrap;
 		background: linear-gradient(180deg, #ffffff 0%, #f5e8dc 46%, #f0a044 100%);
 		background-clip: text;
 		-webkit-background-clip: text;
@@ -1866,11 +1890,11 @@ a {
 	}
 
 	.what_panel.active .what_subtitle {
-		animation: whatContentIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+		animation: whatContentIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 	}
 
 	.what_panel.active .what_text {
-		animation: whatContentIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+		animation: whatContentIn 0.82s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
 	}
 
 	.what_line {
@@ -3388,7 +3412,9 @@ a {
 		position: relative;
 		left: 50%;
 		width: 100vw;
-		min-height: clamp(760px, 66vw, 1700px);
+		height: 100svh;
+		min-height: 720px;
+		max-height: 1080px;
 		margin-left: -50vw;
 		padding: 32px 0 56px;
 		overflow: hidden;
@@ -3412,14 +3438,70 @@ a {
 	.we_build-dna {
 		position: absolute;
 		z-index: 2;
-		top: 0;
+		top: 50%;
 		left: 50%;
-		width: 118%;
-		height: 100%;
+		width: 130%;
+		height: clamp(300px, 31vw, 590px);
 		object-fit: fill;
-		transform: translateX(-50%);
+		transform: translate(-50%, -50%) rotate(14deg);
 		pointer-events: none;
 		user-select: none;
+	}
+
+	.contact_form-method {
+		width: 100%;
+		max-width: 580px;
+		margin: 0 auto 22px;
+		padding: 0;
+		border: 0;
+	}
+
+	.contact_form-method legend {
+		margin-bottom: 10px;
+		color: rgba(255, 255, 255, 0.78);
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 14px;
+		line-height: 130%;
+	}
+
+	.contact_form-method-options {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+		padding: 4px;
+		border: 0.5px solid rgba(250, 138, 22, 0.72);
+		border-radius: 8px 4px;
+		background: rgba(0, 0, 0, 0.72);
+	}
+
+	.contact_form-method-options label {
+		display: flex;
+		min-height: 40px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px 3px;
+		color: rgba(255, 255, 255, 0.62);
+		cursor: pointer;
+		transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+	}
+
+	.contact_form-method-options label.active {
+		background: rgba(250, 138, 22, 0.18);
+		box-shadow: 0 0 24px rgba(250, 138, 22, 0.2) inset;
+		color: #fff7ed;
+	}
+
+	.contact_form-method-options input {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.contact_form-method-options span {
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 12px;
 	}
 	.we_build-item {
 		position: absolute;
@@ -3469,7 +3551,7 @@ a {
 		text-align: justify;
 	}
 	.we_build-item--1 {
-		top: 42%;
+		top: 48%;
 		right: auto;
 		bottom: auto;
 		left: 4%;
@@ -3483,7 +3565,7 @@ a {
 		bottom: -4px;
 	}
 	.we_build-item--2 {
-		top: 80%;
+		top: 68%;
 		right: auto;
 		bottom: auto;
 		left: 40.5%;
@@ -3491,7 +3573,7 @@ a {
 	.we_build-item--2 .we_build-connector {
 		right: 48%;
 		bottom: calc(100% + 10px);
-		height: clamp(90px, 6.25vw, 120px);
+		height: clamp(105px, 8vw, 160px);
 	}
 	.we_build-item--2 .we_build-connector::after {
 		bottom: -4px;

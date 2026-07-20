@@ -5,7 +5,7 @@ import LocalizedLink from "./LocalizedLink";
 export default function CasesCard({ company_name, company_logo, case_title, problem, fix, work, triumph, type, id }: CasesCardProps) {
 	return (
 		<div className="cases_card overflow-hidden cases_block">
-			<Image className="absolute bottom-0 right-0 pointer-events-none" src='/cases_card-bg.png' alt="bg" width={500} height={500} />
+			<Image className="absolute bottom-0 right-0 pointer-events-none sm:block hidden" src='/cases_card-bg.png' alt="bg" width={500} height={500} />
 			<div className="cases_card-type cases_block">
 				<p>{type} </p>ads
 			</div>

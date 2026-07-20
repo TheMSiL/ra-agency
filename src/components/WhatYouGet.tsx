@@ -122,7 +122,9 @@ export default function WhatYouGet() {
 				pin,
 				anticipatePin: 1,
 				invalidateOnRefresh: true,
-				onUpdate: (self) => updateActiveIndex(self.progress),
+				onUpdate: (self) => {
+					if (!wheelLockedRef.current) updateActiveIndex(self.progress);
+				},
 				onRefresh: (self) => updateActiveIndex(self.progress, false),
 			});
 
@@ -194,6 +196,7 @@ export default function WhatYouGet() {
 		}
 
 		if (trigger) {
+			wheelLockedRef.current = true;
 			const targetProgress = boundedIndex / (items.length - 1);
 			const targetY = trigger.start + (trigger.end - trigger.start) * targetProgress;
 
@@ -201,6 +204,9 @@ export default function WhatYouGet() {
 				top: targetY,
 				behavior: "auto",
 			});
+			window.setTimeout(() => {
+				wheelLockedRef.current = false;
+			}, 460);
 			return;
 		}
 	};

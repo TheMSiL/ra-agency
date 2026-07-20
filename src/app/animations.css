@@ -44,16 +44,6 @@
 		display: none;
 	}
 
-	@keyframes trustMarquee {
-		from {
-			transform: translateX(0);
-		}
-
-		to {
-			transform: translateX(calc(-50% - clamp(18px, 2.5vw, 46px)));
-		}
-	}
-
 	@media (prefers-reduced-motion: reduce) {
 		.home_hero-roi-track {
 			animation-play-state: paused;
@@ -63,9 +53,6 @@
 			visibility: visible;
 		}
 
-		.trust_track {
-			animation-play-state: paused;
-		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -78,8 +65,8 @@
 	@keyframes whatContentIn {
 		from {
 			opacity: 0;
-			filter: blur(8px);
-			transform: translateY(22px);
+			filter: blur(5px);
+			transform: translateY(14px);
 		}
 
 		to {
