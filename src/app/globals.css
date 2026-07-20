@@ -1711,14 +1711,17 @@ a {
 
 	.footer_logo-bg {
 		position: absolute;
-		top: -190px;
+		top: -100px;
 		left: 50%;
 		z-index: 10;
-		width: min(32vw, 620px);
+		width: min(23.55vw, 442px);
 		height: auto;
+		aspect-ratio: 600 / 431;
+		object-fit: contain;
 		opacity: 1;
 		pointer-events: none;
-		transform: translateX(-50%);
+		transform: translateX(-50%) rotate(-10deg);
+		transform-origin: center;
 	}
 
 	.footer_nav {

@@ -390,8 +390,8 @@
 
 	.footer_logo-bg {
 		top: calc(50% + 20px);
-		width: 420px;
-		transform: translate(-50%, -50%);
+		width: 309px;
+		transform: translate(-50%, -50%) rotate(-15deg);
 	}
 
 	.cases_row:last-child {
@@ -920,9 +920,9 @@
 
 	.footer_logo-bg {
 		top: calc(50% + 16px);
-		width: 410px;
+		width: 302px;
 		opacity: 1;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) rotate(-15deg);
 	}
 
 	.services_block {
@@ -2147,9 +2147,9 @@
 
 	.footer_logo-bg {
 		top: calc(50% + 10px);
-		width: 330px;
+		width: 243px;
 		opacity: 1;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) rotate(-15deg);
 	}
 
 	.floating_tg_btn {
