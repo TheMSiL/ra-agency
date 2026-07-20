@@ -6,7 +6,7 @@ export default function Cases() {
 	const visibleCases = casesItems.slice(0, 4);
 
 	return (
-		<section className="pt-20">
+		<section className="cases_section">
 			<div className="content_container">
 				<div className="cases_row">
 					<div className='cases_head'>

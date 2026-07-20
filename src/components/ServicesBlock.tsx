@@ -14,9 +14,10 @@ interface ServicesBlockProps {
 	subtitle: string;
 	items: string[];
 	icon: string;
+	href: string;
 }
 
-export default function ServicesBlock({ title, subtitle, items, icon }: ServicesBlockProps) {
+export default function ServicesBlock({ title, subtitle, items, icon, href }: ServicesBlockProps) {
 	const isCompactTimeline = items.length === 3;
 	const blockRef = useRef<HTMLElement>(null);
 
@@ -174,7 +175,7 @@ export default function ServicesBlock({ title, subtitle, items, icon }: Services
 						</div>
 					</div>
 
-					<Button title="See more" extra="services_btn" />
+					<Button title="See more" extra="services_btn" href={href} />
 				</div>
 			</div>
 		</section>

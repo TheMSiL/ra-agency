@@ -1,4 +1,39 @@
 /* Motion and reduced-motion rules. Keep base component styles in globals.css. */
+	.typewriter_text {
+		white-space: pre-wrap;
+	}
+
+	.typewriter_char {
+		visibility: hidden;
+	}
+
+	.typewriter_char.is-visible {
+		visibility: visible;
+	}
+
+	.home_hero-title.typewriter_host,
+	.about_hero-title {
+		background: none;
+	}
+
+	.home_hero-title.typewriter_host .typewriter_char {
+		background: linear-gradient(179deg, #fff 31.04%, #ff8200 107.63%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.about_hero-title .typewriter_char {
+		background: linear-gradient(179deg, #fff 11.04%, #ff8200 107.63%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.home_hero-title.typewriter_host::after {
+		display: none;
+	}
+
 	@keyframes trustMarquee {
 		from {
 			transform: translateX(0);
@@ -10,6 +45,10 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.typewriter_char {
+			visibility: visible;
+		}
+
 		.trust_track {
 			animation-play-state: paused;
 		}

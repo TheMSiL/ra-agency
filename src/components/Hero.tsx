@@ -7,6 +7,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Button from "./Button";
 import ContactModal from "./ContactModal";
 import Header from "./Header";
+import TypewriterText from "./TypewriterText";
 
 type HeroType = "home" | "tg" | "meta" | "google";
 
@@ -23,7 +24,7 @@ const serviceContent: Record<Exclude<HeroType, "home">, { title: string; text: s
 	},
 	google: {
 		title: "Google ads",
-		text: "We capture high-intent demand across Search, YouTube, Display, and Performance Max, then turn it into measurable growth.",
+		text: "We launch and scale Google Ads with a focus on real results — leads, purchases, and revenue growth. We work with products where the goal is not just traffic, but paying customers.",
 		background: "/google_bg.png",
 	},
 };
@@ -67,7 +68,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 			<div className="home_hero-visible">
 				<Header />
 				<div className="content_container home_hero-container">
-					{isHome && <h1 className="home_hero-title" data-title="RA AGENCY">RA AGENCY</h1>}
+					{isHome && <h1 className="home_hero-title typewriter_host"><TypewriterText text="RA AGENCY" step={70} /></h1>}
 					{isHome && (
 						<>
 							<span className="home_hero-planet-glow" aria-hidden="true" />
@@ -78,17 +79,17 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 					{isHome ? (
 						<div className="home_hero-content">
 							<div className="mb-5">
-								<h2 className="home_hero-heading hero_reveal">Performance marketing</h2>
-								<p className="home_hero-text hero_reveal">We don’t buy clicks. We take minds.</p>
+								<h2 className="home_hero-heading"><TypewriterText text="Performance marketing" delay={180} step={32} /></h2>
+								<p className="home_hero-text"><TypewriterText text="We don’t buy clicks. We take minds." delay={420} step={20} /></p>
 							</div>
-							<Button title="Message us on Telegram" extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
+							<Button title={<TypewriterText text="Message us on Telegram" delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
 						</div>
 					) : (
 						<div className="service_hero-content">
-							<h1 className="home_hero-title sub_hero-title hero_reveal" data-title={content?.title}>{content?.title}</h1>
+							<h1 className="home_hero-title sub_hero-title typewriter_host"><TypewriterText text={content?.title ?? ""} step={58} /></h1>
 							<div className="service_hero-bottom">
-								<p className="home_hero-text opacity-80 hero_reveal">{content?.text}</p>
-								<Button title="Message us on Telegram" extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
+								<p className="home_hero-text opacity-80"><TypewriterText text={content?.text ?? ""} delay={280} step={type === "google" ? 8 : 13} /></p>
+								<Button title={<TypewriterText text="Message us on Telegram" delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
 							</div>
 						</div>
 					)}
@@ -97,7 +98,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 			{isHome && (
 				<div className="home_hero-next-wrap">
 					<div className="content_container">
-						<h2 className="home_hero-next hero_reveal">What we do</h2>
+						<h2 className="home_hero-next"><TypewriterText text="What we do" delay={700} step={36} /></h2>
 					</div>
 				</div>
 			)}

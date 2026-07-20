@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { I18nProvider } from "@/context/I18nContext";
+import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 import "./animations.css";
 import "./responsive.css";
@@ -25,8 +26,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `history.scrollRestoration = "manual"; window.scrollTo(0, 0);`,
+          }}
+        />
+      </head>
       <body>
-        <I18nProvider>{children}</I18nProvider>
+        <I18nProvider>
+          <ScrollToTop />
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );

@@ -32,8 +32,8 @@ export default function FloatingTelegramButton() {
 
 			const timeline = gsap.timeline({
 				scrollTrigger: {
-					trigger: heroButton,
-					start: "bottom 30%",
+					trigger: document.documentElement,
+					start: "top top-=2",
 					end: "+=1",
 					toggleActions: "play none none reverse",
 					invalidateOnRefresh: true,

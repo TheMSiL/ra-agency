@@ -47,9 +47,9 @@ export default function page() {
   return (
     <div className="wrapper">
       <Hero />
-      <ServicesBlock title={telegramService.title} subtitle={telegramService.subtitle} items={telegramService.items} icon={telegramService.icon} />
-      <ServicesBlock title={metaService.title} subtitle={metaService.subtitle} items={metaService.items} icon={metaService.icon} />
-      <ServicesBlock title={googleService.title} subtitle={googleService.subtitle} items={googleService.items} icon={googleService.icon} />
+      <ServicesBlock title={telegramService.title} subtitle={telegramService.subtitle} items={telegramService.items} icon={telegramService.icon} href="/telegram-ads" />
+      <ServicesBlock title={metaService.title} subtitle={metaService.subtitle} items={metaService.items} icon={metaService.icon} href="/meta-ads" />
+      <ServicesBlock title={googleService.title} subtitle={googleService.subtitle} items={googleService.items} icon={googleService.icon} href="/google-ads" />
       <div className="section_background">
         <Numbers />
         <Cases />

@@ -66,8 +66,21 @@ a {
 
 @layer utilities {
 	.header {
-		background: rgba(18, 18, 18, 0);
+		position: fixed;
+		inset: 0 0 auto;
+		width: 100%;
+		padding-bottom: 20px;
+		background: transparent;
+		backdrop-filter: blur(0);
+		-webkit-backdrop-filter: blur(0);
 		z-index: 3000;
+		transition: background 300ms ease, backdrop-filter 300ms ease, -webkit-backdrop-filter 300ms ease;
+	}
+
+	.header.header_scrolled {
+		background: linear-gradient(180deg, rgba(9, 4, 0, 0.82) 0%, rgba(9, 4, 0, 0.3) 68%, transparent 100%);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
 	}
 
 	.lang_switcher {
@@ -515,7 +528,12 @@ a {
 
 	.service_hero-bottom .home_hero-text {
 		max-width: 650px;
-		font-size: 16px;
+	}
+
+	.service_hero--google .service_hero-bottom .home_hero-text {
+		max-width: 760px;
+		font-size: clamp(18px, 1.15vw, 24px);
+		line-height: 1.35;
 	}
 
 	.home_hero-heading {
@@ -1943,6 +1961,38 @@ a {
 		box-shadow: 0 0 62.1px 0 rgba(250, 138, 22, 0.3) inset;
 	}
 
+	.cases_section {
+		padding-top: clamp(36px, 5vh, 64px);
+	}
+
+	.cases_section .cases_head {
+		padding: clamp(24px, 3vh, 38px) 0 18px;
+	}
+
+	.cases_section .cases_card-main {
+		height: clamp(300px, 34vh, 380px);
+		gap: 14px;
+	}
+
+	.cases_section .cases_card-main--title {
+		font-size: clamp(24px, 1.65vw, 30px);
+		line-height: 1.35;
+	}
+
+	.cases_section .cases_card-info--item {
+		padding: 14px 20px;
+	}
+
+	.cases_section .cases_card-info--item-title {
+		margin-bottom: 6px;
+		font-size: 18px;
+	}
+
+	.cases_section .cases_card-info--item-desc {
+		font-size: 15px;
+		line-height: 1.35;
+	}
+
 	.cases_row {
 		display: flex;
 		align-items: stretch;
@@ -2097,6 +2147,14 @@ a {
 		text-align: center;
 		font-family: Audiowide;
 		border-radius: 7.547px 25.158px;
+		transition: border-radius 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.cases_other:hover,
+	.cases_other:focus-visible {
+		border-radius: 10px;
+		box-shadow: 0 0 28px rgba(250, 138, 22, 0.38) inset;
+		outline: none;
 	}
 
 	.cases_other h3 {
@@ -2988,7 +3046,7 @@ a {
 		white-space: nowrap;
 	}
 
-	.about_hero-title span {
+	.about_hero-title > .about_hero-accent {
 		display: block;
 		text-align: left;
 		margin-top: 80px;
