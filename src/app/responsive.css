@@ -626,7 +626,7 @@
 
 @media (max-width: 900px) {
 	.about_hero {
-		height: auto;
+		height: 100svh;
 		min-height: 450px;
 		display: flex;
 		align-items: center;
@@ -1009,7 +1009,11 @@
 	}
 
 	.cases_page-main {
-		padding-top: 118px;
+		padding-top: 82px;
+	}
+
+	.blog_article {
+		padding-top: 82px;
 	}
 
 	.cases_page-grid {
@@ -1401,7 +1405,7 @@
 	}
 
 	.about_hero {
-		height: auto;
+		height: 100svh;
 		min-height: 540px;
 	}
 
@@ -1527,6 +1531,10 @@
 		padding-bottom: 80px;
 	}
 
+	.blog_page-main {
+		padding-top: 82px;
+	}
+
 	.privacy_policy-body {
 		gap: 28px;
 		margin-top: 64px;
@@ -1648,6 +1656,24 @@
 
 	.blog_recommended {
 		margin-top: 40px;
+	}
+
+	.blog_article-image {
+		max-height: 320px;
+		aspect-ratio: 16 / 9;
+	}
+
+	.blog_article-body {
+		margin-top: 30px;
+		font-size: 15px;
+	}
+
+	.blog_recommended-link {
+		min-height: 0;
+	}
+
+	.blog_recommended-content {
+		padding: 18px;
 	}
 
 	.what_pin {
@@ -1816,7 +1842,7 @@
 	}
 
 	.about_hero {
-		height: calc(100svh - 107px);
+		height: 100svh;
 		min-height: 420px;
 	}
 
@@ -2386,7 +2412,7 @@
 	}
 
 	.blog_article {
-		padding-top: 36px;
+		padding-top: 82px;
 		padding-bottom: 72px;
 	}
 

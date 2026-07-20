@@ -215,7 +215,9 @@ export default function CasesBrowser() {
 									aria-label={`Page ${pageNumber}`}
 									aria-current={pageNumber === safePage ? "page" : undefined}
 									onClick={() => goToPage(pageNumber)}
-								/>
+								>
+									{pageNumber}
+								</button>
 							);
 						})}
 					</div>

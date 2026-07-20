@@ -99,7 +99,7 @@ export default function WhatYouGet() {
 
 				gsap.to(track, {
 					x: -(distance * boundedIndex) / (items.length - 1),
-					duration: animate ? 0.72 : 0,
+					duration: animate ? 0.42 : 0,
 					ease: "power3.inOut",
 					overwrite: true,
 				});
@@ -146,12 +146,12 @@ export default function WhatYouGet() {
 				const targetProgress = nextIndex / (items.length - 1);
 				window.scrollTo({
 					top: trigger.start + (trigger.end - trigger.start) * targetProgress,
-					behavior: "smooth",
+					behavior: "auto",
 				});
 
 				window.setTimeout(() => {
 					wheelLockedRef.current = false;
-				}, 760);
+				}, 460);
 			};
 
 			window.addEventListener("wheel", onWheel, { passive: false });
@@ -187,7 +187,7 @@ export default function WhatYouGet() {
 		if (track && slider) {
 			gsap.to(track, {
 				x: -((track.scrollWidth - slider.clientWidth) * boundedIndex) / (items.length - 1),
-				duration: 0.72,
+				duration: 0.42,
 				ease: "power3.inOut",
 				overwrite: true,
 			});
@@ -199,7 +199,7 @@ export default function WhatYouGet() {
 
 			window.scrollTo({
 				top: targetY,
-				behavior: "smooth",
+				behavior: "auto",
 			});
 			return;
 		}

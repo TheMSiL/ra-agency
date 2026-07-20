@@ -10,8 +10,8 @@ export default function BlogPage() {
 			<Background>
 				<div className="blog_page-content">
 					<Header />
-					<main className="content_container privacy_policy-content">
-						<h1 className="font-display numbers_gradient-text mb-20 md:mb-32">Our blog</h1>
+					<main className="content_container privacy_policy-content blog_page-main">
+						<h1 className="cases_page-title numbers_gradient-text">Our blog</h1>
 						<BlogPageContent />
 					</main>
 					<Talk />

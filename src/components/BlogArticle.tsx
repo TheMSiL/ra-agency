@@ -33,10 +33,21 @@ export default function BlogArticle({ post }: { post: BlogPost }) {
 						</div>
 						{recommendations.length > 0 && (
 							<section className="blog_recommended">
+								<div className="blog_recommended-head">
+									<p>Keep exploring</p>
+									<h2>Recommended articles</h2>
+								</div>
 								<div className="blog_recommended-grid">
 									{recommendations.map((item) => (
-										<LocalizedLink key={item.id} href={`/blog/${item.id}`} className="blog_recommended-link" aria-label={item.title}>
-											<Image src={item.image} alt={item.title} width={800} height={500} />
+										<LocalizedLink key={item.id} href={`/blog/${item.id}`} className="blog_recommended-link">
+											<Image src={item.image} alt="" width={640} height={400} />
+											<div className="blog_recommended-content">
+												<p>{item.type}</p>
+												<h3>{item.title}</h3>
+												<div className="blog_recommended-description">{item.description}</div>
+												<BlogPostMeta date={item.date} readTime={item.readTime} views={item.views} />
+												<span className="blog_read-more blog_recommended-button">Read article</span>
+											</div>
 										</LocalizedLink>
 									))}
 								</div>

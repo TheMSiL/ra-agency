@@ -9,6 +9,20 @@ import BlogPostMeta from "./BlogPostMeta";
 
 const POSTS_PER_PAGE = 6;
 
+function PaginationArrow({ direction }: { direction: "prev" | "next" }) {
+	return (
+		<svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+			<path
+				d={direction === "prev" ? "M14.5 5L7.5 12L14.5 19" : "M9.5 5L16.5 12L9.5 19"}
+				stroke="currentColor"
+				strokeWidth="1.8"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	);
+}
+
 export default function BlogPageContent() {
 	const [featuredPost, ...posts] = blogPosts;
 	const gridRef = useRef<HTMLDivElement>(null);
@@ -66,21 +80,45 @@ export default function BlogPageContent() {
 			<div className="blog_grid" ref={gridRef}>
 				{currentPosts.map((post) => <BlogCard key={post.id} post={post} />)}
 			</div>
-			<div className="cases_pagination blog_pagination" aria-label="Blog pagination">
-				{Array.from({ length: pageCount }, (_, index) => {
-					const pageNumber = index + 1;
+			<div className="cases_pagination cases_catalog-pagination blog_pagination" aria-label="Blog pagination">
+				<button
+					type="button"
+					className="cases_pagination-arrow cases_pagination-arrow--prev"
+					aria-label="Previous page"
+					disabled={safePage === 1}
+					onClick={() => goToPage(safePage - 1)}
+				>
+					<PaginationArrow direction="prev" />
+				</button>
 
-					return (
-						<button
-							key={pageNumber}
-							type="button"
-							className={`cases_pagination-dot ${pageNumber === safePage ? "active" : ""}`}
-							aria-label={`Page ${pageNumber}`}
-							aria-current={pageNumber === safePage ? "page" : undefined}
-							onClick={() => goToPage(pageNumber)}
-						/>
-					);
-				})}
+				<div className="cases_pagination-dots">
+					{Array.from({ length: pageCount }, (_, index) => {
+						const pageNumber = index + 1;
+
+						return (
+							<button
+								key={pageNumber}
+								type="button"
+								className={`cases_pagination-dot ${pageNumber === safePage ? "active" : ""}`}
+								aria-label={`Page ${pageNumber}`}
+								aria-current={pageNumber === safePage ? "page" : undefined}
+								onClick={() => goToPage(pageNumber)}
+							>
+								{pageNumber}
+							</button>
+						);
+					})}
+				</div>
+
+				<button
+					type="button"
+					className="cases_pagination-arrow cases_pagination-arrow--next"
+					aria-label="Next page"
+					disabled={safePage === pageCount}
+					onClick={() => goToPage(safePage + 1)}
+				>
+					<PaginationArrow direction="next" />
+				</button>
 			</div>
 		</div>
 	);

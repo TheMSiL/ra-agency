@@ -275,8 +275,12 @@ export function getBlogPost(id: string) {
 }
 
 export function getRecommendedPosts(post: BlogPost) {
-	return post.recommendedIds.flatMap((id) => {
+	const selectedPosts = post.recommendedIds.flatMap((id) => {
 		const recommendedPost = getBlogPost(id);
 		return recommendedPost ? [recommendedPost] : [];
 	});
+	const selectedIds = new Set([post.id, ...selectedPosts.map(({ id }) => id)]);
+	const fallbackPosts = blogPosts.filter(({ id }) => !selectedIds.has(id));
+
+	return [...selectedPosts, ...fallbackPosts].slice(0, 3);
 }

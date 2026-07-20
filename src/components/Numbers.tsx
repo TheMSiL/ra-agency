@@ -6,6 +6,29 @@ import { useLayoutEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function AnimatedCardBorder() {
+	const borderRef = useRef<HTMLSpanElement>(null);
+
+	useLayoutEffect(() => {
+		const border = borderRef.current;
+		if (!border) return;
+
+		const updateStartAngle = () => {
+			const { width, height } = border.getBoundingClientRect();
+			const cornerAngle = 360 - Math.atan2(width, height) * (180 / Math.PI);
+			border.style.setProperty("--numbers-border-start", `${cornerAngle}deg`);
+		};
+
+		updateStartAngle();
+		const resizeObserver = new ResizeObserver(updateStartAngle);
+		resizeObserver.observe(border);
+
+		return () => resizeObserver.disconnect();
+	}, []);
+
+	return <span ref={borderRef} className="numbers_card-border" aria-hidden="true" />;
+}
+
 const items = [
 	{
 		title: '$3.54',
@@ -101,6 +124,7 @@ export default function Numbers() {
 					</div>
 
 					<article className="numbers_card numbers_card-featured">
+						<AnimatedCardBorder />
 						<h3 className="numbers_card-title numbers_gradient-text">{featuredItem.subtitle}</h3>
 						<p className="numbers_card-text">{featuredItem.description}</p>
 						<strong className="numbers_value numbers_gradient-text" ref={(node) => { valueRefs.current[0] = node; }}>
@@ -112,6 +136,7 @@ export default function Numbers() {
 				<div className="numbers_grid">
 					{statItems.map((item, index) => (
 						<article className="numbers_card" key={item.subtitle}>
+							<AnimatedCardBorder />
 							<h3 className="numbers_card-title numbers_gradient-text">{item.subtitle}</h3>
 							<p className="numbers_card-text">{item.description}</p>
 							<strong className="numbers_value numbers_gradient-text" ref={(node) => { valueRefs.current[index + 1] = node; }}>
