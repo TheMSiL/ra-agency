@@ -991,17 +991,27 @@
 	}
 
 	.trust_logo {
-		width: 120px;
-		gap: 8px;
+		width: 360px;
+		gap: 16px;
+	}
+
+	.trust_logo--png {
+		width: auto;
 	}
 
 	.trust_logo img {
-		width: 80px;
-		height: 80px;
+		width: 88px;
+		height: 88px;
+	}
+
+	.trust_logo--png img {
+		width: auto;
+		height: auto;
+		max-width: 320px;
 	}
 
 	.trust_logo p {
-		font-size: 10px;
+		font-size: 22px;
 	}
 
 	.cases_page-title {
@@ -1837,6 +1847,30 @@
 }
 
 @media (max-width: 560px) {
+	.trust_logo {
+		width: 230px;
+		gap: 12px;
+	}
+
+	.trust_logo--png {
+		width: auto;
+	}
+
+	.trust_logo img {
+		width: 56px;
+		height: 56px;
+	}
+
+	.trust_logo--png img {
+		width: auto;
+		height: auto;
+		max-width: 180px;
+	}
+
+	.trust_logo p {
+		font-size: 14px;
+	}
+
 	.floating_tg_icon-wrap {
 		left: calc(50% - 1px);
 	}

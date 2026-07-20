@@ -1013,18 +1013,22 @@ a {
 
 	.trust_logo {
 		display: flex;
-		width: 240px;
+		width: 420px;
 		flex: 0 0 auto;
 		align-items: center;
 		justify-content: center;
-		flex-direction: column;
-		gap: 10px;
-		text-align: center;
+		flex-direction: row;
+		gap: 18px;
+		text-align: left;
+	}
+
+	.trust_logo--png {
+		width: auto;
 	}
 
 	.trust_logo img {
-		width: 140px;
-		height: 140px;
+		width: 96px;
+		height: 96px;
 		object-fit: contain;
 		user-select: none;
 		-webkit-user-drag: none;
@@ -1033,11 +1037,18 @@ a {
 		justify-content: center;
 	}
 
+	.trust_logo--png img {
+		width: auto;
+		height: auto;
+		max-width: none;
+	}
+
 	.trust_logo p {
-		width: 100%;
+		width: auto;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 20px;
+		font-size: 26px;
 		text-transform: uppercase;
+		white-space: nowrap;
 	}
 
 	.underFooter {
