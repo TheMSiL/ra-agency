@@ -137,6 +137,53 @@
 	}
 }
 @media (max-width: 1280px) {
+	#home .home_hero-btn.home_hero-btn-morphed {
+		position: absolute;
+		width: 0;
+		height: 0;
+		min-height: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	#home .home_hero-content:has(.home_hero-btn-morphed) {
+		gap: 0;
+	}
+}
+
+@media (max-width: 900px) {
+	.home_hero-roi-marquee {
+		width: calc(100% + 64px);
+		margin-inline: -32px;
+	}
+
+	.home_hero-roi-track {
+		--roi-gap: 20px;
+		--roi-half-gap: 10px;
+		padding-block: 8px;
+		animation-duration: 20s;
+	}
+
+	.home_hero-roi-pill {
+		min-width: 72px;
+		padding: 5px 10px;
+		font-size: 8px;
+	}
+
+	.talk_section .numbers_title {
+		font-size: clamp(30px, 6vw, 54px);
+	}
+
+	#home .home_hero-content:has(.home_hero-btn-morphed) {
+		padding-bottom: 16px;
+	}
+
+	#home:has(.home_hero-btn-morphed) .home_hero-next {
+		padding-top: 24px;
+	}
+}
+
+@media (max-width: 1280px) {
 	.footer .footer_title {
 		font-size: clamp(64px, 11vw, 132px);
 	}
@@ -561,6 +608,19 @@
 	.we_build-item--3 {
 		top: 30%;
 		right: 10%;
+	}
+}
+
+@media (min-width: 901px) and (max-width: 1250px) {
+	.home_hero-planet {
+		width: 90vw;
+		max-width: none;
+	}
+
+	.home_hero-planet-glow {
+		width: 74vw;
+		max-width: none;
+		filter: blur(clamp(130px, 13vw, 165px));
 	}
 }
 
@@ -1013,14 +1073,16 @@
 	.home_hero-planet {
 		top: 96px;
 		bottom: auto;
-		width: min(128vw, 640px);
+		width: 132vw;
+		max-width: none;
 	}
 
 	.home_hero-planet-glow {
 		top: 118px;
 		bottom: auto;
-		width: min(88vw, 500px);
-		filter: blur(120px);
+		width: 108vw;
+		max-width: none;
+		filter: blur(clamp(90px, 14vw, 140px));
 	}
 
 	.tg_hero-image {
@@ -1049,6 +1111,14 @@
 		);
 	}
 
+	.home_hero-next-wrap {
+		background: #090400;
+	}
+
+	.home_hero {
+		padding-bottom: 0;
+	}
+
 	#home .home_hero-container {
 		min-height: auto;
 	}
@@ -1062,7 +1132,7 @@
 		right: auto;
 		bottom: auto;
 		left: auto;
-		margin: -118px -32px 0;
+		margin: -150px -32px 0;
 	}
 
 	.tg_hero .home_hero-content {
@@ -1552,6 +1622,14 @@
 }
 
 @media (max-width: 640px) {
+	#home .home_hero-title {
+		font-size: clamp(42px, 9.5vw, 58px);
+	}
+
+	#home .home_hero-title .typewriter_text {
+		white-space: nowrap;
+	}
+
 	.service_hero--meta {
 		background-position: 28% center;
 	}
@@ -2113,7 +2191,7 @@
 	}
 
 	.home_hero {
-		padding-bottom: 46px;
+		padding-bottom: 0;
 	}
 
 	.home_hero-container {
@@ -2136,13 +2214,15 @@
 
 	.home_hero-planet {
 		top: 88px;
-		width: min(142vw, 560px);
+		width: 144vw;
+		max-width: none;
 	}
 
 	.home_hero-planet-glow {
 		top: 108px;
-		width: min(96vw, 430px);
-		filter: blur(96px);
+		width: 112vw;
+		max-width: none;
+		filter: blur(clamp(72px, 18vw, 104px));
 	}
 
 	.tg_hero-image {

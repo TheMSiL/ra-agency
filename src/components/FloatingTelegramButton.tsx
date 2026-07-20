@@ -49,6 +49,10 @@ export default function FloatingTelegramButton() {
 							borderWidth: getHeroStyle().borderWidth,
 						});
 						gsap.set(heroButton, { autoAlpha: 0, transition: "none" });
+						heroButton.classList.add("home_hero-btn-morphed");
+					},
+					onLeaveBack: () => {
+						heroButton.classList.remove("home_hero-btn-morphed");
 					},
 				},
 			});
@@ -103,6 +107,7 @@ export default function FloatingTelegramButton() {
 
 		return () => {
 			context.revert();
+			heroButton.classList.remove("home_hero-btn-morphed");
 			gsap.set(heroButton, { clearProps: "opacity,visibility,transition" });
 		};
 	}, []);

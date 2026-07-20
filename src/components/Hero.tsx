@@ -37,12 +37,14 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 
 	useLayoutEffect(() => {
 		const hero = heroRef.current;
+		let updateRoiDepth: (() => void) | undefined;
 
 		if (!hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
 		const context = gsap.context(() => {
 			const revealItems = hero.querySelectorAll(".hero_reveal");
 			const button = hero.querySelector(".home_hero-btn");
+			const roiPills = Array.from(hero.querySelectorAll<HTMLElement>(".home_hero-roi-pill"));
 
 			gsap.set(button, { transition: "none" });
 			gsap.set(revealItems, { y: 72 });
@@ -53,9 +55,41 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				ease: "power3.out",
 				onComplete: () => gsap.set(button, { clearProps: "transition" }),
 			});
+
+			if (roiPills.length > 0) {
+				updateRoiDepth = () => {
+					const heroBox = hero.getBoundingClientRect();
+					const center = heroBox.left + heroBox.width / 2;
+					const depthRadius = Math.min(340, Math.max(150, heroBox.width * 0.18));
+
+					roiPills.forEach((pill) => {
+						const box = pill.getBoundingClientRect();
+						const pillCenter = box.left + box.width / 2;
+						const offset = pillCenter - center;
+						const distance = Math.abs(offset);
+						const depth = 1 - gsap.utils.clamp(0, 1, distance / depthRadius);
+						const fold = Math.pow(depth, 1.45);
+						const foldDirection = offset < 0 ? -1 : 1;
+
+						gsap.set(pill, {
+							scale: 1 - fold * 0.62,
+							autoAlpha: 1 - fold * 0.58,
+							y: fold * -28,
+							z: fold * -90,
+							rotationY: foldDirection * fold * 52,
+							transformPerspective: 700,
+						});
+					});
+				};
+
+				gsap.ticker.add(updateRoiDepth);
+			}
 		}, hero);
 
-		return () => context.revert();
+		return () => {
+			if (updateRoiDepth) gsap.ticker.remove(updateRoiDepth);
+			context.revert();
+		};
 	}, []);
 
 	return (
@@ -69,6 +103,19 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				<Header />
 				<div className="content_container home_hero-container">
 					{isHome && <h1 className="home_hero-title typewriter_host"><TypewriterText text="RA AGENCY" step={70} /></h1>}
+					{isHome && (
+						<div className="home_hero-roi-marquee" aria-label="ROI or DIE">
+							<div className="home_hero-roi-track" aria-hidden="true">
+								{[0, 1].map((group) => (
+									<div className="home_hero-roi-group" key={group}>
+										{Array.from({ length: 12 }, (_, index) => (
+											<span className="home_hero-roi-pill" key={`${group}-${index}`}>ROI or DIE</span>
+										))}
+									</div>
+								))}
+							</div>
+						</div>
+					)}
 					{isHome && (
 						<>
 							<span className="home_hero-planet-glow" aria-hidden="true" />

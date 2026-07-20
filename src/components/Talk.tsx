@@ -143,7 +143,7 @@ export default function Talk() {
 	return (
 		<section className="talk_section">
 			<div className="content_container">
-				<h2 className="numbers_title text-center numbers_gradient-text mb-32">Are you ready to talk?</h2>
+				<h2 className="numbers_title text-center numbers_gradient-text">Are you ready to talk?</h2>
 				<div className="talk_radar" ref={radarRef}>
 					<Image className="talk_radar-img" src='/radar/Radar.svg' alt="radar" width={1920} height={1044} />
 					<svg className="talk_radar-beam-svg" viewBox="0 0 1920 1044" aria-hidden="true">

@@ -431,7 +431,7 @@ a {
 		position: absolute;
 		bottom: 0px;
 		left: 50%;
-		z-index: 100;
+		z-index: 118;
 		width: min(72vw, 1218px);
 		height: auto;
 		max-width: none;
@@ -1242,8 +1242,8 @@ a {
 		position: relative;
 		width: min(100%, 1920px);
 		aspect-ratio: 1920 / 1044;
-		margin-inline: auto;
-		overflow: hidden;
+		margin: clamp(-180px, -9vw, -70px) auto 0;
+		overflow: visible;
 	}
 
 	.talk_radar-img {
@@ -1318,6 +1318,9 @@ a {
 
 	.talk_section .numbers_title {
 		padding-inline: 48px;
+		margin-bottom: clamp(20px, 3vh, 36px);
+		font-size: clamp(44px, 8vh, 100px);
+		line-height: 1.05;
 	}
 
 	.floating_tg_btn {
@@ -1374,6 +1377,54 @@ a {
 		width: 100%;
 		height: 100%;
 		pointer-events: none;
+	}
+
+	.home_hero-roi-marquee {
+		position: relative;
+		z-index: 115;
+		width: calc(100% + 96px);
+		margin: clamp(4px, 1vh, 14px) -48px 0;
+		overflow: hidden;
+		mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+		-webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+		perspective: 900px;
+	}
+
+	.home_hero-roi-track {
+		--roi-gap: 34px;
+		--roi-half-gap: 17px;
+		display: flex;
+		width: max-content;
+		gap: var(--roi-gap);
+		padding-block: 12px;
+		animation: heroRoiMarquee 24s linear infinite;
+		will-change: transform;
+	}
+
+	.home_hero-roi-group {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		min-width: 100vw;
+		gap: var(--roi-gap);
+	}
+
+	.home_hero-roi-pill {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 92px;
+		padding: 7px 14px;
+		border: 1px solid rgba(250, 138, 22, 0.78);
+		border-radius: 4px 12px;
+		background: rgba(9, 4, 0, 0.5);
+		box-shadow: 0 0 22px rgba(250, 138, 22, 0.26) inset, 0 0 14px rgba(250, 138, 22, 0.12);
+		color: rgba(255, 245, 236, 0.84);
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 10px;
+		line-height: 1;
+		white-space: nowrap;
+		text-transform: uppercase;
 	}
 
 	.floating_tg_icon {
@@ -1603,10 +1654,10 @@ a {
 
 	.footer_logo-bg {
 		position: absolute;
-		top: -128px;
+		top: -190px;
 		left: 50%;
 		z-index: 10;
-		width: 430px;
+		width: min(32vw, 620px);
 		height: auto;
 		opacity: 1;
 		pointer-events: none;

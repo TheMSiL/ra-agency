@@ -1,4 +1,14 @@
 /* Motion and reduced-motion rules. Keep base component styles in globals.css. */
+	@keyframes heroRoiMarquee {
+		from {
+			transform: translateX(0);
+		}
+
+		to {
+			transform: translateX(calc(-50% - var(--roi-half-gap)));
+		}
+	}
+
 	.typewriter_text {
 		white-space: pre-wrap;
 	}
@@ -45,6 +55,10 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.home_hero-roi-track {
+			animation-play-state: paused;
+		}
+
 		.typewriter_char {
 			visibility: visible;
 		}
