@@ -109,6 +109,8 @@ export default function Reviews() {
 		const sideCards = Array.from(
 			track.querySelectorAll<HTMLElement>(':scope > .review_card-prev, :scope > .review_card-next')
 		);
+		const transitionFx = track.querySelector<HTMLElement>('.review_transition-fx');
+		const transitionGlow = track.querySelector<HTMLElement>('.review_transition-glow');
 
 		if (!incoming || !outgoing || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			setAnimation(null);
@@ -116,10 +118,22 @@ export default function Reviews() {
 		}
 
 		const incomingContent = incoming.children;
+		const direction = animation.direction === 'next' ? 1 : -1;
+		const isCompact = window.matchMedia('(max-width: 1200px)').matches;
 		const context = gsap.context(() => {
-			gsap.set(incoming, { autoAlpha: 1 });
+			gsap.set(incoming, {
+				autoAlpha: 0,
+				x: direction * (isCompact ? 72 : 150),
+				y: isCompact ? 8 : 18,
+				scale: isCompact ? 0.96 : 0.86,
+				rotationY: isCompact ? 0 : direction * -13,
+				filter: 'blur(10px)',
+			});
 			gsap.set(outgoing, { autoAlpha: 1 });
-			gsap.set(sideCards, { autoAlpha: 0.12 });
+			gsap.set(sideCards, { autoAlpha: 0.12, scale: 0.94 });
+			gsap.set(incomingContent, { autoAlpha: 0, y: 26, filter: 'blur(7px)' });
+			gsap.set(transitionFx, { autoAlpha: 1 });
+			gsap.set(transitionGlow, { autoAlpha: 0, scale: 0.42 });
 
 			gsap.timeline({
 				defaults: { overwrite: 'auto' },
@@ -127,20 +141,51 @@ export default function Reviews() {
 			})
 				.to(outgoing, {
 					autoAlpha: 0,
-					duration: 0.42,
-					ease: 'power2.out',
+					x: direction * (isCompact ? -72 : -170),
+					y: isCompact ? -6 : -20,
+					scale: isCompact ? 0.96 : 0.82,
+					rotationY: isCompact ? 0 : direction * 12,
+					filter: 'blur(10px)',
+					duration: 0.62,
+					ease: 'power3.in',
 				}, 0)
-				.from(incomingContent, {
+				.to(transitionGlow, {
+					autoAlpha: 0.9,
+					scale: 1.18,
+					duration: 0.46,
+					ease: 'power2.out',
+				}, 0.08)
+				.to(transitionGlow, {
 					autoAlpha: 0,
-					duration: 0.68,
-					stagger: 0.055,
+					scale: 1.55,
+					duration: 0.62,
+					ease: 'power2.in',
+				}, 0.46)
+				.to(incoming, {
+					autoAlpha: 1,
+					x: 0,
+					y: 0,
+					scale: 1,
+					rotationY: 0,
+					filter: 'blur(0px)',
+					duration: 0.9,
+					ease: 'expo.out',
+				}, 0.28)
+				.to(incomingContent, {
+					autoAlpha: 1,
+					y: 0,
+					filter: 'blur(0px)',
+					duration: 0.62,
+					stagger: 0.09,
 					ease: 'power3.out',
-				}, 0.18)
+				}, 0.48)
 				.to(sideCards, {
 					autoAlpha: 0.3,
-					duration: 0.72,
-					ease: 'power2.out',
-				}, 0.12);
+					scale: 1,
+					duration: 0.82,
+					ease: 'expo.out',
+				}, 0.34)
+				.to(transitionFx, { autoAlpha: 0, duration: 0.3 }, 0.94);
 		}, track);
 
 		return () => context.revert();
@@ -212,6 +257,9 @@ export default function Reviews() {
 						<Image src='/review_arrow.svg' alt="" width={24} height={35} />
 					</button>
 					<div ref={trackRef} className={trackClassName} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+						<div className="review_transition-fx" aria-hidden="true">
+							<span className="review_transition-glow" />
+						</div>
 						<ReviewCard key={`prev-${prevReview.id}`} review={prevReview} position="prev" />
 						<ReviewCard key={`active-${activeReview.id}`} review={activeReview} position="active" />
 						{animation && (

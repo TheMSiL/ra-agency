@@ -111,7 +111,9 @@ export default function FloatingTelegramButton() {
 		<>
 			<button ref={buttonRef} className="floating_tg_btn floating_tg_morph" type="button" aria-label="Open contact form" onClick={() => setIsFormOpen(true)}>
 				<span className="floating_tg_label">Message us on Telegram</span>
-				<Image className="floating_tg_icon" src="/tg_btn.svg" alt="" width={52} height={41} priority />
+				<span className="floating_tg_icon-wrap" aria-hidden="true">
+					<Image className="floating_tg_icon" src="/tg_btn.svg" alt="" width={52} height={41} priority />
+				</span>
 			</button>
 			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
 		</>

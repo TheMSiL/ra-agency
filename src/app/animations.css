@@ -379,4 +379,8 @@
 		.review_card-outgoing {
 			display: none;
 		}
+
+		.review_transition-fx {
+			display: none;
+		}
 	}

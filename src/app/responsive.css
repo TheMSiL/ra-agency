@@ -1733,6 +1733,10 @@
 }
 
 @media (max-width: 560px) {
+	.floating_tg_icon-wrap {
+		left: calc(50% - 1px);
+	}
+
 	.about_hero {
 		height: calc(100svh - 107px);
 		min-height: 420px;
