@@ -1,5 +1,5 @@
 import type { BlogPost } from "@/data/blogs";
-import Image from "./VersionedImage";
+import Image from "next/image";
 import LocalizedLink from "./LocalizedLink";
 import BlogPostMeta from "./BlogPostMeta";
 

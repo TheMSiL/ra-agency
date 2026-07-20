@@ -1,5 +1,5 @@
 import type { CasesCardProps } from "@/data/cases";
-import Image from "./VersionedImage";
+import Image from "next/image";
 import LocalizedLink from "./LocalizedLink";
 
 export default function CasesCard({ company_name, company_logo, case_title, problem, fix, work, triumph, type, id }: CasesCardProps) {

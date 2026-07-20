@@ -2,7 +2,7 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "./VersionedImage";
+import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import ContactModal from "@/components/ContactModal";

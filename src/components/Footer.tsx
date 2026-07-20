@@ -1,4 +1,4 @@
-import Image from "./VersionedImage";
+import Image from "next/image";
 import LocalizedLink from "./LocalizedLink";
 
 const navigation = [
@@ -72,7 +72,7 @@ export default function Footer() {
 							</a>
 						</div>
 					</div>
-					<Image className="footer_logo-bg" src='/logo_footer.png' alt="footer_logo" width={450} height={396} />
+					<Image className="footer_logo-bg" src='/footer_logo.png' alt="footer_logo" width={450} height={396} />
 					<div className="footer_nav">
 						<div className="footer_nav-column">
 							<h5 className="footer_nav-title">Navigation</h5>
