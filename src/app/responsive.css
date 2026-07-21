@@ -152,7 +152,7 @@
 }
 
 @media (max-width: 900px) {
-	.home_hero-roi-marquee {
+	#home .home_hero-roi-marquee {
 		width: calc(100% + 64px);
 		margin-inline: -32px;
 	}
@@ -1870,6 +1870,19 @@
 		font-size: clamp(17px, 5vw, 20px);
 	}
 
+	.review_deck-card .review_card-author {
+		gap: 12px;
+		margin: 0 0 12px;
+	}
+
+	.review_deck-card .review_card-author strong {
+		font-size: 14px;
+	}
+
+	.review_deck-card .review_card-author span {
+		font-size: 11px;
+	}
+
 	.review_deck-card .review_card-text {
 		flex: 1 1 auto;
 		max-height: none;
@@ -2527,8 +2540,8 @@
 .reviews_swiper .swiper-slide {
 	display: flex;
 	align-items: center;
-	width: min(580px, calc(100vw - 96px));
-	height: 420px;
+	width: min(680px, calc(100vw - 96px));
+	height: 440px;
 	opacity: 0;
 	pointer-events: none;
 	transition-property: transform, opacity;

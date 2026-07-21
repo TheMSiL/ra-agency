@@ -31,9 +31,43 @@ const serviceContent: Record<Exclude<HeroType, "home">, { title: string; text: s
 
 export default function Hero({ type = "home" }: { type?: HeroType }) {
 	const heroRef = useRef<HTMLElement>(null);
+	const astronautRef = useRef<HTMLImageElement>(null);
+	const roiMarqueeRef = useRef<HTMLDivElement>(null);
+	const alignRoiRef = useRef<() => void>(() => undefined);
 	const [isContactOpen, setIsContactOpen] = useState(false);
 	const isHome = type === "home";
 	const content = isHome ? null : serviceContent[type];
+
+	useLayoutEffect(() => {
+		if (!isHome) return;
+		const astronaut = astronautRef.current;
+		const marquee = roiMarqueeRef.current;
+		if (!astronaut || !marquee) return;
+
+		const alignMarquee = () => {
+			const astronautBox = astronaut.getBoundingClientRect();
+			const marqueeBox = marquee.getBoundingClientRect();
+			const currentOffset = Number.parseFloat(marquee.style.top) || 0;
+			const naturalMarqueeCenter = marqueeBox.top + marqueeBox.height / 2 - currentOffset;
+			const helmetLine = astronautBox.top + astronautBox.height * 0.16;
+			marquee.style.top = `${Math.round(helmetLine - naturalMarqueeCenter)}px`;
+		};
+
+		alignRoiRef.current = alignMarquee;
+		const observer = new ResizeObserver(alignMarquee);
+		observer.observe(astronaut);
+		if (heroRef.current) observer.observe(heroRef.current);
+		window.addEventListener('resize', alignMarquee);
+		const frame = window.requestAnimationFrame(alignMarquee);
+		document.fonts.ready.then(alignMarquee);
+
+		return () => {
+			observer.disconnect();
+			window.removeEventListener('resize', alignMarquee);
+			window.cancelAnimationFrame(frame);
+			alignRoiRef.current = () => undefined;
+		};
+	}, [isHome]);
 
 	useLayoutEffect(() => {
 		const hero = heroRef.current;
@@ -104,7 +138,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				<div className="content_container home_hero-container">
 					{isHome && <h1 className="home_hero-title typewriter_host"><TypewriterText text="RA AGENCY" step={70} /></h1>}
 					{isHome && (
-						<div className="home_hero-roi-marquee" aria-label="ROI or DIE">
+						<div ref={roiMarqueeRef} className="home_hero-roi-marquee" aria-label="ROI or DIE">
 							<div className="home_hero-roi-track" aria-hidden="true">
 								{[0, 1].map((group) => (
 									<div className="home_hero-roi-group" key={group}>
@@ -120,7 +154,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 						<>
 							<span className="home_hero-planet-glow" aria-hidden="true" />
 							<Image src="/planet.png" alt="" width={1165} height={783} loading="eager" className="home_hero-planet" aria-hidden="true" />
-							<Image src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image hero_reveal" />
+							<Image ref={astronautRef} src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image hero_reveal" onLoad={() => alignRoiRef.current()} />
 						</>
 					)}
 					{isHome ? (
