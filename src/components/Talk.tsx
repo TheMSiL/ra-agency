@@ -18,17 +18,25 @@ const radarItems = [
 
 export default function Talk() {
 	const [isFormOpen, setIsFormOpen] = useState(false);
+	const [loadedIconCount, setLoadedIconCount] = useState(0);
 	const radarRef = useRef<HTMLDivElement>(null);
 	const beamRef = useRef<SVGGElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const iconRefs = useRef<Array<HTMLImageElement | null>>([]);
+	const loadedIconsRef = useRef(new Set<number>());
+
+	const handleIconReady = (index: number) => {
+		if (loadedIconsRef.current.has(index)) return;
+		loadedIconsRef.current.add(index);
+		setLoadedIconCount(loadedIconsRef.current.size);
+	};
 
 	useLayoutEffect(() => {
 		const radar = radarRef.current;
 		const beam = beamRef.current;
 		const button = buttonRef.current;
 
-		if (!radar || !beam || !button) return;
+		if (!radar || !beam || !button || loadedIconCount < radarItems.length) return;
 
 		const context = gsap.context(() => {
 			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -52,7 +60,7 @@ export default function Talk() {
 			};
 
 			const updateScanner = () => {
-				gsap.set(beam, { rotation: scanner.angle, svgOrigin: '968 1056' });
+				gsap.set(beam, { rotation: scanner.angle, svgOrigin: '968 1040' });
 				iconRefs.current.forEach((icon, index) => {
 					if (!icon) return;
 					// The path's leading edge is 15deg ahead: reveal only after it crosses an icon.
@@ -66,7 +74,6 @@ export default function Talk() {
 					gsap.set(icon, {
 						autoAlpha: intensity,
 						scale: 0.86 + intensity * 0.14,
-						filter: `drop-shadow(0 0 ${Math.round(intensity * 24)}px rgba(250,138,22,${intensity * 0.9}))`,
 					});
 				});
 			};
@@ -120,12 +127,24 @@ export default function Talk() {
 				measureIcons();
 				handlePointerLeave();
 			};
+			const handleVisibilityChange = () => {
+				if (document.hidden) {
+					scannerTween.pause();
+				} else {
+					handleResize();
+					scannerTween.resume();
+				}
+			};
+			const resizeObserver = new ResizeObserver(handleResize);
 
 			if (canFollowPointer) {
 				radar.addEventListener('pointermove', handlePointerMove);
 				radar.addEventListener('pointerleave', handlePointerLeave);
 			}
 			window.addEventListener('resize', handleResize);
+			window.visualViewport?.addEventListener('resize', handleResize);
+			document.addEventListener('visibilitychange', handleVisibilityChange);
+			resizeObserver.observe(radar);
 
 			return () => {
 				scannerTween.kill();
@@ -134,11 +153,14 @@ export default function Talk() {
 					radar.removeEventListener('pointerleave', handlePointerLeave);
 				}
 				window.removeEventListener('resize', handleResize);
+				window.visualViewport?.removeEventListener('resize', handleResize);
+				document.removeEventListener('visibilitychange', handleVisibilityChange);
+				resizeObserver.disconnect();
 			};
 		}, radar);
 
 		return () => context.revert();
-	}, []);
+	}, [loadedIconCount]);
 
 	return (
 		<section className="talk_section">
@@ -167,6 +189,8 @@ export default function Talk() {
 							height={120}
 							style={{ left: `${item.x}%`, top: `${item.y}%` }}
 							ref={(node) => { iconRefs.current[index] = node; }}
+							onLoad={() => handleIconReady(index)}
+							onError={() => handleIconReady(index)}
 						/>
 					))}
 					<button ref={buttonRef} className="talk_btn" type="button" onClick={() => setIsFormOpen(true)}>

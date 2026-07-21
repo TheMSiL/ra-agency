@@ -16,6 +16,7 @@ const menuItems = [
 	{ label: "about us", href: "/about" },
 	{ label: "cases", href: "/cases" },
 	{ label: "blog", href: "/blog", },
+	{ label: "contacts", href: "/contacts" },
 	{ label: "google ads", href: "/google-ads" },
 	{ label: "telegram ads", href: "/telegram-ads" },
 	{ label: "meta ads", href: "/meta-ads" },

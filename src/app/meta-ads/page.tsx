@@ -9,7 +9,7 @@ import FloatingTelegramButton from "@/components/FloatingTelegramButton";
 
 export default function TgAdsPage() {
 	return (
-		<div className="wrapper">
+		<div className="wrapper ads_page">
 			<Hero type="meta" />
 			<WhatYouGet />
 			<WhatWeDo />

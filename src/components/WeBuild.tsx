@@ -49,16 +49,7 @@ export default function WeBuild() {
 				},
 			);
 
-			if (window.matchMedia("(max-width: 900px)").matches) {
-				gsap.fromTo(root,
-					{ "--dna-shift-y": "5svh" },
-					{
-						"--dna-shift-y": "-5svh",
-						ease: "none",
-						scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.8 },
-					},
-				);
-			} else {
+			if (!window.matchMedia("(max-width: 900px)").matches) {
 				gsap.fromTo(root,
 					{ "--dna-shift": "-5vw" },
 					{

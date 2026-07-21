@@ -1,0 +1,45 @@
+import Background from "@/components/Background";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Image from "next/image";
+
+const contacts = [
+	{ label: "Telegram", value: "@raagencytech", href: "https://t.me/raagencytech" },
+	{ label: "Email", value: "hello@raagency.tech", href: "mailto:hello@raagency.tech" },
+	{ label: "LinkedIn", value: "RA Agency", href: "https://www.linkedin.com/company/raagencytech" },
+	{ label: "X", value: "@raagencytech", href: "https://x.com/raagencytech" },
+];
+
+export default function ContactsPage() {
+	return (
+		<div className="wrapper">
+			<Background>
+				<div className="blog_page-content contacts_page-content">
+					<Header />
+					<main className="content_container privacy_policy-content blog_page-main contacts_page-main">
+						<h1 className="cases_page-title numbers_gradient-text">Contacts</h1>
+						<div className="contacts_intro">
+							<p>Have a project in mind or want to scale what already works? Pick the channel that suits you — we are always within reach.</p>
+							<span className="contacts_intro-mark">Let’s build growth together</span>
+						</div>
+						<div className="contacts_list">
+							{contacts.map((contact, index) => (
+								<a className="contacts_item" href={contact.href} key={contact.label} target={contact.href.startsWith("http") ? "_blank" : undefined} rel={contact.href.startsWith("http") ? "noreferrer" : undefined}>
+									<span className="contacts_item-content">
+										<span className="contacts_item-index">0{index + 1}</span>
+										<span className="contacts_item-label">{contact.label}</span>
+										<span className="contacts_item-value">{contact.value}</span>
+									</span>
+									<span className="contacts_item-arrow" aria-hidden="true">
+										<Image src="/cases_card-arrow.png" alt="" width={31} height={45} />
+									</span>
+								</a>
+							))}
+						</div>
+					</main>
+				</div>
+			</Background>
+			<Footer />
+		</div>
+	);
+}

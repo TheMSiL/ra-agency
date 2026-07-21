@@ -196,6 +196,7 @@ export default function WhatWeDo() {
 					const isNarrowScene = scene.clientWidth < 640;
 					const itemY = (upperY + lowerY) / 2 - (isNarrowScene ? 0 : itemLift);
 					const itemX = centerX + itemXOffset;
+					const isAboveMobileViewport = isNarrowScene && itemY < 80;
 
 					const midAngle = (upper.angle + lower.angle) / 2;
 					const rotation = (midAngle * 180) / Math.PI * 0.55;
@@ -220,7 +221,7 @@ export default function WhatWeDo() {
 						yPercent: -50,
 						rotation,
 						scale,
-						autoAlpha: opacity,
+						autoAlpha: isAboveMobileViewport ? 0 : opacity,
 						zIndex: Math.round(lerp(upper.zIndex, lower.zIndex, 0.5)),
 					});
 				});

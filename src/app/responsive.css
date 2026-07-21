@@ -2467,7 +2467,7 @@
 
 	.talk_btn {
 		position: absolute;
-		top: 15%;
+		top: 0;
 		bottom: auto;
 		left: 0;
 		width: 88px;
@@ -2477,6 +2477,8 @@
 		border-radius: 50%;
 		font-size: 8px;
 		line-height: 100%;
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
 	}
 }
 
@@ -2646,6 +2648,36 @@
 }
 
 @media (max-width: 900px) {
+	.ads_page .tg_hero + .what_you_get {
+		margin-top: 8px;
+	}
+
+	.ads_page .tg_hero,
+	.ads_page .tg_hero .home_hero-visible,
+	.ads_page .tg_hero .home_hero-container {
+		height: 72svh;
+		min-height: 540px;
+		max-height: 680px;
+	}
+
+	.contacts_list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.contacts_item {
+		min-height: 140px;
+	}
+
+	.contacts_item:first-child {
+		grid-row: auto;
+		grid-column: span 2;
+		min-height: 220px;
+	}
+
+	.contacts_item:nth-child(4) {
+		grid-column: auto;
+	}
+
 	.we_build .we_build-card {
 		width: min(42%, 340px);
 	}
@@ -2668,6 +2700,126 @@
 	.we_build .we_build-item--4 .we_build-card {
 		top: 72%;
 		left: 3%;
+	}
+}
+
+@media (max-width: 560px) {
+	.ads_page .tg_hero + .what_you_get {
+		margin-top: 0;
+	}
+
+	.ads_page .tg_hero,
+	.ads_page .tg_hero .home_hero-visible,
+	.ads_page .tg_hero .home_hero-container {
+		height: 52svh;
+		min-height: 410px;
+		max-height: 500px;
+	}
+
+	.ads_page .tg_hero .service_hero-content {
+		bottom: 42px;
+	}
+
+	.contacts_intro {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.contacts_list {
+		grid-template-columns: 1fr;
+	}
+
+	.contacts_item:first-child,
+	.contacts_item:nth-child(4) {
+		grid-column: auto;
+		min-height: 180px;
+	}
+
+	.contacts_page-main {
+		padding-bottom: 120px;
+	}
+
+	.contacts_list {
+		gap: 10px;
+		margin-top: 30px;
+	}
+
+	.contacts_item,
+	.contacts_item:first-child {
+		min-height: 132px;
+		padding: 20px;
+		border-radius: 6px 18px;
+	}
+
+	.contacts_item-index {
+		margin-bottom: 20px;
+		font-size: 11px;
+	}
+
+	.contacts_item:first-child .contacts_item-index {
+		margin-bottom: 20px;
+	}
+
+	.contacts_item-label {
+		font-size: 11px;
+	}
+
+	.contacts_item-value {
+		margin-top: 6px;
+		font-size: clamp(16px, 4.5vw, 20px);
+	}
+
+	.contacts_item-arrow {
+		width: 40px;
+		height: 40px;
+		font-size: 19px;
+	}
+
+	.footer {
+		padding: 30px 0 38px;
+	}
+
+	.footer .footer_container {
+		padding-right: 24px;
+		padding-left: 24px;
+	}
+
+	.footer .footer_title {
+		width: auto;
+		font-size: clamp(36px, 13vw, 52px);
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+	}
+
+	.footer_nav {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+		gap: 28px 18px;
+		margin-top: 26px;
+		text-align: left;
+	}
+
+	.footer_nav-list {
+		justify-items: start;
+		gap: 10px;
+	}
+
+	.footer_nav-title {
+		font-size: 13px;
+	}
+
+	.footer_nav-item {
+		font-size: 14px;
+	}
+
+	.footer_nav-column:last-child {
+		grid-column: 1 / -1;
+	}
+
+	.footer_logo-bg {
+		top: 58%;
+		width: 210px;
+		opacity: 0.76;
 	}
 }
 
@@ -2715,7 +2867,7 @@
 	}
 
 	.we_build-dna {
-		top: calc(50% + var(--dna-shift-y));
+		top: 50%;
 		left: 50%;
 		width: 100svh;
 		height: 120vw;

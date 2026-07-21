@@ -15,7 +15,7 @@ const navigation = [
 		title: 'Blog'
 	},
 	{
-		href: '#contact',
+		href: '/contacts',
 		title: 'Contact'
 	},
 ]
