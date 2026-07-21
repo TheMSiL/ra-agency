@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import type { CSSProperties, TouchEvent as ReactTouchEvent } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -29,7 +29,6 @@ const items = [
 
 const SWIPE_THRESHOLD_PX = 40;
 const PIN_SCROLL_DISTANCE = 1500;
-
 function AnimatedCount({ value }: { value: string }) {
 	const [displayedValue, setDisplayedValue] = useState(value);
 	const currentRef = useRef<HTMLSpanElement | null>(null);
@@ -77,108 +76,88 @@ export default function WhatYouGet() {
 	const activeIndexRef = useRef(0);
 	const wheelLockedRef = useRef(false);
 
-	const touchStartX = useRef(0);
-	const touchStartY = useRef(0);
-	const touchDeltaX = useRef(0);
-	const isSwiping = useRef(false);
-
 	useEffect(() => {
-		const ctx = gsap.context(() => {
-			const section = sectionRef.current;
-			const pin = pinRef.current;
-			const slider = sliderRef.current;
-			const track = trackRef.current;
+		if (!window.matchMedia("(min-width: 901px)").matches) return;
 
-			if (!section || !pin || !slider || !track) {
-				return;
-			}
+		const section = sectionRef.current;
+		const pin = pinRef.current;
+		const slider = sliderRef.current;
+		const track = trackRef.current;
+		if (!section || !pin || !slider || !track) return;
 
-			const setStep = (nextIndex: number, animate = true) => {
-				const boundedIndex = Math.min(items.length - 1, Math.max(0, nextIndex));
-				const distance = track.scrollWidth - slider.clientWidth;
+		const setStep = (nextIndex: number, animate = true) => {
+			const boundedIndex = Math.min(items.length - 1, Math.max(0, nextIndex));
+			const distance = track.scrollWidth - slider.clientWidth;
 
-				gsap.to(track, {
-					x: -(distance * boundedIndex) / (items.length - 1),
-					duration: animate ? 0.42 : 0,
-					ease: "power3.inOut",
-					overwrite: true,
-				});
-
-				if (boundedIndex === activeIndexRef.current) return;
-				activeIndexRef.current = boundedIndex;
-				setActiveIndex(boundedIndex);
-				setLineStep(boundedIndex);
-			};
-
-			const updateActiveIndex = (progress: number, animate = true) => {
-				const nextIndex = Math.round(progress * (items.length - 1));
-				setStep(nextIndex, animate);
-			};
-
-			const trigger = ScrollTrigger.create({
-				trigger: section,
-				start: "top top",
-				end: `+=${PIN_SCROLL_DISTANCE}`,
-				pin,
-				anticipatePin: 1,
-				invalidateOnRefresh: true,
-				onUpdate: (self) => {
-					if (!wheelLockedRef.current) updateActiveIndex(self.progress);
-				},
-				onRefresh: (self) => updateActiveIndex(self.progress, false),
+			gsap.to(track, {
+				x: -(distance * boundedIndex) / (items.length - 1),
+				duration: animate ? 0.42 : 0,
+				ease: "power3.inOut",
+				overwrite: true,
 			});
 
-			const onWheel = (event: WheelEvent) => {
-				if (!trigger.isActive || Math.abs(event.deltaY) < 4) return;
+			if (boundedIndex === activeIndexRef.current) return;
+			activeIndexRef.current = boundedIndex;
+			setActiveIndex(boundedIndex);
+			setLineStep(boundedIndex);
+		};
 
-				const direction = event.deltaY > 0 ? 1 : -1;
-				const currentIndex = activeIndexRef.current;
-				const atBoundary = direction > 0
-					? currentIndex === items.length - 1
-					: currentIndex === 0;
+		const trigger = ScrollTrigger.create({
+			trigger: section,
+			start: "top top",
+			end: `+=${PIN_SCROLL_DISTANCE}`,
+			pin,
+			anticipatePin: 1,
+			invalidateOnRefresh: true,
+			onUpdate: (self) => {
+				if (!wheelLockedRef.current) setStep(Math.round(self.progress * (items.length - 1)));
+			},
+			onRefresh: (self) => setStep(Math.round(self.progress * (items.length - 1)), false),
+		});
 
-				if (atBoundary) return;
+		const handleWheel = (event: WheelEvent) => {
+			if (!trigger.isActive || Math.abs(event.deltaY) < 4) return;
 
-				event.preventDefault();
-				if (wheelLockedRef.current) return;
-				wheelLockedRef.current = true;
+			const direction = event.deltaY > 0 ? 1 : -1;
+			const currentIndex = activeIndexRef.current;
+			const atBoundary = direction > 0
+				? currentIndex === items.length - 1
+				: currentIndex === 0;
+			if (atBoundary) return;
 
-				const nextIndex = currentIndex + direction;
-				setStep(nextIndex);
-				const targetProgress = nextIndex / (items.length - 1);
-				window.scrollTo({
-					top: trigger.start + (trigger.end - trigger.start) * targetProgress,
-					behavior: "auto",
-				});
+			if (event.cancelable) event.preventDefault();
+			if (wheelLockedRef.current) return;
+			wheelLockedRef.current = true;
 
-				window.setTimeout(() => {
-					wheelLockedRef.current = false;
-				}, 460);
-			};
+			const nextIndex = currentIndex + direction;
+			setStep(nextIndex);
+			window.scrollTo({
+				top: trigger.start + (trigger.end - trigger.start) * (nextIndex / (items.length - 1)),
+				behavior: "auto",
+			});
 
-			window.addEventListener("wheel", onWheel, { passive: false });
-			scrollTriggerRef.current = trigger;
+			window.setTimeout(() => {
+				wheelLockedRef.current = false;
+			}, 460);
+		};
 
-			return () => {
-				window.removeEventListener("wheel", onWheel);
-				trigger.kill();
-			};
-		}, sectionRef);
+		window.addEventListener("wheel", handleWheel, { passive: false });
+		scrollTriggerRef.current = trigger;
 
 		return () => {
+			window.removeEventListener("wheel", handleWheel);
 			scrollTriggerRef.current = null;
-			ctx.revert();
+			trigger.kill();
 		};
 	}, []);
 
-	const goTo = (nextIndex: number) => {
+	const goTo = useCallback((nextIndex: number) => {
 		const boundedIndex = Math.min(items.length - 1, Math.max(0, nextIndex));
 
 		if (boundedIndex === activeIndex) {
 			return;
 		}
 
-		const trigger = scrollTriggerRef.current;
 		const track = trackRef.current;
 		const slider = sliderRef.current;
 
@@ -195,67 +174,87 @@ export default function WhatYouGet() {
 			});
 		}
 
+		const trigger = scrollTriggerRef.current;
 		if (trigger) {
 			wheelLockedRef.current = true;
-			const targetProgress = boundedIndex / (items.length - 1);
-			const targetY = trigger.start + (trigger.end - trigger.start) * targetProgress;
-
 			window.scrollTo({
-				top: targetY,
+				top: trigger.start + (trigger.end - trigger.start) * (boundedIndex / (items.length - 1)),
 				behavior: "auto",
 			});
 			window.setTimeout(() => {
 				wheelLockedRef.current = false;
 			}, 460);
-			return;
 		}
-	};
+	}, [activeIndex]);
+
+	useEffect(() => {
+		if (!window.matchMedia("(max-width: 900px)").matches) return;
+
+		const timer = window.setTimeout(() => {
+			goTo((activeIndex + 1) % items.length);
+		}, 10_000);
+
+		return () => window.clearTimeout(timer);
+	}, [activeIndex, goTo]);
+
+	useEffect(() => {
+		const slider = sliderRef.current;
+		if (!slider) return;
+
+		let startX = 0;
+		let startY = 0;
+		let deltaX = 0;
+		let horizontalGesture = false;
+
+		const handleTouchStart = (event: TouchEvent) => {
+			const touch = event.touches[0];
+			if (!touch) return;
+
+			startX = touch.clientX;
+			startY = touch.clientY;
+			deltaX = 0;
+			horizontalGesture = false;
+		};
+
+		const handleTouchMove = (event: TouchEvent) => {
+			const touch = event.touches[0];
+			if (!touch) return;
+
+			deltaX = touch.clientX - startX;
+			const deltaY = touch.clientY - startY;
+
+			if (!horizontalGesture && Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+				horizontalGesture = true;
+			}
+
+			if (horizontalGesture && event.cancelable) event.preventDefault();
+		};
+
+		const handleTouchEnd = () => {
+			if (horizontalGesture && Math.abs(deltaX) >= SWIPE_THRESHOLD_PX) {
+				const direction = deltaX < 0 ? 1 : -1;
+				goTo((activeIndex + direction + items.length) % items.length);
+			}
+
+			deltaX = 0;
+			horizontalGesture = false;
+		};
+
+		slider.addEventListener("touchstart", handleTouchStart, { passive: true });
+		slider.addEventListener("touchmove", handleTouchMove, { passive: false });
+		slider.addEventListener("touchend", handleTouchEnd, { passive: true });
+		slider.addEventListener("touchcancel", handleTouchEnd, { passive: true });
+
+		return () => {
+			slider.removeEventListener("touchstart", handleTouchStart);
+			slider.removeEventListener("touchmove", handleTouchMove);
+			slider.removeEventListener("touchend", handleTouchEnd);
+			slider.removeEventListener("touchcancel", handleTouchEnd);
+		};
+	}, [activeIndex, goTo]);
 
 	const handlePaginationClick = (nextIndex: number) => {
 		goTo(nextIndex);
-	};
-
-	const handleTouchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
-		const touch = event.touches[0];
-		touchStartX.current = touch.clientX;
-		touchStartY.current = touch.clientY;
-		touchDeltaX.current = 0;
-		isSwiping.current = false;
-	};
-
-	const handleTouchMove = (event: ReactTouchEvent<HTMLDivElement>) => {
-		const touch = event.touches[0];
-		const deltaX = touch.clientX - touchStartX.current;
-		const deltaY = touch.clientY - touchStartY.current;
-
-		touchDeltaX.current = deltaX;
-
-		if (!isSwiping.current && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
-			isSwiping.current = true;
-		}
-
-		if (isSwiping.current) {
-			event.preventDefault();
-		}
-	};
-
-	const handleTouchEnd = () => {
-		if (!isSwiping.current) {
-			return;
-		}
-
-		const deltaX = touchDeltaX.current;
-
-		if (Math.abs(deltaX) >= SWIPE_THRESHOLD_PX) {
-			if (deltaX < 0) {
-				goTo(activeIndex + 1);
-			} else {
-				goTo(activeIndex - 1);
-			}
-		}
-
-		isSwiping.current = false;
-		touchDeltaX.current = 0;
 	};
 
 	return (
@@ -268,9 +267,6 @@ export default function WhatYouGet() {
 						<div
 							className="what_track"
 							ref={trackRef}
-							onTouchStart={handleTouchStart}
-							onTouchMove={handleTouchMove}
-							onTouchEnd={handleTouchEnd}
 						>
 							{items.map((item, index) => (
 								<article
@@ -308,6 +304,7 @@ export default function WhatYouGet() {
 						</div>
 					</div>
 				</div>
+				<div className="what_bottom-fade" aria-hidden="true" />
 			</div>
 		</section>
 	);

@@ -32,7 +32,11 @@ export default function WeBuild() {
 
 	useLayoutEffect(() => {
 		const root = rootRef.current;
-		if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+		if (
+			!root
+			|| window.matchMedia("(prefers-reduced-motion: reduce)").matches
+			|| window.matchMedia("(max-width: 900px)").matches
+		) return;
 
 		const context = gsap.context(() => {
 			const items = gsap.utils.toArray<HTMLElement>(".we_build-item");
@@ -49,16 +53,14 @@ export default function WeBuild() {
 				},
 			);
 
-			if (!window.matchMedia("(max-width: 900px)").matches) {
-				gsap.fromTo(root,
-					{ "--dna-shift": "-5vw" },
-					{
-						"--dna-shift": "5vw",
-						ease: "none",
-						scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.8 },
-					},
-				);
-			}
+			gsap.fromTo(root,
+				{ "--dna-shift": "-5vw" },
+				{
+					"--dna-shift": "5vw",
+					ease: "none",
+					scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.8 },
+				},
+			);
 
 		}, root);
 

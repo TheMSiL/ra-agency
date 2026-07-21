@@ -137,7 +137,7 @@
 	}
 }
 @media (max-width: 1280px) {
-	#home .home_hero-btn.home_hero-btn-morphed {
+	.home_hero .home_hero-btn.home_hero-btn-morphed {
 		position: absolute;
 		width: 0;
 		height: 0;
@@ -146,7 +146,8 @@
 		overflow: hidden;
 	}
 
-	#home .home_hero-content:has(.home_hero-btn-morphed) {
+	.home_hero-content:has(.home_hero-btn-morphed),
+	.service_hero-bottom:has(.home_hero-btn-morphed) {
 		gap: 0;
 	}
 }
@@ -2648,18 +2649,6 @@
 }
 
 @media (max-width: 900px) {
-	.ads_page .tg_hero + .what_you_get {
-		margin-top: 8px;
-	}
-
-	.ads_page .tg_hero,
-	.ads_page .tg_hero .home_hero-visible,
-	.ads_page .tg_hero .home_hero-container {
-		height: 72svh;
-		min-height: 540px;
-		max-height: 680px;
-	}
-
 	.contacts_list {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -2704,22 +2693,6 @@
 }
 
 @media (max-width: 560px) {
-	.ads_page .tg_hero + .what_you_get {
-		margin-top: 0;
-	}
-
-	.ads_page .tg_hero,
-	.ads_page .tg_hero .home_hero-visible,
-	.ads_page .tg_hero .home_hero-container {
-		height: 52svh;
-		min-height: 410px;
-		max-height: 500px;
-	}
-
-	.ads_page .tg_hero .service_hero-content {
-		bottom: 42px;
-	}
-
 	.contacts_intro {
 		align-items: flex-start;
 		flex-direction: column;
