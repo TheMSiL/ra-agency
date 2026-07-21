@@ -2515,7 +2515,6 @@
 	}
 }
 
-/* Reviews uses the same centered coverflow model as the reference slider. */
 .reviews_swiper .swiper-wrapper {
 	transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -2529,7 +2528,16 @@
 	display: flex;
 	align-items: center;
 	width: min(580px, calc(100vw - 96px));
-	height: 470px;
+	height: 420px;
+	opacity: 0;
+	pointer-events: none;
+	transition-property: transform, opacity;
+}
+
+.reviews_swiper .swiper-slide-prev,
+.reviews_swiper .swiper-slide-active,
+.reviews_swiper .swiper-slide-next {
+	opacity: 1;
 	pointer-events: auto;
 }
 
@@ -2545,7 +2553,6 @@
 	position: relative;
 	top: auto;
 	left: auto;
-	opacity: 1;
 }
 
 .reviews_swiper .review_deck-card:not(.review_card-active) > * {
@@ -2561,7 +2568,7 @@
 
 	.reviews_swiper .swiper-slide {
 		width: min(580px, calc(100% - 58px));
-		height: 430px;
+		height: 400px;
 	}
 }
 
@@ -2584,6 +2591,6 @@
 @media (max-width: 560px) {
 	.reviews_swiper .swiper-slide {
 		width: calc(100% - 46px);
-		height: 430px;
+		height: 400px;
 	}
 }

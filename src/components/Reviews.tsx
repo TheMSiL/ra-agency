@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { Autoplay, EffectCoverflow } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import type { Swiper as SwiperInstance } from 'swiper';
 import { useRef, useState } from 'react';
+import type { Swiper as SwiperInstance } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
+import { Autoplay, EffectCoverflow } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const reviewsData = [
 	{ id: 'review-1', icon: '/company_review.png', title: 'company name', description: 'Working with RA Agency on our Telegram Ads campaigns was a smooth and productive experience throughout. Communication stood out from the start - clear, fast, no unnecessary back-and-forth. The team always knew what we needed and responded precisely. What genuinely impressed us was their approach to targeting: they combine audience and channel segmentation with automation on the setup side', date: '8 December 2025' },
@@ -56,7 +56,7 @@ export default function Reviews() {
 	}
 
 	return (
-		<div className="reviews sm:pb-28 pb-20 xl:pb-48 pt-20">
+		<div className="reviews py-20">
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title">REVIEW</h2>
 				<div className="reviews_slider">
