@@ -14,12 +14,16 @@ const buildItems = [
 		description: "RA Agency is a performance marketing agency that helps brands scale growth through Telegram Ads, Meta Ads, Google Ads, influencer marketing, and conversion-driven funnels",
 	},
 	{
-		title: "TARGET NICHES",
-		description: "We work with Web3, gaming, iGaming, and digital products where success is measured not by clicks, but by real users, conversions, and revenue growth",
-	},
-	{
 		title: "OUR PHILOSOPHY",
 		description: "We ignore vanity metrics like clicks and impressions. Our focus is your unit economics. We design automated, data-driven acquisition systems that consistently deliver scalable, predictable revenue growth",
+	},
+	{
+		title: "GROWTH PARTNERSHIP",
+		description: "We act as an extension of your in-house team, not just a third-party vendor. You get full, real-time access to live dashboards, transparent ad accounts, and direct communication",
+	},
+	{
+		title: "TARGET NICHES",
+		description: "We work with Web3, gaming, iGaming, and digital products where success is measured not by clicks, but by real users, conversions, and revenue growth",
 	},
 ];
 
@@ -31,52 +35,40 @@ export default function WeBuild() {
 		if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
 		const context = gsap.context(() => {
-			const cards = gsap.utils.toArray<HTMLElement>(".we_build-card");
-			const revealOrder = [cards[0], cards[2], cards[1]];
-			const isVerticalScene = window.matchMedia("(max-width: 900px)").matches;
+			const items = gsap.utils.toArray<HTMLElement>(".we_build-item");
 
-			if (window.matchMedia("(max-width: 767px)").matches) {
-				gsap.from(revealOrder, {
-					y: 42,
-					autoAlpha: 0,
-					duration: 0.75,
-					stagger: 0.16,
+			gsap.fromTo(items,
+				{ y: 38, autoAlpha: 0 },
+				{
+					y: 0,
+					autoAlpha: 1,
+					duration: 0.72,
+					stagger: 0.05,
 					ease: "power3.out",
-					scrollTrigger: { trigger: root, start: "top 78%", once: true },
-				});
-				return;
+					scrollTrigger: { trigger: root, start: "top 82%", once: true },
+				},
+			);
+
+			if (window.matchMedia("(max-width: 900px)").matches) {
+				gsap.fromTo(root,
+					{ "--dna-shift-y": "5svh" },
+					{
+						"--dna-shift-y": "-5svh",
+						ease: "none",
+						scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.8 },
+					},
+				);
+			} else {
+				gsap.fromTo(root,
+					{ "--dna-shift": "-5vw" },
+					{
+						"--dna-shift": "5vw",
+						ease: "none",
+						scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: 0.8 },
+					},
+				);
 			}
 
-			gsap.timeline({
-				scrollTrigger: {
-					trigger: root,
-					start: "top 82%",
-					end: "bottom 28%",
-					scrub: 0.8,
-				},
-			})
-				.fromTo(".we_build-dna",
-					{
-						x: isVerticalScene ? 0 : "-2vw",
-						y: isVerticalScene ? "-3vh" : 0,
-						rotation: isVerticalScene ? 52.5 : 12,
-						scale: 1.05,
-					},
-					{
-						x: isVerticalScene ? 0 : "2vw",
-						y: isVerticalScene ? "3vh" : 0,
-						rotation: isVerticalScene ? 57 : 16,
-						scale: 1,
-						ease: "none",
-						duration: 1,
-					},
-					0,
-				)
-				.fromTo(revealOrder,
-					{ y: 48, autoAlpha: 0 },
-					{ y: 0, autoAlpha: 1, stagger: 0.18, duration: 0.22, ease: "power2.out" },
-					0.12,
-				);
 		}, root);
 
 		return () => context.revert();
@@ -85,7 +77,7 @@ export default function WeBuild() {
 	return (
 		<Background>
 			<section className="we_build" ref={rootRef}>
-				<Image className="we_build-dna" src="/dna-helix-v3.png" alt="DNA double helix" width={1971} height={798} sizes="100vw" />
+				<Image className="we_build-dna" src="/dna.svg" alt="DNA double helix" width={1920} height={1373} sizes="112vw" />
 				{buildItems.map((item, index) => (
 					<div className={`we_build-item we_build-item--${index + 1}`} key={item.title}>
 						<span className="we_build-connector" aria-hidden="true" />

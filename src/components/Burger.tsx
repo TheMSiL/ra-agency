@@ -41,13 +41,15 @@ export default function Burger() {
 	}
 
 	function isItemActive(href: string) {
-		const path = localizedPath(href);
+		const normalizePath = (value: string) => value.length > 1 ? value.replace(/\/+$/, "") : value;
+		const path = normalizePath(localizedPath(href));
+		const currentPath = normalizePath(pathname);
 
 		if (href === "/") {
-			return pathname === path;
+			return currentPath === path;
 		}
 
-		return pathname === path || pathname.startsWith(`${path}/`);
+		return currentPath === path || currentPath.startsWith(`${path}/`);
 	}
 
 	return (

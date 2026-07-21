@@ -3396,8 +3396,10 @@ a {
 
 	.about_hero::after {
 		position: absolute;
-		inset: auto -48px 0;
+		bottom: 0;
+		left: 50%;
 		z-index: 4;
+		width: 100vw;
 		height: clamp(190px, 34%, 360px);
 		content: '';
 		background: linear-gradient(
@@ -3407,6 +3409,7 @@ a {
 			rgba(0, 0, 0, 0.92) 70%,
 			#000 100%
 		);
+		transform: translateX(-50%);
 		pointer-events: none;
 	}
 
@@ -3470,6 +3473,8 @@ a {
 	}
 
 	.we_build {
+		--dna-shift: 0vw;
+		--dna-shift-y: 0svh;
 		position: relative;
 		left: 50%;
 		width: 100vw;
@@ -3498,13 +3503,14 @@ a {
 	}
 	.we_build-dna {
 		position: absolute;
-		z-index: 2;
-		top: 50%;
-		left: 50%;
-		width: 130%;
-		height: clamp(300px, 31vw, 590px);
+		z-index: 3;
+		top: 0;
+		left: calc(-6vw + var(--dna-shift));
+		width: 112vw;
+		height: 100%;
+		max-width: none;
 		object-fit: fill;
-		transform: translate(-50%, -50%) rotate(14deg);
+		transform: none;
 		pointer-events: none;
 		user-select: none;
 	}
@@ -3543,7 +3549,10 @@ a {
 		border-radius: 6px 3px;
 		color: rgba(255, 255, 255, 0.62);
 		cursor: pointer;
-		transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+		transition:
+			color 0.25s ease,
+			background 0.25s ease,
+			box-shadow 0.25s ease;
 	}
 
 	.contact_form-method-options label.active {
@@ -3566,7 +3575,9 @@ a {
 	}
 	.we_build-item {
 		position: absolute;
-		width: min(27vw, 500px);
+		z-index: 3;
+		isolation: isolate;
+		width: min(29vw, 520px);
 	}
 	.we_build-card {
 		position: relative;
@@ -3581,18 +3592,22 @@ a {
 	.we_build-connector {
 		position: absolute;
 		z-index: 1;
-		width: 1px;
-		background: linear-gradient(to bottom, rgba(250, 138, 22, 0.18), #fa8a16);
+		width: 2px;
+		background: #fa8a16;
+		box-shadow: 0 0 31.25px 0 rgba(250, 138, 22, 0.4) inset;
+		backdrop-filter: blur(10.21875px);
 	}
 	.we_build-connector::after {
 		position: absolute;
+		z-index: 2;
 		left: 50%;
-		width: 8px;
-		height: 8px;
-		border: 1px solid #fa8a16;
-		border-radius: 50%;
-		background: #6f3500;
-		box-shadow: 0 0 12px rgba(250, 138, 22, 0.55);
+		width: 30px;
+		height: 30px;
+		border: 5px solid #fa8a16;
+		border-radius: 3px 10px 3px 9.975px;
+		background: rgba(0, 0, 0, 0.5);
+		box-shadow: 0 0 31.25px 0 rgba(250, 138, 22, 0.4) inset;
+		backdrop-filter: blur(10.21875px);
 		transform: translateX(-50%);
 		content: '';
 	}
@@ -3612,47 +3627,131 @@ a {
 		text-align: justify;
 	}
 	.we_build-item--1 {
-		top: 48%;
+		top: 43%;
 		right: auto;
 		bottom: auto;
-		left: 4%;
+		left: 3%;
 	}
 	.we_build-item--1 .we_build-connector {
-		bottom: calc(100% + 10px);
-		left: 22%;
-		height: clamp(95px, 7vw, 135px);
+		bottom: calc(100% + 4px);
+		left: 21%;
+		height: clamp(110px, 9vw, 155px);
 	}
 	.we_build-item--1 .we_build-connector::after {
-		bottom: -4px;
+		top: -15px;
 	}
 	.we_build-item--2 {
-		top: 68%;
+		top: 19%;
 		right: auto;
 		bottom: auto;
-		left: 40.5%;
+		left: 29%;
 	}
 	.we_build-item--2 .we_build-connector {
-		right: 48%;
-		bottom: calc(100% + 10px);
-		height: clamp(105px, 8vw, 160px);
+		top: calc(100% + 4px);
+		left: 9%;
+		height: clamp(70px, 6vw, 105px);
 	}
 	.we_build-item--2 .we_build-connector::after {
-		bottom: -4px;
+		bottom: -15px;
 	}
 	.we_build-item--3 {
-		top: 33%;
-		right: 10%;
+		top: 35%;
+		right: auto;
 		bottom: auto;
-		left: auto;
+		left: 60%;
 	}
 	.we_build-item--3 .we_build-connector {
-		top: calc(100% + 10px);
-		left: 26%;
-		height: clamp(60px, 4.2vw, 80px);
-		background: linear-gradient(to bottom, #fa8a16, rgba(250, 138, 22, 0.18));
+		top: calc(100% + 4px);
+		left: 0;
+		height: clamp(60px, 5vw, 90px);
 	}
 	.we_build-item--3 .we_build-connector::after {
-		top: -4px;
+		bottom: -15px;
+	}
+	.we_build-item--4 {
+		top: 67%;
+		left: 54%;
+	}
+	.we_build-item--4 .we_build-connector {
+		bottom: calc(100% + 4px);
+		left: 7%;
+		height: clamp(65px, 5.5vw, 95px);
+	}
+	.we_build-item--4 .we_build-connector::after {
+		top: -15px;
+	}
+
+	/* DNA annotations use section coordinates, independent of card dimensions. */
+	.we_build .we_build-item {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.we_build .we_build-card {
+		position: absolute;
+		width: min(29vw, 520px);
+	}
+
+	.we_build .we_build-connector {
+		bottom: auto;
+	}
+
+	.we_build .we_build-item--1 .we_build-card {
+		top: 45%;
+		left: 3%;
+	}
+
+	.we_build .we_build-item--1 .we_build-connector {
+		top: 35%;
+		left: calc(16% + var(--dna-shift));
+		height: 12%;
+	}
+
+	.we_build .we_build-item--2 .we_build-card {
+		top: 16%;
+		left: 29%;
+	}
+
+	.we_build .we_build-item--2 .we_build-connector {
+		top: 31%;
+		left: calc(39% + var(--dna-shift));
+		height: 15%;
+	}
+
+	.we_build .we_build-item--3 .we_build-card {
+		top: 32%;
+		left: 67%;
+	}
+
+	.we_build .we_build-item--3 .we_build-connector {
+		top: 46%;
+		left: calc(79% + var(--dna-shift));
+		height: 25%;
+	}
+
+	.we_build .we_build-item--4 .we_build-card {
+		top: 72%;
+		left: 48%;
+	}
+
+	.we_build .we_build-item--4 .we_build-connector {
+		top: 62%;
+		left: calc(57% + var(--dna-shift));
+		height: 12%;
+	}
+
+	.we_build .we_build-item--1 .we_build-connector::after,
+	.we_build .we_build-item--4 .we_build-connector::after {
+		top: -15px;
+		bottom: auto;
+	}
+
+	.we_build .we_build-item--2 .we_build-connector::after,
+	.we_build .we_build-item--3 .we_build-connector::after {
+		top: auto;
+		bottom: -15px;
 	}
 	.about_pioneering {
 		overflow: hidden;
