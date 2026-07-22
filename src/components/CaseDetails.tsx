@@ -1,3 +1,6 @@
+"use client";
+
+import { useI18n } from "@/context/I18nContext";
 import type { CaseResult, CasesCardProps, CaseStep } from "@/data/cases";
 import Background from "./Background";
 import Footer from "./Footer";
@@ -23,6 +26,7 @@ function getFallbackResults(item: CasesCardProps): CaseResult[] {
 }
 
 export default function CaseDetails({ caseItem }: { caseItem: CasesCardProps }) {
+	const { t } = useI18n();
 	const steps = caseItem.steps_items ?? getFallbackSteps(caseItem);
 	const results = caseItem.results ?? getFallbackResults(caseItem);
 
@@ -45,7 +49,7 @@ export default function CaseDetails({ caseItem }: { caseItem: CasesCardProps }) 
 							))}
 						</section>
 						<section className="case_results">
-							<h2 className="font-display">Results</h2>
+							<h2 className="font-display">{t("cases.results")}</h2>
 							<div className="case_results-grid">
 								{results.map((result) => (
 									<article className="case_result-card" key={result.title}>

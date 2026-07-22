@@ -662,6 +662,7 @@
 	}
 
 	.blog_top_content {
+		width: 100%;
 		max-width: none;
 		padding: 30px 20px;
 	}

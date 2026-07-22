@@ -4,6 +4,8 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
+import { useI18n } from "@/context/I18nContext";
+import type { Locale } from "@/i18n/config";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,10 +48,24 @@ const items: WhatWeDoItem[] = [
 	},
 ];
 
-const orbitItems = Array.from({ length: items.length * 2 }, (_, index) => ({
-	...items[index % items.length],
-	orbitKey: `${items[index % items.length].index}-${index}`,
-}));
+const itemTranslations: Record<Exclude<Locale, "en">, Array<Pick<WhatWeDoItem, "title" | "description">>> = {
+	ru: [
+		{ title: "Выбор каналов и подхода", description: "Анализируем продукт и рынок, чтобы найти наиболее релевантные каналы и аудитории." },
+		{ title: "Разработка стратегии Google Ads", description: "Определяем GEO, офферы, структуру воронки, модели ставок и подход к масштабированию." },
+		{ title: "Подготовка креативов и материалов", description: "Готовим поисковые объявления, баннеры, YouTube-материалы и контент Performance Max." },
+		{ title: "Кластеризация поискового спроса", description: "Группируем запросы с высоким намерением и строим кампании под реальный путь поиска клиента." },
+		{ title: "Запуск и сбор сигналов", description: "Запускаем чистый трекинг, собираем первые конверсии и определяем лучшие аудитории и сообщения." },
+		{ title: "Оптимизация и масштабирование", description: "Постоянно улучшаем ставки, креативы и посадочные страницы без потери эффективности." },
+	],
+	ua: [
+		{ title: "Вибір каналів і підходу", description: "Аналізуємо продукт і ринок, щоб знайти найрелевантніші канали та аудиторії." },
+		{ title: "Розробка стратегії Google Ads", description: "Визначаємо GEO, офери, структуру воронки, моделі ставок і підхід до масштабування." },
+		{ title: "Підготовка креативів і матеріалів", description: "Готуємо пошукові оголошення, банери, YouTube-матеріали та контент Performance Max." },
+		{ title: "Кластеризація пошукового попиту", description: "Групуємо запити з високим наміром і будуємо кампанії під реальний шлях пошуку клієнта." },
+		{ title: "Запуск і збір сигналів", description: "Запускаємо чистий трекінг, збираємо перші конверсії та визначаємо найкращі аудиторії й повідомлення." },
+		{ title: "Оптимізація та масштабування", description: "Постійно покращуємо ставки, креативи й посадкові сторінки без втрати ефективності." },
+	],
+};
 
 // 12 slots spread evenly around a full circle (2π / 12 = π/6 per step).
 // Only slots near angle=0 (rightward) are visible — gives 2-3 visible rays at once.
@@ -124,6 +140,12 @@ function getEndProgress(sceneWidth: number, sceneHeight: number) {
 }
 
 export default function WhatWeDo() {
+	const { locale, t } = useI18n();
+	const localizedItems = locale === "en" ? items : items.map((item, index) => ({ ...item, ...itemTranslations[locale][index] }));
+	const orbitItems = Array.from({ length: localizedItems.length * 2 }, (_, index) => ({
+		...localizedItems[index % localizedItems.length],
+		orbitKey: `${localizedItems[index % localizedItems.length].index}-${index}`,
+	}));
 	const rootRef = useRef<HTMLDivElement | null>(null);
 	const sceneRef = useRef<HTMLDivElement | null>(null);
 	const circleRef = useRef<SVGCircleElement | null>(null);
@@ -331,7 +353,7 @@ export default function WhatWeDo() {
 	return (
 		<div className="what_we_do section_background" ref={rootRef}>
 			<div className="content_container">
-				<h2 className="services_title numbers_gradient-text !text-start !capitalize">What we do?</h2>
+				<h2 className="services_title numbers_gradient-text !text-start !capitalize">{t("hero.next")}</h2>
 				<div className="what_we_do-scene" ref={sceneRef}>
 					<div className="what_we_do-orbit" aria-hidden="true">
 						<svg className="what_we_do-orbit-svg" viewBox="0 0 920 920" preserveAspectRatio="xMidYMid meet">

@@ -6,10 +6,12 @@ import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import ContactModal from "@/components/ContactModal";
+import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function FloatingTelegramButton() {
+	const { t } = useI18n();
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -114,8 +116,8 @@ export default function FloatingTelegramButton() {
 
 	return (
 		<>
-			<button ref={buttonRef} className="floating_tg_btn floating_tg_morph" type="button" aria-label="Open contact form" onClick={() => setIsFormOpen(true)}>
-				<span className="floating_tg_label">Message us on Telegram</span>
+			<button ref={buttonRef} className="floating_tg_btn floating_tg_morph" type="button" aria-label={t("common.message")} onClick={() => setIsFormOpen(true)}>
+				<span className="floating_tg_label">{t("common.message")}</span>
 				<span className="floating_tg_icon-wrap" aria-hidden="true">
 					<Image className="floating_tg_icon" src="/tg_btn.svg" alt="" width={52} height={41} priority />
 				</span>

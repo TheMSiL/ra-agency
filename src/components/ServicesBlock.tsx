@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 
 import Button from "./Button";
+import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +19,7 @@ interface ServicesBlockProps {
 }
 
 export default function ServicesBlock({ title, subtitle, items, icon, href }: ServicesBlockProps) {
+	const { t } = useI18n();
 	const isCompactTimeline = items.length === 3;
 	const blockRef = useRef<HTMLElement>(null);
 
@@ -175,7 +177,7 @@ export default function ServicesBlock({ title, subtitle, items, icon, href }: Se
 						</div>
 					</div>
 
-					<Button title="See more" extra="services_btn" href={href} />
+					<Button title={t("common.seeMore")} extra="services_btn" href={href} />
 				</div>
 			</div>
 		</section>

@@ -3,6 +3,7 @@
 import { gsap } from 'gsap'
 import Image from 'next/image'
 import { useLayoutEffect, useRef } from 'react'
+import { useI18n } from '@/context/I18nContext'
 
 const icons = [
 	{ title: 'mira', icon: '/trust/1.png', width: 224, height: 69 },
@@ -20,6 +21,7 @@ const icons = [
 const marqueeIcons = [...icons, ...icons]
 
 export default function Trust() {
+	const { t } = useI18n()
 	const marqueeRef = useRef<HTMLDivElement>(null)
 	const trackRef = useRef<HTMLDivElement>(null)
 
@@ -96,7 +98,7 @@ export default function Trust() {
 	return (
 		<section className='trust pt-20 sm:pt-32'>
 			<div className="content_container">
-				<h2 className="text-center numbers_gradient-text numbers_title uppercase">We’re trusted by</h2>
+				<h2 className="text-center numbers_gradient-text numbers_title uppercase">{t("trust.title")}</h2>
 			</div>
 			<div className="trust_marquee" ref={marqueeRef} aria-label="Trusted company logos">
 				<div className="trust_track" ref={trackRef}>

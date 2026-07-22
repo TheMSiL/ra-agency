@@ -1,16 +1,28 @@
 import BlogArticle from "@/components/BlogArticle";
-import { blogPosts, getBlogPost } from "@/data/blogs";
-import { locales } from "@/i18n/config";
+import { hasLocale } from "@/i18n/config";
+import { getBlogPost } from "@/sanity/lib/blog";
 import { notFound } from "next/navigation";
+import { buildContentMetadata } from "@/seo/metadata";
 
-export function generateStaticParams() {
-	return locales.flatMap(({ code: locale }) => blogPosts.map(({ id }) => ({ locale, id })));
+export async function generateMetadata({ params }: PageProps<"/[locale]/blog/[id]">) {
+	const { locale, id } = await params;
+	if (!hasLocale(locale)) return {};
+	const post = await getBlogPost(locale, id);
+	if (!post) return {};
+	return buildContentMetadata({
+		locale,
+		path: `/blog/${id}`,
+		title: post.metaTitle || post.title,
+		description: post.metaDescription || post.description,
+		image: post.ogImageUrl || post.image.url,
+		noindex: post.noindex,
+	});
 }
 
-export default async function BlogPostPage({ params }: PageProps<"/[locale]/blog/[id]">) {
-	const { id } = await params;
-	const post = getBlogPost(id);
-
+export default async function LocalizedBlogPostPage({ params }: PageProps<"/[locale]/blog/[id]">) {
+	const { locale, id } = await params;
+	if (!hasLocale(locale)) notFound();
+	const post = await getBlogPost(locale, id);
 	if (!post) notFound();
 
 	return <BlogArticle post={post} />;

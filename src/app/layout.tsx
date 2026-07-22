@@ -4,10 +4,12 @@ import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 import "./animations.css";
 import "./responsive.css";
+import { CANONICAL_ORIGIN } from "@/seo/metadata";
 
 export const metadata: Metadata = {
-  title: "RA Agency",
-  description: "RA Agency",
+	metadataBase: new URL(CANONICAL_ORIGIN),
+	title: { default: "RA Agency", template: "%s | RA Agency" },
+	description: "Performance marketing agency for measurable and scalable growth.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

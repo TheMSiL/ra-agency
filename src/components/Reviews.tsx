@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useI18n } from '@/context/I18nContext';
 
 const reviewsData = [
 	{ id: 'review-1', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'Working with RA Agency on our Telegram Ads campaigns was a smooth and productive experience throughout. Communication stood out from the start - clear, fast, no unnecessary back-and-forth. The team always knew what we needed and responded precisely. What genuinely impressed us was their approach to targeting: they combine audience and channel segmentation with automation on the setup side' },
@@ -38,6 +39,7 @@ function ReviewCardContent({ review }: { review: (typeof reviewsData)[number] })
 }
 
 export default function Reviews() {
+	const { t } = useI18n();
 	const [activeIndex, setActiveIndex] = useState(1);
 	const swiperRef = useRef<SwiperInstance | null>(null);
 
@@ -63,7 +65,7 @@ export default function Reviews() {
 			<Image className="reviews_background-art reviews_background-art--left" src="/left_bg-asset.svg" alt="" width={890} height={995} aria-hidden="true" />
 			<Image className="reviews_background-art reviews_background-art--right" src="/right_bg-asset.svg" alt="" width={1008} height={1464} aria-hidden="true" />
 			<div className="content_container">
-				<h2 className="text-center numbers_gradient-text numbers_title">REVIEW</h2>
+				<h2 className="text-center numbers_gradient-text numbers_title">{t("reviews.title")}</h2>
 				<div className="reviews_slider">
 					<button className="review_arrow-cont" type="button" aria-label="Previous review" onClick={() => swiperRef.current?.slidePrev()}><Image src="/review_arrow.svg" alt="" width={24} height={35} /></button>
 					<Swiper

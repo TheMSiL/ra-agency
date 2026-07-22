@@ -5,29 +5,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import Background from "./Background";
+import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const buildItems = [
-	{
-		title: "CORE EXPERTISE",
-		description: "RA Agency is a performance marketing agency that helps brands scale growth through Telegram Ads, Meta Ads, Google Ads, influencer marketing, and conversion-driven funnels",
-	},
-	{
-		title: "OUR PHILOSOPHY",
-		description: "We ignore vanity metrics like clicks and impressions. Our focus is your unit economics. We design automated, data-driven acquisition systems that consistently deliver scalable, predictable revenue growth",
-	},
-	{
-		title: "GROWTH PARTNERSHIP",
-		description: "We act as an extension of your in-house team, not just a third-party vendor. You get full, real-time access to live dashboards, transparent ad accounts, and direct communication",
-	},
-	{
-		title: "TARGET NICHES",
-		description: "We work with Web3, gaming, iGaming, and digital products where success is measured not by clicks, but by real users, conversions, and revenue growth",
-	},
-];
-
 export default function WeBuild() {
+	const { t } = useI18n();
+	const buildItems = [
+		{ title: t("about.core.title"), description: t("about.core.text") },
+		{ title: t("about.philosophy.title"), description: t("about.philosophy.text") },
+		{ title: t("about.partnership.title"), description: t("about.partnership.text") },
+		{ title: t("about.niches.title"), description: t("about.niches.text") },
+	];
 	const rootRef = useRef<HTMLElement>(null);
 
 	useLayoutEffect(() => {

@@ -2,17 +2,18 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stats = [
-	{ value: "120M+", title: "Users from Telegram Ads", text: "A steady stream of new users from Telegram Ads for active projects every month" },
-	{ value: "30+", title: "Active clients", text: "Long-term partnerships with clients, not one-time campaigns" },
-	{ value: "8M+", title: "Managed advertising budget", text: "We manage advertising budgets at scale while maintaining performance control" },
-];
-
 export default function AboutPioneering() {
+	const { t } = useI18n();
+	const stats = useMemo(() => [
+		{ value: "120M+", title: t("numbers.users.title"), text: t("numbers.users.text") },
+		{ value: "30+", title: t("numbers.clients.title"), text: t("numbers.clients.text") },
+		{ value: "8M+", title: t("numbers.budget.title"), text: t("numbers.budget.text") },
+	], [t]);
 	const rootRef = useRef<HTMLElement>(null);
 	const valueRefs = useRef<Array<HTMLElement | null>>([]);
 
@@ -33,15 +34,15 @@ export default function AboutPioneering() {
 			});
 		}, root);
 		return () => context.revert();
-	}, []);
+	}, [stats]);
 
 	return (
 		<section className="overflow-hidden" ref={rootRef}>
 			<div className="content_container">
 				<div className="about_pioneering">
 					<div className="about_pioneering-intro">
-						<h2 className="font-display numbers_gradient-text">Pioneering the digital<span>space since 2024</span></h2>
-						<p>We are a team of performance marketers, strategists, and growth specialists focused on scalable growth.<br />We analyze products, test hypotheses, launch campaigns, and optimize them based on data.<br />Every decision is built around ROI, unit economics, and long-term performance.<br />We don’t look for magic buttons — we build systems that scale.</p>
+						<h2 className="font-display numbers_gradient-text">{t("about.pioneering")}</h2>
+						<p>{t("about.pioneeringText")}</p>
 					</div>
 					<div className="about_pioneering-grid">
 						{stats.map((item, index) => (

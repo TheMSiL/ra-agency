@@ -19,7 +19,10 @@ export default defineConfig({
 	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
 	plugins: [
 		structureTool(),
-		documentInternationalization({ supportedLanguages: languages, schemaTypes: ["article"] }),
+		documentInternationalization({ supportedLanguages: languages, schemaTypes: ["article", "caseStudy"] }),
 	],
-	schema: { types: schemaTypes },
+	schema: {
+		types: schemaTypes,
+		templates: (templates) => templates.filter((template) => !["article", "caseStudy"].includes(template.id)),
+	},
 });

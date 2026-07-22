@@ -6,6 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,6 +67,17 @@ function AnimatedCount({ value }: { value: string }) {
 }
 
 export default function WhatYouGet() {
+	const { locale } = useI18n();
+	const localizedItems = locale === "ru" ? [
+		{ kicker: "01", title: "Привлечение целевой аудитории", text: "Привлекаем пользователей, действительно заинтересованных в продукте, — не просто трафик, а потенциальных клиентов." },
+		{ kicker: "02", title: "Структура кампаний и тестирование", text: "Выстраиваем понятную логику кампаний, тестируем креативы и аудитории, сохраняя контроль расходов." },
+		{ kicker: "03", title: "Масштабирование рабочих связок", text: "Аккуратно увеличиваем бюджеты, защищаем сильные сегменты и связываем оптимизацию с бизнес-результатами." },
+	] : locale === "ua" ? [
+		{ kicker: "01", title: "Залучення цільової аудиторії", text: "Залучаємо користувачів, справді зацікавлених у продукті, — не просто трафік, а потенційних клієнтів." },
+		{ kicker: "02", title: "Структура кампаній і тестування", text: "Вибудовуємо зрозумілу логіку кампаній, тестуємо креативи й аудиторії, зберігаючи контроль витрат." },
+		{ kicker: "03", title: "Масштабування робочих зв’язок", text: "Обережно збільшуємо бюджети, захищаємо сильні сегменти та пов’язуємо оптимізацію з бізнес-результатами." },
+	] : items;
+	const sectionTitle = locale === "ru" ? "Что вы получаете?" : locale === "ua" ? "Що ви отримуєте?" : "What you get?";
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [lineStep, setLineStep] = useState(0);
 	const sectionRef = useRef<HTMLElement | null>(null);
@@ -261,14 +273,14 @@ export default function WhatYouGet() {
 		<section className="what_you_get" ref={sectionRef}>
 			<div className="what_pin section_background" ref={pinRef}>
 				<div className="content_container what_container">
-					<h2 className="services_title numbers_gradient-text !capitalize">What you get ?</h2>
+					<h2 className="services_title numbers_gradient-text !capitalize">{sectionTitle}</h2>
 
 					<div className="what_slider" ref={sliderRef} style={{ "--active": activeIndex } as CSSProperties}>
 						<div
 							className="what_track"
 							ref={trackRef}
 						>
-							{items.map((item, index) => (
+							{localizedItems.map((item, index) => (
 								<article
 									className={`what_panel ${index === activeIndex ? "active" : ""}`}
 									key={item.kicker}
@@ -291,7 +303,7 @@ export default function WhatYouGet() {
 					<div className="what_footer" aria-label="What you get progress">
 						<AnimatedCount value={items[activeIndex].kicker} />
 						<div className="what_dots">
-							{items.map((item, index) => (
+							{localizedItems.map((item, index) => (
 								<button
 									className={`what_dot ${index === activeIndex ? "active" : ""}`}
 									key={item.kicker}

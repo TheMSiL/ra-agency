@@ -1,6 +1,9 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Talk from "@/components/Talk";
+import { buildPageMetadata } from "@/seo/metadata";
+
+export const metadata = buildPageMetadata("en", "terms", "/terms-of-service");
 
 export default function TermsOfServicePage() {
 	return (

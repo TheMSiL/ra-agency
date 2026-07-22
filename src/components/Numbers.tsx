@@ -2,7 +2,8 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,30 +30,14 @@ function AnimatedCardBorder() {
 	return <span ref={borderRef} className="numbers_card-border" aria-hidden="true" />;
 }
 
-const items = [
-	{
-		title: '$3.54',
-		subtitle: 'Average cost per user',
-		description: 'Competitive cost per user with the right funnel and strategy',
-	},
-	{
-		title: '120M+',
-		subtitle: 'Users from Telegram Ads',
-		description: 'A steady stream of new users from Telegram Ads for active projects every month',
-	},
-	{
-		title: '30+',
-		subtitle: 'Active clients',
-		description: 'Long-term partnerships with clients, not one- time campaigns',
-	},
-	{
-		title: '8M+',
-		subtitle: 'Managed advertising budget',
-		description: 'We manage advertising budgets at scale while maintaining performance control',
-	},
-]
-
 export default function Numbers() {
+	const { t } = useI18n();
+	const items = useMemo(() => [
+		{ title: '$3.54', subtitle: t('numbers.cost.title'), description: t('numbers.cost.text') },
+		{ title: '120M+', subtitle: t('numbers.users.title'), description: t('numbers.users.text') },
+		{ title: '30+', subtitle: t('numbers.clients.title'), description: t('numbers.clients.text') },
+		{ title: '8M+', subtitle: t('numbers.budget.title'), description: t('numbers.budget.text') },
+	], [t]);
 	const [featuredItem, ...statItems] = items;
 	const rootRef = useRef<HTMLElement>(null);
 	const valueRefs = useRef<Array<HTMLElement | null>>([]);
@@ -107,7 +92,7 @@ export default function Numbers() {
 		}, root);
 
 		return () => context.revert();
-	}, []);
+	}, [items]);
 
 	return (
 		<section className="numbers" ref={rootRef}>
@@ -115,11 +100,10 @@ export default function Numbers() {
 				<div className="numbers_top">
 					<div className="numbers_intro">
 						<h2 className="numbers_title">
-							Numbers We Stand
-							<span className="numbers_gradient-text block w-fit">Behind</span>
+							{t("numbers.title")}
 						</h2>
 						<p className="numbers_intro-text">
-							Every number reflects campaigns that deliver real results.
+							{t("numbers.intro")}
 						</p>
 					</div>
 

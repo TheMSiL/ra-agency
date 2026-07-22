@@ -8,28 +8,30 @@ import Button from "./Button";
 import ContactModal from "./ContactModal";
 import Header from "./Header";
 import TypewriterText from "./TypewriterText";
+import { useI18n } from "@/context/I18nContext";
 
 type HeroType = "home" | "tg" | "meta" | "google";
 
-const serviceContent: Record<Exclude<HeroType, "home">, { title: string; text: string; background: string }> = {
+const serviceContent: Record<Exclude<HeroType, "home">, { title: string; textKey: "hero.telegramText" | "hero.metaText" | "hero.googleText"; background: string }> = {
 	tg: {
 		title: "Telegram ads",
-		text: "We launch, optimize, and scale official Telegram Ads with a laser focus on hard metrics. No vanity metrics — only verified signups, active deposits, and player purchases.",
+		textKey: "hero.telegramText",
 		background: "/tg_bg.png",
 	},
 	meta: {
 		title: "Meta ads",
-		text: "We build and scale performance campaigns across Facebook and Instagram, optimizing every step of the funnel for conversions, CPA, and ROAS.",
+		textKey: "hero.metaText",
 		background: "/meta_bg.png",
 	},
 	google: {
 		title: "Google ads",
-		text: "We launch and scale Google Ads with a focus on real results — leads, purchases, and revenue growth. We work with products where the goal is not just traffic, but paying customers.",
+		textKey: "hero.googleText",
 		background: "/google_bg.png",
 	},
 };
 
 export default function Hero({ type = "home" }: { type?: HeroType }) {
+	const { t } = useI18n();
 	const heroRef = useRef<HTMLElement>(null);
 	const astronautRef = useRef<HTMLImageElement>(null);
 	const roiMarqueeRef = useRef<HTMLDivElement>(null);
@@ -160,17 +162,17 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 					{isHome ? (
 						<div className="home_hero-content">
 							<div className="mb-5">
-								<h2 className="home_hero-heading"><TypewriterText text="Performance marketing" delay={180} step={32} /></h2>
-								<p className="home_hero-text"><TypewriterText text="We don’t buy clicks. We take minds." delay={420} step={20} /></p>
+								<h2 className="home_hero-heading"><TypewriterText text={t("hero.heading")} delay={180} step={32} /></h2>
+								<p className="home_hero-text"><TypewriterText text={t("hero.text")} delay={420} step={20} /></p>
 							</div>
-							<Button title={<TypewriterText text="Message us on Telegram" delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
+							<Button title={<TypewriterText text={t("common.message")} delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
 						</div>
 					) : (
 						<div className="service_hero-content">
 							<h1 className="home_hero-title sub_hero-title typewriter_host"><TypewriterText text={content?.title ?? ""} step={58} /></h1>
 							<div className="service_hero-bottom">
-								<p className="home_hero-text opacity-80"><TypewriterText text={content?.text ?? ""} delay={280} step={type === "google" ? 8 : 13} /></p>
-								<Button title={<TypewriterText text="Message us on Telegram" delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
+								<p className="home_hero-text opacity-80"><TypewriterText text={content ? t(content.textKey) : ""} delay={280} step={type === "google" ? 8 : 13} /></p>
+								<Button title={<TypewriterText text={t("common.message")} delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
 							</div>
 						</div>
 					)}
@@ -179,7 +181,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 			{isHome && (
 				<div className="home_hero-next-wrap">
 					<div className="content_container">
-						<h2 className="home_hero-next"><TypewriterText text="What we do" delay={700} step={36} /></h2>
+						<h2 className="home_hero-next"><TypewriterText text={t("hero.next")} delay={700} step={36} /></h2>
 					</div>
 				</div>
 			)}

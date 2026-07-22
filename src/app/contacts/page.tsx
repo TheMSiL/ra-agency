@@ -1,3 +1,6 @@
+"use client";
+
+import { useI18n } from "@/context/I18nContext";
 import Background from "@/components/Background";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -11,16 +14,17 @@ const contacts = [
 ];
 
 export default function ContactsPage() {
+	const { t } = useI18n();
 	return (
 		<div className="wrapper">
 			<Background>
 				<div className="blog_page-content contacts_page-content">
 					<Header />
 					<main className="content_container privacy_policy-content blog_page-main contacts_page-main">
-						<h1 className="cases_page-title numbers_gradient-text">Contacts</h1>
+						<h1 className="cases_page-title numbers_gradient-text">{t("contact.title")}</h1>
 						<div className="contacts_intro">
-							<p>Have a project in mind or want to scale what already works? Pick the channel that suits you — we are always within reach.</p>
-							<span className="contacts_intro-mark">Let’s build growth together</span>
+							<p>{t("contact.intro")}</p>
+							<span className="contacts_intro-mark">{t("contact.mark")}</span>
 						</div>
 						<div className="contacts_list">
 							{contacts.map((contact, index) => (

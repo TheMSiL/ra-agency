@@ -6,13 +6,12 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
-	useSyncExternalStore,
+	useState,
 } from "react";
 import {
 	defaultLocale,
 	dictionaries,
 	getLocaleMeta,
-	hasLocale,
 	locales,
 	type Locale,
 	type TranslationKey,
@@ -28,39 +27,7 @@ type I18nContextValue = {
 };
 
 const storageKey = "ra-agency-locale";
-const localeChangeEvent = "ra-agency-locale-change";
-
 const I18nContext = createContext<I18nContextValue | null>(null);
-
-function getBrowserLocale(): Locale {
-	const browserLanguage = window.navigator.language.split("-")[0];
-
-	if (hasLocale(browserLanguage)) {
-		return browserLanguage;
-	}
-
-	return defaultLocale;
-}
-
-function getStoredLocale(): Locale {
-	const savedLocale = window.localStorage.getItem(storageKey);
-
-	if (hasLocale(savedLocale)) {
-		return savedLocale;
-	}
-
-	return getBrowserLocale();
-}
-
-function subscribeToLocaleChange(callback: () => void) {
-	window.addEventListener("storage", callback);
-	window.addEventListener(localeChangeEvent, callback);
-
-	return () => {
-		window.removeEventListener("storage", callback);
-		window.removeEventListener(localeChangeEvent, callback);
-	};
-}
 
 export function I18nProvider({
 	children,
@@ -69,11 +36,7 @@ export function I18nProvider({
 	children: React.ReactNode;
 	initialLocale?: Locale;
 }) {
-	const locale = useSyncExternalStore<Locale>(
-		subscribeToLocaleChange,
-		getStoredLocale,
-		() => initialLocale
-	);
+	const [locale, setActiveLocale] = useState<Locale>(initialLocale);
 
 	useEffect(() => {
 		document.documentElement.lang = getLocaleMeta(locale).htmlLang;
@@ -81,8 +44,8 @@ export function I18nProvider({
 	}, [locale]);
 
 	const setLocale = useCallback((nextLocale: Locale) => {
+		setActiveLocale(nextLocale);
 		window.localStorage.setItem(storageKey, nextLocale);
-		window.dispatchEvent(new Event(localeChangeEvent));
 	}, []);
 
 	const currentLocale = useMemo(() => getLocaleMeta(locale), [locale]);

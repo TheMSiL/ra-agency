@@ -1,56 +1,60 @@
+"use client";
+
+import { useI18n } from "@/context/I18nContext";
 import Image from "next/image";
 import LocalizedLink from "./LocalizedLink";
 
 const navigation = [
 	{
 		href: '/cases',
-		title: 'Cases'
+		title: 'nav.cases'
 	},
 	{
 		href: '/about',
-		title: 'About Us'
+		title: 'nav.about'
 	},
 	{
 		href: '/blog',
-		title: 'Blog'
+		title: 'nav.blog'
 	},
 	{
 		href: '/contacts',
-		title: 'Contact'
+		title: 'nav.contacts'
 	},
-]
+] as const
 
 const services = [
 	{
 		href: '/telegram-ads',
-		title: 'Telegram Ads'
+		title: 'nav.telegram'
 	},
 	{
 		href: '/google-ads',
-		title: 'Google Ads'
+		title: 'nav.google'
 	},
 	{
 		href: '/meta-ads',
-		title: 'Meta Ads'
+		title: 'nav.meta'
 	},
-]
+] as const
 
 const legal = [
 	{
 		href: '/privacy-policy',
-		title: 'Privacy Policy'
+		title: 'footer.privacy'
 	},
 	{
 		href: '/terms-of-service',
-		title: 'Terms of Service'
+		title: 'footer.terms'
 	},
 	{
 		href: '/cookie-policy',
-		title: 'Cookie Policy'
+		title: 'footer.cookies'
 	},
-]
+] as const
 
 export default function Footer() {
+	const { t } = useI18n();
 	return (
 		<footer id="contact" className="footer section_background pt-10">
 			<div className="content_container footer_container">
@@ -59,7 +63,7 @@ export default function Footer() {
 				</h1>
 				<div className="footer_layout">
 					<div className="footer_intro">
-						<p className="footer_text">Performance marketing partner for high-growth brands.We build and scale acquisition systems with predictable ROI across Telegram Ads, Meta, Google, and beyond.</p>
+						<p className="footer_text">{t("footer.text")}</p>
 						<div className="burger_socials footer_socials" aria-label="Social links">
 							<a href="#" aria-label="Telegram">
 								<Image src="/tg.svg" alt="" width={30} height={30} />
@@ -75,36 +79,36 @@ export default function Footer() {
 					<Image className="footer_logo-bg" src='/footer_logo.png' alt="footer_logo" width={600} height={431} unoptimized />
 					<div className="footer_nav">
 						<div className="footer_nav-column">
-							<h5 className="footer_nav-title">Navigation</h5>
+							<h5 className="footer_nav-title">{t("footer.navigation")}</h5>
 							<ul className="footer_nav-list">
 								{
 									navigation.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<LocalizedLink href={link.href}>{link.title}</LocalizedLink>
+											<LocalizedLink href={link.href}>{t(link.title)}</LocalizedLink>
 										</li>
 									})
 								}
 							</ul>
 						</div>
 						<div className="footer_nav-column">
-							<h5 className="footer_nav-title">Services</h5>
+							<h5 className="footer_nav-title">{t("footer.services")}</h5>
 							<ul className="footer_nav-list">
 								{
 									services.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<LocalizedLink href={link.href}>{link.title}</LocalizedLink>
+											<LocalizedLink href={link.href}>{t(link.title)}</LocalizedLink>
 										</li>
 									})
 								}
 							</ul>
 						</div>
 						<div className="footer_nav-column">
-							<h5 className="footer_nav-title">Legal</h5>
+							<h5 className="footer_nav-title">{t("footer.legal")}</h5>
 							<ul className="footer_nav-list">
 								{
 									legal.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<LocalizedLink href={link.href}>{link.title}</LocalizedLink>
+											<LocalizedLink href={link.href}>{t(link.title)}</LocalizedLink>
 										</li>
 									})
 								}

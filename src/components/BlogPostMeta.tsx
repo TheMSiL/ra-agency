@@ -1,20 +1,23 @@
-import type { BlogPost } from '@/data/blogs'
+"use client";
 
-type BlogPostMetaProps = Pick<BlogPost, 'date' | 'readTime' | 'views'> & {
-	className?: string
-}
+import { useI18n } from "@/context/I18nContext";
 
-export default function BlogPostMeta({
-	date,
-	readTime,
-	views,
-	className = '',
-}: BlogPostMetaProps) {
+type BlogPostMetaProps = {
+	date: string | null;
+	readTime: number;
+	views: number;
+	className?: string;
+};
+
+export default function BlogPostMeta({ date, readTime, views, className = "" }: BlogPostMetaProps) {
+	const { locale, t } = useI18n();
+	const dateLocale = locale === "ua" ? "uk-UA" : locale === "ru" ? "ru-RU" : "en-GB";
+
 	return (
 		<div className={`blog_post-meta ${className}`.trim()}>
-			<span>{readTime} min read</span>
-			<span>{views.toLocaleString('en-US')} views</span>
-			<time>{date}</time>
+			<span>{readTime} {t("blog.minRead")}</span>
+			<span>{views.toLocaleString(dateLocale)} {t("blog.views")}</span>
+			{date && <time dateTime={date}>{new Intl.DateTimeFormat(dateLocale, { dateStyle: "medium" }).format(new Date(date))}</time>}
 		</div>
-	)
+	);
 }

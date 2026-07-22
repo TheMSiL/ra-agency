@@ -12,20 +12,16 @@ import BurgerSvg from "../../public/svg/BurgerSvg";
 import LangSwitcher from "./LangSwitcher";
 
 const menuItems = [
-	{ label: "Home", href: "/" },
-	{ label: "about us", href: "/about" },
-	{ label: "cases", href: "/cases" },
-	{ label: "blog", href: "/blog", },
-	{ label: "contacts", href: "/contacts" },
-	{ label: "google ads", href: "/google-ads" },
-	{ label: "telegram ads", href: "/telegram-ads" },
-	{ label: "meta ads", href: "/meta-ads" },
-];
+	{ label: "nav.home", href: "/" }, { label: "nav.about", href: "/about" },
+	{ label: "nav.cases", href: "/cases" }, { label: "nav.blog", href: "/blog" },
+	{ label: "nav.contacts", href: "/contacts" }, { label: "nav.google", href: "/google-ads" },
+	{ label: "nav.telegram", href: "/telegram-ads" }, { label: "nav.meta", href: "/meta-ads" },
+] as const;
 
 export default function Burger() {
 	const [isOpen, setIsOpen] = useState(false);
 	const pathname = usePathname();
-	const { localizedPath } = useI18n();
+	const { localizedPath, t } = useI18n();
 
 	useBodyScrollLock(isOpen);
 
@@ -58,7 +54,7 @@ export default function Burger() {
 			<button
 				type="button"
 				className="burger_button"
-				aria-label={isOpen ? "Close menu" : "Open menu"}
+				aria-label={isOpen ? t("nav.close") : t("nav.open")}
 				aria-expanded={isOpen}
 				aria-controls="burger-menu"
 				onClick={() => setIsOpen((value) => !value)}
@@ -80,14 +76,14 @@ export default function Burger() {
 					<button
 						type="button"
 						className="burger_close"
-						aria-label="Close menu"
+						aria-label={t("nav.close")}
 						onClick={() => setIsOpen(false)}
 					>
 						<BurgerCloseSvg />
 					</button>
 				</div>
 
-				<nav className="burger_nav" aria-label="Main menu">
+				<nav className="burger_nav" aria-label={t("nav.main")}>
 					{menuItems.map((item) => (
 						<Link
 							key={item.label}
@@ -95,7 +91,7 @@ export default function Burger() {
 							className={isItemActive(item.href) ? "active" : ""}
 							onClick={handleMenuClick}
 						>
-							{item.label}
+							{t(item.label)}
 						</Link>
 					))}
 				</nav>

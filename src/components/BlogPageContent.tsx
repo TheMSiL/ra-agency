@@ -1,11 +1,12 @@
 "use client";
 
-import { blogPosts } from "@/data/blogs";
+import type { SanityBlogPost } from "@/sanity/lib/blog";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import BlogCard from "./BlogCard";
 import LocalizedLink from "./LocalizedLink";
 import BlogPostMeta from "./BlogPostMeta";
+import { useI18n } from "@/context/I18nContext";
 
 const POSTS_PER_PAGE = 6;
 
@@ -23,8 +24,10 @@ function PaginationArrow({ direction }: { direction: "prev" | "next" }) {
 	);
 }
 
-export default function BlogPageContent() {
-	const [featuredPost, ...posts] = blogPosts;
+export default function BlogPageContent({ blogPosts }: { blogPosts: SanityBlogPost[] }) {
+	const { t } = useI18n();
+	const featuredPost = blogPosts.find(({ isFeatured }) => isFeatured) ?? blogPosts[0];
+	const posts = blogPosts.filter(({ id }) => id !== featuredPost?.id);
 	const gridRef = useRef<HTMLDivElement>(null);
 	const [page, setPage] = useState(1);
 	const pageCount = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
@@ -40,29 +43,32 @@ export default function BlogPageContent() {
 
 	return (
 		<div className="blog_wrapper">
+			{!featuredPost && <div className="cases_empty cases_block">{t("blog.empty")}</div>}
+			{featuredPost && <>
 			<div className="blog_top">
 				<div className="blog_top_content flex flex-col justify-between">
 					<h3 className="mb-4 2xl:text-3xl text-xl sm:text-2xl font-display">{featuredPost.type}</h3>
 					<h2 className="mb-3 2xl:text-4xl text-2xl sm:text-3xl font-display">{featuredPost.title}</h2>
 					<p className="opacity-70 text-base 2xl:text-xl">{featuredPost.description}</p>
-					<BlogPostMeta date={featuredPost.date} readTime={featuredPost.readTime} views={featuredPost.views} className="my-3" />
-					<LocalizedLink href={`/blog/${featuredPost.id}`} className="blog_read-more">
-						Read more
+					<BlogPostMeta date={featuredPost.publishedAt} readTime={featuredPost.readTime} views={featuredPost.views} className="my-3" />
+					<LocalizedLink href={`/blog/${featuredPost.slug}`} className="blog_read-more">
+						{t("common.readMore")}
 					</LocalizedLink>
 				</div>
-				<Image className="blog_top-image" src={featuredPost.image} alt="" width={800} height={533} />
+				<Image className="blog_top-image" src={featuredPost.image.url} alt={featuredPost.image.alt} width={800} height={533} />
 			</div>
+			</>}
 			<div className="blog_bottom flex xl:flex-row flex-col items-stretch justify-between gap-5">
 				<form className="blog_subscribe">
-					<h4 className="2xl:text-3xl text-2xl font-display mb-5">Subscribe to our newsletter for regular quality insights</h4>
+					<h4 className="2xl:text-3xl text-2xl font-display mb-5">{t("blog.subscribeTitle")}</h4>
 					<div className="flex sm:flex-row flex-col gap-5 sm:gap-10 items-stretch w-full">
 						<input className="blog_subscribe-input blog_subscribe-input--desktop" type="email" placeholder="perfectmail@raagency.hello" />
 						<input className="blog_subscribe-input blog_subscribe-input--mobile" type="email" placeholder="Email" />
-						<button className="blog_subscribe-btn" type="submit">Subscribe</button>
+						<button className="blog_subscribe-btn" type="submit">{t("blog.subscribe")}</button>
 					</div>
 				</form>
 				<div>
-					<h4 className="2xl:text-3xl text-2xl font-display mb-5">Follow us</h4>
+					<h4 className="2xl:text-3xl text-2xl font-display mb-5">{t("blog.follow")}</h4>
 					<div className="blog_socials" aria-label="Social links">
 						<a href="#" aria-label="Telegram">
 							<Image src="/tg.svg" alt="" width={30} height={30} />
@@ -84,7 +90,7 @@ export default function BlogPageContent() {
 				<button
 					type="button"
 					className="cases_pagination-arrow cases_pagination-arrow--prev"
-					aria-label="Previous page"
+					aria-label={t("common.previous")}
 					disabled={safePage === 1}
 					onClick={() => goToPage(safePage - 1)}
 				>
@@ -100,7 +106,7 @@ export default function BlogPageContent() {
 								key={pageNumber}
 								type="button"
 								className={`cases_pagination-dot ${pageNumber === safePage ? "active" : ""}`}
-								aria-label={`Page ${pageNumber}`}
+								aria-label={`${t("common.page")} ${pageNumber}`}
 								aria-current={pageNumber === safePage ? "page" : undefined}
 								onClick={() => goToPage(pageNumber)}
 							>
@@ -113,7 +119,7 @@ export default function BlogPageContent() {
 				<button
 					type="button"
 					className="cases_pagination-arrow cases_pagination-arrow--next"
-					aria-label="Next page"
+					aria-label={t("common.next")}
 					disabled={safePage === pageCount}
 					onClick={() => goToPage(safePage + 1)}
 				>

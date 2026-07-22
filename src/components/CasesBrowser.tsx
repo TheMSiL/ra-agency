@@ -1,16 +1,13 @@
 "use client";
 
 import type { CaseType } from "@/data/cases";
-import { casesItems } from "@/data/cases";
+import type { CasesCardProps } from "@/data/cases";
 import { useMemo, useRef, useState } from "react";
 import CasesCard from "./CasesCard";
+import { useI18n } from "@/context/I18nContext";
 
 const CASES_PER_PAGE = 9;
 const caseTypes: CaseType[] = ["telegram", "google", "meta"];
-
-function formatCaseType(type: CaseType) {
-	return `${type[0].toUpperCase()}${type.slice(1)} ads`;
-}
 
 function SearchIcon() {
 	return (
@@ -77,7 +74,8 @@ function PaginationArrow({ direction }: { direction: "prev" | "next" }) {
 	);
 }
 
-export default function CasesBrowser() {
+export default function CasesBrowser({ casesItems }: { casesItems: CasesCardProps[] }) {
+	const { t } = useI18n();
 	const casesTopRef = useRef<HTMLDivElement>(null);
 	const [search, setSearch] = useState("");
 	const [selectedTypes, setSelectedTypes] = useState<CaseType[]>([]);
@@ -104,7 +102,7 @@ export default function CasesBrowser() {
 
 			return matchesType && searchableText.includes(normalizedSearch);
 		});
-	}, [search, selectedTypes]);
+	}, [casesItems, search, selectedTypes]);
 
 	const pageCount = Math.max(1, Math.ceil(filteredCases.length / CASES_PER_PAGE));
 	const safePage = Math.min(page, pageCount);
@@ -140,7 +138,7 @@ export default function CasesBrowser() {
 	return (
 		<main className="cases_page-main">
 			<div className="content_container cases_page-container" ref={casesTopRef}>
-				<h1 className="cases_page-title">Our Cases</h1>
+				<h1 className="cases_page-title">{t("cases.catalog")}</h1>
 
 				<div className="cases_page-controls">
 					<label className="cases_search">
@@ -148,7 +146,7 @@ export default function CasesBrowser() {
 						<input
 							type="search"
 							value={search}
-							placeholder="Search..."
+						placeholder={t("cases.search")}
 							onChange={(event) => updateSearch(event.target.value)}
 						/>
 					</label>
@@ -161,7 +159,7 @@ export default function CasesBrowser() {
 							onClick={() => setIsFilterOpen((current) => !current)}
 						>
 							<FilterIcon />
-							Filters
+							{t("cases.filters")}
 						</button>
 
 						{isFilterOpen ? (
@@ -173,7 +171,7 @@ export default function CasesBrowser() {
 											checked={selectedTypes.includes(type)}
 											onChange={() => toggleType(type)}
 										/>
-										<span>{formatCaseType(type)}</span>
+										<span>{t(`cases.${type}`)}</span>
 									</label>
 								))}
 							</div>
@@ -188,14 +186,14 @@ export default function CasesBrowser() {
 						))}
 					</div>
 				) : (
-					<div className="cases_empty cases_block">No cases found</div>
+					<div className="cases_empty cases_block">{t("cases.empty")}</div>
 				)}
 
 				<div className="cases_pagination cases_catalog-pagination" aria-label="Cases pagination">
 					<button
 						type="button"
 						className="cases_pagination-arrow cases_pagination-arrow--prev"
-						aria-label="Previous page"
+					aria-label={t("common.previous")}
 						disabled={safePage === 1}
 						onClick={() => goToPage(safePage - 1)}
 					>
@@ -225,7 +223,7 @@ export default function CasesBrowser() {
 					<button
 						type="button"
 						className="cases_pagination-arrow cases_pagination-arrow--next"
-						aria-label="Next page"
+					aria-label={t("common.next")}
 						disabled={safePage === pageCount}
 						onClick={() => goToPage(safePage + 1)}
 					>

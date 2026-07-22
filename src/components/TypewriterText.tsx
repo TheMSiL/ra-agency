@@ -19,29 +19,32 @@ export default function TypewriterText({
 	const [visibleCount, setVisibleCount] = useState(0);
 
 	useEffect(() => {
-		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-			setVisibleCount(characters.length);
-			return;
-		}
-
-		setVisibleCount(0);
 		let intervalId: ReturnType<typeof setInterval> | undefined;
-		const timeoutId = window.setTimeout(() => {
-			setVisibleCount(1);
-			intervalId = setInterval(() => {
-				setVisibleCount((current) => {
-					if (current >= characters.length) {
-						if (intervalId) clearInterval(intervalId);
-						return current;
-					}
+		let revealId: number | undefined;
+		const resetId = window.setTimeout(() => {
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+				setVisibleCount(characters.length);
+				return;
+			}
 
-					return current + 1;
-				});
-			}, step);
-		}, delay);
+			setVisibleCount(0);
+			revealId = window.setTimeout(() => {
+				setVisibleCount(1);
+				intervalId = setInterval(() => {
+					setVisibleCount((current) => {
+						if (current >= characters.length) {
+							if (intervalId) clearInterval(intervalId);
+							return current;
+						}
+						return current + 1;
+					});
+				}, step);
+			}, delay);
+		}, 0);
 
 		return () => {
-			window.clearTimeout(timeoutId);
+			window.clearTimeout(resetId);
+			if (revealId) window.clearTimeout(revealId);
 			if (intervalId) clearInterval(intervalId);
 		};
 	}, [characters.length, delay, step]);

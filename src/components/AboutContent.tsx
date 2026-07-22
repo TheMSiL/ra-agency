@@ -7,8 +7,14 @@ import Header from "./Header";
 import AboutPioneering from "./AboutPioneering";
 import WeBuild from "./WeBuild";
 import TypewriterText from "./TypewriterText";
+import { useI18n } from "@/context/I18nContext";
 
 export default function AboutContent() {
+	const { t } = useI18n();
+	const aboutTitle = t("about.title");
+	const lastSpace = aboutTitle.lastIndexOf(" ");
+	const titleLead = lastSpace >= 0 ? aboutTitle.slice(0, lastSpace + 1) : aboutTitle;
+	const titleAccent = lastSpace >= 0 ? aboutTitle.slice(lastSpace + 1) : "";
 	const heroRef = useRef<HTMLDivElement>(null);
 
 	useLayoutEffect(() => {
@@ -34,7 +40,14 @@ export default function AboutContent() {
 			<div className="content_container">
 				<div className="about_hero" ref={heroRef}>
 					<div className="about_hero-inner">
-						<h1 className="font-display numbers_gradient-text about_hero-title"><TypewriterText text="ABOUT " step={80} /><span className="about_hero-accent"><TypewriterText text="US" delay={480} step={80} /></span></h1>
+						<h1 className="font-display numbers_gradient-text about_hero-title">
+							<TypewriterText text={titleLead} step={80} />
+							{titleAccent && (
+								<span className="about_hero-accent">
+									<TypewriterText text={titleAccent} delay={titleLead.length * 80} step={80} />
+								</span>
+							)}
+						</h1>
 						<div className="about_hero-shadow about_hero-shadow--head" aria-hidden="true" />
 						<div className="about_hero-shadow about_hero-shadow--foot" aria-hidden="true" />
 						<Image

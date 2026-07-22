@@ -1,8 +1,12 @@
-import { casesItems } from "@/data/cases";
+"use client";
+
+import { useI18n } from "@/context/I18nContext";
+import type { CasesCardProps } from "@/data/cases";
 import CasesCard from "./CasesCard";
 import LocalizedLink from "./LocalizedLink";
 
-export default function Cases() {
+export default function Cases({ casesItems }: { casesItems: CasesCardProps[] }) {
+	const { t } = useI18n();
 	const visibleCases = casesItems.slice(0, 4);
 
 	return (
@@ -10,8 +14,8 @@ export default function Cases() {
 			<div className="content_container">
 				<div className="cases_row">
 					<div className='cases_head'>
-						<h2 className="numbers_gradient-text numbers_title uppercase text-left max-w-[900px]">Case Studies and Success Stories</h2>
-						<p className="text-2xl opacity-70">Examples of advertising campaigns we launched and scaled for our clients</p>
+						<h2 className="numbers_gradient-text numbers_title uppercase text-left max-w-[900px]">{t("cases.title")}</h2>
+						<p className="text-2xl opacity-70">{t("cases.subtitle")}</p>
 					</div>
 				</div>
 				<div className="cases_row">
@@ -22,6 +26,7 @@ export default function Cases() {
 									key={item.id}
 									company_name={item.company_name}
 									company_logo={item.company_logo}
+									company_logo_alt={item.company_logo_alt}
 									case_title={item.case_title}
 									id={item.id}
 									problem={item.problem}
@@ -35,7 +40,7 @@ export default function Cases() {
 					</div>
 					<LocalizedLink href="/cases" className='cases_block cases_other'>
 						<h3>70+</h3>
-						<p>View other projects</p>
+						<p>{t("cases.other")}</p>
 					</LocalizedLink>
 				</div>
 			</div>
