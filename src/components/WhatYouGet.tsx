@@ -211,7 +211,9 @@ export default function WhatYouGet() {
 
 	useEffect(() => {
 		const slider = sliderRef.current;
-		if (!slider) return;
+		const section = sectionRef.current;
+		const gestureArea = window.matchMedia("(max-width: 900px)").matches ? section : slider;
+		if (!gestureArea) return;
 
 		let startX = 0;
 		let startY = 0;
@@ -252,16 +254,16 @@ export default function WhatYouGet() {
 			horizontalGesture = false;
 		};
 
-		slider.addEventListener("touchstart", handleTouchStart, { passive: true });
-		slider.addEventListener("touchmove", handleTouchMove, { passive: false });
-		slider.addEventListener("touchend", handleTouchEnd, { passive: true });
-		slider.addEventListener("touchcancel", handleTouchEnd, { passive: true });
+		gestureArea.addEventListener("touchstart", handleTouchStart, { passive: true });
+		gestureArea.addEventListener("touchmove", handleTouchMove, { passive: false });
+		gestureArea.addEventListener("touchend", handleTouchEnd, { passive: true });
+		gestureArea.addEventListener("touchcancel", handleTouchEnd, { passive: true });
 
 		return () => {
-			slider.removeEventListener("touchstart", handleTouchStart);
-			slider.removeEventListener("touchmove", handleTouchMove);
-			slider.removeEventListener("touchend", handleTouchEnd);
-			slider.removeEventListener("touchcancel", handleTouchEnd);
+			gestureArea.removeEventListener("touchstart", handleTouchStart);
+			gestureArea.removeEventListener("touchmove", handleTouchMove);
+			gestureArea.removeEventListener("touchend", handleTouchEnd);
+			gestureArea.removeEventListener("touchcancel", handleTouchEnd);
 		};
 	}, [activeIndex, goTo]);
 

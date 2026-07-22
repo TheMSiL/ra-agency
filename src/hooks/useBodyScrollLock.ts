@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 let lockCount = 0;
 let previousBodyStyles: {
@@ -13,7 +13,7 @@ let previousBodyStyles: {
 let lockedScrollY = 0;
 
 export function useBodyScrollLock(locked: boolean) {
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (!locked) {
 			return;
 		}
@@ -36,9 +36,9 @@ export function useBodyScrollLock(locked: boolean) {
 			body.classList.add("scroll_locked");
 			body.style.overflow = "hidden";
 			body.style.width = "100%";
-			body.style.position = "fixed";
 			body.style.top = `-${lockedScrollY}px`;
 			body.style.left = "0";
+			body.style.position = "fixed";
 
 			if (scrollbarWidth > 0) {
 				body.style.paddingRight = `${scrollbarWidth}px`;
@@ -54,6 +54,10 @@ export function useBodyScrollLock(locked: boolean) {
 				return;
 			}
 
+			const root = document.documentElement;
+			const previousScrollBehavior = root.style.scrollBehavior;
+			root.style.scrollBehavior = "auto";
+
 			body.classList.remove("scroll_locked");
 			body.style.overflow = previousBodyStyles.overflow;
 			body.style.width = previousBodyStyles.width;
@@ -63,6 +67,7 @@ export function useBodyScrollLock(locked: boolean) {
 			body.style.left = previousBodyStyles.left;
 			previousBodyStyles = null;
 			window.scrollTo(0, lockedScrollY);
+			root.style.scrollBehavior = previousScrollBehavior;
 		};
 	}, [locked]);
 }
