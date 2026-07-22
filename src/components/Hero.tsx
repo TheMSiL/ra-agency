@@ -49,10 +49,14 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 		const alignMarquee = () => {
 			const astronautBox = astronaut.getBoundingClientRect();
 			const marqueeBox = marquee.getBoundingClientRect();
+			const titleBox = heroRef.current?.querySelector<HTMLElement>(".home_hero-title")?.getBoundingClientRect();
 			const currentOffset = Number.parseFloat(marquee.style.top) || 0;
 			const naturalMarqueeCenter = marqueeBox.top + marqueeBox.height / 2 - currentOffset;
+			const naturalMarqueeTop = marqueeBox.top - currentOffset;
 			const helmetLine = astronautBox.top + astronautBox.height * 0.16;
-			marquee.style.top = `${Math.round(helmetLine - naturalMarqueeCenter)}px`;
+			const helmetOffset = helmetLine - naturalMarqueeCenter;
+			const titleOffsetLimit = titleBox ? titleBox.bottom + 12 - naturalMarqueeTop : helmetOffset;
+			marquee.style.top = `${Math.round(Math.max(helmetOffset, titleOffsetLimit))}px`;
 		};
 
 		alignRoiRef.current = alignMarquee;

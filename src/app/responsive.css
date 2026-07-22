@@ -573,8 +573,8 @@
 
 	.contacts_item:first-child {
 		grid-row: auto;
-		grid-column: span 2;
-		min-height: 220px;
+		grid-column: auto;
+		min-height: 140px;
 	}
 
 	.contacts_item:nth-child(4) {
@@ -2471,7 +2471,7 @@
 
 	.home_hero-planet-glow {
 		top: 108px;
-		width: 112vw;
+		width: 107vw;
 		max-width: none;
 		filter: blur(clamp(72px, 18vw, 104px));
 	}

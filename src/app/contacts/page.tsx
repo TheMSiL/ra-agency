@@ -23,8 +23,8 @@ export default function ContactsPage() {
 					<main className="content_container privacy_policy-content blog_page-main contacts_page-main">
 						<h1 className="cases_page-title numbers_gradient-text">{t("contact.title")}</h1>
 						<div className="contacts_intro">
-							<p>{t("contact.intro")}</p>
 							<span className="contacts_intro-mark">{t("contact.mark")}</span>
+							<p>{t("contact.intro")}</p>
 						</div>
 						<div className="contacts_list">
 							{contacts.map((contact, index) => (
