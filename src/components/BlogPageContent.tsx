@@ -7,6 +7,7 @@ import BlogCard from "./BlogCard";
 import LocalizedLink from "./LocalizedLink";
 import BlogPostMeta from "./BlogPostMeta";
 import { useI18n } from "@/context/I18nContext";
+import AttributionFields from "./AttributionFields";
 
 const POSTS_PER_PAGE = 6;
 
@@ -59,7 +60,8 @@ export default function BlogPageContent({ blogPosts }: { blogPosts: SanityBlogPo
 			</div>
 			</>}
 			<div className="blog_bottom flex xl:flex-row flex-col items-stretch justify-between gap-5">
-				<form className="blog_subscribe">
+				<form className="blog_subscribe" onSubmit={(event) => event.preventDefault()}>
+					<AttributionFields />
 					<h4 className="2xl:text-3xl text-2xl font-display mb-5">{t("blog.subscribeTitle")}</h4>
 					<div className="flex sm:flex-row flex-col gap-5 sm:gap-10 items-stretch w-full">
 						<input className="blog_subscribe-input blog_subscribe-input--desktop" type="email" placeholder="perfectmail@raagency.hello" />

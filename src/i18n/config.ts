@@ -44,6 +44,7 @@ const en = {
 	"form.title": "Let’s Connect And Talk", "form.name": "Name", "form.method": "Preferred contact method", "form.telegramUser": "Telegram Username", "form.details": "Details", "form.submit": "Get started", "form.close": "Close form",
 	"footer.text": "Performance marketing partner for high-growth brands. We build and scale acquisition systems with predictable ROI across Telegram Ads, Meta, Google, and beyond.",
 	"footer.navigation": "Navigation", "footer.services": "Services", "footer.legal": "Legal", "footer.privacy": "Privacy Policy", "footer.terms": "Terms of Service", "footer.cookies": "Cookie Policy",
+	"consent.title": "Analytics cookies", "consent.text": "We use analytics cookies to understand traffic sources and improve the website.", "consent.accept": "Accept", "consent.reject": "Reject",
 } as const;
 
 export type TranslationKey = keyof typeof en;
@@ -51,6 +52,7 @@ export type TranslationKey = keyof typeof en;
 export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 	en,
 	ru: {
+		"consent.title": "Аналитические cookie", "consent.text": "Мы используем аналитические cookie, чтобы понимать источники трафика и улучшать сайт.", "consent.accept": "Принять", "consent.reject": "Отклонить",
 		"cases.filters": "\u0424\u0438\u043b\u044c\u0442\u0440\u044b", "cases.telegram": "Telegram Ads", "cases.google": "Google Ads", "cases.meta": "Meta Ads",
 		"language.switcherLabel": "Выбрать язык",
 		"language.en": "Английский",
@@ -82,6 +84,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		"footer.text": "Performance-маркетинг для быстрорастущих брендов. Создаём и масштабируем системы привлечения с предсказуемым ROI в Telegram Ads, Meta, Google и других каналах.", "footer.navigation": "Навигация", "footer.services": "Услуги", "footer.legal": "Документы", "footer.privacy": "Политика конфиденциальности", "footer.terms": "Условия использования", "footer.cookies": "Политика cookie",
 	},
 	ua: {
+		"consent.title": "Аналітичні cookie", "consent.text": "Ми використовуємо аналітичні cookie, щоб розуміти джерела трафіку та покращувати сайт.", "consent.accept": "Прийняти", "consent.reject": "Відхилити",
 		"cases.filters": "\u0424\u0456\u043b\u044c\u0442\u0440\u0438", "cases.telegram": "Telegram Ads", "cases.google": "Google Ads", "cases.meta": "Meta Ads",
 		"language.switcherLabel": "Обрати мову",
 		"language.en": "Англійська",

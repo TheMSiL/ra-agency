@@ -5,6 +5,7 @@ import "./globals.css";
 import "./animations.css";
 import "./responsive.css";
 import { CANONICAL_ORIGIN } from "@/seo/metadata";
+import AnalyticsBootstrap from "@/components/AnalyticsBootstrap";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(CANONICAL_ORIGIN),
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body>
         <I18nProvider>
           <ScrollToTop />
+          <AnalyticsBootstrap />
           {children}
         </I18nProvider>
       </body>

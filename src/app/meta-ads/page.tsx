@@ -7,12 +7,13 @@ import Talk from "@/components/Talk";
 import Footer from "@/components/Footer";
 import FloatingTelegramButton from "@/components/FloatingTelegramButton";
 import { getCaseStudies } from "@/sanity/lib/cases";
+import { getReviews } from "@/sanity/lib/reviews";
 import { buildPageMetadata } from "@/seo/metadata";
 
 export const metadata = buildPageMetadata("en", "meta", "/meta-ads");
 
 export default async function TgAdsPage() {
-	const cases = await getCaseStudies("en");
+	const [cases, reviews] = await Promise.all([getCaseStudies("en"), getReviews("en")]);
 	return (
 		<div className="wrapper ads_page">
 			<Hero type="meta" />
@@ -20,7 +21,7 @@ export default async function TgAdsPage() {
 			<WhatWeDo />
 			<div className="section_background">
 				<Cases casesItems={cases} />
-				<Reviews />
+				<Reviews reviewsData={reviews} />
 				<Talk />
 			</div>
 			<Footer />

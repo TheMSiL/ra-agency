@@ -4,26 +4,13 @@ import { gsap } from 'gsap'
 import Image from 'next/image'
 import { useLayoutEffect, useRef } from 'react'
 import { useI18n } from '@/context/I18nContext'
+import type { TrustedCompany } from '@/sanity/lib/trust'
 
-const icons = [
-	{ title: 'mira', icon: '/trust/1.png', width: 224, height: 69 },
-	{ title: 'title', icon: '/trust/2.png', width: 259, height: 69 },
-	{ title: 'Tribute', icon: '/trust/3.png', width: 262, height: 69 },
-	{ title: 'G-Gate Conference (GGC)', icon: '/trust/4.png', width: 204, height: 68 },
-	{ title: 'Spekter', icon: '/trust/5.png', width: 492, height: 69 },
-	{ title: 'Gift fest telegram', icon: '/trust/6.png', width: 404, height: 96 },
-	{ title: 'OPen Sea', icon: '/trust/7.png', width: 365, height: 95 },
-	{ title: 'goat gaming', icon: '/trust/8.png', width: 515, height: 96 },
-	{ title: 'Pudcy Party', icon: '/trust/9.png', width: 497, height: 96 },
-	{ title: 'Boinkers', icon: '/trust/10.png', width: 725, height: 96 },
-]
-
-const marqueeIcons = [...icons, ...icons]
-
-export default function Trust() {
+export default function Trust({ companies }: { companies: TrustedCompany[] }) {
 	const { t } = useI18n()
 	const marqueeRef = useRef<HTMLDivElement>(null)
 	const trackRef = useRef<HTMLDivElement>(null)
+	const marqueeCompanies = [...companies, ...companies]
 
 	useLayoutEffect(() => {
 		const marquee = marqueeRef.current
@@ -100,15 +87,16 @@ export default function Trust() {
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title uppercase">{t("trust.title")}</h2>
 			</div>
-			<div className="trust_marquee" ref={marqueeRef} aria-label="Trusted company logos">
+			{companies.length > 0 && <div className="trust_marquee" ref={marqueeRef} aria-label="Trusted company logos">
 				<div className="trust_track" ref={trackRef}>
-					{marqueeIcons.map((icon, index) => (
-						<div className="trust_logo" key={`${icon.icon}-${index}`} aria-hidden={index >= icons.length}>
-							<Image src={icon.icon} alt={icon.title} width={icon.width} height={icon.height} unoptimized />
+					{marqueeCompanies.map((company, index) => (
+						<div className="trust_logo" key={`${company.id}-${index}`} aria-hidden={index >= companies.length}>
+							<div className="trust_logo-image"><Image src={company.logoUrl} alt={company.name} width={128} height={128} unoptimized /></div>
+							<p>{company.caption}</p>
 						</div>
 					))}
 				</div>
-			</div>
+			</div>}
 		</section>
 	);
 }

@@ -1,13 +1,13 @@
 "use client";
 
+import { useI18n } from "@/context/I18nContext";
 import { gsap } from "gsap";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
-import Header from "./Header";
 import AboutPioneering from "./AboutPioneering";
-import WeBuild from "./WeBuild";
+import Header from "./Header";
 import TypewriterText from "./TypewriterText";
-import { useI18n } from "@/context/I18nContext";
+import WeBuild from "./WeBuild";
 
 export default function AboutContent() {
 	const { t } = useI18n();
@@ -48,11 +48,9 @@ export default function AboutContent() {
 								</span>
 							)}
 						</h1>
-						<div className="about_hero-shadow about_hero-shadow--head" aria-hidden="true" />
-						<div className="about_hero-shadow about_hero-shadow--foot" aria-hidden="true" />
 						<Image
 							className="about_hero-astronaut"
-							src="/about_hero.png"
+							src="/about_hero-test.png"
 							alt="Astronaut floating in space"
 							width={1536}
 							height={1024}

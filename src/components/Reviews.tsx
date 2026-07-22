@@ -8,21 +8,9 @@ import 'swiper/css/effect-coverflow';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useI18n } from '@/context/I18nContext';
+import type { SanityReview } from '@/sanity/lib/reviews';
 
-const reviewsData = [
-	{ id: 'review-1', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'Working with RA Agency on our Telegram Ads campaigns was a smooth and productive experience throughout. Communication stood out from the start - clear, fast, no unnecessary back-and-forth. The team always knew what we needed and responded precisely. What genuinely impressed us was their approach to targeting: they combine audience and channel segmentation with automation on the setup side' },
-	{ id: 'review-2', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'The RA Agency team helped us turn Telegram Ads from an experimental channel into a stable acquisition source. They rebuilt the campaign structure, separated warm and cold audiences, and kept testing creatives without losing control of the budget. Reporting was clear, decisions were fast, and every change had a reason behind it.' },
-	{ id: 'review-3', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'Working with RA Agency on our Telegram Ads campaigns was a smooth and productive experience throughout. Communication stood out from the start - clear, fast, no unnecessary back-and-forth. The team always knew what we needed and responded precisely. What genuinely impressed us was their approach to targeting: they combine audience and channel segmentation with automation on the setup side' },
-	{ id: 'review-4', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'We needed a partner who could move quickly, understand our offer, and keep performance readable for the whole team. RA Agency handled the media buying, targeting logic, and optimization rhythm with a lot of ownership. The best part was how predictable the process felt: weekly learnings, clean next steps, and no wasted motion.' },
-	{ id: 'review-5', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'Before working together, our campaigns were inconsistent and hard to scale. RA Agency gave us a much cleaner setup: sharper channel selection, better audience grouping, and a testing framework that made results easier to compare. Within a short period, we had a stronger understanding of what messages worked and where to invest more aggressively.' },
-	{ id: 'review-6', icon: '/company_review.png', title: 'company name', author: 'Name Surname', role: 'Position', description: 'Working with RA Agency on our Telegram Ads campaigns was a smooth and productive experience throughout. Communication stood out from the start - clear, fast, no unnecessary back-and-forth. The team always knew what we needed and responded precisely. What genuinely impressed us was their approach to targeting: they combine audience and channel segmentation with automation on the setup side Communication stood out from the start - clear, fast, no unnecessary back-and-forth.' },
-];
-
-const loopReviews = Array.from({ length: 3 }, (_, copyIndex) =>
-	reviewsData.map((review, reviewIndex) => ({ review, reviewIndex, copyIndex })),
-).flat();
-
-function ReviewCardContent({ review }: { review: (typeof reviewsData)[number] }) {
+function ReviewCardContent({ review }: { review: SanityReview }) {
 	return (
 		<>
 			<div className="review_card-head">
@@ -38,10 +26,13 @@ function ReviewCardContent({ review }: { review: (typeof reviewsData)[number] })
 	);
 }
 
-export default function Reviews() {
+export default function Reviews({ reviewsData }: { reviewsData: SanityReview[] }) {
 	const { t } = useI18n();
-	const [activeIndex, setActiveIndex] = useState(1);
+	const [activeIndex, setActiveIndex] = useState(0);
 	const swiperRef = useRef<SwiperInstance | null>(null);
+	const loopReviews = Array.from({ length: 3 }, (_, copyIndex) =>
+		reviewsData.map((review, reviewIndex) => ({ review, reviewIndex, copyIndex })),
+	).flat();
 
 	function syncActiveSlide(swiper: SwiperInstance) {
 		const reviewIndex = Number(swiper.slides[swiper.activeIndex]?.dataset.reviewIndex);
@@ -66,7 +57,7 @@ export default function Reviews() {
 			<Image className="reviews_background-art reviews_background-art--right" src="/right_bg-asset.svg" alt="" width={1008} height={1464} aria-hidden="true" />
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title">{t("reviews.title")}</h2>
-				<div className="reviews_slider">
+				{reviewsData.length > 0 && <div className="reviews_slider">
 					<button className="review_arrow-cont" type="button" aria-label="Previous review" onClick={() => swiperRef.current?.slidePrev()}><Image src="/review_arrow.svg" alt="" width={24} height={35} /></button>
 					<Swiper
 						className="reviews_track reviews_deck reviews_swiper"
@@ -77,7 +68,7 @@ export default function Reviews() {
 						loopAdditionalSlides={2}
 						centeredSlides
 						slidesPerView="auto"
-						initialSlide={reviewsData.length + 1}
+						initialSlide={reviewsData.length}
 						speed={600}
 						coverflowEffect={{ rotate: 0, stretch: '25%', depth: 250, modifier: 2, slideShadows: false }}
 						autoplay={{ delay: 4000, pauseOnMouseEnter: true, disableOnInteraction: false }}
@@ -97,7 +88,7 @@ export default function Reviews() {
 					</Swiper>
 					<div className="reviews_pagination" aria-label="Review pagination">{reviewsData.map((review, index) => <button key={review.id} className={`reviews_pagination-dot ${index === activeIndex ? 'active' : ''}`} type="button" aria-label={`Go to review ${index + 1}`} aria-current={index === activeIndex ? 'true' : undefined} onClick={() => goToReview(index)} />)}</div>
 					<button className="review_arrow-cont" type="button" aria-label="Next review" onClick={() => swiperRef.current?.slideNext()}><Image className="rotate-180" src="/review_arrow.svg" alt="" width={24} height={35} /></button>
-				</div>
+				</div>}
 			</div>
 		</div>
 	);

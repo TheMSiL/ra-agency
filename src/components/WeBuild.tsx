@@ -59,7 +59,8 @@ export default function WeBuild() {
 	return (
 		<Background>
 			<section className="we_build" ref={rootRef}>
-				<Image className="we_build-dna" src="/dna.svg" alt="DNA double helix" width={1920} height={1373} sizes="112vw" />
+				<Image className="we_build-dna we_build-dna--desktop" src="/dna.svg" alt="DNA double helix" width={1920} height={1373} sizes="112vw" />
+				<Image className="we_build-dna we_build-dna--mobile" src="/dna_mob.png" alt="" width={430} height={932} sizes="100vw" aria-hidden="true" />
 				{buildItems.map((item, index) => (
 					<div className={`we_build-item we_build-item--${index + 1}`} key={item.title}>
 						<span className="we_build-connector" aria-hidden="true" />

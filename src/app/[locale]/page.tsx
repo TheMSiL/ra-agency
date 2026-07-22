@@ -9,6 +9,8 @@ import Talk from "@/components/Talk";
 import Trust from "@/components/Trust";
 import { hasLocale } from "@/i18n/config";
 import { getCaseStudies } from "@/sanity/lib/cases";
+import { getTrustedCompanies } from "@/sanity/lib/trust";
+import { getReviews } from "@/sanity/lib/reviews";
 import { buildPageMetadata } from "@/seo/metadata";
 import { notFound } from "next/navigation";
 
@@ -55,7 +57,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">) {
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
 	const { locale } = await params;
 	if (!hasLocale(locale)) notFound();
-	const cases = await getCaseStudies(locale);
+	const [cases, trustedCompanies, reviews] = await Promise.all([getCaseStudies(locale), getTrustedCompanies(locale), getReviews(locale)]);
 	const localizedServices = [
 		{ ...telegramService, subtitle: locale === "ru" ? "Эффективная реклама в Telegram любого масштаба. Целевая аудитория и быстрый результат" : locale === "ua" ? "Ефективна реклама в Telegram будь-якого масштабу. Цільова аудиторія та швидкий результат" : telegramService.subtitle,
 			items: locale === "ru" ? ["Исследование каналов и тестирование гипотез", "Настройка кампаний и ежедневная оптимизация", "Сквозная аналитика: лиды и продажи"] : locale === "ua" ? ["Дослідження каналів і тестування гіпотез", "Налаштування кампаній і щоденна оптимізація", "Наскрізна аналітика: ліди та продажі"] : telegramService.items },
@@ -73,8 +75,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 			<div className="section_background">
 				<Numbers />
 				<Cases casesItems={cases} />
-				<Trust />
-				<Reviews />
+				<Trust companies={trustedCompanies} />
+				<Reviews reviewsData={reviews} />
 				<Talk />
 			</div>
 			<Footer />

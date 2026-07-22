@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useI18n } from "@/context/I18nContext";
+import AttributionFields from "./AttributionFields";
 
 type ContactModalProps = {
 	isOpen: boolean;
@@ -41,6 +42,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 	return (
 		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={onClose}>
 			<form className="contact_form section_background" onClick={(event) => event.stopPropagation()} onSubmit={(event) => event.preventDefault()}>
+				<AttributionFields />
 			<button className="contact_form-close" type="button" aria-label={t("form.close")} onClick={onClose}>
 					x
 				</button>

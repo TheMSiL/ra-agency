@@ -27,6 +27,7 @@ export type SanityBlogPost = {
 	content: PortableTextBlock[];
 	author: { name: string; bio?: string; avatarUrl?: string } | null;
 	relatedArticles: SanityBlogPost[];
+	recommendationSource?: "manual" | "auto";
 };
 
 const articleProjection = `
@@ -101,9 +102,11 @@ export async function getBlogPost(language: Locale, slug: string): Promise<Sanit
 
 	const manual = (post.relatedArticles ?? []).filter(
 		(article): article is SanityBlogPost => Boolean(article?.id),
-	);
+	).map((article) => ({ ...article, recommendationSource: "manual" as const }));
 	const manualIds = new Set(manual.map(({ id }) => id));
-	const fallback = posts.filter(({ id }) => id !== post.id && !manualIds.has(id));
+	const fallback = posts
+		.filter(({ id }) => id !== post.id && !manualIds.has(id))
+		.map((article) => ({ ...article, recommendationSource: "auto" as const }));
 	return {
 		...post,
 		relatedArticles: [...manual, ...fallback].slice(0, 3),
