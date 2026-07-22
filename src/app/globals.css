@@ -3926,7 +3926,7 @@ a {
 	}
 	.we_build-connector {
 		position: absolute;
-		z-index: 1;
+		z-index: 4;
 		width: 2px;
 		background: #fa8a16;
 		box-shadow: 0 0 31.25px 0 rgba(250, 138, 22, 0.4) inset;
@@ -3964,6 +3964,7 @@ a {
 	/* DNA annotations use section coordinates, independent of card dimensions. */
 	.we_build .we_build-item {
 		position: absolute;
+		z-index: 4;
 		inset: 0;
 		width: 100%;
 		height: 100%;
