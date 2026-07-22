@@ -51,7 +51,7 @@ export default function Talk() {
 			const measureIcons = () => {
 				const radarBox = radar.getBoundingClientRect();
 				const originX = radarBox.width * (968 / 1920);
-				const originY = radarBox.height * (1050 / 1044);
+				const originY = radarBox.height * (1056 / 1044);
 				iconAngles = iconRefs.current.map((icon) => {
 					if (!icon) return 0;
 					const box = icon.getBoundingClientRect();
@@ -62,7 +62,7 @@ export default function Talk() {
 			};
 
 			const updateScanner = () => {
-				gsap.set(beam, { rotation: scanner.angle, svgOrigin: '968 1040' });
+				gsap.set(beam, { rotation: scanner.angle, svgOrigin: '968 1056' });
 				iconRefs.current.forEach((icon, index) => {
 					if (!icon) return;
 					// The path's leading edge is 15deg ahead: reveal only after it crosses an icon.
@@ -100,7 +100,7 @@ export default function Talk() {
 			const moveY = gsap.quickTo(button, 'y', { duration: 0.62, ease: 'power3.out' });
 			const constrainToRadar = (x: number, y: number) => {
 				const centerX = radar.clientWidth * (968 / 1920);
-				const centerY = radar.clientHeight * (1050 / 1044);
+				const centerY = radar.clientHeight * (1056 / 1044);
 				const buttonRadius = button.offsetWidth / 2;
 				const radarRadius = radar.clientWidth * (800 / 1920) - buttonRadius;
 				const deltaX = x - centerX;
@@ -169,7 +169,8 @@ export default function Talk() {
 			<div className="content_container">
 				<h2 className="numbers_title text-center numbers_gradient-text">{t("talk.title")}</h2>
 				<div className="talk_radar" ref={radarRef}>
-					<Image className="talk_radar-img" src='/radar/Radar.svg' alt="radar" width={1920} height={1044} />
+					<Image className="talk_radar-img talk_radar-img--svg" src='/radar/Radar.svg' alt="radar" width={1920} height={1044} />
+					<Image className="talk_radar-img talk_radar-img--webkit" src='/radar/Radar-webkit.svg' alt="" width={1920} height={1044} aria-hidden="true" />
 					<svg className="talk_radar-beam-svg" viewBox="0 0 1920 1044" aria-hidden="true">
 						<defs>
 							<linearGradient id="animatedRadarBeam" x1="994.5" y1="676.5" x2="770.43" y2="879.056" gradientUnits="userSpaceOnUse">

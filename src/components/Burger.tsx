@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useI18n } from "@/context/I18nContext";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
@@ -20,10 +21,17 @@ const menuItems = [
 
 export default function Burger() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
 	const pathname = usePathname();
 	const { localizedPath, t } = useI18n();
 
 	useBodyScrollLock(isOpen);
+
+	useEffect(() => {
+		// The portal target only exists after hydration.
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		setIsMounted(true);
+	}, []);
 
 	useEffect(() => {
 		document.body.classList.toggle("burger_menu_open", isOpen);
@@ -62,11 +70,10 @@ export default function Burger() {
 				<BurgerSvg />
 			</button>
 
-			<div
-				className={`burger_overlay ${isOpen ? "active" : ""}`}
-				onClick={() => setIsOpen(false)}
-			/>
-			<aside
+			{isMounted && createPortal(
+				<>
+					<div className={`burger_overlay ${isOpen ? "active" : ""}`} onClick={() => setIsOpen(false)} />
+					<aside
 				id="burger-menu"
 				className={`burger_menu section_background  ${isOpen ? "active" : ""}`}
 				aria-hidden={!isOpen}
@@ -113,7 +120,10 @@ export default function Burger() {
 						RA AGENCY.TECH
 					</Link>
 				</div>
-			</aside>
+					</aside>
+				</>,
+				document.body,
+			)}
 		</div>
 	);
 }

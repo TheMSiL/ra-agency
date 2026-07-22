@@ -2591,6 +2591,36 @@
 	}
 }
 
+/* WebKit fallbacks: avoid Safari SVG-filter rasterization and fixed descendants
+   being constrained by the header's backdrop-filter containing block. */
+@supports (-webkit-touch-callout: none) {
+	body.burger_menu_open .header {
+		background: #090400;
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+	}
+
+	.burger_menu {
+		inset: 0;
+		width: 100vw;
+		height: 100dvh;
+		max-height: none;
+		background-color: #090400;
+	}
+
+	.talk_radar-img--svg {
+		display: none;
+	}
+
+	.talk_radar-img--webkit {
+		display: block;
+	}
+
+	.what_line-img {
+		filter: brightness(0) saturate(100%) invert(61%) sepia(95%) saturate(2078%) hue-rotate(347deg) brightness(102%) contrast(96%);
+	}
+}
+
 @media (max-width: 480px) {
 	.we_build {
 		height: 600px;

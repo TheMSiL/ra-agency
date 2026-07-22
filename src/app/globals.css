@@ -255,7 +255,7 @@ a {
 	.burger_overlay {
 		position: fixed;
 		inset: 107px 0 0;
-		z-index: 40;
+		z-index: 3990;
 		pointer-events: none;
 		background: rgba(0, 0, 0, 0.45);
 		opacity: 0;
@@ -271,7 +271,7 @@ a {
 		position: fixed;
 		top: 0;
 		right: 0;
-		z-index: 50;
+		z-index: 4000;
 		display: flex;
 		width: min(480px, 100vw);
 		height: 100dvh;
@@ -1479,6 +1479,10 @@ a {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
+	}
+
+	.talk_radar-img--webkit {
+		display: none;
 	}
 
 	.talk_radar-beam-svg {
