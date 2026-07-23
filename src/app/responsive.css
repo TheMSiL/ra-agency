@@ -549,6 +549,16 @@
 		display: block;
 	}
 
+	.about_hero-btn {
+		right: 24px;
+		bottom: 48px;
+		left: 24px;
+		width: min(100%, 380px);
+		min-width: 0;
+		min-height: 76px;
+		padding: 20px 28px;
+	}
+
 	.reviews_slider > .review_arrow-cont {
 		display: none;
 	}
@@ -775,7 +785,7 @@
 
 	.about_hero-astronaut {
 		width: min(calc(27.75vw + 657px), max(842px, calc(156svh - 167px)));
-		transform: translate(-37%, -38%);
+		transform: translate(-44%, -38%);
 	}
 
 	.about_hero-shadow--head {
@@ -1886,8 +1896,46 @@
 }
 
 @media (max-width: 560px) {
+	#home .home_hero-visible {
+		min-height: 100svh;
+	}
+
+	.contact_form-title {
+		font-size: 24px;
+		max-width: 75%;
+		margin: 0 auto 5px;
+	}
+
+	#home .home_hero-content {
+		margin: 0px -24px 0;
+		background: linear-gradient(
+			180deg,
+			rgba(5, 2, 0, 0.86) 0%,
+			rgba(5, 2, 0, 0.98) 10%,
+			#050200 22%,
+			#050200 100%
+		);
+	}
+
+	#home .home_hero-content::before {
+		position: absolute;
+		right: 0;
+		bottom: 100%;
+		left: 0;
+		height: 190px;
+		content: '';
+		background: linear-gradient(
+			180deg,
+			rgba(5, 2, 0, 0) 0%,
+			rgba(5, 2, 0, 0.3) 34%,
+			rgba(5, 2, 0, 0.68) 68%,
+			rgba(5, 2, 0, 0.86) 100%
+		);
+		pointer-events: none;
+	}
+
 	.reviews {
-		padding-top: 52px;
+		padding-top: 40px;
 		padding-bottom: 60px;
 	}
 
@@ -1988,6 +2036,7 @@
 
 	.about_hero-title {
 		font-size: min(22vw, calc((100svh - 150px) / 1.75));
+		margin-left: 0;
 		line-height: 0.92;
 	}
 
@@ -2211,7 +2260,6 @@
 	.contacts_item:first-child,
 	.contacts_item:nth-child(4) {
 		grid-column: auto;
-		min-height: 180px;
 	}
 
 	.contacts_page-main {
@@ -2306,6 +2354,19 @@
 		height: 52px;
 	}
 
+	.trust .numbers_title {
+		margin-bottom: 0;
+	}
+
+	.reviews .numbers_title {
+		margin-bottom: 40px;
+	}
+
+	.trust_marquee {
+		padding-block: 40px 0;
+		margin-top: 0;
+	}
+
 	.trust_marquee::before {
 		left: -44px;
 	}
@@ -2371,10 +2432,7 @@
 	}
 
 	.footer_logo-bg {
-		top: calc(50% + 10px);
-		width: 243px;
-		opacity: 1;
-		transform: translate(-50%, -50%) rotate(-15deg);
+		display: none;
 	}
 
 	.floating_tg_btn {
@@ -2446,12 +2504,12 @@
 	}
 
 	.home_hero-container {
-		padding-inline: 24px;
+		padding-inline: 20px;
 	}
 
-	.home_hero-title {
+	#home .home_hero-title {
 		margin-top: 22px;
-		font-size: clamp(42px, 12.8vw, 58px);
+		font-size: clamp(42px, 13.4vw, 58px);
 	}
 
 	.sub_hero-title {
@@ -2502,7 +2560,8 @@
 	}
 
 	.home_hero-btn {
-		width: min(100%, 320px);
+		width: 100%;
+		left: 0;
 		min-height: 78px;
 		margin-inline: auto;
 		padding: 18px 24px;
@@ -2617,7 +2676,8 @@
 	}
 
 	.what_line-img {
-		filter: brightness(0) saturate(100%) invert(61%) sepia(95%) saturate(2078%) hue-rotate(347deg) brightness(102%) contrast(96%);
+		filter: brightness(0) saturate(100%) invert(61%) sepia(95%) saturate(2078%)
+			hue-rotate(347deg) brightness(102%) contrast(96%);
 	}
 }
 

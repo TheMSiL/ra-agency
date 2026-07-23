@@ -3792,6 +3792,13 @@ a {
 		margin-top: 28px;
 	}
 
+	.about_hero-btn {
+		position: absolute;
+		z-index: 5;
+		bottom: clamp(52px, 8svh, 96px);
+		left: clamp(28px, 7vw, 140px);
+	}
+
 	.about_hero-astronaut {
 		position: absolute;
 		z-index: 3;
@@ -3800,7 +3807,7 @@ a {
 		width: min(76vw, max(1014px, calc(156svh - 167px)));
 		max-width: none;
 		height: auto;
-		transform: translate(-35%, -43%);
+		transform: translate(-42%, -43%);
 		pointer-events: none;
 		user-select: none;
 	}

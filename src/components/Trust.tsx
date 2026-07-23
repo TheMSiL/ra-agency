@@ -1,10 +1,10 @@
 "use client"
 
+import { useI18n } from '@/context/I18nContext'
+import type { TrustedCompany } from '@/sanity/lib/trust'
 import { gsap } from 'gsap'
 import Image from 'next/image'
 import { useLayoutEffect, useRef } from 'react'
-import { useI18n } from '@/context/I18nContext'
-import type { TrustedCompany } from '@/sanity/lib/trust'
 
 export default function Trust({ companies }: { companies: TrustedCompany[] }) {
 	const { t } = useI18n()
@@ -83,7 +83,7 @@ export default function Trust({ companies }: { companies: TrustedCompany[] }) {
 	}, [])
 
 	return (
-		<section className='trust pt-20 sm:pt-32'>
+		<section className='trust pt-10 sm:pt-32'>
 			<div className="content_container">
 				<h2 className="text-center numbers_gradient-text numbers_title uppercase">{t("trust.title")}</h2>
 			</div>

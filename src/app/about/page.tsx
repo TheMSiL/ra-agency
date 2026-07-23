@@ -1,5 +1,6 @@
 import AboutContent from "@/components/AboutContent";
 import Cases from "@/components/Cases";
+import FloatingTelegramButton from "@/components/FloatingTelegramButton";
 import Footer from "@/components/Footer";
 import Reviews from "@/components/Reviews";
 import Talk from "@/components/Talk";
@@ -20,6 +21,7 @@ export default async function AboutPage() {
 				<Talk />
 			</div>
 			<Footer />
+			<FloatingTelegramButton />
 		</div>
 	);
 }
