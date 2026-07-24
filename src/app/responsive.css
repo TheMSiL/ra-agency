@@ -1253,7 +1253,7 @@
 		transform: translateX(-50%);
 	}
 
-	#home .home_hero-image--mobile {
+	.home_hero-image--mobile {
 		display: none;
 	}
 
@@ -1520,14 +1520,14 @@
 	#home .home_hero-visible,
 	#home .home_hero-container {
 		height: 100svh;
-		min-height: 865px;
+		min-height: 100svh;
 	}
 
 	#home .home_hero-content {
 		position: absolute;
 		top: auto;
 		right: 20px;
-		bottom: max(64px, env(safe-area-inset-bottom));
+		bottom: max(24px, env(safe-area-inset-bottom));
 		left: 20px;
 		margin: 0;
 		padding: 0 0 24px;
@@ -1552,21 +1552,21 @@
 	}
 
 	#home {
-		background-image: radial-gradient(
-			ellipse 82% 52% at 50% 28%,
-			#1a0c01 0%,
-			#0c0501 48%,
-			#050200 76%
+		background-image: linear-gradient(
+			180deg,
+			#0b0501 0%,
+			#050200 64%,
+			#050200 100%
 		);
 	}
 
 	#home .home_hero-visible::after {
-		height: 62%;
+		height: 52%;
 		background: linear-gradient(
 			180deg,
 			rgba(5, 2, 0, 0) 0%,
-			rgba(5, 2, 0, 0.78) 30%,
-			#050200 56%,
+			rgba(5, 2, 0, 0.82) 38%,
+			#050200 68%,
 			#050200 100%
 		);
 	}
@@ -1601,10 +1601,10 @@
 	}
 
 	.home_hero-image--mobile {
-		top: auto;
-		bottom: 240px;
+		top: clamp(145px, calc(365px - 20svh), 185px);
+		bottom: auto;
 		left: 50%;
-		width: min(84vw, 408px);
+		width: min(82vw, 400px);
 		transform: translateX(-50%);
 	}
 
@@ -1613,7 +1613,7 @@
 	}
 
 	#home .home_hero-content {
-		transform: translateY(clamp(150px, 24svh, 220px));
+		transform: none;
 	}
 
 	#home .home_hero-next-wrap {
@@ -2066,10 +2066,6 @@
 		min-height: 100svh;
 	}
 
-	#home .home_hero-image--mobile {
-		width: 460px;
-	}
-
 	.footer {
 		min-height: 450px;
 		padding: 34px 0 75px;
@@ -2170,14 +2166,8 @@
 	}
 
 	#home .home_hero-content {
-		margin: 0px -24px 0;
-		background: linear-gradient(
-			180deg,
-			rgba(5, 2, 0, 0.86) 0%,
-			rgba(5, 2, 0, 0.98) 10%,
-			#050200 22%,
-			#050200 100%
-		);
+		margin: 0;
+		background: transparent;
 	}
 
 	#home .home_hero-content::before {
@@ -3034,15 +3024,5 @@
 	.numbers_title,
 	.services_title {
 		font-size: 28px !important;
-	}
-
-	#home .home_hero-image--mobile {
-		width: 400px;
-	}
-}
-
-@media (max-width: 400px) {
-	#home .home_hero-image--mobile {
-		width: 360px;
 	}
 }
