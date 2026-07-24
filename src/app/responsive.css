@@ -1253,6 +1253,10 @@
 		transform: translateX(-50%);
 	}
 
+	.home_hero-image--mobile {
+		display: none;
+	}
+
 	.home_hero-planet {
 		top: 96px;
 		bottom: auto;
@@ -1315,7 +1319,7 @@
 		right: auto;
 		bottom: auto;
 		left: auto;
-		margin: -150px -32px 0;
+		margin: -190px -32px 0;
 	}
 
 	.tg_hero .home_hero-content {
@@ -1525,6 +1529,26 @@
 		background-color: #050200;
 	}
 
+	#home {
+		background-image: radial-gradient(
+			ellipse 82% 52% at 50% 28%,
+			#1a0c01 0%,
+			#0c0501 48%,
+			#050200 76%
+		);
+	}
+
+	#home .home_hero-visible::after {
+		height: 62%;
+		background: linear-gradient(
+			180deg,
+			rgba(5, 2, 0, 0) 0%,
+			rgba(5, 2, 0, 0.78) 30%,
+			#050200 56%,
+			#050200 100%
+		);
+	}
+
 	.tg_hero {
 		background-image: linear-gradient(
 			182deg,
@@ -1556,14 +1580,9 @@
 
 	.home_hero-image--mobile {
 		top: auto;
-		/*
-		 * Keep the astronaut close to the copy on short mobile viewports.
-		 * A fixed 240px offset pushes the helmet out of the composition when
-		 * Safari's available height is small.
-		 */
-		bottom: clamp(190px, calc(25svh + 28px), 240px);
+		bottom: 240px;
 		left: 50%;
-		width: min(84vw, 338px);
+		width: min(84vw, 408px);
 		transform: translateX(-50%);
 	}
 
@@ -2897,13 +2916,17 @@
 	.services_title {
 		font-size: 28px !important;
 	}
+
+	#home .home_hero-image--mobile {
+		width: 400px;
+	}
 }
 
 @media (max-width: 768px) {
 	#home .home_hero-visible,
 	#home .home_hero-container {
 		height: 100svh;
-		min-height: 100svh;
+		min-height: 865px;
 	}
 
 	#home .home_hero-content {
@@ -2924,6 +2947,10 @@
 }
 
 @media (max-width: 560px) {
+	#home .home_hero-image--mobile {
+		width: 460px;
+	}
+
 	.footer {
 		min-height: 450px;
 		padding: 34px 0 75px;

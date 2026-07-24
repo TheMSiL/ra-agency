@@ -10,13 +10,16 @@ export default function AnalyticsBootstrap() {
 	const localeSegment = pathname.split("/")[1] ?? null;
 	const locale = hasLocale(localeSegment) ? localeSegment : "en";
 	const t = (key: "consent.title" | "consent.text" | "consent.accept" | "consent.reject") => dictionaries[locale][key];
-	const [choice, setChoice] = useState<string | null>(null);
+	const [choice, setChoice] = useState<string | null | undefined>(undefined);
 
 	useEffect(() => {
 		captureAttribution();
 		queueMicrotask(() => setChoice(localStorage.getItem(ATTRIBUTION_CONSENT_KEY)));
 	}, []);
 
+	// Wait until the saved choice has been read on the client. Rendering the
+	// banner during this initial state makes it flash for returning visitors.
+	if (choice === undefined) return null;
 	if (choice) return null;
 	return (
 		<div className="cookie_consent" role="dialog" aria-live="polite" aria-label={t("consent.title")}>
