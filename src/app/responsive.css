@@ -1556,7 +1556,12 @@
 
 	.home_hero-image--mobile {
 		top: auto;
-		bottom: 240px;
+		/*
+		 * Keep the astronaut close to the copy on short mobile viewports.
+		 * A fixed 240px offset pushes the helmet out of the composition when
+		 * Safari's available height is small.
+		 */
+		bottom: clamp(190px, calc(25svh + 28px), 240px);
 		left: 50%;
 		width: min(84vw, 338px);
 		transform: translateX(-50%);
