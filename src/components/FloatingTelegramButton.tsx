@@ -41,14 +41,20 @@ export default function FloatingTelegramButton() {
 					invalidateOnRefresh: true,
 					onEnter: () => {
 						const rect = getHeroRect();
+						const heroStyle = getHeroStyle();
 						gsap.set(button, {
 							autoAlpha: 1,
 							left: rect.left,
 							top: rect.top,
 							width: rect.width,
 							height: rect.height,
-							borderRadius: getHeroStyle().borderRadius,
-							borderWidth: getHeroStyle().borderWidth,
+							borderRadius: heroStyle.borderRadius,
+							borderWidth: heroStyle.borderWidth,
+							fontSize: heroStyle.fontSize,
+							fontFamily: heroStyle.fontFamily,
+							fontWeight: heroStyle.fontWeight,
+							lineHeight: heroStyle.lineHeight,
+							letterSpacing: heroStyle.letterSpacing,
 						});
 						gsap.set(heroButton, { autoAlpha: 0, transition: "none" });
 						heroButton.classList.add("home_hero-btn-morphed");

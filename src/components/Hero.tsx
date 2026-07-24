@@ -4,36 +4,46 @@ import { gsap } from "gsap";
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 
+import { useI18n } from "@/context/I18nContext";
 import Button from "./Button";
 import ContactModal from "./ContactModal";
 import Header from "./Header";
 import TypewriterText from "./TypewriterText";
-import { useI18n } from "@/context/I18nContext";
 
 type HeroType = "home" | "tg" | "meta" | "google";
 
-const serviceContent: Record<Exclude<HeroType, "home">, { title: string; textKey: "hero.telegramText" | "hero.metaText" | "hero.googleText"; background: string }> = {
+const serviceContent: Record<Exclude<HeroType, "home">, {
+	title: string;
+	textKey: "hero.telegramText" | "hero.metaText" | "hero.googleText";
+	background: string;
+	mobileBackground?: string;
+	mobileImage?: { src: string; width: number; height: number };
+}> = {
 	tg: {
 		title: "Telegram ads",
 		textKey: "hero.telegramText",
 		background: "/tg_bg.png",
+		mobileImage: { src: "/tg_hero-mob_new.png", width: 384, height: 577 },
 	},
 	meta: {
 		title: "Meta ads",
 		textKey: "hero.metaText",
 		background: "/meta_bg.png",
+		mobileBackground: "/meta_bg-mob.png",
 	},
 	google: {
 		title: "Google ads",
 		textKey: "hero.googleText",
 		background: "/google_bg.png",
+		mobileImage: { src: "/google_hero-mob.png", width: 402, height: 738 },
 	},
 };
 
 export default function Hero({ type = "home" }: { type?: HeroType }) {
 	const { t } = useI18n();
 	const heroRef = useRef<HTMLElement>(null);
-	const astronautRef = useRef<HTMLImageElement>(null);
+	const astronautDesktopRef = useRef<HTMLImageElement>(null);
+	const astronautMobileRef = useRef<HTMLImageElement>(null);
 	const roiMarqueeRef = useRef<HTMLDivElement>(null);
 	const alignRoiRef = useRef<() => void>(() => undefined);
 	const [isContactOpen, setIsContactOpen] = useState(false);
@@ -42,11 +52,15 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 
 	useLayoutEffect(() => {
 		if (!isHome) return;
-		const astronaut = astronautRef.current;
 		const marquee = roiMarqueeRef.current;
-		if (!astronaut || !marquee) return;
+		const desktopAstronaut = astronautDesktopRef.current;
+		const mobileAstronaut = astronautMobileRef.current;
+		if (!desktopAstronaut || !mobileAstronaut || !marquee) return;
 
 		const alignMarquee = () => {
+			const astronaut = window.matchMedia("(max-width: 768px)").matches
+				? mobileAstronaut
+				: desktopAstronaut;
 			const astronautBox = astronaut.getBoundingClientRect();
 			const marqueeBox = marquee.getBoundingClientRect();
 			const titleBox = heroRef.current?.querySelector<HTMLElement>(".home_hero-title")?.getBoundingClientRect();
@@ -61,7 +75,8 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 
 		alignRoiRef.current = alignMarquee;
 		const observer = new ResizeObserver(alignMarquee);
-		observer.observe(astronaut);
+		observer.observe(desktopAstronaut);
+		observer.observe(mobileAstronaut);
 		if (heroRef.current) observer.observe(heroRef.current);
 		window.addEventListener('resize', alignMarquee);
 		const frame = window.requestAnimationFrame(alignMarquee);
@@ -135,9 +150,12 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 	return (
 		<section
 			id={isHome ? "home" : "tg_home"}
-			className={`home_hero${isHome ? " section_background" : ` tg_hero service_hero--${type}`}`}
+			className={`home_hero${isHome ? " section_background" : ` tg_hero service_hero--${type}${type !== "meta" ? " section_background" : ""}`}`}
 			ref={heroRef}
-			style={content ? { backgroundImage: `url(${content.background})` } : undefined}
+			style={content ? {
+				backgroundImage: `url(${content.background})`,
+				"--service-hero-bg-mobile": `url(${content.mobileBackground ?? content.background})`,
+			} as React.CSSProperties : undefined}
 		>
 			<div className="home_hero-visible">
 				<Header />
@@ -160,8 +178,20 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 						<>
 							<span className="home_hero-planet-glow" aria-hidden="true" />
 							<Image src="/planet.png" alt="" width={1165} height={783} loading="eager" className="home_hero-planet" aria-hidden="true" />
-							<Image ref={astronautRef} src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image hero_reveal" onLoad={() => alignRoiRef.current()} />
+							<Image ref={astronautDesktopRef} src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image home_hero-image--desktop hero_reveal" onLoad={() => alignRoiRef.current()} />
+							<Image ref={astronautMobileRef} src="/home_hero_img-mob.png" alt="" width={402} height={457} loading="eager" className="home_hero-image home_hero-image--mobile hero_reveal" aria-hidden="true" onLoad={() => alignRoiRef.current()} />
 						</>
+					)}
+					{content?.mobileImage && (
+						<Image
+							src={content.mobileImage.src}
+							alt=""
+							width={content.mobileImage.width}
+							height={content.mobileImage.height}
+							loading="eager"
+							className={`service_hero-image service_hero-image--${type} hero_reveal`}
+							aria-hidden="true"
+						/>
 					)}
 					{isHome ? (
 						<div className="home_hero-content">

@@ -59,7 +59,8 @@ export default function Footer() {
 		<footer id="contact" className="footer section_background pt-10">
 			<div className="content_container footer_container">
 				<h1 className="home_hero-title footer_title " data-title="RA AGENCY">
-					RA AGENCY
+					<span className="footer_title-word">RA</span>{" "}
+					<span className="footer_title-word">AGENCY</span>
 				</h1>
 				<div className="footer_layout">
 					<div className="footer_intro">

@@ -9,8 +9,8 @@ import Talk from "@/components/Talk";
 import Trust from "@/components/Trust";
 import { hasLocale } from "@/i18n/config";
 import { getCaseStudies } from "@/sanity/lib/cases";
-import { getTrustedCompanies } from "@/sanity/lib/trust";
 import { getReviews } from "@/sanity/lib/reviews";
+import { getTrustedCompanies } from "@/sanity/lib/trust";
 import { buildPageMetadata } from "@/seo/metadata";
 import { notFound } from "next/navigation";
 
@@ -46,7 +46,7 @@ const googleService = {
 		"Conversion & ROI optimization",
 		"Scaling without efficiency loss",
 	],
-	icon: "/googleAds.png",
+	icon: "/googleAdsNew.png",
 };
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">) {
@@ -59,12 +59,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 	if (!hasLocale(locale)) notFound();
 	const [cases, trustedCompanies, reviews] = await Promise.all([getCaseStudies(locale), getTrustedCompanies(locale), getReviews(locale)]);
 	const localizedServices = [
-		{ ...telegramService, subtitle: locale === "ru" ? "Эффективная реклама в Telegram любого масштаба. Целевая аудитория и быстрый результат" : locale === "ua" ? "Ефективна реклама в Telegram будь-якого масштабу. Цільова аудиторія та швидкий результат" : telegramService.subtitle,
-			items: locale === "ru" ? ["Исследование каналов и тестирование гипотез", "Настройка кампаний и ежедневная оптимизация", "Сквозная аналитика: лиды и продажи"] : locale === "ua" ? ["Дослідження каналів і тестування гіпотез", "Налаштування кампаній і щоденна оптимізація", "Наскрізна аналітика: ліди та продажі"] : telegramService.items },
-		{ ...metaService, subtitle: locale === "ru" ? "Реклама Facebook и Instagram под ключ. Воронки и оптимизация ROAS/CPA" : locale === "ua" ? "Реклама Facebook та Instagram під ключ. Воронки й оптимізація ROAS/CPA" : metaService.subtitle,
-			items: locale === "ru" ? ["Стратегия, воронка и медиаплан", "Настройка Pixel и Conversion API", "Тестирование статических, видео и UGC-креативов"] : locale === "ua" ? ["Стратегія, воронка та медіаплан", "Налаштування Pixel і Conversion API", "Тестування статичних, відео та UGC-креативів"] : metaService.items },
-		{ ...googleService, subtitle: locale === "ru" ? "Поиск, YouTube, КМС и Performance Max. Горячий спрос и ремаркетинг" : locale === "ua" ? "Пошук, YouTube, КММ і Performance Max. Гарячий попит та ремаркетинг" : googleService.subtitle,
-			items: locale === "ru" ? ["Сбор ключевых слов и структура аккаунта", "Настройка GA4 и чистого трекинга", "Оптимизация конверсий и ROI", "Масштабирование без потери эффективности"] : locale === "ua" ? ["Збір ключових слів і структура акаунта", "Налаштування GA4 і чистого трекінгу", "Оптимізація конверсій та ROI", "Масштабування без втрати ефективності"] : googleService.items },
+		{
+			...telegramService, subtitle: locale === "ru" ? "Эффективная реклама в Telegram любого масштаба. Целевая аудитория и быстрый результат" : locale === "ua" ? "Ефективна реклама в Telegram будь-якого масштабу. Цільова аудиторія та швидкий результат" : telegramService.subtitle,
+			items: locale === "ru" ? ["Исследование каналов и тестирование гипотез", "Настройка кампаний и ежедневная оптимизация", "Сквозная аналитика: лиды и продажи"] : locale === "ua" ? ["Дослідження каналів і тестування гіпотез", "Налаштування кампаній і щоденна оптимізація", "Наскрізна аналітика: ліди та продажі"] : telegramService.items
+		},
+		{
+			...metaService, subtitle: locale === "ru" ? "Реклама Facebook и Instagram под ключ. Воронки и оптимизация ROAS/CPA" : locale === "ua" ? "Реклама Facebook та Instagram під ключ. Воронки й оптимізація ROAS/CPA" : metaService.subtitle,
+			items: locale === "ru" ? ["Стратегия, воронка и медиаплан", "Настройка Pixel и Conversion API", "Тестирование статических, видео и UGC-креативов"] : locale === "ua" ? ["Стратегія, воронка та медіаплан", "Налаштування Pixel і Conversion API", "Тестування статичних, відео та UGC-креативів"] : metaService.items
+		},
+		{
+			...googleService, subtitle: locale === "ru" ? "Поиск, YouTube, КМС и Performance Max. Горячий спрос и ремаркетинг" : locale === "ua" ? "Пошук, YouTube, КММ і Performance Max. Гарячий попит та ремаркетинг" : googleService.subtitle,
+			items: locale === "ru" ? ["Сбор ключевых слов и структура аккаунта", "Настройка GA4 и чистого трекинга", "Оптимизация конверсий и ROI", "Масштабирование без потери эффективности"] : locale === "ua" ? ["Збір ключових слів і структура акаунта", "Налаштування GA4 і чистого трекінгу", "Оптимізація конверсій та ROI", "Масштабування без втрати ефективності"] : googleService.items
+		},
 	];
 	return (
 		<div className="wrapper">

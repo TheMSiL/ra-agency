@@ -42,7 +42,10 @@ export default function CasesCard({ company_name, company_logo, company_logo_alt
 					</div>
 				</div>
 				<LocalizedLink href={`/cases/${id}`} className="cases_card-info--item cases_card-arrow cases_block" aria-label={`${t("cases.read")}: ${case_title}`}>
-					<Image src='/cases_card-arrow.png' alt="" width={31} height={45} />
+					<Image className="cases_card-arrow-image" src="/cases_card-arrow.png" alt="" width={31} height={45} />
+					<span className="cases_card-read-more" aria-hidden="true">
+						READ<br />{" "}MORE
+					</span>
 				</LocalizedLink>
 			</div>
 		</div>
