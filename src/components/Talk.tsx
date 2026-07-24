@@ -197,8 +197,8 @@ export default function Talk() {
 						/>
 					))}
 					<button ref={buttonRef} className="talk_btn" type="button" onClick={() => setIsFormOpen(true)}>
-						Message us on
-						Telegram
+						<span className="talk_btn-label talk_btn-label--desktop">Message us on Telegram</span>
+						<span className="talk_btn-label talk_btn-label--mobile">Message us</span>
 					</button>
 				</div>
 			</div>

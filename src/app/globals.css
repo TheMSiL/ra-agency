@@ -1549,6 +1549,10 @@ a {
 		background: rgba(0, 0, 0, 0.45);
 	}
 
+	.talk_btn-label--mobile {
+		display: none;
+	}
+
 	.talk_section .content_container {
 		max-width: none;
 		padding-inline: 0;
@@ -3290,6 +3294,7 @@ a {
 	.blog_top {
 		border-radius: 4.788px 0;
 		border: 0.5px solid #fa8a16;
+		overflow: hidden;
 		background: rgba(0, 0, 0, 0.35);
 		box-shadow: 0 0 50px 0 rgba(250, 138, 22, 0.4) inset;
 		display: flex;
@@ -3303,8 +3308,9 @@ a {
 		padding: 46px 32px;
 		width: 45%;
 		max-width: none;
-		border-radius: 4.788px 0;
-		border: 0.5px solid #fa8a16;
+		border: 0;
+		border-right: 0.5px solid #fa8a16;
+		border-radius: 0;
 		background: rgba(250, 140, 22, 0.068);
 		box-shadow: 0 0 50px 0 rgba(250, 138, 22, 0.4) inset;
 	}
