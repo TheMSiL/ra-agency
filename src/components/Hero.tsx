@@ -108,7 +108,11 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				autoAlpha: 1,
 				duration: 1.05,
 				ease: "power3.out",
-				onComplete: () => gsap.set(button, { clearProps: "transition" }),
+				onUpdate: () => alignRoiRef.current(),
+				onComplete: () => {
+					alignRoiRef.current();
+					gsap.set(button, { clearProps: "transition" });
+				},
 			});
 
 			if (roiPills.length > 0) {
