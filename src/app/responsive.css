@@ -513,6 +513,26 @@
 }
 
 @media (min-width: 901px) {
+	.trust_logo {
+		height: 80px;
+	}
+
+	.trust_logo-image {
+		width: 80px;
+		height: 80px;
+		flex-basis: 80px;
+	}
+
+	.trust_logo--as-is .trust_logo-image,
+	.trust_logo--as-is img {
+		width: auto;
+		height: 80px;
+	}
+
+	.trust_logo:not(.trust_logo--as-is) p {
+		font-size: 30px;
+	}
+
 	.talk_radar {
 		width: min(88vw, 1600px);
 		margin-top: clamp(-140px, -7vw, -56px);
@@ -1534,6 +1554,18 @@
 	}
 }
 
+@media (min-width: 769px) and (max-width: 900px) {
+	#home .home_hero-content {
+		background: linear-gradient(
+			180deg,
+			rgba(9, 4, 0, 0) 0%,
+			rgba(9, 4, 0, 0) 32%,
+			rgba(9, 4, 0, 0.82) 62%,
+			#090400 100%
+		);
+	}
+}
+
 @media (max-width: 768px) {
 	.cases_card-arrow-image {
 		display: none;
@@ -1834,6 +1866,12 @@
 	#home .home_hero-btn {
 		width: 100%;
 		margin: 0;
+	}
+}
+
+@media (min-width: 561px) and (max-width: 768px) {
+	#home .home_hero-image--mobile {
+		width: min(108vw, 560px);
 	}
 }
 
@@ -2269,13 +2307,23 @@
 
 	.trust_logo {
 		width: auto;
-		height: auto;
+		height: 52px;
 	}
 
 	.trust_logo-image {
-		width: 54px;
-		height: 54px;
-		flex-basis: 54px;
+		width: 52px;
+		height: 52px;
+		flex-basis: 52px;
+	}
+
+	.trust_logo--as-is .trust_logo-image {
+		width: auto;
+		height: 52px;
+		max-width: none;
+	}
+
+	.trust_logo--as-is img {
+		height: 52px;
 	}
 
 	.trust_logo p {
@@ -2702,7 +2750,7 @@
 	}
 
 	.services_block {
-		padding-block: 42px 30px;
+		padding-block: 30px;
 	}
 
 	.services_header {
@@ -2715,6 +2763,7 @@
 	.services_icon {
 		grid-row: 1;
 		width: 76px;
+		transform: scale(1.5);
 	}
 
 	.services_icon-mirror {
@@ -2787,6 +2836,10 @@
 		top: 88px;
 		width: 144vw;
 		max-width: none;
+	}
+
+	.numbers_card-text {
+		margin-bottom: 12px;
 	}
 
 	.home_hero-planet-glow {
@@ -3024,6 +3077,6 @@
 
 	.numbers_title,
 	.services_title {
-		font-size: 28px !important;
+		font-size: 30px !important;
 	}
 }

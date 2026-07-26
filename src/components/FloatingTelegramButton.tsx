@@ -28,6 +28,7 @@ export default function FloatingTelegramButton() {
 			const edge = () => window.innerWidth <= 560 ? 12 : window.innerWidth <= 900 ? 16 : 38;
 			const size = () => window.innerWidth <= 560 ? 58 : window.innerWidth <= 900 ? 68 : 90;
 			const morphEase = gsap.parseEase("power2.inOut");
+			let heroRect = getHeroRect();
 
 			gsap.set(button, { autoAlpha: 0 });
 			gsap.set(icon, { autoAlpha: 0, scale: 0.55 });
@@ -41,6 +42,7 @@ export default function FloatingTelegramButton() {
 					invalidateOnRefresh: true,
 					onEnter: () => {
 						const rect = getHeroRect();
+						heroRect = rect;
 						const heroStyle = getHeroStyle();
 						gsap.set(button, {
 							autoAlpha: 1,
@@ -73,20 +75,19 @@ export default function FloatingTelegramButton() {
 					height: size,
 					borderWidth: 2.282,
 					ease: "power2.inOut",
-					duration: 1.2,
+					duration: 0.7,
 				}, 0)
-				.to(label, { autoAlpha: 0, scale: 0.88, duration: 0.48 }, 0.12)
-				.to(icon, { autoAlpha: 1, scale: 1, duration: 0.52 }, 0.58);
+				.to(label, { autoAlpha: 0, scale: 0.88, duration: 0.24 }, 0.04)
+				.to(icon, { autoAlpha: 1, scale: 1, duration: 0.3 }, 0.3);
 
 			timeline.eventCallback("onUpdate", () => {
 				if (timeline.reversed()) {
 					const progress = morphEase(timeline.progress());
-					const rect = getHeroRect();
 					const floatingLeft = window.innerWidth - edge() - size();
 					const floatingTop = window.innerHeight - edge() - size();
 					gsap.set(button, {
-						left: rect.left + (floatingLeft - rect.left) * progress,
-						top: rect.top + (floatingTop - rect.top) * progress,
+						left: heroRect.left + (floatingLeft - heroRect.left) * progress,
+						top: heroRect.top + (floatingTop - heroRect.top) * progress,
 					});
 				}
 
@@ -110,7 +111,10 @@ export default function FloatingTelegramButton() {
 				gsap.set(button, { autoAlpha: 0 });
 			});
 
-			return () => timeline.kill();
+			return () => {
+				timeline.scrollTrigger?.kill();
+				timeline.kill();
+			};
 		}, button);
 
 		return () => {

@@ -9,8 +9,11 @@ const client = getCliClient({
 });
 
 async function main() {
+	const fullLogoIndexes = new Set([1, 2, 4, 5, 6, 7]);
+
 	for (let index = 1; index <= 10; index += 1) {
-		const filename = `${index}.png`;
+		const showLogoAsIs = fullLogoIndexes.has(index);
+		const filename = `${index}${showLogoAsIs ? "_n" : ""}.png`;
 		const image = await readFile(join(process.cwd(), "public", "trust", filename));
 		const asset = await client.assets.upload("image", image, { filename });
 
@@ -25,6 +28,7 @@ async function main() {
 				ua: "Тестовий підпис партнера",
 			},
 			logo: { _type: "image", asset: { _type: "reference", _ref: asset._id } },
+			showLogoAsIs,
 			order: index,
 			isVisible: true,
 		});

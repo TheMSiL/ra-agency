@@ -7,6 +7,9 @@ export type TrustedCompany = {
 	name: string;
 	caption: string;
 	logoUrl: string;
+	showLogoAsIs: boolean;
+	logoWidth: number;
+	logoHeight: number;
 };
 
 const trustedCompaniesQuery = defineQuery(`
@@ -14,7 +17,10 @@ const trustedCompaniesQuery = defineQuery(`
 		"id": _id,
 		name,
 		"caption": coalesce(caption[$language], caption.en, caption.ru, caption.ua, name),
-		"logoUrl": logo.asset->url
+		"logoUrl": logo.asset->url,
+		"showLogoAsIs": coalesce(showLogoAsIs, false),
+		"logoWidth": logo.asset->metadata.dimensions.width,
+		"logoHeight": logo.asset->metadata.dimensions.height
 	}
 `);
 

@@ -102,16 +102,22 @@ export default function Talk() {
 			const constrainToRadar = (x: number, y: number) => {
 				const centerX = radar.clientWidth * (968 / 1920);
 				const centerY = radar.clientHeight * (1056 / 1044);
-				const buttonRadius = button.offsetWidth / 2;
-				const radarRadius = radar.clientWidth * (800 / 1920) - buttonRadius;
+				const buttonHalfWidth = button.offsetWidth / 2;
+				const buttonHalfHeight = button.offsetHeight / 2;
+				const radarRadius = radar.clientWidth * (800 / 1920) - buttonHalfWidth;
 				const deltaX = x - centerX;
 				const deltaY = y - centerY;
 				const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+				const circularPosition = distance <= radarRadius
+					? { x, y }
+					: {
+						x: centerX + deltaX / distance * radarRadius,
+						y: centerY + deltaY / distance * radarRadius,
+					};
 
-				if (distance <= radarRadius) return { x, y };
 				return {
-					x: centerX + deltaX / distance * radarRadius,
-					y: centerY + deltaY / distance * radarRadius,
+					x: gsap.utils.clamp(buttonHalfWidth, radar.clientWidth - buttonHalfWidth, circularPosition.x),
+					y: gsap.utils.clamp(buttonHalfHeight, radar.clientHeight - buttonHalfHeight, circularPosition.y),
 				};
 			};
 

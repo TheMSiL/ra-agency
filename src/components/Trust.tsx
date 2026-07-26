@@ -90,9 +90,11 @@ export default function Trust({ companies }: { companies: TrustedCompany[] }) {
 			{companies.length > 0 && <div className="trust_marquee" ref={marqueeRef} aria-label="Trusted company logos">
 				<div className="trust_track" ref={trackRef}>
 					{marqueeCompanies.map((company, index) => (
-						<div className="trust_logo" key={`${company.id}-${index}`} aria-hidden={index >= companies.length}>
-							<div className="trust_logo-image"><Image src={company.logoUrl} alt={company.name} width={128} height={128} unoptimized /></div>
-							<p>{company.caption}</p>
+						<div className={`trust_logo${company.showLogoAsIs ? " trust_logo--as-is" : ""}`} key={`${company.id}-${index}`} aria-hidden={index >= companies.length}>
+							<div className="trust_logo-image">
+								<Image src={company.logoUrl} alt={company.name} width={company.logoWidth || 128} height={company.logoHeight || 128} unoptimized />
+							</div>
+							{!company.showLogoAsIs && <p>{company.caption}</p>}
 						</div>
 					))}
 				</div>

@@ -15,7 +15,7 @@ export default function Cases({ casesItems }: { casesItems: CasesCardProps[] }) 
 				<div className="cases_row">
 					<div className='cases_head'>
 						<h2 className="numbers_gradient-text numbers_title uppercase text-left max-w-[900px]">{t("cases.title")}</h2>
-						<p className="text-2xl opacity-70">{t("cases.subtitle")}</p>
+						<p className="sm:text-2xl text-xl opacity-70">{t("cases.subtitle")}</p>
 					</div>
 				</div>
 				<div className="cases_row">

@@ -1016,7 +1016,7 @@ a {
 	.numbers_card-text {
 		max-width: 480px;
 		color: #fff;
-		text-align: justify;
+		text-align: start;
 		font-family: var(--font-mulish), Arial, sans-serif;
 		font-size: 19.676px;
 		font-style: normal;
@@ -1089,7 +1089,7 @@ a {
 	.trust_track {
 		display: flex;
 		width: max-content;
-		align-items: flex-start;
+		align-items: center;
 		gap: clamp(48px, 6vw, 108px);
 		will-change: transform;
 	}
@@ -1097,7 +1097,7 @@ a {
 	.trust_logo {
 		display: flex;
 		width: auto;
-		height: auto;
+		height: 64px;
 		flex: 0 0 auto;
 		align-items: center;
 		gap: 14px;
@@ -1105,10 +1105,10 @@ a {
 
 	.trust_logo-image {
 		display: grid;
-		width: 72px;
-		height: 72px;
+		width: 64px;
+		height: 64px;
 		padding: 0;
-		flex: 0 0 72px;
+		flex: 0 0 64px;
 		overflow: hidden;
 		border: 1px solid transparent;
 		border-radius: 50%;
@@ -1123,6 +1123,21 @@ a {
 		border-radius: 50%;
 		user-select: none;
 		-webkit-user-drag: none;
+	}
+
+	.trust_logo--as-is .trust_logo-image {
+		width: auto;
+		height: 64px;
+		max-width: none;
+		flex-basis: auto;
+		border-radius: 0;
+	}
+
+	.trust_logo--as-is img {
+		width: auto;
+		height: 64px;
+		max-width: none;
+		border-radius: 0;
 	}
 
 	.trust_logo p {
