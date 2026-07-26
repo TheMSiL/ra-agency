@@ -2,11 +2,9 @@
 
 import { gsap } from "gsap";
 import Image from "next/image";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import { useI18n } from "@/context/I18nContext";
-import Button from "./Button";
-import ContactModal from "./ContactModal";
 import Header from "./Header";
 import TypewriterText from "./TypewriterText";
 
@@ -46,7 +44,6 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 	const astronautMobileRef = useRef<HTMLImageElement>(null);
 	const roiMarqueeRef = useRef<HTMLDivElement>(null);
 	const alignRoiRef = useRef<() => void>(() => undefined);
-	const [isContactOpen, setIsContactOpen] = useState(false);
 	const isHome = type === "home";
 	const content = isHome ? null : serviceContent[type];
 
@@ -98,10 +95,8 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 
 		const context = gsap.context(() => {
 			const revealItems = hero.querySelectorAll(".hero_reveal");
-			const button = hero.querySelector(".home_hero-btn");
 			const roiPills = Array.from(hero.querySelectorAll<HTMLElement>(".home_hero-roi-pill"));
 
-			gsap.set(button, { transition: "none" });
 			gsap.set(revealItems, { y: 72 });
 			gsap.to(revealItems, {
 				y: 0,
@@ -111,7 +106,6 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				onUpdate: () => alignRoiRef.current(),
 				onComplete: () => {
 					alignRoiRef.current();
-					gsap.set(button, { clearProps: "transition" });
 				},
 			});
 
@@ -203,14 +197,14 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 								<h2 className="home_hero-heading"><TypewriterText text={t("hero.heading")} delay={180} step={32} /></h2>
 								<p className="home_hero-text"><TypewriterText text={t("hero.text")} delay={420} step={20} /></p>
 							</div>
-							<Button title={<TypewriterText text={t("common.message")} delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
+							<div className="btn home_hero-btn home_hero-btn-anchor" aria-hidden="true" />
 						</div>
 					) : (
 						<div className="service_hero-content">
 							<h1 className="home_hero-title sub_hero-title typewriter_host"><TypewriterText text={content?.title ?? ""} step={58} /></h1>
 							<div className="service_hero-bottom">
 								<p className="home_hero-text opacity-80"><TypewriterText text={content ? t(content.textKey) : ""} delay={280} step={type === "google" ? 8 : 13} /></p>
-								<Button title={<TypewriterText text={t("common.message")} delay={480} step={22} />} extra="home_hero-btn hero_reveal" onClick={() => setIsContactOpen(true)} />
+								<div className="btn home_hero-btn home_hero-btn-anchor" aria-hidden="true" />
 							</div>
 						</div>
 					)}
@@ -223,7 +217,6 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 					</div>
 				</div>
 			)}
-			<ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 		</section>
 	);
 }

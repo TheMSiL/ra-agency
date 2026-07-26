@@ -17,99 +17,60 @@ export default function FloatingTelegramButton() {
 
 	useLayoutEffect(() => {
 		const button = buttonRef.current;
-		const heroButton = document.querySelector<HTMLElement>(".home_hero-btn");
-		if (!button || !heroButton) return;
+			const heroAnchor = document.querySelector<HTMLElement>(".home_hero-btn-anchor");
+			if (!button || !heroAnchor) return;
 
 		const context = gsap.context(() => {
 			const label = button.querySelector(".floating_tg_label");
 			const icon = button.querySelector(".floating_tg_icon");
-			const getHeroRect = () => heroButton.getBoundingClientRect();
-			const getHeroStyle = () => window.getComputedStyle(heroButton);
 			const edge = () => window.innerWidth <= 560 ? 12 : window.innerWidth <= 900 ? 16 : 38;
 			const size = () => window.innerWidth <= 560 ? 58 : window.innerWidth <= 900 ? 68 : 90;
-			const morphEase = gsap.parseEase("power2.inOut");
-			let heroRect = getHeroRect();
-
-			gsap.set(button, { autoAlpha: 0 });
-			gsap.set(icon, { autoAlpha: 0, scale: 0.55 });
+			const heroRect = () => heroAnchor.getBoundingClientRect();
+			const heroTop = () => heroRect().top + window.scrollY;
+			const heroStyle = () => window.getComputedStyle(heroAnchor);
 
 			const timeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: document.documentElement,
-					start: "top top-=2",
+					start: "top top-=32",
 					end: "+=1",
 					toggleActions: "play none none reverse",
 					invalidateOnRefresh: true,
-					onEnter: () => {
-						const rect = getHeroRect();
-						heroRect = rect;
-						const heroStyle = getHeroStyle();
-						gsap.set(button, {
-							autoAlpha: 1,
-							left: rect.left,
-							top: rect.top,
-							width: rect.width,
-							height: rect.height,
-							borderRadius: heroStyle.borderRadius,
-							borderWidth: heroStyle.borderWidth,
-							fontSize: heroStyle.fontSize,
-							fontFamily: heroStyle.fontFamily,
-							fontWeight: heroStyle.fontWeight,
-							lineHeight: heroStyle.lineHeight,
-							letterSpacing: heroStyle.letterSpacing,
-						});
-						gsap.set(heroButton, { autoAlpha: 0, transition: "none" });
-						heroButton.classList.add("home_hero-btn-morphed");
-					},
-					onLeaveBack: () => {
-						heroButton.classList.remove("home_hero-btn-morphed");
-					},
 				},
 			});
 
 			timeline
-				.to(button, {
+				.fromTo(button, {
+					autoAlpha: 1,
+					left: () => heroRect().left,
+					top: heroTop,
+					width: () => heroRect().width,
+					height: () => heroRect().height,
+					borderTopLeftRadius: 6,
+					borderTopRightRadius: 20,
+					borderBottomRightRadius: 6,
+					borderBottomLeftRadius: 20,
+					borderWidth: () => heroStyle().borderWidth,
+					fontSize: () => heroStyle().fontSize,
+					fontFamily: () => heroStyle().fontFamily,
+					fontWeight: () => heroStyle().fontWeight,
+					lineHeight: () => heroStyle().lineHeight,
+					letterSpacing: () => heroStyle().letterSpacing,
+				}, {
 					left: () => window.innerWidth - edge() - size(),
 					top: () => window.innerHeight - edge() - size(),
 					width: size,
 					height: size,
 					borderWidth: 2.282,
-					ease: "power2.inOut",
-					duration: 0.7,
+					borderTopLeftRadius: () => size() / 2,
+					borderTopRightRadius: () => size() / 2,
+					borderBottomRightRadius: () => size() / 2,
+					borderBottomLeftRadius: () => size() / 2,
+					ease: "power3.inOut",
+					duration: 0.42,
 				}, 0)
-				.to(label, { autoAlpha: 0, scale: 0.88, duration: 0.24 }, 0.04)
-				.to(icon, { autoAlpha: 1, scale: 1, duration: 0.3 }, 0.3);
-
-			timeline.eventCallback("onUpdate", () => {
-				if (timeline.reversed()) {
-					const progress = morphEase(timeline.progress());
-					const floatingLeft = window.innerWidth - edge() - size();
-					const floatingTop = window.innerHeight - edge() - size();
-					gsap.set(button, {
-						left: heroRect.left + (floatingLeft - heroRect.left) * progress,
-						top: heroRect.top + (floatingTop - heroRect.top) * progress,
-					});
-				}
-
-				const buttonRect = button.getBoundingClientRect();
-				const aspectRatio = buttonRect.width / buttonRect.height;
-				const roundProgress = gsap.utils.clamp(0, 1, (1.3 - aspectRatio) / 0.3);
-				const circleRadius = buttonRect.height / 2;
-				const smallCorner = 6 + (circleRadius - 6) * roundProgress;
-				const largeCorner = 20 + (circleRadius - 20) * roundProgress;
-
-				gsap.set(button, {
-					borderRadius: `${smallCorner}px ${largeCorner}px ${smallCorner}px ${largeCorner}px`,
-				});
-			});
-
-			timeline.eventCallback("onReverseComplete", () => {
-				gsap.set(heroButton, {
-					autoAlpha: 1,
-					transition: "border-radius 0.3s ease, background 0.3s ease, box-shadow 0.3s ease",
-				});
-				gsap.set(button, { autoAlpha: 0 });
-			});
+				.fromTo(label, { autoAlpha: 1, scale: 1 }, { autoAlpha: 0, scale: 0.9, ease: "power2.in", duration: 0.14 }, 0.02)
+				.fromTo(icon, { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, ease: "power2.out", duration: 0.16 }, 0.22);
 
 			return () => {
 				timeline.scrollTrigger?.kill();
@@ -119,8 +80,6 @@ export default function FloatingTelegramButton() {
 
 		return () => {
 			context.revert();
-			heroButton.classList.remove("home_hero-btn-morphed");
-			gsap.set(heroButton, { clearProps: "opacity,visibility,transition" });
 		};
 	}, []);
 

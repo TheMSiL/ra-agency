@@ -391,7 +391,6 @@ a {
 	}
 
 	.burger_brand {
-		margin-bottom: 2px;
 		color: #fff;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
 		font-size: 14px;
@@ -656,6 +655,11 @@ a {
 		min-width: 360px;
 		min-height: 104px;
 		padding: 28px 72px;
+	}
+
+	.home_hero-btn-anchor {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	.home_hero-next-wrap {
@@ -1623,6 +1627,13 @@ a {
 		opacity: 0;
 		visibility: hidden;
 		will-change: left, top, width, height, border-radius;
+		transition:
+			background 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.floating_tg_btn.floating_tg_morph:hover {
+		transform: none;
 	}
 
 	.floating_tg_label,

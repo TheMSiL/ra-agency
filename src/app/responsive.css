@@ -167,20 +167,6 @@
 	}
 }
 @media (max-width: 1280px) {
-	.home_hero .home_hero-btn.home_hero-btn-morphed {
-		position: absolute;
-		width: 0;
-		height: 0;
-		min-height: 0;
-		padding: 0;
-		overflow: hidden;
-	}
-
-	.home_hero-content:has(.home_hero-btn-morphed),
-	.service_hero-bottom:has(.home_hero-btn-morphed) {
-		gap: 0;
-	}
-
 	.footer .footer_title {
 		font-size: clamp(64px, 14vw, 180px);
 	}
@@ -824,14 +810,6 @@
 
 	.talk_section .numbers_title {
 		font-size: clamp(30px, 6vw, 54px);
-	}
-
-	#home .home_hero-content:has(.home_hero-btn-morphed) {
-		padding-bottom: 16px;
-	}
-
-	#home:has(.home_hero-btn-morphed) .home_hero-next {
-		padding-top: 24px;
 	}
 
 	.about_hero-astronaut {

@@ -201,7 +201,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'trust.title': 'Нам доверяют',
 		'reviews.title': 'Отзывы',
 		'talk.title': 'Готовы обсудить проект?',
-		'about.title': 'О НАС',
+		'about.title': 'ABOUT US',
 		'about.pioneering': 'Развиваем цифровое пространство с 2024 года',
 		'about.pioneeringText':
 			'Мы — команда performance-маркетологов, стратегов и специалистов по росту. Анализируем продукты, тестируем гипотезы, запускаем кампании и оптимизируем их на основе данных. Каждое решение опирается на ROI, юнит-экономику и долгосрочную эффективность.',
@@ -318,7 +318,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'trust.title': 'Нам довіряють',
 		'reviews.title': 'Відгуки',
 		'talk.title': 'Готові обговорити проєкт?',
-		'about.title': 'ПРО НАС',
+		'about.title': 'ABOUT US',
 		'about.pioneering': 'Розвиваємо цифровий простір із 2024 року',
 		'about.pioneeringText':
 			'Ми — команда performance-маркетологів, стратегів і фахівців зі зростання. Аналізуємо продукти, тестуємо гіпотези, запускаємо кампанії та оптимізуємо їх на основі даних. Кожне рішення спирається на ROI, юніт-економіку й довгострокову ефективність.',
