@@ -11,6 +11,7 @@ let previousBodyStyles: {
 } | null = null;
 
 let lockedScrollY = 0;
+let usesFixedBodyLock = false;
 
 export function useBodyScrollLock(locked: boolean) {
 	useLayoutEffect(() => {
@@ -22,6 +23,9 @@ export function useBodyScrollLock(locked: boolean) {
 
 		if (lockCount === 0) {
 			lockedScrollY = window.scrollY;
+			usesFixedBodyLock =
+				navigator.maxTouchPoints > 0 &&
+				CSS.supports("-webkit-touch-callout", "none");
 			previousBodyStyles = {
 				overflow: body.style.overflow,
 				width: body.style.width,
@@ -35,10 +39,15 @@ export function useBodyScrollLock(locked: boolean) {
 
 			body.classList.add("scroll_locked");
 			body.style.overflow = "hidden";
-			body.style.width = "100%";
-			body.style.top = `-${lockedScrollY}px`;
-			body.style.left = "0";
-			body.style.position = "fixed";
+
+			// iOS Safari still needs a fixed body to prevent the page behind the
+			// menu from moving. On desktop this would offset fixed portal content.
+			if (usesFixedBodyLock) {
+				body.style.width = "100%";
+				body.style.top = `-${lockedScrollY}px`;
+				body.style.left = "0";
+				body.style.position = "fixed";
+			}
 
 			if (scrollbarWidth > 0) {
 				body.style.paddingRight = `${scrollbarWidth}px`;
@@ -66,7 +75,12 @@ export function useBodyScrollLock(locked: boolean) {
 			body.style.top = previousBodyStyles.top;
 			body.style.left = previousBodyStyles.left;
 			previousBodyStyles = null;
-			window.scrollTo(0, lockedScrollY);
+
+			if (usesFixedBodyLock) {
+				window.scrollTo(0, lockedScrollY);
+			}
+
+			usesFixedBodyLock = false;
 			root.style.scrollBehavior = previousScrollBehavior;
 		};
 	}, [locked]);

@@ -8,6 +8,7 @@ import { useI18n } from "@/context/I18nContext";
 import type { Locale } from "@/i18n/config";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 type WhatWeDoItem = {
 	index: string;
@@ -306,10 +307,27 @@ export default function WhatWeDo() {
 						return;
 					}
 
+					const hasMobilePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+					let viewportWidth = window.innerWidth;
+					let resizeFrame = 0;
+
 					const handleResize = () => {
-						updateCircleMetrics();
-						applyFrame();
-						ScrollTrigger.refresh();
+						const nextViewportWidth = window.innerWidth;
+
+						// Mobile Safari fires resize while its address bar opens and
+						// closes. Refreshing a pinned ScrollTrigger at that moment
+						// changes the spacer height and makes the page jump.
+						if (hasMobilePointer && Math.abs(nextViewportWidth - viewportWidth) < 2) {
+							return;
+						}
+
+						viewportWidth = nextViewportWidth;
+						window.cancelAnimationFrame(resizeFrame);
+						resizeFrame = window.requestAnimationFrame(() => {
+							updateCircleMetrics();
+							applyFrame();
+							ScrollTrigger.refresh();
+						});
 					};
 
 					window.addEventListener("resize", handleResize);
@@ -335,6 +353,7 @@ export default function WhatWeDo() {
 
 					return () => {
 						window.removeEventListener("resize", handleResize);
+						window.cancelAnimationFrame(resizeFrame);
 						tween.kill();
 					};
 				},

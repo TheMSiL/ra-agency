@@ -254,7 +254,7 @@ a {
 
 	.burger_overlay {
 		position: fixed;
-		inset: 107px 0 0;
+		inset: 0;
 		z-index: 3990;
 		pointer-events: none;
 		background: rgba(0, 0, 0, 0.45);
@@ -413,9 +413,9 @@ a {
 		padding-bottom: 0;
 		overflow: hidden;
 		overflow-anchor: none;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
+		background-position: center !important;
+		background-repeat: no-repeat !important;
+		background-size: cover !important;
 	}
 
 	.home_hero-visible {
@@ -1541,8 +1541,14 @@ a {
 		left: 0;
 		z-index: 5;
 		backdrop-filter: blur(10px);
+		touch-action: none;
+		cursor: grab;
 		transition: background 300ms ease;
 		will-change: transform;
+	}
+
+	.talk_btn:active {
+		cursor: grabbing;
 	}
 
 	.talk_btn:hover {
@@ -2130,12 +2136,31 @@ a {
 		will-change: transform;
 	}
 
-	.what_line-img {
-		display: block;
+	.what_line-pattern {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		width: 1920px;
 		height: 100px;
+		padding-inline: 2px;
 		max-width: none;
 		flex: 0 0 1920px;
+	}
+
+	.what_line-bar {
+		width: 3px;
+		height: 50%;
+		border-radius: 999px;
+		background: #fa8a16;
+		box-shadow: 0 0 10px rgba(250, 138, 22, 0.28);
+		opacity: 0.72;
+	}
+
+	.what_line-bar:nth-child(9n + 4) {
+		width: 5px;
+		height: 100%;
+		box-shadow: 0 0 15px rgba(250, 138, 22, 0.5);
+		opacity: 1;
 	}
 
 	.what_count {
@@ -2303,21 +2328,17 @@ a {
 		width: max(240vw, 3200px);
 		height: 1px;
 		transform-origin: left center;
-		background:
-			repeating-linear-gradient(
-				90deg,
-				var(--what-line-color) 0,
-				var(--what-line-color) var(--what-line-segment),
-				transparent var(--what-line-segment),
-				transparent calc(var(--what-line-segment) + var(--what-line-gap))
-			),
-			linear-gradient(
-				90deg,
-				rgba(250, 138, 22, 0.66) 0%,
-				rgba(250, 138, 22, 0.24) 42%,
-				rgba(250, 138, 22, 0.03) 100%
-			);
-		box-shadow: 0 0 16px rgba(250, 138, 22, 0.16);
+		background: linear-gradient(
+			90deg,
+			rgba(250, 138, 22, 0.95) 0%,
+			rgba(250, 138, 22, 0.72) 18%,
+			rgba(250, 138, 22, 0.38) 46%,
+			rgba(250, 138, 22, 0.12) 76%,
+			rgba(250, 138, 22, 0) 100%
+		);
+		box-shadow:
+			0 0 6px rgba(250, 138, 22, 0.24),
+			0 0 18px rgba(250, 138, 22, 0.1);
 		will-change: top, left, transform, opacity;
 	}
 

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
@@ -296,10 +295,13 @@ export default function WhatYouGet() {
 					</div>
 					<div className="what_line" aria-hidden="true">
 						<div className="what_line-track" style={{ "--line-step": lineStep } as CSSProperties}>
-							<Image src="/what_line.svg" alt="" width={1920} height={100} className="what_line-img" unoptimized />
-							<Image src="/what_line.svg" alt="" width={1920} height={100} className="what_line-img" unoptimized />
-							<Image src="/what_line.svg" alt="" width={1920} height={100} className="what_line-img" unoptimized />
-							<Image src="/what_line.svg" alt="" width={1920} height={100} className="what_line-img" unoptimized />
+							{Array.from({ length: 4 }, (_, patternIndex) => (
+								<div className="what_line-pattern" key={patternIndex}>
+									{Array.from({ length: 43 }, (_, lineIndex) => (
+										<span className="what_line-bar" key={lineIndex} />
+									))}
+								</div>
+							))}
 						</div>
 					</div>
 					<div className="what_footer" aria-label="What you get progress">

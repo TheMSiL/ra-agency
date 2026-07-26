@@ -26,6 +26,7 @@ export default function Talk() {
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const iconRefs = useRef<Array<HTMLImageElement | null>>([]);
 	const loadedIconsRef = useRef(new Set<number>());
+	const wasButtonDraggedRef = useRef(false);
 
 	const handleIconReady = (index: number) => {
 		if (loadedIconsRef.current.has(index)) return;
@@ -125,6 +126,43 @@ export default function Talk() {
 				moveX(radar.clientWidth * (968 / 1920));
 				moveY(radar.clientHeight * 0.56);
 			};
+			let activeTouchPointerId: number | null = null;
+			let touchStartX = 0;
+			let touchStartY = 0;
+
+			const handleTouchPointerDown = (event: PointerEvent) => {
+				if (event.pointerType !== 'touch') return;
+				activeTouchPointerId = event.pointerId;
+				touchStartX = event.clientX;
+				touchStartY = event.clientY;
+				wasButtonDraggedRef.current = false;
+				button.setPointerCapture(event.pointerId);
+				event.preventDefault();
+			};
+			const handleTouchPointerMove = (event: PointerEvent) => {
+				if (event.pointerId !== activeTouchPointerId) return;
+
+				if (
+					Math.abs(event.clientX - touchStartX) > 5 ||
+					Math.abs(event.clientY - touchStartY) > 5
+				) {
+					wasButtonDraggedRef.current = true;
+				}
+
+				const box = radar.getBoundingClientRect();
+				const position = constrainToRadar(event.clientX - box.left, event.clientY - box.top);
+				moveX(position.x);
+				moveY(position.y);
+				event.preventDefault();
+			};
+			const handleTouchPointerEnd = (event: PointerEvent) => {
+				if (event.pointerId !== activeTouchPointerId) return;
+				activeTouchPointerId = null;
+
+				if (button.hasPointerCapture(event.pointerId)) {
+					button.releasePointerCapture(event.pointerId);
+				}
+			};
 			const handleResize = () => {
 				measureIcons();
 				handlePointerLeave();
@@ -143,6 +181,10 @@ export default function Talk() {
 				radar.addEventListener('pointermove', handlePointerMove);
 				radar.addEventListener('pointerleave', handlePointerLeave);
 			}
+			button.addEventListener('pointerdown', handleTouchPointerDown);
+			button.addEventListener('pointermove', handleTouchPointerMove);
+			button.addEventListener('pointerup', handleTouchPointerEnd);
+			button.addEventListener('pointercancel', handleTouchPointerEnd);
 			window.addEventListener('resize', handleResize);
 			window.visualViewport?.addEventListener('resize', handleResize);
 			document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -154,6 +196,10 @@ export default function Talk() {
 					radar.removeEventListener('pointermove', handlePointerMove);
 					radar.removeEventListener('pointerleave', handlePointerLeave);
 				}
+				button.removeEventListener('pointerdown', handleTouchPointerDown);
+				button.removeEventListener('pointermove', handleTouchPointerMove);
+				button.removeEventListener('pointerup', handleTouchPointerEnd);
+				button.removeEventListener('pointercancel', handleTouchPointerEnd);
 				window.removeEventListener('resize', handleResize);
 				window.visualViewport?.removeEventListener('resize', handleResize);
 				document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -196,7 +242,18 @@ export default function Talk() {
 							onError={() => handleIconReady(index)}
 						/>
 					))}
-					<button ref={buttonRef} className="talk_btn" type="button" onClick={() => setIsFormOpen(true)}>
+					<button
+						ref={buttonRef}
+						className="talk_btn"
+						type="button"
+						onClick={() => {
+							if (wasButtonDraggedRef.current) {
+								wasButtonDraggedRef.current = false;
+								return;
+							}
+							setIsFormOpen(true);
+						}}
+					>
 						<span className="talk_btn-label talk_btn-label--desktop">Message us on Telegram</span>
 						<span className="talk_btn-label talk_btn-label--mobile">Message us</span>
 					</button>

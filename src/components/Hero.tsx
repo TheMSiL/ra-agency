@@ -22,8 +22,8 @@ const serviceContent: Record<Exclude<HeroType, "home">, {
 	tg: {
 		title: "Telegram ads",
 		textKey: "hero.telegramText",
-		background: "/tg_bg.png",
-		mobileImage: { src: "/tg_hero-mob_new.png", width: 384, height: 577 },
+		background: "/tg_hero-bg.png",
+		mobileBackground: "/tg_hero-mob_bg.png",
 	},
 	meta: {
 		title: "Meta ads",
