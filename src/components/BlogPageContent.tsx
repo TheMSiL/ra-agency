@@ -26,11 +26,13 @@ function PaginationArrow({ direction }: { direction: "prev" | "next" }) {
 }
 
 export default function BlogPageContent({ blogPosts }: { blogPosts: SanityBlogPost[] }) {
-	const { t } = useI18n();
+	const { locale, t } = useI18n();
 	const featuredPost = blogPosts.find(({ isFeatured }) => isFeatured) ?? blogPosts[0];
 	const posts = blogPosts.filter(({ id }) => id !== featuredPost?.id);
 	const gridRef = useRef<HTMLDivElement>(null);
 	const [page, setPage] = useState(1);
+	const [email, setEmail] = useState("");
+	const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 	const pageCount = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
 	const safePage = Math.min(page, pageCount);
 	const currentPosts = posts.slice((safePage - 1) * POSTS_PER_PAGE, safePage * POSTS_PER_PAGE);
@@ -40,6 +42,22 @@ export default function BlogPageContent({ blogPosts }: { blogPosts: SanityBlogPo
 		window.requestAnimationFrame(() => {
 			gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 		});
+	}
+
+	async function subscribe(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		setSubscribeStatus("loading");
+		const response = await fetch("/api/newsletter/subscribe", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ email, locale, website: new FormData(event.currentTarget).get("website") }),
+		}).catch(() => null);
+		if (response?.ok) {
+			setEmail("");
+			setSubscribeStatus("success");
+		} else {
+			setSubscribeStatus("error");
+		}
 	}
 
 	return (
@@ -60,14 +78,17 @@ export default function BlogPageContent({ blogPosts }: { blogPosts: SanityBlogPo
 			</div>
 			</>}
 			<div className="blog_bottom flex xl:flex-row flex-col items-stretch justify-between gap-5">
-				<form className="blog_subscribe" onSubmit={(event) => event.preventDefault()}>
+				<form className="blog_subscribe" onSubmit={subscribe}>
 					<AttributionFields />
+					<input className="newsletter_honeypot" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 					<h4 className="2xl:text-3xl text-2xl font-display mb-5">{t("blog.subscribeTitle")}</h4>
 					<div className="flex sm:flex-row flex-col gap-5 sm:gap-10 items-stretch w-full">
-						<input className="blog_subscribe-input blog_subscribe-input--desktop" type="email" placeholder="perfectmail@raagency.hello" />
-						<input className="blog_subscribe-input blog_subscribe-input--mobile" type="email" placeholder="Email" />
-						<button className="blog_subscribe-btn" type="submit">{t("blog.subscribe")}</button>
+						<input className="blog_subscribe-input blog_subscribe-input--desktop" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="perfectmail@raagency.hello" required />
+						<input className="blog_subscribe-input blog_subscribe-input--mobile" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Email" required />
+						<button className="blog_subscribe-btn" type="submit" disabled={subscribeStatus === "loading"}>{subscribeStatus === "loading" ? t("blog.subscribing") : t("blog.subscribe")}</button>
 					</div>
+					{subscribeStatus === "success" && <p className="blog_subscribe-status" role="status">{t("blog.subscribeSuccess")}</p>}
+					{subscribeStatus === "error" && <p className="blog_subscribe-status blog_subscribe-status--error" role="alert">{t("blog.subscribeError")}</p>}
 				</form>
 				<div>
 					<h4 className="2xl:text-3xl text-2xl font-display mb-5">{t("blog.follow")}</h4>

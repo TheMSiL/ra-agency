@@ -915,7 +915,7 @@ a {
 		margin-bottom: 12px;
 		color: #fff;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 48px;
+		font-size: 52px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 130%;
@@ -3217,6 +3217,8 @@ a {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		margin-top: 42px;
+		overflow: hidden;
+		border-radius: 4.788px 0;
 	}
 	.case_result-card {
 		display: flex;
@@ -3225,7 +3227,6 @@ a {
 		flex-direction: column;
 		justify-content: space-between;
 		border-radius: 0;
-		border-radius: 4.788px 0;
 		border: 0.5px solid #fa8a16;
 		background: rgba(0, 0, 0, 0.35);
 		box-shadow: 0 0 50px 0 rgba(250, 138, 22, 0.4) inset;
@@ -3460,6 +3461,29 @@ a {
 	.blog_subscribe-btn:hover {
 		border-radius: 5px;
 		background: rgba(0, 0, 0, 0.65);
+	}
+
+	.blog_subscribe-btn:disabled {
+		cursor: wait;
+		opacity: 0.65;
+	}
+
+	.newsletter_honeypot {
+		position: absolute;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+	}
+
+	.blog_subscribe-status {
+		margin-top: 14px;
+		color: #ffad5a;
+		font-size: 14px;
+	}
+
+	.blog_subscribe-status--error {
+		color: #ff7b7b;
 	}
 
 	.blog_socials {
@@ -3909,11 +3933,11 @@ a {
 		position: relative;
 		left: 50%;
 		width: 100vw;
-		height: 100svh;
-		min-height: 720px;
-		max-height: 1080px;
+		height: 90svh;
+		min-height: 648px;
+		max-height: 972px;
 		margin-left: -50vw;
-		padding: 32px 0 56px;
+		padding: 29px 0 50px;
 		overflow: hidden;
 	}
 	.we_build::after {
@@ -4078,7 +4102,7 @@ a {
 	.we_build .we_build-item--1 .we_build-connector {
 		top: 35%;
 		left: calc(16% + var(--dna-shift));
-		height: 12%;
+		height: 16%;
 	}
 
 	.we_build .we_build-item--2 .we_build-card {
@@ -4098,9 +4122,10 @@ a {
 	}
 
 	.we_build .we_build-item--3 .we_build-connector {
-		top: 46%;
+		top: 49%;
 		left: calc(79% + var(--dna-shift));
-		height: 25%;
+		z-index: 2;
+		height: 20%;
 	}
 
 	.we_build .we_build-item--4 .we_build-card {
@@ -4159,8 +4184,10 @@ a {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 	.about_pioneering-card {
+		display: flex;
 		min-height: 300px;
 		padding: 48px 4vw 34px;
+		flex-direction: column;
 	}
 	.about_pioneering-card + .about_pioneering-card {
 		border-left: 1px solid rgba(250, 138, 22, 0.72);
@@ -4178,7 +4205,8 @@ a {
 	}
 	.about_pioneering-card strong {
 		display: block;
-		margin-top: 22px;
+		margin-top: auto;
+		padding-top: 22px;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
 		font-size: clamp(58px, 6vw, 104px);
 		font-weight: 400;

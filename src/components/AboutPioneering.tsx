@@ -10,9 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 export default function AboutPioneering() {
 	const { t } = useI18n();
 	const stats = useMemo(() => [
-		{ value: "120M+", title: t("numbers.users.title"), text: t("numbers.users.text") },
-		{ value: "30+", title: t("numbers.clients.title"), text: t("numbers.clients.text") },
-		{ value: "8M+", title: t("numbers.budget.title"), text: t("numbers.budget.text") },
+		{ value: "400+", title: t("numbers.cost.title"), text: t("numbers.cost.text") },
+		{ value: "$11M+", title: t("numbers.users.title"), text: t("numbers.users.text") },
+		{ value: "4.8×", title: t("numbers.budget.title"), text: t("numbers.budget.text") },
 	], [t]);
 	const rootRef = useRef<HTMLElement>(null);
 	const valueRefs = useRef<Array<HTMLElement | null>>([]);
@@ -26,11 +26,14 @@ export default function AboutPioneering() {
 			gsap.from(".about_pioneering-card", { y: 56, autoAlpha: 0, duration: 0.85, stagger: 0.16, ease: "power3.out", scrollTrigger: { trigger: ".about_pioneering-grid", start: "top 85%", once: true } });
 			valueRefs.current.forEach((node, index) => {
 				if (!node) return;
-				const suffix = stats[index].value.replace(/^\d+/, "");
-				const target = Number(stats[index].value.match(/\d+/)?.[0] ?? 0);
+				const match = stats[index].value.match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/);
+				if (!match) return;
+				const [, prefix, numericValue, suffix] = match;
+				const decimals = numericValue.includes(".") ? numericValue.split(".")[1].length : 0;
+				const target = Number(numericValue);
 				const counter = { value: 0 };
-				node.textContent = `0${suffix}`;
-				gsap.to(counter, { value: target, duration: 3.5, delay: index * 0.15, ease: "power2.out", scrollTrigger: { trigger: root, start: "top 72%", once: true }, onUpdate: () => { node.textContent = `${Math.round(counter.value)}${suffix}`; } });
+				node.textContent = `${prefix}${(0).toFixed(decimals)}${suffix}`;
+				gsap.to(counter, { value: target, duration: 3.5, delay: index * 0.15, ease: "power2.out", scrollTrigger: { trigger: root, start: "top 72%", once: true }, onUpdate: () => { node.textContent = `${prefix}${counter.value.toFixed(decimals)}${suffix}`; } });
 			});
 		}, root);
 		return () => context.revert();

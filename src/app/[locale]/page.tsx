@@ -18,9 +18,10 @@ const telegramService = {
 	title: "TELEGRAM ADS",
 	subtitle: "Effective Telegram advertising at any scale. Target audience and fast results",
 	items: [
-		"Channel research & hypothesis testing",
-		"Campaign setup & daily optimization",
-		"Full-funnel analytics (leads, sales)",
+		"Analytics Setup",
+		"Strategy, Funnel & KPI Setup",
+		"Testing Approaches",
+		"Scaling Phase",
 	],
 	icon: "/tg.png",
 };
@@ -29,10 +30,10 @@ const metaService = {
 	title: "META ADS",
 	subtitle: "Turnkey Facebook & Instagram ads. Funnel building and ROAS/CPA optimization",
 	items: [
-		"Strategy, funnel & media plan",
-		"Pixel & Conversion API setup",
-		"Pixel & Conversion API setup",
-		"Static, video & UGC creative testing",
+		"Pixel & Conversion API Setup",
+		"Campaign Strategy & KPI Setup",
+		"Testing Approaches",
+		"Scaling & Optimization",
 	],
 	icon: "/meta.png",
 };
@@ -41,10 +42,10 @@ const googleService = {
 	title: "Google Ads",
 	subtitle: "Search, YouTube, Display & Performance Max. Capturing hot demand + remarketing",
 	items: [
-		"Keyword research & account structure",
-		"GA4 setup & clean tracking",
-		"Conversion & ROI optimization",
-		"Scaling without efficiency loss",
+		"Analytics & Tracking Setup",
+		"Campaign Structure & KPI Setup",
+		"Testing Keywords, Audiences & Creatives",
+		"Scaling Without Efficiency Loss",
 	],
 	icon: "/googleAdsNew.png",
 };
@@ -61,15 +62,15 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 	const localizedServices = [
 		{
 			...telegramService, subtitle: locale === "ru" ? "Эффективная реклама в Telegram любого масштаба. Целевая аудитория и быстрый результат" : locale === "ua" ? "Ефективна реклама в Telegram будь-якого масштабу. Цільова аудиторія та швидкий результат" : telegramService.subtitle,
-			items: locale === "ru" ? ["Исследование каналов и тестирование гипотез", "Настройка кампаний и ежедневная оптимизация", "Сквозная аналитика: лиды и продажи"] : locale === "ua" ? ["Дослідження каналів і тестування гіпотез", "Налаштування кампаній і щоденна оптимізація", "Наскрізна аналітика: ліди та продажі"] : telegramService.items
+			items: locale === "ru" ? ["Настройка аналитики", "Настройка стратегии, воронки и KPI", "Тестирование подходов", "Этап масштабирования"] : locale === "ua" ? ["Налаштування аналітики", "Налаштування стратегії, воронки та KPI", "Тестування підходів", "Етап масштабування"] : telegramService.items
 		},
 		{
 			...metaService, subtitle: locale === "ru" ? "Реклама Facebook и Instagram под ключ. Воронки и оптимизация ROAS/CPA" : locale === "ua" ? "Реклама Facebook та Instagram під ключ. Воронки й оптимізація ROAS/CPA" : metaService.subtitle,
-			items: locale === "ru" ? ["Стратегия, воронка и медиаплан", "Настройка Pixel и Conversion API", "Тестирование статических, видео и UGC-креативов"] : locale === "ua" ? ["Стратегія, воронка та медіаплан", "Налаштування Pixel і Conversion API", "Тестування статичних, відео та UGC-креативів"] : metaService.items
+			items: locale === "ru" ? ["Настройка Pixel и Conversion API", "Настройка стратегии кампаний и KPI", "Тестирование подходов", "Масштабирование и оптимизация"] : locale === "ua" ? ["Налаштування Pixel і Conversion API", "Налаштування стратегії кампаній та KPI", "Тестування підходів", "Масштабування та оптимізація"] : metaService.items
 		},
 		{
 			...googleService, subtitle: locale === "ru" ? "Поиск, YouTube, КМС и Performance Max. Горячий спрос и ремаркетинг" : locale === "ua" ? "Пошук, YouTube, КММ і Performance Max. Гарячий попит та ремаркетинг" : googleService.subtitle,
-			items: locale === "ru" ? ["Сбор ключевых слов и структура аккаунта", "Настройка GA4 и чистого трекинга", "Оптимизация конверсий и ROI", "Масштабирование без потери эффективности"] : locale === "ua" ? ["Збір ключових слів і структура акаунта", "Налаштування GA4 і чистого трекінгу", "Оптимізація конверсій та ROI", "Масштабування без втрати ефективності"] : googleService.items
+			items: locale === "ru" ? ["Настройка аналитики и отслеживания", "Настройка структуры кампаний и KPI", "Тестирование ключевых слов, аудиторий и креативов", "Масштабирование без потери эффективности"] : locale === "ua" ? ["Налаштування аналітики та відстеження", "Налаштування структури кампаній та KPI", "Тестування ключових слів, аудиторій і креативів", "Масштабування без втрати ефективності"] : googleService.items
 		},
 	];
 	return (

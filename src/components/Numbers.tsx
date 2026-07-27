@@ -1,9 +1,9 @@
 "use client";
 
+import { useI18n } from "@/context/I18nContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLayoutEffect, useMemo, useRef } from "react";
-import { useI18n } from "@/context/I18nContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,10 +33,10 @@ function AnimatedCardBorder() {
 export default function Numbers() {
 	const { t } = useI18n();
 	const items = useMemo(() => [
-		{ title: '$3.54', subtitle: t('numbers.cost.title'), description: t('numbers.cost.text') },
-		{ title: '120M+', subtitle: t('numbers.users.title'), description: t('numbers.users.text') },
-		{ title: '30+', subtitle: t('numbers.clients.title'), description: t('numbers.clients.text') },
-		{ title: '8M+', subtitle: t('numbers.budget.title'), description: t('numbers.budget.text') },
+		{ title: '400+', subtitle: t('numbers.cost.title'), description: t('numbers.cost.text') },
+		{ title: '$11M+', subtitle: t('numbers.users.title'), description: t('numbers.users.text') },
+		{ title: '70+', subtitle: t('numbers.clients.title'), description: t('numbers.clients.text') },
+		{ title: '4.8×', subtitle: t('numbers.budget.title'), description: t('numbers.budget.text') },
 	], [t]);
 	const [featuredItem, ...statItems] = items;
 	const rootRef = useRef<HTMLElement>(null);
@@ -99,12 +99,9 @@ export default function Numbers() {
 			<div className="content_container">
 				<div className="numbers_top">
 					<div className="numbers_intro">
-						<h2 className="numbers_title">
+						<h2 className="numbers_title numbers_gradient-text">
 							{t("numbers.title")}
 						</h2>
-						<p className="numbers_intro-text">
-							{t("numbers.intro")}
-						</p>
 					</div>
 
 					<article className="numbers_card numbers_card-featured">

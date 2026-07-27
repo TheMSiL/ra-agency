@@ -34,25 +34,25 @@ const en = {
 	'hero.text': 'We don’t buy clicks. We take minds.',
 	'hero.next': 'What we do',
 	'hero.telegramText':
-		'We launch, optimize, and scale official Telegram Ads with a laser focus on hard metrics. No vanity metrics — only verified signups, active deposits, and player purchases.',
+		'We build, optimize and scale Telegram Ads campaigns focused on measurable business growth. From customer acquisition and CPA optimization to revenue, deposits, purchases and ROAS - we optimize for the metrics that actually grow your business, not clicks or impressions.',
 	'hero.metaText':
-		'We build and scale performance campaigns across Facebook and Instagram, optimizing every step of the funnel for conversions, CPA, and ROAS.',
+		'High-performance Facebook & Instagram advertising built to acquire paying customers at scale. We continuously optimize campaigns using real-time data to improve ROAS, reduce CAC, increase conversion rates and maximize LTV.',
 	'hero.googleText':
-		'We launch and scale Google Ads with a focus on real results — leads, purchases, and revenue growth. We work with products where the goal is not just traffic, but paying customers.',
+		'Full-funnel Google Ads management across Search, Display, YouTube, Performance Max, and App Campaigns. We optimize campaigns around conversions, CPA, ROAS, customer lifetime value and profitable revenue growth.',
 	'numbers.title': 'Numbers We Stand Behind',
 	'numbers.intro': 'Every number reflects campaigns that deliver real results.',
-	'numbers.cost.title': 'Average cost per user',
+	'numbers.cost.title': 'Total clients',
 	'numbers.cost.text':
-		'Competitive cost per user with the right funnel and strategy',
-	'numbers.users.title': 'Users from Telegram Ads',
+		'Trusted by businesses worldwide',
+	'numbers.users.title': 'Managed ad spend',
 	'numbers.users.text':
-		'A steady stream of new users from Telegram Ads for active projects every month',
-	'numbers.clients.title': 'Active clients',
+		'Advertising budget successfully managed',
+	'numbers.clients.title': 'Countries reached',
 	'numbers.clients.text':
-		'Long-term partnerships with clients, not one-time campaigns',
-	'numbers.budget.title': 'Managed advertising budget',
+		'Campaigns launched across global markets',
+	'numbers.budget.title': 'Average client ROAS',
 	'numbers.budget.text':
-		'We manage advertising budgets at scale while maintaining performance control',
+		'Average return on ad spend across client campaigns',
 	'cases.title': 'Case Studies and Success Stories',
 	'cases.subtitle':
 		'Examples of advertising campaigns we launched and scaled for our clients',
@@ -74,26 +74,29 @@ const en = {
 	'reviews.title': 'Reviews',
 	'talk.title': 'Are you ready to talk?',
 	'about.title': 'ABOUT US',
-	'about.pioneering': 'Pioneering the digital space since 2024',
+	'about.pioneering': 'Performance marketing built around business growth',
 	'about.pioneeringText':
-		'We are a team of performance marketers, strategists, and growth specialists focused on scalable growth. We analyze products, test hypotheses, launch campaigns, and optimize them based on data. Every decision is built around ROI, unit economics, and long-term performance. We don’t look for magic buttons — we build systems that scale.',
-	'about.core.title': 'CORE EXPERTISE',
+		"Advertising should be one of the most profitable investments a business makes. That's why we build systems designed to maximize revenue. Every campaign is continuously optimized around the metrics that truly matter - ROAS, customer acquisition cost, lifetime value, and sustainable business growth",
+	'about.core.title': 'OUR STORY',
 	'about.core.text':
-		'RA Agency is a performance marketing agency that helps brands scale growth through Telegram Ads, Meta Ads, Google Ads, influencer marketing, and conversion-driven funnels',
-	'about.philosophy.title': 'OUR PHILOSOPHY',
+		'Founded in April 2025, RA Agency started with one mission - to become the benchmark for Telegram Ads. Built entirely through referrals, we quickly expanded into a full-service performance marketing agency, helping businesses scale through Telegram Ads, Meta Ads and Google Ads',
+	'about.philosophy.title': 'WHAT MAKES US DIFFERENT',
 	'about.philosophy.text':
-		'We ignore vanity metrics like clicks and impressions. Our focus is your unit economics. We design automated, data-driven acquisition systems that consistently deliver scalable, predictable revenue growth',
-	'about.partnership.title': 'GROWTH PARTNERSHIP',
+		'Our AI-powered automation turns campaign data into action faster than any human team could - pushing every budget toward the conversions that actually generate revenue',
+	'about.partnership.title': 'WHY CLIENTS CHOOSE US',
 	'about.partnership.text':
-		'We act as an extension of your in-house team, not just a third-party vendor. You get full, real-time access to live dashboards, transparent ad accounts, and direct communication',
-	'about.niches.title': 'TARGET NICHES',
+		"We don't measure success by clicks or impressions - we measure it by your business growth. Our goal is simple: turn advertising into a high-return investment by consistently bringing customers who are ready to buy, not just visit",
+	'about.niches.title': 'GLOBAL EXPERIENCE',
 	'about.niches.text':
-		'We work with Web3, gaming, iGaming, and digital products where success is measured not by clicks, but by real users, conversions, and revenue growth',
+		"Since our launch, we've partnered with 400+ businesses and managed over $11M in advertising spend, running profitable campaigns across 70+ countries. This global experience allows us to confidently scale businesses in diverse markets and adapt strategies to each region",
 	'blog.title': 'Our blog',
 	'blog.empty': 'No articles published yet',
 	'blog.subscribeTitle':
 		'Subscribe to our newsletter for regular quality insights',
 	'blog.subscribe': 'Subscribe',
+	'blog.subscribing': 'Subscribing...',
+	'blog.subscribeSuccess': 'You are subscribed. We will email you when a new article is published.',
+	'blog.subscribeError': 'Could not subscribe right now. Please try again.',
 	'blog.follow': 'Follow us',
 	'blog.keepExploring': 'Keep exploring',
 	'blog.recommended': 'Recommended articles',
@@ -165,26 +168,26 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'hero.text': 'Мы не покупаем клики. Мы завоёвываем внимание.',
 		'hero.next': 'Что мы делаем',
 		'hero.telegramText':
-			'Запускаем, оптимизируем и масштабируем официальную рекламу Telegram Ads с фокусом на бизнес-метрики: регистрации, активные депозиты и покупки.',
+			'Создаём, оптимизируем и масштабируем кампании в Telegram Ads с фокусом на измеримый рост бизнеса. От привлечения клиентов и оптимизации CPA до выручки, депозитов, покупок и ROAS — мы оптимизируем показатели, которые действительно развивают ваш бизнес, а не клики или показы.',
 		'hero.metaText':
-			'Создаём и масштабируем performance-кампании в Facebook и Instagram, оптимизируя каждый этап воронки по конверсиям, CPA и ROAS.',
+			'Высокоэффективная реклама в Facebook и Instagram, созданная для масштабного привлечения платящих клиентов. Мы непрерывно оптимизируем кампании на основе данных в реальном времени, чтобы повышать ROAS, снижать CAC, увеличивать конверсию и максимизировать LTV.',
 		'hero.googleText':
-			'Запускаем и масштабируем Google Ads с фокусом на лиды, покупки и рост выручки. Работаем на привлечение платящих клиентов, а не просто трафика.',
+			'Полное управление воронкой Google Ads в поиске, КМС, YouTube, Performance Max и кампаниях для приложений. Мы оптимизируем кампании по конверсиям, CPA, ROAS, пожизненной ценности клиента и прибыльному росту выручки.',
 		'numbers.title': 'Цифры, за которыми мы стоим',
 		'numbers.intro':
 			'Каждая цифра отражает кампании, которые приносят реальные результаты.',
-		'numbers.cost.title': 'Средняя стоимость пользователя',
+		'numbers.cost.title': 'Всего клиентов',
 		'numbers.cost.text':
-			'Конкурентная стоимость пользователя благодаря правильной воронке и стратегии',
-		'numbers.users.title': 'Пользователей из Telegram Ads',
+			'Нам доверяют компании по всему миру',
+		'numbers.users.title': 'Рекламного бюджета под управлением',
 		'numbers.users.text':
-			'Стабильный поток новых пользователей из Telegram Ads для активных проектов каждый месяц',
-		'numbers.clients.title': 'Активных клиентов',
+			'Успешно управляем рекламными бюджетами',
+		'numbers.clients.title': 'Стран охвачено',
 		'numbers.clients.text':
-			'Долгосрочные партнёрства с клиентами вместо разовых кампаний',
-		'numbers.budget.title': 'Рекламного бюджета под управлением',
+			'Запускаем кампании на глобальных рынках',
+		'numbers.budget.title': 'Средний ROAS клиентов',
 		'numbers.budget.text':
-			'Управляем крупными бюджетами, сохраняя контроль эффективности',
+			'Средняя окупаемость рекламных расходов по кампаниям клиентов',
 		'cases.title': 'Кейсы и истории успеха',
 		'cases.subtitle':
 			'Примеры рекламных кампаний, которые мы запустили и масштабировали для клиентов',
@@ -202,25 +205,28 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'reviews.title': 'Отзывы',
 		'talk.title': 'Готовы обсудить проект?',
 		'about.title': 'ABOUT US',
-		'about.pioneering': 'Развиваем цифровое пространство с 2024 года',
+		'about.pioneering': 'Performance-маркетинг, построенный вокруг роста бизнеса',
 		'about.pioneeringText':
-			'Мы — команда performance-маркетологов, стратегов и специалистов по росту. Анализируем продукты, тестируем гипотезы, запускаем кампании и оптимизируем их на основе данных. Каждое решение опирается на ROI, юнит-экономику и долгосрочную эффективность.',
-		'about.core.title': 'КЛЮЧЕВАЯ ЭКСПЕРТИЗА',
+			'Реклама должна быть одной из самых прибыльных инвестиций бизнеса. Поэтому мы создаём системы, направленные на максимизацию выручки. Каждая кампания непрерывно оптимизируется по действительно важным показателям — ROAS, стоимости привлечения клиента, пожизненной ценности клиента и устойчивому росту бизнеса',
+		'about.core.title': 'НАША ИСТОРИЯ',
 		'about.core.text':
-			'Помогаем брендам масштабировать рост через Telegram Ads, Meta Ads, Google Ads, influencer-маркетинг и конверсионные воронки',
-		'about.philosophy.title': 'НАША ФИЛОСОФИЯ',
+			'Основанное в апреле 2025 года агентство RA Agency начало работу с одной миссией — стать эталоном в Telegram Ads. Развиваясь исключительно благодаря рекомендациям, мы быстро превратились в performance-маркетинговое агентство полного цикла и теперь помогаем бизнесу масштабироваться с помощью Telegram Ads, Meta Ads и Google Ads',
+		'about.philosophy.title': 'ЧТО НАС ОТЛИЧАЕТ',
 		'about.philosophy.text':
-			'Игнорируем метрики тщеславия и фокусируемся на юнит-экономике. Строим автоматизированные системы привлечения с предсказуемым ростом выручки',
-		'about.partnership.title': 'ПАРТНЁРСТВО В РОСТЕ',
+			'Наша автоматизация на основе ИИ превращает данные кампаний в конкретные действия быстрее любой команды специалистов, направляя каждый рекламный бюджет на конверсии, которые действительно приносят выручку',
+		'about.partnership.title': 'ПОЧЕМУ КЛИЕНТЫ ВЫБИРАЮТ НАС',
 		'about.partnership.text':
-			'Работаем как продолжение вашей команды: предоставляем доступ к дашбордам, прозрачным рекламным кабинетам и прямой коммуникации',
-		'about.niches.title': 'ЦЕЛЕВЫЕ НИШИ',
+			'Мы измеряем успех не кликами или показами, а ростом вашего бизнеса. Наша цель проста: превратить рекламу в высокодоходную инвестицию, стабильно привлекая клиентов, которые готовы покупать, а не просто посещать сайт',
+		'about.niches.title': 'ГЛОБАЛЬНЫЙ ОПЫТ',
 		'about.niches.text':
-			'Работаем с Web3, gaming, iGaming и цифровыми продуктами, где успех измеряется пользователями, конверсиями и выручкой',
+			'С момента запуска мы сотрудничали с более чем 400 компаниями и управляли рекламными бюджетами свыше $11M, проводя прибыльные кампании более чем в 70 странах. Этот глобальный опыт позволяет нам уверенно масштабировать бизнес на разных рынках и адаптировать стратегии к каждому региону',
 		'blog.title': 'Наш блог',
 		'blog.empty': 'Пока нет опубликованных статей',
 		'blog.subscribeTitle': 'Подпишитесь на рассылку с полезными материалами',
 		'blog.subscribe': 'Подписаться',
+		'blog.subscribing': 'Подписываем...',
+		'blog.subscribeSuccess': 'Вы подписаны. Мы напишем вам, когда выйдет новая статья.',
+		'blog.subscribeError': 'Не удалось оформить подписку. Попробуйте ещё раз.',
 		'blog.follow': 'Мы в соцсетях',
 		'blog.keepExploring': 'Читайте дальше',
 		'blog.recommended': 'Рекомендуемые статьи',
@@ -282,26 +288,26 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'hero.text': 'Ми не купуємо кліки. Ми завойовуємо увагу.',
 		'hero.next': 'Що ми робимо',
 		'hero.telegramText':
-			'Запускаємо, оптимізуємо й масштабуємо офіційну рекламу Telegram Ads із фокусом на бізнес-метрики: реєстрації, активні депозити та покупки.',
+			'Створюємо, оптимізуємо й масштабуємо кампанії в Telegram Ads із фокусом на вимірюване зростання бізнесу. Від залучення клієнтів та оптимізації CPA до доходу, депозитів, покупок і ROAS — ми оптимізуємо показники, які справді розвивають ваш бізнес, а не кліки чи покази.',
 		'hero.metaText':
-			'Створюємо й масштабуємо performance-кампанії у Facebook та Instagram, оптимізуючи кожен етап воронки за конверсіями, CPA і ROAS.',
+			'Високоефективна реклама у Facebook та Instagram, створена для масштабного залучення платних клієнтів. Ми безперервно оптимізуємо кампанії на основі даних у реальному часі, щоб підвищувати ROAS, знижувати CAC, збільшувати конверсію та максимізувати LTV.',
 		'hero.googleText':
-			'Запускаємо й масштабуємо Google Ads із фокусом на ліди, покупки та зростання доходу. Працюємо на залучення платних клієнтів, а не просто трафіку.',
+			'Повне управління воронкою Google Ads у пошуку, КММ, YouTube, Performance Max і кампаніях для застосунків. Ми оптимізуємо кампанії за конверсіями, CPA, ROAS, довічною цінністю клієнта та прибутковим зростанням доходу.',
 		'numbers.title': 'Цифри, за якими ми стоїмо',
 		'numbers.intro':
 			'Кожна цифра відображає кампанії, що приносять реальні результати.',
-		'numbers.cost.title': 'Середня вартість користувача',
+		'numbers.cost.title': 'Усього клієнтів',
 		'numbers.cost.text':
-			'Конкурентна вартість користувача завдяки правильній воронці та стратегії',
-		'numbers.users.title': 'Користувачів із Telegram Ads',
+			'Нам довіряють компанії з усього світу',
+		'numbers.users.title': 'Рекламного бюджету під управлінням',
 		'numbers.users.text':
-			'Стабільний потік нових користувачів із Telegram Ads для активних проєктів щомісяця',
-		'numbers.clients.title': 'Активних клієнтів',
+			'Успішно керуємо рекламними бюджетами',
+		'numbers.clients.title': 'Країн охоплено',
 		'numbers.clients.text':
-			'Довгострокові партнерства з клієнтами замість одноразових кампаній',
-		'numbers.budget.title': 'Рекламного бюджету під управлінням',
+			'Запускаємо кампанії на глобальних ринках',
+		'numbers.budget.title': 'Середній ROAS клієнтів',
 		'numbers.budget.text':
-			'Керуємо великими бюджетами, зберігаючи контроль ефективності',
+			'Середня окупність рекламних витрат у кампаніях клієнтів',
 		'cases.title': 'Кейси та історії успіху',
 		'cases.subtitle':
 			'Приклади рекламних кампаній, які ми запустили й масштабували для клієнтів',
@@ -319,25 +325,28 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'reviews.title': 'Відгуки',
 		'talk.title': 'Готові обговорити проєкт?',
 		'about.title': 'ABOUT US',
-		'about.pioneering': 'Розвиваємо цифровий простір із 2024 року',
+		'about.pioneering': 'Performance-маркетинг, побудований навколо зростання бізнесу',
 		'about.pioneeringText':
-			'Ми — команда performance-маркетологів, стратегів і фахівців зі зростання. Аналізуємо продукти, тестуємо гіпотези, запускаємо кампанії та оптимізуємо їх на основі даних. Кожне рішення спирається на ROI, юніт-економіку й довгострокову ефективність.',
-		'about.core.title': 'КЛЮЧОВА ЕКСПЕРТИЗА',
+			'Реклама має бути однією з найприбутковіших інвестицій бізнесу. Тому ми створюємо системи, спрямовані на максимізацію доходу. Кожна кампанія безперервно оптимізується за справді важливими показниками — ROAS, вартістю залучення клієнта, довічною цінністю клієнта та сталим зростанням бізнесу',
+		'about.core.title': 'НАША ІСТОРІЯ',
 		'about.core.text':
-			'Допомагаємо брендам масштабувати зростання через Telegram Ads, Meta Ads, Google Ads, influencer-маркетинг і конверсійні воронки',
-		'about.philosophy.title': 'НАША ФІЛОСОФІЯ',
+			'Заснована у квітні 2025 року RA Agency розпочала роботу з однією місією — стати еталоном у Telegram Ads. Розвиваючись виключно завдяки рекомендаціям, ми швидко перетворилися на performance-маркетингову агенцію повного циклу й тепер допомагаємо бізнесу масштабуватися за допомогою Telegram Ads, Meta Ads і Google Ads',
+		'about.philosophy.title': 'ЩО НАС ВІДРІЗНЯЄ',
 		'about.philosophy.text':
-			'Ігноруємо метрики марнославства та фокусуємося на юніт-економіці. Будуємо автоматизовані системи залучення з передбачуваним зростанням доходу',
-		'about.partnership.title': 'ПАРТНЕРСТВО У ЗРОСТАННІ',
+			'Наша автоматизація на основі ШІ перетворює дані кампаній на конкретні дії швидше за будь-яку команду фахівців, спрямовуючи кожен рекламний бюджет на конверсії, які справді приносять дохід',
+		'about.partnership.title': 'ЧОМУ КЛІЄНТИ ОБИРАЮТЬ НАС',
 		'about.partnership.text':
-			'Працюємо як продовження вашої команди: надаємо доступ до дашбордів, прозорих рекламних кабінетів і прямої комунікації',
-		'about.niches.title': 'ЦІЛЬОВІ НІШІ',
+			'Ми вимірюємо успіх не кліками чи показами, а зростанням вашого бізнесу. Наша мета проста: перетворити рекламу на високодохідну інвестицію, стабільно залучаючи клієнтів, які готові купувати, а не просто відвідувати сайт',
+		'about.niches.title': 'ГЛОБАЛЬНИЙ ДОСВІД',
 		'about.niches.text':
-			'Працюємо з Web3, gaming, iGaming і цифровими продуктами, де успіх вимірюється користувачами, конверсіями та доходом',
+			'Від моменту запуску ми співпрацювали з понад 400 компаніями та керували рекламними бюджетами обсягом понад $11M, проводячи прибуткові кампанії у більш ніж 70 країнах. Цей глобальний досвід дає нам змогу впевнено масштабувати бізнес на різних ринках і адаптувати стратегії до кожного регіону',
 		'blog.title': 'Наш блог',
 		'blog.empty': 'Поки немає опублікованих статей',
 		'blog.subscribeTitle': 'Підпишіться на розсилку з корисними матеріалами',
 		'blog.subscribe': 'Підписатися',
+		'blog.subscribing': 'Підписуємо...',
+		'blog.subscribeSuccess': 'Ви підписані. Ми напишемо вам, коли вийде нова стаття.',
+		'blog.subscribeError': 'Не вдалося оформити підписку. Спробуйте ще раз.',
 		'blog.follow': 'Ми в соцмережах',
 		'blog.keepExploring': 'Читайте далі',
 		'blog.recommended': 'Рекомендовані статті',

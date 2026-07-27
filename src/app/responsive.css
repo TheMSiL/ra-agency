@@ -85,7 +85,7 @@
 
 @media (min-width: 1250px) and (max-width: 1919px) {
 	.we_build {
-		min-height: clamp(900px, 66vw, 1265px);
+		min-height: clamp(810px, 59.4vw, 1138px);
 	}
 
 	.we_build .we_build-card {
@@ -219,10 +219,6 @@
 	.home_hero-btn {
 		width: min(100%, 430px);
 		min-width: 0;
-	}
-
-	.numbers {
-		padding-inline: 40px;
 	}
 
 	.numbers_top {
@@ -542,9 +538,9 @@
 
 @media (min-width: 901px) and (max-width: 1250px) {
 	.we_build {
-		height: 100svh;
-		min-height: 700px;
-		max-height: 980px;
+		height: 90svh;
+		min-height: 630px;
+		max-height: 882px;
 	}
 
 	.we_build-title {
@@ -630,9 +626,9 @@
 
 	.we_build {
 		--dna-shift: 0vw;
-		height: 750px;
-		min-height: 750px;
-		max-height: 750px;
+		height: 675px;
+		min-height: 675px;
+		max-height: 675px;
 		padding: 0;
 	}
 
@@ -1404,10 +1400,6 @@
 		line-height: 135%;
 	}
 
-	.numbers {
-		padding-inline: 20px;
-	}
-
 	.numbers_top,
 	.numbers_grid {
 		grid-template-columns: 1fr;
@@ -1436,7 +1428,7 @@
 	}
 
 	.numbers_title {
-		font-size: 38px;
+		font-size: 42px;
 	}
 
 	.numbers_value {
@@ -1741,10 +1733,11 @@
 	.case_results-grid {
 		grid-template-columns: 1fr;
 		margin-top: 24px;
+		border-radius: 0 8px;
 	}
 	.case_result-card {
 		min-height: 150px;
-		border-radius: 0 8px;
+		border-radius: 0;
 	}
 	.case_result-card + .case_result-card {
 		margin-top: -1px;
@@ -1789,7 +1782,7 @@
 		min-height: 0;
 	}
 	.about_pioneering-card strong {
-		margin-top: 24px;
+		padding-top: 24px;
 		font-size: clamp(52px, 16vw, 82px);
 	}
 
@@ -1844,6 +1837,10 @@
 	#home .home_hero-btn {
 		width: 100%;
 		margin: 0;
+	}
+
+	.numbers {
+		padding: 50px 0;
 	}
 }
 
@@ -2074,9 +2071,6 @@
 	.cases_filter-menu {
 		width: 100%;
 	}
-}
-
-@media (max-width: 640px) {
 	.cases_card-read-more br {
 		display: none;
 	}
@@ -2671,7 +2665,10 @@
 		padding-bottom: 44px;
 	}
 
-	.numbers_title,
+	.numbers_title {
+		font-size: 32px !important;
+	}
+
 	.services_title {
 		font-size: 30px !important;
 	}
@@ -2983,9 +2980,9 @@
 
 @media (max-width: 480px) {
 	.we_build {
-		height: 600px;
-		min-height: 600px;
-		max-height: 600px;
+		height: 540px;
+		min-height: 540px;
+		max-height: 540px;
 	}
 
 	.blog_post-meta {
@@ -3053,7 +3050,10 @@
 		min-height: 0;
 	}
 
-	.numbers_title,
+	.numbers_title {
+		font-size: 32px !important;
+	}
+
 	.services_title {
 		font-size: 30px !important;
 	}

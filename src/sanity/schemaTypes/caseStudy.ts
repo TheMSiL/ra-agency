@@ -72,7 +72,7 @@ export const caseStudy = defineType({
 				],
 				preview: { select: { title: "title", subtitle: "description" } },
 			})],
-			validation: (rule) => rule.required().min(1),
+			validation: (rule) => rule.required().min(1).max(7),
 		}),
 		defineField({
 			name: "results", title: "Results", type: "array", group: "content",
@@ -84,7 +84,7 @@ export const caseStudy = defineType({
 				],
 				preview: { select: { title: "title", subtitle: "value" } },
 			})],
-			validation: (rule) => rule.required().min(1),
+			validation: (rule) => rule.required().min(1).max(3),
 		}),
 		defineField({
 			name: "status", title: "Status", type: "string", group: "publication", initialValue: "draft",
