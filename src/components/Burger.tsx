@@ -74,52 +74,52 @@ export default function Burger() {
 				<>
 					<div className={`burger_overlay ${isOpen ? "active" : ""}`} onClick={() => setIsOpen(false)} />
 					<aside
-				id="burger-menu"
-				className={`burger_menu section_background  ${isOpen ? "active" : ""}`}
-				aria-hidden={!isOpen}
-			>
-				<div className="burger_topbar">
-					<LangSwitcher variant="burger" onLocaleChange={handleMenuClick} />
-					<button
-						type="button"
-						className="burger_close"
-						aria-label={t("nav.close")}
-						onClick={() => setIsOpen(false)}
+						id="burger-menu"
+						className={`burger_menu section_background  ${isOpen ? "active" : ""}`}
+						aria-hidden={!isOpen}
 					>
-						<BurgerCloseSvg />
-					</button>
-				</div>
+						<div className="burger_topbar">
+							<LangSwitcher variant="burger" onLocaleChange={handleMenuClick} />
+							<button
+								type="button"
+								className="burger_close"
+								aria-label={t("nav.close")}
+								onClick={() => setIsOpen(false)}
+							>
+								<BurgerCloseSvg />
+							</button>
+						</div>
 
-				<nav className="burger_nav" aria-label={t("nav.main")}>
-					{menuItems.map((item) => (
-						<Link
-							key={item.label}
-							href={localizedPath(item.href)}
-							className={isItemActive(item.href) ? "active" : ""}
-							onClick={handleMenuClick}
-						>
-							{t(item.label)}
-						</Link>
-					))}
-				</nav>
+						<nav className="burger_nav" aria-label={t("nav.main")}>
+							{menuItems.map((item) => (
+								<Link
+									key={item.label}
+									href={localizedPath(item.href)}
+									className={isItemActive(item.href) ? "active" : ""}
+									onClick={handleMenuClick}
+								>
+									{t(item.label)}
+								</Link>
+							))}
+						</nav>
 
-				<div className="burger_footer">
-					<div className="burger_socials" aria-label="Social links">
-						<a href="#" aria-label="Telegram">
-							<Image src="/tg.svg" alt="" width={30} height={30} />
-						</a>
-						<a href="#" aria-label="LinkedIn">
-							<Image src="/linkedin.svg" alt="" width={24} height={24} />
-						</a>
-						<a href="#" aria-label="X">
-							<Image src="/x.svg" alt="" width={24} height={24} />
-						</a>
-					</div>
+						<div className="burger_footer">
+							<div className="burger_socials" aria-label="Social links">
+								<a href="#" aria-label="Telegram">
+									<Image src="/tg.svg" alt="" width={30} height={30} />
+								</a>
+								<a href="#" aria-label="LinkedIn">
+									<Image src="/linkedin.svg" alt="" width={24} height={24} />
+								</a>
+								<a href="#" aria-label="X">
+									<Image src="/x.svg" alt="" width={24} height={24} />
+								</a>
+							</div>
 
-					<Link href={localizedPath("/")} className="burger_brand" onClick={handleMenuClick}>
-						RA AGENCY.TECH
-					</Link>
-				</div>
+							<Link href={localizedPath("/")} className="burger_brand" onClick={handleMenuClick}>
+								RAAGENCY.TECH
+							</Link>
+						</div>
 					</aside>
 				</>,
 				document.body,

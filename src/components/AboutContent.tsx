@@ -3,10 +3,8 @@
 import { useI18n } from "@/context/I18nContext";
 import { gsap } from "gsap";
 import Image from "next/image";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import AboutPioneering from "./AboutPioneering";
-import Button from "./Button";
-import ContactModal from "./ContactModal";
 import Header from "./Header";
 import TypewriterText from "./TypewriterText";
 import WeBuild from "./WeBuild";
@@ -18,7 +16,6 @@ export default function AboutContent() {
 	const titleLead = lastSpace >= 0 ? aboutTitle.slice(0, lastSpace + 1) : aboutTitle;
 	const titleAccent = lastSpace >= 0 ? aboutTitle.slice(lastSpace + 1) : "";
 	const heroRef = useRef<HTMLDivElement>(null);
-	const [isContactOpen, setIsContactOpen] = useState(false);
 
 	useLayoutEffect(() => {
 		const hero = heroRef.current;
@@ -51,11 +48,7 @@ export default function AboutContent() {
 								</span>
 							)}
 						</h1>
-						<Button
-							title={<TypewriterText text={t("common.message")} delay={480} step={22} />}
-							extra="home_hero-btn about_hero-btn"
-							onClick={() => setIsContactOpen(true)}
-						/>
+						<div className="btn home_hero-btn home_hero-btn-anchor about_hero-btn" aria-hidden="true" />
 						<Image
 							className="about_hero-astronaut"
 							src="/about_hero-test.png"
@@ -68,7 +61,6 @@ export default function AboutContent() {
 					</div>
 				</div>
 			</div>
-			<ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 			<WeBuild />
 			<AboutPioneering />
 		</div>
