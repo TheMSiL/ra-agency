@@ -270,7 +270,7 @@
 
 @media (max-width: 1250px) {
 	.about_hero-title {
-		font-size: min(15vw, calc((100svh - 130px) / 1.85));
+		font-size: min(16vw, calc((100svh - 130px) / 1.85));
 	}
 
 	.about_hero-title > .about_hero-accent {
@@ -356,6 +356,10 @@
 }
 
 @media (max-width: 1200px) {
+	.about_hero-title {
+		margin-left: clamp(32px, 8vw, 96px);
+	}
+
 	.reviews_slider {
 		position: relative;
 		display: flex;
@@ -586,6 +590,10 @@
 		height: 100svh;
 		min-height: 450px;
 		display: block;
+	}
+
+	.about_hero-title {
+		margin-left: 0;
 	}
 
 	.about_hero-btn {
