@@ -3132,10 +3132,15 @@ a {
 		z-index: 1;
 		top: 110px;
 		bottom: 110px;
-		left: 50%;
+		left: 55%;
 		width: 2px;
 		content: '';
-		background: linear-gradient(180deg, #ffba58 0%, #fa8a16 72%, rgba(250, 138, 22, 0.25) 100%);
+		background: linear-gradient(
+			180deg,
+			#ffba58 0%,
+			#fa8a16 72%,
+			rgba(250, 138, 22, 0.25) 100%
+		);
 		box-shadow: 0 0 16px rgba(250, 138, 22, 0.9);
 		transform: translateX(-50%) scaleY(var(--case-line-progress));
 		transform-origin: center top;
@@ -3895,7 +3900,7 @@ a {
 	.about_hero-astronaut {
 		position: absolute;
 		z-index: 3;
-		left: 48%;
+		left: 53%;
 		top: 51%;
 		width: min(76vw, max(1014px, calc(156svh - 167px)));
 		max-width: none;

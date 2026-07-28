@@ -51,7 +51,7 @@ export default function AboutContent() {
 						<div className="btn home_hero-btn home_hero-btn-anchor about_hero-btn" aria-hidden="true" />
 						<Image
 							className="about_hero-astronaut"
-							src="/about_hero-test.png"
+							src="/about_hero-new.png"
 							alt="Astronaut floating in space"
 							width={1536}
 							height={1024}
