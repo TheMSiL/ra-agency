@@ -7,6 +7,12 @@
 	overflow-anchor: none;
 }
 
+@media (min-width: 1440px) {
+	.service_hero-bottom .home_hero-text {
+		max-width: 910px;
+	}
+}
+
 @media (min-width: 1921px) {
 	.what_we_do-scene {
 		min-height: 980px;
@@ -396,7 +402,7 @@
 	}
 
 	.service_hero-bottom .home_hero-text {
-		max-width: 500px;
+		max-width: 550px;
 	}
 
 	.service_hero-bottom {
@@ -881,7 +887,7 @@
 	}
 
 	.service_hero-bottom .home_hero-text {
-		max-width: 450px;
+		max-width: 500px;
 	}
 
 	.tg_hero .home_hero-container {
@@ -1700,7 +1706,7 @@
 	}
 
 	.case_page-main {
-		padding-top: 48px;
+		padding-top: 75px;
 	}
 	.case_page-title {
 		font-size: 40px;
@@ -1711,7 +1717,14 @@
 		padding-left: 15px;
 	}
 	.case_timeline::before {
-		display: none;
+		top: 17px;
+		bottom: 17px;
+		left: -10px;
+	}
+	.case_timeline::after {
+		top: 17px;
+		bottom: 17px;
+		left: -10px;
 	}
 	.case_step {
 		display: block;

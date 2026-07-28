@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useI18n } from "@/context/I18nContext";
 import type { Locale } from "@/i18n/config";
+import { telegramAdsWhatWeDo } from "@/data/telegramAdsContent";
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -89,7 +90,6 @@ const SCENE_SLOTS = [
 
 const PIN_SCROLL_DISTANCE = 1800;
 const START_PROGRESS = 8;
-const BASE_END_PROGRESS = START_PROGRESS + items.length - 1.54;
 
 const getItemLeftFraction = (sceneWidth: number) => {
 	if (sceneWidth < 640) {
@@ -132,18 +132,20 @@ function interpolateSlots<T extends Record<string, number>>(slots: readonly T[],
 	}, {});
 }
 
-function getEndProgress(sceneWidth: number, sceneHeight: number) {
+function getEndProgress(sceneWidth: number, sceneHeight: number, itemCount: number) {
 	const wideProgress = gsap.utils.clamp(0, 1, (sceneWidth - 1200) / 1100);
 	const tallProgress = gsap.utils.clamp(0, 1, (sceneHeight - 820) / 520);
 	const adaptiveTrim = Math.max(wideProgress, tallProgress) * 0.46;
 
-	return BASE_END_PROGRESS - adaptiveTrim;
+	return START_PROGRESS + itemCount - 1.54 - adaptiveTrim;
 }
 
-export default function WhatWeDo() {
+export default function WhatWeDo({ variant = "default" }: { variant?: "default" | "telegram" }) {
 	const { locale, t } = useI18n();
-	const localizedItems = locale === "en" ? items : items.map((item, index) => ({ ...item, ...itemTranslations[locale][index] }));
-	const orbitItems = Array.from({ length: localizedItems.length * 2 }, (_, index) => ({
+	const defaultLocalizedItems = locale === "en" ? items : items.map((item, index) => ({ ...item, ...itemTranslations[locale][index] }));
+	const localizedItems = variant === "telegram" ? telegramAdsWhatWeDo[locale] : defaultLocalizedItems;
+	const itemCount = localizedItems.length;
+	const orbitItems = Array.from({ length: SCENE_SLOTS.length }, (_, index) => ({
 		...localizedItems[index % localizedItems.length],
 		orbitKey: `${localizedItems[index % localizedItems.length].index}-${index}`,
 	}));
@@ -176,7 +178,7 @@ export default function WhatWeDo() {
 				radiusY: 0,
 				itemXOffset: 0,
 				itemLift: 0,
-				endProgress: BASE_END_PROGRESS,
+				endProgress: getEndProgress(scene.clientWidth, scene.clientHeight, itemCount),
 			};
 
 			const updateCircleMetrics = () => {
@@ -190,7 +192,7 @@ export default function WhatWeDo() {
 				// Horizontal distance from circle center to where item column sits.
 				circleMetrics.itemXOffset = sceneBox.width * getItemLeftFraction(sceneBox.width) - circleMetrics.centerX;
 				circleMetrics.itemLift = Math.min(92, Math.max(42, sceneBox.height * 0.09));
-				circleMetrics.endProgress = getEndProgress(sceneBox.width, sceneBox.height);
+				circleMetrics.endProgress = getEndProgress(sceneBox.width, sceneBox.height, itemCount);
 			};
 
 			const applyFrame = () => {
@@ -339,7 +341,7 @@ export default function WhatWeDo() {
 						scrollTrigger: {
 							trigger: root,
 							start: "top top",
-							end: `+=${PIN_SCROLL_DISTANCE}`,
+							end: `+=${PIN_SCROLL_DISTANCE + Math.max(0, itemCount - 6) * 240}`,
 							scrub: 1,
 							pin: true,
 							anticipatePin: 1,
@@ -367,7 +369,7 @@ export default function WhatWeDo() {
 		return () => {
 			context.revert();
 		};
-	}, []);
+	}, [itemCount]);
 
 	return (
 		<div className="what_we_do section_background" ref={rootRef}>

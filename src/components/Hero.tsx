@@ -203,7 +203,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 						<div className="service_hero-content">
 							<h1 className="home_hero-title sub_hero-title typewriter_host"><TypewriterText text={content?.title ?? ""} step={58} /></h1>
 							<div className="service_hero-bottom">
-								<p className="home_hero-text opacity-80"><TypewriterText text={content ? t(content.textKey) : ""} delay={280} step={type === "google" ? 8 : 13} /></p>
+								<p className="home_hero-text opacity-80"><TypewriterText text={content ? t(content.textKey) : ""} delay={280} step={8} /></p>
 								<div className="btn home_hero-btn home_hero-btn-anchor" aria-hidden="true" />
 							</div>
 						</div>

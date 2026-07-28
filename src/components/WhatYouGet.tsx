@@ -6,6 +6,7 @@ import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useI18n } from "@/context/I18nContext";
+import type { Locale } from "@/i18n/config";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +27,60 @@ const items = [
 		text: "When the numbers prove the route, we scale budgets carefully, protect the strongest segments, and keep optimization tied to real business outcomes.",
 	},
 ];
+
+const telegramItems: Record<Locale, typeof items> = {
+	en: [
+		{
+			kicker: "01",
+			title: "High-Quality Traffic from Telegram",
+			text: "Reach highly engaged users who don't just install or sign up—they stay active, make purchases, complete deposits, and generate long-term revenue.",
+		},
+		{
+			kicker: "02",
+			title: "End-to-End Analytics",
+			text: "Get complete real-time visibility across your entire funnel—from the first impression to repeat purchases. Track every key metric including CPA, CAC, ROAS, LTV, retention, conversion rate, revenue, and more.",
+		},
+		{
+			kicker: "03",
+			title: "Dedicated Performance Team",
+			text: "Work with senior Telegram Ads specialists who manage your campaigns like an in-house growth team. We're available 24/7, proactively optimize every campaign, and make data-driven decisions to maximize your results.",
+		},
+	],
+	ru: [
+		{
+			kicker: "01",
+			title: "Качественный трафик из Telegram",
+			text: "Привлекайте вовлечённых пользователей, которые не просто устанавливают приложение или регистрируются, а остаются активными, совершают покупки, вносят депозиты и приносят долгосрочный доход.",
+		},
+		{
+			kicker: "02",
+			title: "Сквозная аналитика",
+			text: "Получайте полную картину всей воронки в реальном времени — от первого показа до повторных покупок. Отслеживайте все ключевые показатели, включая CPA, CAC, ROAS, LTV, удержание, конверсию, выручку и другие метрики.",
+		},
+		{
+			kicker: "03",
+			title: "Выделенная performance-команда",
+			text: "Работайте с опытными специалистами по Telegram Ads, которые управляют кампаниями как внутренняя growth-команда. Мы доступны 24/7, проактивно оптимизируем каждую кампанию и принимаем решения на основе данных, чтобы максимизировать результат.",
+		},
+	],
+	ua: [
+		{
+			kicker: "01",
+			title: "Якісний трафік із Telegram",
+			text: "Залучайте активних користувачів, які не лише встановлюють застосунок або реєструються, а залишаються активними, здійснюють покупки, поповнюють депозити та генерують довгостроковий дохід.",
+		},
+		{
+			kicker: "02",
+			title: "Наскрізна аналітика",
+			text: "Отримуйте повну картину всієї воронки в реальному часі — від першого показу до повторних покупок. Відстежуйте всі ключові показники, зокрема CPA, CAC, ROAS, LTV, утримання, конверсію, дохід та інші метрики.",
+		},
+		{
+			kicker: "03",
+			title: "Виділена performance-команда",
+			text: "Працюйте з досвідченими фахівцями з Telegram Ads, які керують кампаніями як внутрішня growth-команда. Ми доступні 24/7, проактивно оптимізуємо кожну кампанію та ухвалюємо рішення на основі даних, щоб максимізувати результат.",
+		},
+	],
+};
 
 const SWIPE_THRESHOLD_PX = 40;
 const PIN_SCROLL_DISTANCE = 1500;
@@ -65,9 +120,9 @@ function AnimatedCount({ value }: { value: string }) {
 	);
 }
 
-export default function WhatYouGet() {
+export default function WhatYouGet({ variant = "default" }: { variant?: "default" | "telegram" }) {
 	const { locale } = useI18n();
-	const localizedItems = locale === "ru" ? [
+	const defaultLocalizedItems = locale === "ru" ? [
 		{ kicker: "01", title: "Привлечение целевой аудитории", text: "Привлекаем пользователей, действительно заинтересованных в продукте, — не просто трафик, а потенциальных клиентов." },
 		{ kicker: "02", title: "Структура кампаний и тестирование", text: "Выстраиваем понятную логику кампаний, тестируем креативы и аудитории, сохраняя контроль расходов." },
 		{ kicker: "03", title: "Масштабирование рабочих связок", text: "Аккуратно увеличиваем бюджеты, защищаем сильные сегменты и связываем оптимизацию с бизнес-результатами." },
@@ -76,6 +131,8 @@ export default function WhatYouGet() {
 		{ kicker: "02", title: "Структура кампаній і тестування", text: "Вибудовуємо зрозумілу логіку кампаній, тестуємо креативи й аудиторії, зберігаючи контроль витрат." },
 		{ kicker: "03", title: "Масштабування робочих зв’язок", text: "Обережно збільшуємо бюджети, захищаємо сильні сегменти та пов’язуємо оптимізацію з бізнес-результатами." },
 	] : items;
+	const localizedItems = variant === "telegram" ? telegramItems[locale] : defaultLocalizedItems;
+	const itemCount = localizedItems.length;
 	const sectionTitle = locale === "ru" ? "Что вы получаете?" : locale === "ua" ? "Що ви отримуєте?" : "What you get?";
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [lineStep, setLineStep] = useState(0);
@@ -97,11 +154,11 @@ export default function WhatYouGet() {
 		if (!section || !pin || !slider || !track) return;
 
 		const setStep = (nextIndex: number, animate = true) => {
-			const boundedIndex = Math.min(items.length - 1, Math.max(0, nextIndex));
+			const boundedIndex = Math.min(itemCount - 1, Math.max(0, nextIndex));
 			const distance = track.scrollWidth - slider.clientWidth;
 
 			gsap.to(track, {
-				x: -(distance * boundedIndex) / (items.length - 1),
+				x: -(distance * boundedIndex) / (itemCount - 1),
 				duration: animate ? 0.42 : 0,
 				ease: "power3.inOut",
 				overwrite: true,
@@ -121,9 +178,9 @@ export default function WhatYouGet() {
 			anticipatePin: 1,
 			invalidateOnRefresh: true,
 			onUpdate: (self) => {
-				if (!wheelLockedRef.current) setStep(Math.round(self.progress * (items.length - 1)));
+				if (!wheelLockedRef.current) setStep(Math.round(self.progress * (itemCount - 1)));
 			},
-			onRefresh: (self) => setStep(Math.round(self.progress * (items.length - 1)), false),
+			onRefresh: (self) => setStep(Math.round(self.progress * (itemCount - 1)), false),
 		});
 
 		const handleWheel = (event: WheelEvent) => {
@@ -132,7 +189,7 @@ export default function WhatYouGet() {
 			const direction = event.deltaY > 0 ? 1 : -1;
 			const currentIndex = activeIndexRef.current;
 			const atBoundary = direction > 0
-				? currentIndex === items.length - 1
+				? currentIndex === itemCount - 1
 				: currentIndex === 0;
 			if (atBoundary) return;
 
@@ -143,7 +200,7 @@ export default function WhatYouGet() {
 			const nextIndex = currentIndex + direction;
 			setStep(nextIndex);
 			window.scrollTo({
-				top: trigger.start + (trigger.end - trigger.start) * (nextIndex / (items.length - 1)),
+				top: trigger.start + (trigger.end - trigger.start) * (nextIndex / (itemCount - 1)),
 				behavior: "auto",
 			});
 
@@ -160,10 +217,10 @@ export default function WhatYouGet() {
 			scrollTriggerRef.current = null;
 			trigger.kill();
 		};
-	}, []);
+	}, [itemCount]);
 
 	const goTo = useCallback((nextIndex: number) => {
-		const boundedIndex = Math.min(items.length - 1, Math.max(0, nextIndex));
+		const boundedIndex = Math.min(itemCount - 1, Math.max(0, nextIndex));
 
 		if (boundedIndex === activeIndex) {
 			return;
@@ -178,7 +235,7 @@ export default function WhatYouGet() {
 
 		if (track && slider) {
 			gsap.to(track, {
-				x: -((track.scrollWidth - slider.clientWidth) * boundedIndex) / (items.length - 1),
+				x: -((track.scrollWidth - slider.clientWidth) * boundedIndex) / (itemCount - 1),
 				duration: 0.42,
 				ease: "power3.inOut",
 				overwrite: true,
@@ -189,24 +246,24 @@ export default function WhatYouGet() {
 		if (trigger) {
 			wheelLockedRef.current = true;
 			window.scrollTo({
-				top: trigger.start + (trigger.end - trigger.start) * (boundedIndex / (items.length - 1)),
+				top: trigger.start + (trigger.end - trigger.start) * (boundedIndex / (itemCount - 1)),
 				behavior: "auto",
 			});
 			window.setTimeout(() => {
 				wheelLockedRef.current = false;
 			}, 460);
 		}
-	}, [activeIndex]);
+	}, [activeIndex, itemCount]);
 
 	useEffect(() => {
 		if (!window.matchMedia("(max-width: 900px)").matches) return;
 
 		const timer = window.setTimeout(() => {
-			goTo((activeIndex + 1) % items.length);
+			goTo((activeIndex + 1) % itemCount);
 		}, 10_000);
 
 		return () => window.clearTimeout(timer);
-	}, [activeIndex, goTo]);
+	}, [activeIndex, goTo, itemCount]);
 
 	useEffect(() => {
 		const slider = sliderRef.current;
@@ -246,7 +303,7 @@ export default function WhatYouGet() {
 		const handleTouchEnd = () => {
 			if (horizontalGesture && Math.abs(deltaX) >= SWIPE_THRESHOLD_PX) {
 				const direction = deltaX < 0 ? 1 : -1;
-				goTo((activeIndex + direction + items.length) % items.length);
+				goTo((activeIndex + direction + itemCount) % itemCount);
 			}
 
 			deltaX = 0;
@@ -264,7 +321,7 @@ export default function WhatYouGet() {
 			gestureArea.removeEventListener("touchend", handleTouchEnd);
 			gestureArea.removeEventListener("touchcancel", handleTouchEnd);
 		};
-	}, [activeIndex, goTo]);
+	}, [activeIndex, goTo, itemCount]);
 
 	const handlePaginationClick = (nextIndex: number) => {
 		goTo(nextIndex);
@@ -305,7 +362,7 @@ export default function WhatYouGet() {
 						</div>
 					</div>
 					<div className="what_footer" aria-label="What you get progress">
-						<AnimatedCount value={items[activeIndex].kicker} />
+						<AnimatedCount value={localizedItems[activeIndex].kicker} />
 						<div className="what_dots">
 							{localizedItems.map((item, index) => (
 								<button
