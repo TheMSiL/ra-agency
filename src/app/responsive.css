@@ -95,7 +95,7 @@
 	}
 
 	.we_build .we_build-card {
-		width: min(28vw, 500px);
+		width: min(31vw, 500px);
 	}
 }
 
@@ -559,7 +559,7 @@
 	}
 
 	.we_build .we_build-card {
-		width: min(28vw, 430px);
+		width: min(33vw, 430px);
 		padding: 20px 22px;
 	}
 
@@ -640,9 +640,9 @@
 
 	.we_build {
 		--dna-shift: 0vw;
-		height: 675px;
-		min-height: 675px;
-		max-height: 675px;
+		height: 650px;
+		min-height: 650px;
+		max-height: 650px;
 		padding: 0;
 	}
 
@@ -652,9 +652,9 @@
 
 	.we_build-dna--mobile {
 		display: block;
-		top: 0;
-		left: 0;
-		width: 100%;
+		top: 60px;
+		left: -35px;
+		width: calc(100% + 32px);
 		height: 100%;
 		opacity: 1;
 		object-fit: contain;
@@ -717,6 +717,15 @@
 		text-align: left;
 	}
 
+	.we_build .we_build-card h3,
+	.we_build .we_build-card p {
+		text-shadow:
+			0 1px 2px #000,
+			0 2px 6px #000,
+			0 4px 14px rgba(0, 0, 0, 0.98),
+			0 0 24px rgba(0, 0, 0, 0.9);
+	}
+
 	.we_build .we_build-item--1 .we_build-card {
 		top: 12%;
 		right: 4%;
@@ -757,21 +766,21 @@
 	}
 
 	.we_build .we_build-item--1 .we_build-connector {
-		top: 22%;
-		left: 52%;
+		top: 20%;
+		left: 51%;
 		height: 1px;
 		width: 13%;
 	}
 
 	.we_build .we_build-item--2 .we_build-connector {
-		top: 43%;
+		top: 41%;
 		left: 35%;
 		height: 1px;
 		width: 16%;
 	}
 
 	.we_build .we_build-item--3 .we_build-connector {
-		top: 82%;
+		top: 84%;
 		left: 35%;
 		height: 1px;
 		width: 18%;
@@ -2654,6 +2663,10 @@
 
 	.trust .numbers_title {
 		margin-bottom: 0;
+	}
+
+	.what_we_do::after {
+		height: min(16dvh, 220px);
 	}
 
 	.reviews .numbers_title {

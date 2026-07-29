@@ -177,7 +177,6 @@ export default function WhatWeDo({ variant = "default" }: { variant?: "default" 
 				radiusX: 0,
 				radiusY: 0,
 				itemXOffset: 0,
-				itemLift: 0,
 				endProgress: getEndProgress(scene.clientWidth, scene.clientHeight, itemCount),
 			};
 
@@ -191,7 +190,6 @@ export default function WhatWeDo({ variant = "default" }: { variant?: "default" 
 				circleMetrics.radiusY = circleBox.height / 2;
 				// Horizontal distance from circle center to where item column sits.
 				circleMetrics.itemXOffset = sceneBox.width * getItemLeftFraction(sceneBox.width) - circleMetrics.centerX;
-				circleMetrics.itemLift = Math.min(92, Math.max(42, sceneBox.height * 0.09));
 				circleMetrics.endProgress = getEndProgress(sceneBox.width, sceneBox.height, itemCount);
 			};
 
@@ -215,29 +213,34 @@ export default function WhatWeDo({ variant = "default" }: { variant?: "default" 
 						return;
 					}
 
-					const { centerX, centerY, itemXOffset, itemLift } = circleMetrics;
+					const { centerX, centerY, itemXOffset } = circleMetrics;
 					const upperY = centerY + Math.tan(upper.angle) * itemXOffset;
 					const lowerY = centerY + Math.tan(lower.angle) * itemXOffset;
 					const isNarrowScene = scene.clientWidth < 640;
-					const itemY = (upperY + lowerY) / 2 - (isNarrowScene ? 0 : itemLift);
 					const itemX = centerX + itemXOffset;
-					const isAboveMobileViewport = isNarrowScene && itemY < 80;
 
 					const midAngle = (upper.angle + lower.angle) / 2;
 					const rotation = (midAngle * 180) / Math.PI * 0.55;
 					const orbitScale = lerp(upper.scale, lower.scale, 0.5);
 					let scale = orbitScale;
+					const desktopDrop = Math.min(88, Math.max(48, scene.clientHeight * 0.07));
+					let itemY = (upperY + lowerY) / 2 + (isNarrowScene ? 0 : desktopDrop);
 
 					if (isNarrowScene) {
 						const rotationInRadians = Math.abs(rotation * Math.PI / 180);
 						const projectedHeight =
 							node.offsetHeight * Math.cos(rotationInRadians) +
 							node.offsetWidth * Math.sin(rotationInRadians);
-						const availableHeight = Math.abs(lowerY - upperY) - 24;
+						const lineGap = 28;
+						const topBoundary = Math.min(upperY, lowerY);
+						const availableHeight = Math.abs(lowerY - upperY) - lineGap * 2;
 						const fitScale = projectedHeight > 0 ? availableHeight / projectedHeight : 1;
 
 						scale = Math.min(orbitScale, gsap.utils.clamp(0.62, 1, fitScale));
+						itemY = topBoundary + lineGap + (projectedHeight * scale) / 2;
 					}
+
+					const isAboveMobileViewport = isNarrowScene && itemY < 80;
 
 					gsap.set(node, {
 						left: itemX,

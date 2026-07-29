@@ -617,11 +617,6 @@ a {
 		max-width: 810px;
 	}
 
-	.service_hero--google .service_hero-bottom .home_hero-text {
-		font-size: clamp(18px, 1.15vw, 24px);
-		line-height: 1.35;
-	}
-
 	.home_hero-heading {
 		margin-bottom: 16px;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
@@ -2167,6 +2162,10 @@ a {
 		opacity: 0.72;
 	}
 
+	.what_line-pattern + .what_line-pattern .what_line-bar:first-child {
+		visibility: hidden;
+	}
+
 	.what_line-bar:nth-child(9n + 4) {
 		width: 5px;
 		height: 100%;
@@ -2404,6 +2403,7 @@ a {
 	.cases_section .cases_card-main,
 	.cases_page-grid .cases_card-main {
 		height: clamp(300px, 34vh, 380px);
+		flex-shrink: 0;
 		gap: 14px;
 	}
 
@@ -2421,12 +2421,12 @@ a {
 	.cases_section .cases_card-info--item-title,
 	.cases_page-grid .cases_card-info--item-title {
 		margin-bottom: 6px;
-		font-size: 18px;
+		font-size: 22px;
 	}
 
 	.cases_section .cases_card-info--item-desc,
 	.cases_page-grid .cases_card-info--item-desc {
-		font-size: 15px;
+		font-size: 18px;
 		line-height: 1.35;
 	}
 
@@ -2482,6 +2482,7 @@ a {
 		justify-content: center;
 		gap: 20px;
 		padding: 0px 20px;
+		flex-shrink: 0;
 	}
 
 	.cases_card-main--company {
@@ -2520,6 +2521,7 @@ a {
 		border-radius: 0 0 7.547px 25.158px;
 		overflow: hidden;
 		margin-top: auto;
+		height: 100%;
 	}
 
 	.cases_card-info--items {
@@ -3132,7 +3134,7 @@ a {
 		z-index: 1;
 		top: 110px;
 		bottom: 110px;
-		left: 55%;
+		left: 50%;
 		width: 2px;
 		content: '';
 		background: linear-gradient(
@@ -4106,20 +4108,20 @@ a {
 	}
 
 	.we_build .we_build-item--1 .we_build-connector {
-		top: 35%;
-		left: calc(16% + var(--dna-shift));
-		height: 16%;
+		top: 36%;
+		left: calc(15% + var(--dna-shift));
+		height: 10%;
 	}
 
 	.we_build .we_build-item--2 .we_build-card {
-		top: 16%;
+		top: 12%;
 		left: 29%;
 	}
 
 	.we_build .we_build-item--2 .we_build-connector {
-		top: 31%;
-		left: calc(39% + var(--dna-shift));
-		height: 15%;
+		top: 35%;
+		left: calc(37% + var(--dna-shift));
+		height: 10%;
 	}
 
 	.we_build .we_build-item--3 .we_build-card {
@@ -4128,21 +4130,21 @@ a {
 	}
 
 	.we_build .we_build-item--3 .we_build-connector {
-		top: 49%;
-		left: calc(79% + var(--dna-shift));
+		top: 60%;
+		left: calc(75% + var(--dna-shift));
 		z-index: 2;
-		height: 20%;
+		height: 10%;
 	}
 
 	.we_build .we_build-item--4 .we_build-card {
 		top: 72%;
-		left: 48%;
+		left: 43%;
 	}
 
 	.we_build .we_build-item--4 .we_build-connector {
 		top: 62%;
-		left: calc(57% + var(--dna-shift));
-		height: 12%;
+		left: calc(54% + var(--dna-shift));
+		height: 10%;
 	}
 
 	.we_build .we_build-item--1 .we_build-connector::after,
