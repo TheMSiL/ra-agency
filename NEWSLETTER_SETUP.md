@@ -12,14 +12,14 @@ Resend. Благодаря этому подписчик получает ста
 
 - доступ к проекту **Resend**;
 - доступ к проекту **Sanity**;
-- доступ к настройкам проекта на **Vercel**;
+- доступ к **VPS**, на котором будет запущен Next.js;
 - домен `raagency.tech` и доступ к его DNS-записям.
 
 Секретные ключи нельзя добавлять в Git или вставлять в клиентский код. Их нужно
-хранить только в переменных окружения Vercel и, при локальной разработке, в
+хранить только в переменных окружения VPS и, при локальной разработке, в
 файле `.env.local`.
 
-## Шаг 1. Подтвердить домен в Resend
+## Шаг 1. Подтвердить домен в Resend — выполнено
 
 1. Зайти на [resend.com](https://resend.com/) и открыть нужный проект.
 2. В левом меню открыть **Domains**.
@@ -37,9 +37,9 @@ RA Agency <newsletter@raagency.tech>
 
 Он заработает только после подтверждения домена.
 
-## Шаг 2. Создать три сегмента в Resend
+## Шаг 2. Создать три сегмента в Resend — выполнено
 
-1. В Resend открыть раздел **Contacts** → **Segments**.
+1. В Resend открыть раздел **Audience** → **Segments**.
 2. Создать три сегмента:
    - `English`;
    - `Russian`;
@@ -48,14 +48,14 @@ RA Agency <newsletter@raagency.tech>
 4. Сохранить соответствие:
 
 ```env
-RESEND_NEWSLETTER_SEGMENT_ID_EN=ID_сегмента_English
-RESEND_NEWSLETTER_SEGMENT_ID_RU=ID_сегмента_Russian
-RESEND_NEWSLETTER_SEGMENT_ID_UA=ID_сегмента_Ukrainian
+RESEND_NEWSLETTER_SEGMENT_ID_EN=67b7b35c-8696-426e-b273-ff1e15a0750b
+RESEND_NEWSLETTER_SEGMENT_ID_RU=887d0f34-3040-437f-8e6e-b0cc8d762c80
+RESEND_NEWSLETTER_SEGMENT_ID_UA=fd8b178c-99eb-4e83-87b6-f34ad071e9ad
 ```
 
 Не путать ID сегмента с его названием.
 
-## Шаг 3. Создать API-ключ Resend
+## Шаг 3. Создать API-ключ Resend — выполнено
 
 1. В Resend открыть **API Keys**.
 2. Нажать **Create API Key**.
@@ -70,7 +70,7 @@ RESEND_NEWSLETTER_SEGMENT_ID_UA=ID_сегмента_Ukrainian
 RESEND_API_KEY=re_...
 ```
 
-## Шаг 4. Создать токен Sanity
+## Шаг 4. Создать токен Sanity — выполнено
 
 1. Открыть [sanity.io/manage](https://www.sanity.io/manage).
 2. Выбрать проект RA Agency.
@@ -87,43 +87,59 @@ RESEND_API_KEY=re_...
 SANITY_API_WRITE_TOKEN=...
 ```
 
-## Шаг 5. Добавить переменные окружения в Vercel
+## Шаг 5. Подготовить переменные окружения — выполнено
 
-1. Открыть проект сайта в [vercel.com](https://vercel.com/).
-2. Перейти в **Settings** → **Environment Variables**.
-3. Добавить все переменные ниже для окружения **Production**:
+Локальные значения сохранены в `.env.local`, а production-значения на VPS — в
+`.env.production.local`. Оба файла исключены из Git.
 
 ```env
 RESEND_API_KEY=re_...
-RESEND_NEWSLETTER_SEGMENT_ID_EN=...
-RESEND_NEWSLETTER_SEGMENT_ID_RU=...
-RESEND_NEWSLETTER_SEGMENT_ID_UA=...
+RESEND_NEWSLETTER_SEGMENT_ID_EN=67b7b35c-8696-426e-b273-ff1e15a0750b
+RESEND_NEWSLETTER_SEGMENT_ID_RU=887d0f34-3040-437f-8e6e-b0cc8d762c80
+RESEND_NEWSLETTER_SEGMENT_ID_UA=fd8b178c-99eb-4e83-87b6-f34ad071e9ad
 RESEND_FROM_EMAIL="RA Agency <newsletter@raagency.tech>"
 NEXT_PUBLIC_SITE_URL=https://raagency.tech
 SANITY_API_WRITE_TOKEN=...
+SANITY_WEBHOOK_SECRET=...
 ```
 
-Переменную `SANITY_WEBHOOK_SECRET` добавим на следующем шаге.
+Не копировать `.env.local` в публичный каталог сайта и не добавлять его в Git.
+После изменения переменных нужно перезапустить процесс Next.js.
 
-После добавления или изменения переменных нужно выполнить новый **Deploy**.
-Старый уже запущенный deployment новые значения не получит.
+## Шаг 6. Создать секрет для webhook — выполнено
 
-## Шаг 6. Создать секрет для webhook
-
-Сгенерировать длинную случайную строку. Это будет общий секрет между Sanity и
-сайтом. Например, можно использовать менеджер паролей и создать пароль длиной
-не менее 32 символов.
-
-1. В Vercel добавить переменную:
+Сгенерирован криптографически случайный секрет длиной 64 символа. Одинаковое
+значение сохранено локально и на VPS как:
 
 ```env
 SANITY_WEBHOOK_SECRET=ваша_длинная_случайная_строка
 ```
 
-2. Сохранить эту строку — точно такое же значение понадобится в Sanity.
-3. Никому не отправлять секрет и не добавлять его в репозиторий.
+То же значение добавлено в настройки webhook в Sanity. Никому не отправлять
+секрет и не добавлять его в репозиторий.
 
-## Шаг 7. Создать webhook в Sanity
+## Шаг 7. Развернуть сайт на VPS — выполнено
+
+На VPS должны быть настроены:
+
+1. DNS-записи `raagency.tech`, указывающие на IP сервера.
+2. Актуальная LTS-версия Node.js и менеджер пакетов Bun.
+3. Репозиторий сайта и production-зависимости.
+4. Production-переменные окружения из шага 5.
+5. Production-сборка Next.js.
+6. Постоянно работающий процесс `bun run start`, управляемый процесс-менеджером.
+7. Nginx как reverse proxy на локальный порт Next.js.
+8. HTTPS-сертификат для `raagency.tech`.
+
+Сайт работает на Ubuntu 24.04 через systemd-службу `raagency`, Nginx и HTTPS.
+Certbot настроен на автоматическое продление сертификата. После каждого нового
+production build необходимо выполнять:
+
+```bash
+sudo systemctl restart raagency
+```
+
+## Шаг 8. Создать webhook в Sanity — выполнено
 
 1. Открыть [sanity.io/manage](https://www.sanity.io/manage).
 2. Выбрать проект RA Agency.
@@ -136,7 +152,7 @@ SANITY_WEBHOOK_SECRET=ваша_длинная_случайная_строка
    - **Dataset:** `production`;
    - **Trigger on:** `Create` и `Update`;
    - **Include drafts:** выключено;
-   - **Secret:** значение `SANITY_WEBHOOK_SECRET` из Vercel.
+   - **Secret:** значение `SANITY_WEBHOOK_SECRET` из окружения VPS.
 
 6. В поле **Filter** вставить:
 
@@ -152,17 +168,8 @@ _type == "article" && status in ["published", "scheduled"]
 
 8. Сохранить webhook.
 
-Важно: секрет в Sanity и `SANITY_WEBHOOK_SECRET` в Vercel должны полностью
+Важно: секрет в Sanity и `SANITY_WEBHOOK_SECRET` на VPS должны полностью
 совпадать, включая регистр символов.
-
-## Шаг 8. Перед проверкой сделать новый deployment
-
-После того как все переменные добавлены:
-
-1. В Vercel открыть вкладку **Deployments**.
-2. Открыть меню последнего production deployment.
-3. Нажать **Redeploy**.
-4. Дождаться статуса **Ready**.
 
 ## Шаг 9. Проверить подписку
 
@@ -182,7 +189,7 @@ _type == "article" && status in ["published", "scheduled"]
 - `RESEND_API_KEY`;
 - ID всех трёх сегментов;
 - права API-ключа Resend;
-- логи функции `/api/newsletter/subscribe` в Vercel.
+- серверные логи обработчика `/api/newsletter/subscribe` на VPS.
 
 ## Шаг 10. Проверить отправку статьи
 
@@ -213,7 +220,7 @@ _type == "article" && status in ["published", "scheduled"]
 
 ## Итоговый список переменных
 
-В production-окружении Vercel должны быть заполнены:
+В production-окружении процесса Next.js на VPS должны быть заполнены:
 
 ```env
 NEXT_PUBLIC_SANITY_PROJECT_ID=...

@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { resendRequest } from "@/lib/resend";
+import { ResendApiError, resendRequest } from "@/lib/resend";
 import { sanityWriteClient } from "@/sanity/lib/writeClient";
 import { NextResponse } from "next/server";
 
@@ -31,22 +31,26 @@ export async function POST(request: Request) {
 		const segmentId = process.env[`RESEND_NEWSLETTER_SEGMENT_ID_${locale.toUpperCase()}`];
 		if (!segmentId) throw new Error(`Newsletter segment for ${locale} is not configured`);
 
-		let contactId: string | undefined;
+		let contactId: string;
 		try {
-			const contact = await resendRequest<{ id: string }>("/contacts", {
-				method: "POST",
-				body: JSON.stringify({ email, unsubscribed: false, segments: [{ id: segmentId }], properties: { locale } }),
-			});
+			const contact = await resendRequest<{ id: string }>(`/contacts/${encodeURIComponent(email)}`);
 			contactId = contact.id;
-		} catch {
 			await resendRequest(`/contacts/${encodeURIComponent(email)}`, {
 				method: "PATCH",
-				body: JSON.stringify({ unsubscribed: false, properties: { locale } }),
+				body: JSON.stringify({ unsubscribed: false }),
 			});
 			await resendRequest(`/contacts/${encodeURIComponent(email)}/segments/${segmentId}`, { method: "POST" });
+		} catch (error) {
+			if (!(error instanceof ResendApiError) || error.status !== 404) throw error;
+
+			const contact = await resendRequest<{ id: string }>("/contacts", {
+				method: "POST",
+				body: JSON.stringify({ email, unsubscribed: false, segments: [{ id: segmentId }] }),
+			});
+			contactId = contact.id;
 		}
 
-		await sanityWriteClient.patch(id).set({ syncStatus: "synced", ...(contactId ? { resendContactId: contactId } : {}) }).commit();
+		await sanityWriteClient.patch(id).set({ syncStatus: "synced", resendContactId: contactId }).commit();
 	} catch (error) {
 		await sanityWriteClient.patch(id).set({ syncStatus: "failed" }).commit();
 		console.error("Newsletter contact sync failed", error);
