@@ -1970,6 +1970,11 @@
 		grid-template-columns: 1fr;
 	}
 
+	.blog_card h2,
+	.blog_card-description {
+		min-height: 0;
+	}
+
 	.blog_subscribe-btn {
 		font-size: 18px;
 	}

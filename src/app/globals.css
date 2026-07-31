@@ -3592,11 +3592,23 @@ a {
 		margin-bottom: 8px;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
 		font-size: clamp(18px, 1.5vw, 30px);
+		line-height: 1.4;
+		min-height: 5.6em;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 4;
+		overflow: hidden;
 	}
 
 	.blog_card-description {
 		margin-bottom: 20px;
 		opacity: 0.8;
+		line-height: 1.5;
+		min-height: 4.5em;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		overflow: hidden;
 	}
 
 	.blog_card .blog_read-more {
