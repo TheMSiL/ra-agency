@@ -2509,6 +2509,21 @@ a {
 		white-space: nowrap;
 	}
 
+	@media (min-width: 1201px) {
+		.cases_section .cases_card-main,
+		.cases_page-grid .cases_card-main {
+			position: relative;
+		}
+
+		.cases_section .cases_card-main--company,
+		.cases_page-grid .cases_card-main--company {
+			position: absolute;
+			top: 96px;
+			left: 20px;
+			width: calc(100% - 40px);
+		}
+	}
+
 	.cases_card-main--title {
 		text-transform: uppercase;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
