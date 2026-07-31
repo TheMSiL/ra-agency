@@ -2488,7 +2488,10 @@ a {
 	.cases_card-main--company {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 12px;
+		width: 100%;
+		min-width: 0;
 		color: #fff;
 		text-align: center;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
@@ -2497,6 +2500,13 @@ a {
 		font-weight: 400;
 		line-height: 140%; /* 28.35px */
 		text-transform: uppercase;
+	}
+
+	.cases_card-main--company p {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.cases_card-main--title {
@@ -2556,6 +2566,7 @@ a {
 		line-height: 140%;
 		display: -webkit-box;
 		overflow: hidden;
+		text-overflow: ellipsis;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 3;
 		line-clamp: 3;
