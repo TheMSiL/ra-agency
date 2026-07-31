@@ -2517,11 +2517,11 @@ a {
 		max-width: 460px;
 		text-align: center;
 		display: -webkit-box;
-		min-height: 2.8em;
+		min-height: 4.2em;
 		overflow: hidden;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		line-clamp: 2;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
 	}
 
 	.cases_card-info {
