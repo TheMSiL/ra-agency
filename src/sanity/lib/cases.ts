@@ -43,8 +43,7 @@ const casesQuery = defineQuery(`
 		language == $language &&
 		((status == "published" && (!defined(publishedAt) || publishedAt <= now())) ||
 		(status == "scheduled" && defined(publishedAt) && publishedAt <= now())) &&
-		defined(slug.current) &&
-		defined(companyLogo.asset)
+		defined(slug.current)
 	] | order(isFeatured desc, publishedAt desc) {
 		${caseProjection}
 	}

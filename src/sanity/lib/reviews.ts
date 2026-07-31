@@ -4,7 +4,7 @@ import { sanityClient } from "./client";
 
 export type SanityReview = {
 	id: string;
-	icon: string;
+	icon?: string;
 	title: string;
 	author: string;
 	role: string;
@@ -12,7 +12,7 @@ export type SanityReview = {
 };
 
 const reviewsQuery = defineQuery(`
-	*[_type == "review" && isVisible != false && defined(logo.asset)] | order(order asc, _createdAt asc) {
+	*[_type == "review" && isVisible != false] | order(order asc, _createdAt asc) {
 		"id": _id,
 		"icon": logo.asset->url,
 		"title": company,

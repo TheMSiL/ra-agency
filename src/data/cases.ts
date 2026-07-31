@@ -12,7 +12,7 @@ export interface CaseResult {
 
 export interface CasesCardProps {
 	company_name: string;
-	company_logo: string;
+	company_logo?: string;
 	company_logo_alt?: string;
 	case_title: string;
 	id: string;

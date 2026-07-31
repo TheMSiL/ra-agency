@@ -6,7 +6,7 @@ export const review = defineType({
 	type: "document",
 	fields: [
 		defineField({ name: "company", title: "Company name", type: "string", validation: (rule) => rule.required() }),
-		defineField({ name: "logo", title: "Company logo", type: "image", options: { hotspot: true }, validation: (rule) => rule.required() }),
+		defineField({ name: "logo", title: "Company logo", type: "image", options: { hotspot: true } }),
 		defineField({ name: "author", title: "Author name", type: "string", validation: (rule) => rule.required() }),
 		defineField({ name: "role", title: "Author position", type: "localizedString" }),
 		defineField({ name: "text", title: "Review text", type: "localizedText", validation: (rule) => rule.required() }),

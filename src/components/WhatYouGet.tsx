@@ -82,6 +82,24 @@ const telegramItems: Record<Locale, typeof items> = {
 	],
 };
 
+const metaItems: typeof items = [
+	{
+		kicker: "01",
+		title: "High-Quality Customers",
+		text: "Reach people who are most likely to purchase, subscribe, or become long-term customers—not just generate clicks or traffic.",
+	},
+	{
+		kicker: "02",
+		title: "Complete Performance Analytics",
+		text: "Track every stage of the customer journey in real time—from the first click to repeat purchases—with complete visibility into ROAS, CPA, CAC, LTV, revenue, and every key business metric.",
+	},
+	{
+		kicker: "03",
+		title: "Senior Meta Ads Team",
+		text: "Work with experienced Meta Ads specialists who continuously test, optimize, and scale your campaigns. We act as an extension of your team and are always focused on maximizing your results.",
+	},
+];
+
 const SWIPE_THRESHOLD_PX = 40;
 const PIN_SCROLL_DISTANCE = 1500;
 function AnimatedCount({ value }: { value: string }) {
@@ -120,7 +138,7 @@ function AnimatedCount({ value }: { value: string }) {
 	);
 }
 
-export default function WhatYouGet({ variant = "default" }: { variant?: "default" | "telegram" }) {
+export default function WhatYouGet({ variant = "default" }: { variant?: "default" | "telegram" | "meta" }) {
 	const { locale } = useI18n();
 	const defaultLocalizedItems = locale === "ru" ? [
 		{ kicker: "01", title: "Привлечение целевой аудитории", text: "Привлекаем пользователей, действительно заинтересованных в продукте, — не просто трафик, а потенциальных клиентов." },
@@ -131,7 +149,7 @@ export default function WhatYouGet({ variant = "default" }: { variant?: "default
 		{ kicker: "02", title: "Структура кампаній і тестування", text: "Вибудовуємо зрозумілу логіку кампаній, тестуємо креативи й аудиторії, зберігаючи контроль витрат." },
 		{ kicker: "03", title: "Масштабування робочих зв’язок", text: "Обережно збільшуємо бюджети, захищаємо сильні сегменти та пов’язуємо оптимізацію з бізнес-результатами." },
 	] : items;
-	const localizedItems = variant === "telegram" ? telegramItems[locale] : defaultLocalizedItems;
+	const localizedItems = variant === "telegram" ? telegramItems[locale] : variant === "meta" ? metaItems : defaultLocalizedItems;
 	const itemCount = localizedItems.length;
 	const sectionTitle = locale === "ru" ? "Что вы получаете?" : locale === "ua" ? "Що ви отримуєте?" : "What you get?";
 	const [activeIndex, setActiveIndex] = useState(0);

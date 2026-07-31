@@ -15,7 +15,7 @@ export default function CasesCard({ company_name, company_logo, company_logo_alt
 			</div>
 			<div className="cases_card-main">
 				<div className="cases_card-main--company">
-					<Image width={40} height={40} src={company_logo} alt={company_logo_alt ?? company_name} />
+					{company_logo && <Image width={40} height={40} src={company_logo} alt={company_logo_alt ?? company_name} />}
 					<p>{company_name}</p>
 				</div>
 				<h4 className="cases_card-main--title numbers_gradient-text">

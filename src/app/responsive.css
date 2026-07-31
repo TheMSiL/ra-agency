@@ -1018,7 +1018,7 @@
 
 	.what_subtitle {
 		margin-top: 0;
-		font-size: clamp(30px, 7vw, 42px);
+		font-size: clamp(25.5px, 5.95vw, 35.7px);
 		line-height: 1.12;
 	}
 
@@ -1993,7 +1993,7 @@
 	}
 
 	.what_subtitle {
-		font-size: clamp(26px, 8vw, 34px);
+		font-size: clamp(22.1px, 6.8vw, 28.9px);
 	}
 
 	.what_text {

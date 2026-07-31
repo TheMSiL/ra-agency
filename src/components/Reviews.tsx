@@ -14,7 +14,7 @@ function ReviewCardContent({ review }: { review: SanityReview }) {
 	return (
 		<>
 			<div className="review_card-head">
-				<Image src={review.icon} alt="" width={70} height={70} />
+				{review.icon && <Image src={review.icon} alt="" width={70} height={70} />}
 				<h3>{review.title}</h3>
 			</div>
 			<div className="review_card-author">

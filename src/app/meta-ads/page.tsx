@@ -17,8 +17,8 @@ export default async function TgAdsPage() {
 	return (
 		<div className="wrapper ads_page">
 			<Hero type="meta" />
-			<WhatYouGet />
-			<WhatWeDo />
+			<WhatYouGet variant="meta" />
+			<WhatWeDo variant="meta" />
 			<div className="section_background">
 				<Cases casesItems={cases} />
 				<Reviews reviewsData={reviews} />

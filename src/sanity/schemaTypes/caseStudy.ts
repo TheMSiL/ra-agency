@@ -47,7 +47,6 @@ export const caseStudy = defineType({
 		defineField({
 			name: "companyLogo", title: "Company logo", type: "image", group: "content", options: { hotspot: true },
 			fields: [{ name: "alt", title: "Alternative text", type: "string", validation: (rule) => rule.required() }],
-			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			name: "channel", title: "Advertising channel", type: "string", group: "content",
