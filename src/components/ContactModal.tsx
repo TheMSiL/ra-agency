@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useI18n } from "@/context/I18nContext";
@@ -17,6 +17,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 	const [contactValue, setContactValue] = useState("");
 	const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 	useBodyScrollLock(isOpen);
+	const handleClose = useCallback(() => {
+		setStatus("idle");
+		onClose();
+	}, [onClose]);
 
 	useEffect(() => {
 		if (!isOpen) {
@@ -25,7 +29,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
-				onClose();
+				handleClose();
 			}
 		};
 
@@ -34,7 +38,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [isOpen, onClose]);
+	}, [handleClose, isOpen]);
 
 	if (!isOpen) {
 		return null;
@@ -42,8 +46,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
+		if (status === "sending" || status === "success") return;
+		const formElement = event.currentTarget;
 		setStatus("sending");
-		const form = new FormData(event.currentTarget);
+		const form = new FormData(formElement);
 		let attribution = {};
 		try { attribution = JSON.parse(String(form.get("attribution") ?? "{}")); } catch { /* ignore malformed client data */ }
 		try {
@@ -56,16 +62,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 				}),
 			});
 			if (response.ok) {
-				setStatus("success"); event.currentTarget.reset(); setContactValue("");
+				setStatus("success"); formElement.reset(); setContactValue("");
 			} else setStatus("error");
 		} catch { setStatus("error"); }
 	}
 
 	return (
-		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={onClose}>
+		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={handleClose}>
 			<form className="contact_form section_background" onClick={(event) => event.stopPropagation()} onSubmit={handleSubmit}>
 				<AttributionFields />
-			<button className="contact_form-close" type="button" aria-label={t("form.close")} onClick={onClose}>
+			<button className="contact_form-close" type="button" aria-label={t("form.close")} onClick={handleClose}>
 					x
 				</button>
 				<h2 id="contact-form-title" className="contact_form-title">{t("form.title")}</h2>
@@ -111,7 +117,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 				<p className={`contact_form-status contact_form-status--${status}`} role="status" aria-live="polite">
 					{status === "success" ? "Thank you! A manager will contact you shortly." : status === "error" ? "Something went wrong. Please try again." : ""}
 				</p>
-				<button className="contact_form-submit" type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending…" : t("form.submit")}</button>
+				<button className="contact_form-submit" type="submit" disabled={status === "sending" || status === "success"}>{status === "sending" ? "Sending…" : t("form.submit")}</button>
 			</form>
 		</div>
 	);
