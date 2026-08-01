@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
 
 						<section>
 							<h2>1. General Provisions</h2>
-							<p>This Privacy Policy defines the procedure for collecting, using, storing, and protecting personal information of users of the RA Agency website. By using the website, you agree to the terms of this Privacy Policy.</p>
+							<p>This Privacy Policy defines the procedure for collecting, using, storing and protecting personal information of users of the RA Agency website. By using the website, you agree to the terms of this Privacy Policy.</p>
 						</section>
 
 						<section>
@@ -50,7 +50,7 @@ export default function PrivacyPolicyPage() {
 								<li>improving website performance</li>
 								<li>analyzing user behavior</li>
 								<li>marketing communications</li>
-								<li>sending news, offers, and promotional materials (with user consent)</li>
+								<li>sending news, offers and promotional materials (with user consent)</li>
 							</ul>
 						</section>
 
@@ -60,14 +60,14 @@ export default function PrivacyPolicyPage() {
 							<ul>
 								<li>it is necessary for providing services</li>
 								<li>it is required by law</li>
-								<li>third-party analytics, advertising, and CRM services are used (for example Google Analytics, Meta Ads, CRM platforms)</li>
+								<li>third-party analytics, advertising and CRM services are used (for example Google Analytics, Meta Ads, CRM platforms)</li>
 								<li>all partners are required to comply with data protection standards.</li>
 							</ul>
 						</section>
 
 						<section>
 							<h2>5. Cookies</h2>
-							<p>Our website uses cookies to ensure proper website functionality, analytics, and personalization of the user experience. Users may disable cookies in their browser settings, however, this may affect the proper functioning of some website features.</p>
+							<p>Our website uses cookies to ensure proper website functionality, analytics and personalization of the user experience. Users may disable cookies in their browser settings, however, this may affect the proper functioning of some website features.</p>
 						</section>
 
 						<section>

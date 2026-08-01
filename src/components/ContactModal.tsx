@@ -15,6 +15,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 	const { t } = useI18n();
 	const [contactMethod, setContactMethod] = useState<"telegram" | "email">("telegram");
 	const [contactValue, setContactValue] = useState("");
+	const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 	useBodyScrollLock(isOpen);
 
 	useEffect(() => {
@@ -39,9 +40,30 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 		return null;
 	}
 
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		setStatus("sending");
+		const form = new FormData(event.currentTarget);
+		let attribution = {};
+		try { attribution = JSON.parse(String(form.get("attribution") ?? "{}")); } catch { /* ignore malformed client data */ }
+		try {
+			const response = await fetch("/api/contact", {
+				method: "POST", headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					name: form.get("name"), contactMethod,
+					contact: form.get(contactMethod), details: form.get("details"),
+					attribution, source: "contact-modal",
+				}),
+			});
+			if (response.ok) {
+				setStatus("success"); event.currentTarget.reset(); setContactValue("");
+			} else setStatus("error");
+		} catch { setStatus("error"); }
+	}
+
 	return (
 		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={onClose}>
-			<form className="contact_form section_background" onClick={(event) => event.stopPropagation()} onSubmit={(event) => event.preventDefault()}>
+			<form className="contact_form section_background" onClick={(event) => event.stopPropagation()} onSubmit={handleSubmit}>
 				<AttributionFields />
 			<button className="contact_form-close" type="button" aria-label={t("form.close")} onClick={onClose}>
 					x
@@ -49,7 +71,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 				<h2 id="contact-form-title" className="contact_form-title">{t("form.title")}</h2>
 				<label className="contact_form-field">
 					<span>{t("form.name")}</span>
-					<input type="text" name="name" placeholder={t("form.name")} />
+					<input type="text" name="name" placeholder={t("form.name")} required maxLength={120} />
 				</label>
 				<fieldset className="contact_form-method">
 					<legend>{t("form.method")}</legend>
@@ -78,6 +100,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 						name={contactMethod}
 						placeholder={contactMethod === "telegram" ? "@username" : "name@example.com"}
 						value={contactValue}
+						required
 						onChange={(event) => setContactValue(event.target.value)}
 					/>
 				</label>
@@ -85,7 +108,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 					<span>{t("form.details")}</span>
 					<textarea name="details" placeholder={t("form.details")} rows={5} />
 				</label>
-				<button className="contact_form-submit" type="submit">{t("form.submit")}</button>
+				<p className={`contact_form-status contact_form-status--${status}`} role="status" aria-live="polite">
+					{status === "success" ? "Thank you! A manager will contact you shortly." : status === "error" ? "Something went wrong. Please try again." : ""}
+				</p>
+				<button className="contact_form-submit" type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending…" : t("form.submit")}</button>
 			</form>
 		</div>
 	);

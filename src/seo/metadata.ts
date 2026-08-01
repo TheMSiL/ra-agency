@@ -8,15 +8,15 @@ type SeoPage = "home" | "about" | "cases" | "blog" | "contacts" | "google" | "me
 
 const seoCopy: Record<Locale, Record<SeoPage, { title: string; description: string }>> = {
 	en: {
-		home: { title: "Performance Marketing Agency", description: "RA Agency builds and scales measurable acquisition systems across Telegram Ads, Meta Ads, and Google Ads." },
-		about: { title: "About RA Agency", description: "Meet the performance marketing team focused on scalable growth, transparent analytics, and predictable ROI." },
-		cases: { title: "Advertising Case Studies", description: "Explore real Telegram Ads, Meta Ads, and Google Ads campaigns launched and scaled by RA Agency." },
-		blog: { title: "Performance Marketing Blog", description: "Practical insights about paid acquisition, campaign optimization, analytics, and scalable digital growth." },
+		home: { title: "Performance Marketing Agency", description: "RA Agency builds and scales measurable acquisition systems across Telegram Ads, Meta Ads and Google Ads." },
+		about: { title: "About RA Agency", description: "Meet the performance marketing team focused on scalable growth, transparent analytics and predictable ROI." },
+		cases: { title: "Advertising Case Studies", description: "Explore real Telegram Ads, Meta Ads and Google Ads campaigns launched and scaled by RA Agency." },
+		blog: { title: "Performance Marketing Blog", description: "Practical insights about paid acquisition, campaign optimization, analytics and scalable digital growth." },
 		contacts: { title: "Contact RA Agency", description: "Discuss your growth goals and advertising project with the RA Agency performance marketing team." },
-		google: { title: "Google Ads Management", description: "Google Search, YouTube, Display, and Performance Max campaigns focused on leads, sales, and measurable ROI." },
-		meta: { title: "Meta Ads Management", description: "Performance campaigns for Facebook and Instagram with creative testing, funnel optimization, and scalable ROAS." },
-		telegram: { title: "Telegram Ads Management", description: "Official Telegram Ads campaigns with channel research, daily optimization, and full-funnel analytics." },
-		privacy: { title: "Privacy Policy", description: "Learn how RA Agency collects, uses, and protects personal information." },
+		google: { title: "Google Ads Management", description: "Google Search, YouTube, Display and Performance Max campaigns focused on leads, sales and measurable ROI." },
+		meta: { title: "Meta Ads Management", description: "Performance campaigns for Facebook and Instagram with creative testing, funnel optimization and scalable ROAS." },
+		telegram: { title: "Telegram Ads Management", description: "Official Telegram Ads campaigns with channel research, daily optimization and full-funnel analytics." },
+		privacy: { title: "Privacy Policy", description: "Learn how RA Agency collects, uses and protects personal information." },
 		terms: { title: "Terms of Service", description: "Read the terms governing the use of the RA Agency website and services." },
 		cookies: { title: "Cookie Policy", description: "Learn how RA Agency uses cookies and similar technologies on this website." },
 	},

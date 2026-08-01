@@ -26,38 +26,38 @@ const items: WhatWeDoItem[] = [
 	{
 		index: "02",
 		title: "Google Ads strategy development",
-		description: "We build a strategy by defining GEOs, offers, funnel structure, bidding models, and scaling approach.",
+		description: "We build a strategy by defining GEOs, offers, funnel structure, bidding models and scaling approach.",
 	},
 	{
 		index: "03",
 		title: "Creative and asset preparation",
-		description: "We prepare search ads, display creatives, YouTube assets, and Performance Max content for better results.",
+		description: "We prepare search ads, display creatives, YouTube assets and Performance Max content for better results.",
 	},
 	{
 		index: "04",
 		title: "Search intent clustering",
-		description: "We segment search demand, group high-intent queries, and align campaign structure with how customers actually look for your offer.",
+		description: "We segment search demand, group high-intent queries and align campaign structure with how customers actually look for your offer.",
 	},
 	{
 		index: "05",
 		title: "Launch and signal collection",
-		description: "We launch campaigns with clean tracking, gather the first conversion signals, and isolate which audiences and messages deserve more budget.",
+		description: "We launch campaigns with clean tracking, gather the first conversion signals and isolate which audiences and messages deserve more budget.",
 	},
 	{
 		index: "06",
 		title: "Optimization and scaling",
-		description: "We optimize bids, creatives, and landing routes continuously so the account can scale without losing efficiency.",
+		description: "We optimize bids, creatives and landing routes continuously so the account can scale without losing efficiency.",
 	},
 ];
 
 const metaItems: WhatWeDoItem[] = [
-	{ index: "01", title: "Market & Competitor Research", description: "We analyze your business, audience, competitors, and Meta Ads Library to build a strategy tailored to your goals." },
-	{ index: "02", title: "Growth Strategy & KPI Planning", description: "We create a media plan with clear growth targets and performance goals based on CPA, ROAS, CAC, and other key metrics." },
-	{ index: "03", title: "Business Manager Setup", description: "We guide you through setting up your Business Manager, ad account, payments, and access to ensure a stable advertising infrastructure." },
-	{ index: "04", title: "Pixel & Conversion Tracking", description: "We help configure Meta Pixel, Conversions API, and event tracking to provide accurate attribution and stronger optimization." },
-	{ index: "05", title: "Creative Strategy", description: "We prepare creative briefs, winning angles, hooks, and recommendations for videos, statics, and carousel ads built to perform." },
-	{ index: "06", title: "Campaign & Audience Structure", description: "We build scalable campaign structures with broad targeting, lookalikes, interests, and retargeting audiences." },
-	{ index: "07", title: "Continuous A/B Testing", description: "We constantly test creatives, audiences, offers, and campaign settings to improve performance and reduce acquisition costs." },
+	{ index: "01", title: "Market & Competitor Research", description: "We analyze your business, audience, competitors and Meta Ads Library to build a strategy tailored to your goals." },
+	{ index: "02", title: "Growth Strategy & KPI Planning", description: "We create a media plan with clear growth targets and performance goals based on CPA, ROAS, CAC and other key metrics." },
+	{ index: "03", title: "Business Manager Setup", description: "We guide you through setting up your Business Manager, ad account, payments and access to ensure a stable advertising infrastructure." },
+	{ index: "04", title: "Pixel & Conversion Tracking", description: "We help configure Meta Pixel, Conversions API and event tracking to provide accurate attribution and stronger optimization." },
+	{ index: "05", title: "Creative Strategy", description: "We prepare creative briefs, winning angles, hooks and recommendations for videos, statics and carousel ads built to perform." },
+	{ index: "06", title: "Campaign & Audience Structure", description: "We build scalable campaign structures with broad targeting, lookalikes, interests and retargeting audiences." },
+	{ index: "07", title: "Continuous A/B Testing", description: "We constantly test creatives, audiences, offers and campaign settings to improve performance and reduce acquisition costs." },
 	{ index: "08", title: "Scaling & Optimization", description: "We scale winning campaigns while instantly cutting underperforming ads to maximize ROAS and protect your budget." },
 ];
 

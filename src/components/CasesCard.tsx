@@ -18,9 +18,11 @@ export default function CasesCard({ company_name, company_logo, company_logo_alt
 					{company_logo && <Image width={40} height={40} src={company_logo} alt={company_logo_alt ?? company_name} />}
 					<p>{company_name}</p>
 				</div>
-				<h4 className="cases_card-main--title numbers_gradient-text">
-					{case_title}
-				</h4>
+				<div className="cases_card-main--body">
+					<h4 className="cases_card-main--title numbers_gradient-text">
+						{case_title}
+					</h4>
+				</div>
 			</div>
 			<div className="cases_card-info">
 				<div className="cases_card-info--items">
@@ -44,7 +46,7 @@ export default function CasesCard({ company_name, company_logo, company_logo_alt
 				<LocalizedLink href={`/cases/${id}`} className="cases_card-info--item cases_card-arrow cases_block" aria-label={`${t("cases.read")}: ${case_title}`}>
 					<Image className="cases_card-arrow-image" src="/cases_card-arrow.png" alt="" width={31} height={45} />
 					<span className="cases_card-read-more" aria-hidden="true">
-						READ<br />{" "}MORE
+						{t("cases.more")}
 					</span>
 				</LocalizedLink>
 			</div>

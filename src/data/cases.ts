@@ -42,7 +42,7 @@ export const casesItems: CasesCardProps[] = [
 			{
 				title: 'Audit the current setup',
 				description:
-					'Reviewed campaign structure, channel mix, creatives, and acquisition costs.',
+					'Reviewed campaign structure, channel mix, creatives and acquisition costs.',
 			},
 			{
 				title: 'Segment the channels',

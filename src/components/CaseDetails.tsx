@@ -18,7 +18,7 @@ function getFallbackSteps(item: CasesCardProps): CaseStep[] {
 		{ title: "The start", description: `We reviewed the current ${item.type} ads setup and identified the main opportunities for growth.` },
 		{ title: "What we changed", description: item.fix },
 		{ title: "Audience testing", description: item.work },
-		{ title: "Optimization loop", description: "We monitored the strongest combinations, refined the setup, and scaled the winning approach." },
+		{ title: "Optimization loop", description: "We monitored the strongest combinations, refined the setup and scaled the winning approach." },
 	];
 }
 

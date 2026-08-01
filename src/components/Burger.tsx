@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
 import BurgerSvg from "../../public/svg/BurgerSvg";
 import LangSwitcher from "./LangSwitcher";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 const menuItems = [
 	{ label: "nav.home", href: "/" }, { label: "nav.about", href: "/about" },
@@ -24,6 +25,7 @@ export default function Burger() {
 	const [isMounted, setIsMounted] = useState(false);
 	const pathname = usePathname();
 	const { localizedPath, t } = useI18n();
+	const settings = useSiteSettings();
 
 	useBodyScrollLock(isOpen);
 
@@ -105,13 +107,13 @@ export default function Burger() {
 
 						<div className="burger_footer">
 							<div className="burger_socials" aria-label="Social links">
-								<a href="#" aria-label="Telegram">
+								<a href={settings.telegramUrl} target="_blank" rel="noreferrer" aria-label="Telegram">
 									<Image src="/tg.svg" alt="" width={30} height={30} />
 								</a>
-								<a href="#" aria-label="LinkedIn">
+								<a href={settings.linkedinUrl} target="_blank" rel="noreferrer" aria-label="LinkedIn">
 									<Image src="/linkedin.svg" alt="" width={24} height={24} />
 								</a>
-								<a href="#" aria-label="X">
+								<a href={settings.xUrl} target="_blank" rel="noreferrer" aria-label="X">
 									<Image src="/x.svg" alt="" width={24} height={24} />
 								</a>
 							</div>

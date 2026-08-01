@@ -8,13 +8,13 @@ export type ServiceProcessItem = {
 
 export const telegramAdsWhatWeDo: Record<Locale, ServiceProcessItem[]> = {
 	en: [
-		{ index: "01", title: "Market & Competitor Research", description: "We analyze your product, target audience, competitors, and market landscape to build a strategy tailored to your business goals." },
-		{ index: "02", title: "Media Planning & Forecasting", description: "We prepare a detailed media plan with audience segmentation, campaign structure, estimated performance metrics, and realistic growth projections." },
+		{ index: "01", title: "Market & Competitor Research", description: "We analyze your product, target audience, competitors and market landscape to build a strategy tailored to your business goals." },
+		{ index: "02", title: "Media Planning & Forecasting", description: "We prepare a detailed media plan with audience segmentation, campaign structure, estimated performance metrics and realistic growth projections." },
 		{ index: "03", title: "Creative Production", description: "We write high-converting ad copy and, when needed, design visuals that are optimized for Telegram Ads performance." },
-		{ index: "04", title: "Advanced Analytics Setup", description: "We implement real-time analytics that tracks your entire acquisition funnel—from impressions and clicks to revenue, retention, repeat purchases, and every KPI that matters." },
+		{ index: "04", title: "Advanced Analytics Setup", description: "We implement real-time analytics that tracks your entire acquisition funnel—from impressions and clicks to revenue, retention, repeat purchases and every KPI that matters." },
 		{ index: "05", title: "Fast Campaign Launch", description: "Your campaigns go live within 24 hours after payment, allowing you to start acquiring customers without unnecessary delays." },
 		{ index: "06", title: "Proprietary Targeting Database", description: "Instead of relying on standard Telegram targeting alone, we leverage our proprietary database of 15M+ Telegram channels to identify the audiences most likely to convert." },
-		{ index: "07", title: "Creative A/B Testing", description: "We continuously test headlines, messaging, creatives, and offers to maximize CTR, conversion rates, and overall campaign performance." },
+		{ index: "07", title: "Creative A/B Testing", description: "We continuously test headlines, messaging, creatives and offers to maximize CTR, conversion rates and overall campaign performance." },
 		{ index: "08", title: "Scaling Winning Campaigns", description: "Once we identify profitable combinations, we aggressively scale them while instantly pausing underperforming campaigns to protect your budget and maximize ROAS." },
 	],
 	ru: [

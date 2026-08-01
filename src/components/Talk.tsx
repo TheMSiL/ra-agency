@@ -260,8 +260,8 @@ export default function Talk() {
 							setIsFormOpen(true);
 						}}
 					>
-						<span className="talk_btn-label talk_btn-label--desktop">Message us on Telegram</span>
-						<span className="talk_btn-label talk_btn-label--mobile">Message us</span>
+						<span className="talk_btn-label talk_btn-label--desktop">{t("common.message")}</span>
+						<span className="talk_btn-label talk_btn-label--mobile">{t("common.message")}</span>
 					</button>
 				</div>
 			</div>

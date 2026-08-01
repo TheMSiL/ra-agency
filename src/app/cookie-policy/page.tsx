@@ -21,7 +21,7 @@ export default function CookiePolicyPage() {
 
 						<section>
 							<h2>1. What Are Cookies?</h2>
-							<p>Cookies are small text files stored on your device when you visit a website. They help websites operate correctly, remember preferences, understand how visitors use pages, and improve the relevance of content and advertising.</p>
+							<p>Cookies are small text files stored on your device when you visit a website. They help websites operate correctly, remember preferences, understand how visitors use pages and improve the relevance of content and advertising.</p>
 						</section>
 
 						<section>
@@ -41,13 +41,13 @@ export default function CookiePolicyPage() {
 							<h2>3. Types of Cookies</h2>
 							<p><strong>Essential cookies</strong> are required for basic website operation and cannot normally be disabled through our website.</p>
 							<p><strong>Preference cookies</strong> remember choices such as language or display settings.</p>
-							<p><strong>Analytics cookies</strong> help us understand visits, traffic sources, and website usage through aggregated statistics.</p>
+							<p><strong>Analytics cookies</strong> help us understand visits, traffic sources and website usage through aggregated statistics.</p>
 							<p><strong>Marketing cookies</strong> may be used to measure advertising performance and provide more relevant communications.</p>
 						</section>
 
 						<section>
 							<h2>4. Third-Party Technologies</h2>
-							<p>We may use third-party analytics, advertising, and embedded-content providers, including services associated with Google, Meta, and other marketing platforms. These providers may set their own cookies and process data according to their privacy policies.</p>
+							<p>We may use third-party analytics, advertising and embedded-content providers, including services associated with Google, Meta and other marketing platforms. These providers may set their own cookies and process data according to their privacy policies.</p>
 						</section>
 
 						<section>

@@ -5,16 +5,17 @@ import Background from "@/components/Background";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
-
-const contacts = [
-	{ label: "Telegram", value: "@raagencytech", href: "https://t.me/raagencytech" },
-	{ label: "Email", value: "hello@raagency.tech", href: "mailto:hello@raagency.tech" },
-	{ label: "LinkedIn", value: "RA Agency", href: "https://www.linkedin.com/company/raagencytech" },
-	{ label: "X", value: "@raagencytech", href: "https://x.com/raagencytech" },
-];
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 export default function ContactsPage() {
 	const { t } = useI18n();
+	const settings = useSiteSettings();
+	const contacts = [
+		{ label: "Telegram", value: settings.telegramLabel, href: settings.telegramUrl },
+		{ label: "Email", value: settings.email, href: `mailto:${settings.email}` },
+		{ label: "LinkedIn", value: settings.linkedinLabel, href: settings.linkedinUrl },
+		{ label: "X", value: settings.xLabel, href: settings.xUrl },
+	];
 	return (
 		<div className="wrapper">
 			<Background>

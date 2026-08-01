@@ -9,5 +9,7 @@ import { newsletterSubscriber } from "./newsletterSubscriber";
 import { review } from "./review";
 import { tag } from "./tag";
 import { trustedCompany } from "./trustedCompany";
+import { lead } from "./lead";
+import { siteSettings } from "./siteSettings";
 
-export const schemaTypes = [localizedString, localizedText, category, tag, author, article, caseStudy, trustedCompany, review, newsletterSubscriber, newsletterDelivery];
+export const schemaTypes = [localizedString, localizedText, category, tag, author, article, caseStudy, trustedCompany, review, siteSettings, lead, newsletterSubscriber, newsletterDelivery];

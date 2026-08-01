@@ -8,6 +8,25 @@
 	font-display: swap;
 }
 
+/* Shared lead-form and limited-offer UI. */
+.contact_form-submit:disabled { cursor: wait; opacity: 0.65; }
+.contact_form-status { min-height: 20px; margin: 0 auto; color: #fff; text-align: center; }
+.contact_form-status--success { color: #8ef0a8; }
+.contact_form-status--error { color: #ff9c91; }
+.promo_modal { position: fixed; inset: 0; z-index: 4900; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.76); backdrop-filter: blur(7px); }
+.promo_card { position: relative; width: min(620px, 100%); padding: 56px 44px 44px; border: 1px solid #fa8a16; border-radius: 28px 12px; box-shadow: 0 0 50px rgba(250,138,22,.28); text-align: center; }
+.promo_close { position: absolute; top: 16px; right: 18px; border: 0; background: transparent; color: #fff; cursor: pointer; font-size: 34px; line-height: 1; }
+.promo_eyebrow { color: #fa8a16; font: 14px/1.4 var(--font-audiowide), sans-serif; letter-spacing: .12em; }
+.promo_card h2 { margin: 18px 0; font: 36px/1.2 var(--font-audiowide), sans-serif; }
+.promo_card p { max-width: 510px; margin: 0 auto 28px; font-size: 18px; line-height: 1.5; }
+.review_card-head img { border-radius: 50%; object-fit: cover; aspect-ratio: 1; }
+
+@media (max-width: 600px) {
+	.promo_card { padding: 48px 20px 28px; }
+	.promo_card h2 { font-size: clamp(24px, 7vw, 32px); }
+	.promo_card p { font-size: 16px; }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -672,7 +691,7 @@ a {
 		color: #fff5ec;
 		text-align: center;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 16px;
+		font-size: 20px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%;
@@ -1530,7 +1549,7 @@ a {
 		color: #fff5ec;
 		text-align: center;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 16px;
+		font-size: 20px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%; /* 22.4px */
@@ -2402,9 +2421,10 @@ a {
 
 	.cases_section .cases_card-main,
 	.cases_page-grid .cases_card-main {
-		height: clamp(300px, 34vh, 380px);
+		height: calc(clamp(300px, 34vh, 380px) - 60px);
+		margin-top: 60px;
 		flex-shrink: 0;
-		gap: 14px;
+		gap: 0;
 	}
 
 	.cases_section .cases_card-main--title,
@@ -2475,13 +2495,14 @@ a {
 	}
 
 	.cases_card-main {
-		height: 500px;
+		height: 440px;
+		margin-top: 60px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		gap: 20px;
-		padding: 0px 20px;
+		justify-content: flex-start;
+		gap: 0;
+		padding: 28px 20px 0;
 		flex-shrink: 0;
 	}
 
@@ -2502,11 +2523,27 @@ a {
 		text-transform: uppercase;
 	}
 
+	.review_card-head img {
+		border-radius: 50%;
+		object-fit: cover;
+		aspect-ratio: 1;
+	}
+
 	.cases_card-main--company p {
 		min-width: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+
+	.cases_card-main--body {
+		display: flex;
+		flex: 1 1 auto;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		min-height: 0;
+		padding-bottom: 28px;
 	}
 
 	.cases_card-main--title {
@@ -2517,7 +2554,7 @@ a {
 		max-width: 460px;
 		text-align: center;
 		display: -webkit-box;
-		min-height: 4.2em;
+		min-height: 0;
 		overflow: hidden;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 3;

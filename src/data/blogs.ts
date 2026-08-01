@@ -32,7 +32,7 @@ export const blogPosts: BlogPost[] = [
 		content: [
 			{
 				type: 'paragraph',
-				text: 'Telegram has evolved from a simple messaging app into a powerful platform for content creation, community building, and digital marketing. With millions of active users, the platform offers an unparalleled opportunity to reach a global audience.',
+				text: 'Telegram has evolved from a simple messaging app into a powerful platform for content creation, community building and digital marketing. With millions of active users, the platform offers an unparalleled opportunity to reach a global audience.',
 			},
 			{
 				type: 'heading',
@@ -71,7 +71,7 @@ export const blogPosts: BlogPost[] = [
 		content: [
 			{
 				type: 'paragraph',
-				text: 'A quick launch is effective only when the campaign starts with a clear goal, reliable tracking, and a focused set of creative hypotheses.',
+				text: 'A quick launch is effective only when the campaign starts with a clear goal, reliable tracking and a focused set of creative hypotheses.',
 			},
 			{ type: 'heading', text: 'Prepare the campaign foundation' },
 			{
@@ -104,7 +104,7 @@ export const blogPosts: BlogPost[] = [
 		content: [
 			{
 				type: 'paragraph',
-				text: 'Google Ads can deliver demand immediately, but only when keywords, ads, landing pages, and conversion tracking are aligned around the same intent.',
+				text: 'Google Ads can deliver demand immediately, but only when keywords, ads, landing pages and conversion tracking are aligned around the same intent.',
 			},
 			{ type: 'heading', text: 'Build around search intent' },
 			{
@@ -132,12 +132,12 @@ export const blogPosts: BlogPost[] = [
 		views: 864,
 		title: 'How to optimize Telegram Ads after launch',
 		description:
-			'A practical guide to reading early campaign signals, improving targeting, and scaling Telegram Ads without wasting budget.',
+			'A practical guide to reading early campaign signals, improving targeting and scaling Telegram Ads without wasting budget.',
 		image: '/blog_tg.png',
 		content: [
 			{
 				type: 'paragraph',
-				text: 'Launching a Telegram Ads campaign is only the beginning. Sustainable results come from reviewing early signals, separating strong placements from weak ones, and improving the campaign step by step.',
+				text: 'Launching a Telegram Ads campaign is only the beginning. Sustainable results come from reviewing early signals, separating strong placements from weak ones and improving the campaign step by step.',
 			},
 			{
 				type: 'heading',
@@ -176,7 +176,7 @@ export const blogPosts: BlogPost[] = [
 		content: [
 			{
 				type: 'paragraph',
-				text: 'A quick launch is effective only when the campaign starts with a clear goal, reliable tracking, and a focused set of creative hypotheses.',
+				text: 'A quick launch is effective only when the campaign starts with a clear goal, reliable tracking and a focused set of creative hypotheses.',
 			},
 			{ type: 'heading', text: 'Prepare the campaign foundation' },
 			{
@@ -209,7 +209,7 @@ export const blogPosts: BlogPost[] = [
 		content: [
 			{
 				type: 'paragraph',
-				text: 'Google Ads can deliver demand immediately, but only when keywords, ads, landing pages, and conversion tracking are aligned around the same intent.',
+				text: 'Google Ads can deliver demand immediately, but only when keywords, ads, landing pages and conversion tracking are aligned around the same intent.',
 			},
 			{ type: 'heading', text: 'Build around search intent' },
 			{
@@ -237,12 +237,12 @@ export const blogPosts: BlogPost[] = [
 		views: 643,
 		title: 'How to optimize Telegram Ads after launch',
 		description:
-			'A practical guide to reading early campaign signals, improving targeting, and scaling Telegram Ads without wasting budget.',
+			'A practical guide to reading early campaign signals, improving targeting and scaling Telegram Ads without wasting budget.',
 		image: '/blog_tg.png',
 		content: [
 			{
 				type: 'paragraph',
-				text: 'Launching a Telegram Ads campaign is only the beginning. Sustainable results come from reviewing early signals, separating strong placements from weak ones, and improving the campaign step by step.',
+				text: 'Launching a Telegram Ads campaign is only the beginning. Sustainable results come from reviewing early signals, separating strong placements from weak ones and improving the campaign step by step.',
 			},
 			{
 				type: 'heading',

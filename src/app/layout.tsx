@@ -6,6 +6,8 @@ import "./animations.css";
 import "./responsive.css";
 import { CANONICAL_ORIGIN } from "@/seo/metadata";
 import AnalyticsBootstrap from "@/components/AnalyticsBootstrap";
+import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
+import PromoPopup from "@/components/PromoPopup";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(CANONICAL_ORIGIN),
@@ -45,9 +47,12 @@ export default function RootLayout({
       </head>
       <body>
         <I18nProvider>
+          <SiteSettingsProvider>
           <ScrollToTop />
           <AnalyticsBootstrap />
           {children}
+          <PromoPopup />
+          </SiteSettingsProvider>
         </I18nProvider>
       </body>
     </html>

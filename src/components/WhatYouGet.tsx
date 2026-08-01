@@ -19,12 +19,12 @@ const items = [
 	{
 		kicker: "02",
 		title: "Campaign structure and testing",
-		text: "We build clear campaign logic, test creatives and audiences, and keep the account structure ready for fast decisions without losing control of spend.",
+		text: "We build clear campaign logic, test creatives and audiences and keep the account structure ready for fast decisions without losing control of spend.",
 	},
 	{
 		kicker: "03",
 		title: "Scaling what already converts",
-		text: "When the numbers prove the route, we scale budgets carefully, protect the strongest segments, and keep optimization tied to real business outcomes.",
+		text: "When the numbers prove the route, we scale budgets carefully, protect the strongest segments and keep optimization tied to real business outcomes.",
 	},
 ];
 
@@ -33,17 +33,17 @@ const telegramItems: Record<Locale, typeof items> = {
 		{
 			kicker: "01",
 			title: "High-Quality Traffic from Telegram",
-			text: "Reach highly engaged users who don't just install or sign up—they stay active, make purchases, complete deposits, and generate long-term revenue.",
+			text: "Reach highly engaged users who don't just install or sign up—they stay active, make purchases, complete deposits and generate long-term revenue.",
 		},
 		{
 			kicker: "02",
 			title: "End-to-End Analytics",
-			text: "Get complete real-time visibility across your entire funnel—from the first impression to repeat purchases. Track every key metric including CPA, CAC, ROAS, LTV, retention, conversion rate, revenue, and more.",
+			text: "Get complete real-time visibility across your entire funnel—from the first impression to repeat purchases. Track every key metric including CPA, CAC, ROAS, LTV, retention, conversion rate, revenue and more.",
 		},
 		{
 			kicker: "03",
 			title: "Dedicated Performance Team",
-			text: "Work with senior Telegram Ads specialists who manage your campaigns like an in-house growth team. We're available 24/7, proactively optimize every campaign, and make data-driven decisions to maximize your results.",
+			text: "Work with senior Telegram Ads specialists who manage your campaigns like an in-house growth team. We're available 24/7, proactively optimize every campaign and make data-driven decisions to maximize your results.",
 		},
 	],
 	ru: [
@@ -91,12 +91,12 @@ const metaItems: typeof items = [
 	{
 		kicker: "02",
 		title: "Complete Performance Analytics",
-		text: "Track every stage of the customer journey in real time—from the first click to repeat purchases—with complete visibility into ROAS, CPA, CAC, LTV, revenue, and every key business metric.",
+		text: "Track every stage of the customer journey in real time—from the first click to repeat purchases—with complete visibility into ROAS, CPA, CAC, LTV, revenue and every key business metric.",
 	},
 	{
 		kicker: "03",
 		title: "Senior Meta Ads Team",
-		text: "Work with experienced Meta Ads specialists who continuously test, optimize, and scale your campaigns. We act as an extension of your team and are always focused on maximizing your results.",
+		text: "Work with experienced Meta Ads specialists who continuously test, optimize and scale your campaigns. We act as an extension of your team and are always focused on maximizing your results.",
 	},
 ];
 

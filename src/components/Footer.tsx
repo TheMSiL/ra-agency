@@ -3,6 +3,7 @@
 import { useI18n } from "@/context/I18nContext";
 import Image from "next/image";
 import LocalizedLink from "./LocalizedLink";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 const navigation = [
 	{
@@ -40,21 +41,19 @@ const services = [
 
 const legal = [
 	{
-		href: '/privacy-policy',
 		title: 'footer.privacy'
 	},
 	{
-		href: '/terms-of-service',
 		title: 'footer.terms'
 	},
 	{
-		href: '/cookie-policy',
 		title: 'footer.cookies'
 	},
 ] as const
 
 export default function Footer() {
 	const { t } = useI18n();
+	const settings = useSiteSettings();
 	return (
 		<footer id="contact" className="footer section_background pt-10">
 			<div className="content_container footer_container">
@@ -66,13 +65,13 @@ export default function Footer() {
 					<div className="footer_intro">
 						<p className="footer_text">{t("footer.text")}</p>
 						<div className="burger_socials footer_socials" aria-label="Social links">
-							<a href="#" aria-label="Telegram">
+							<a href={settings.telegramUrl} target="_blank" rel="noreferrer" aria-label="Telegram">
 								<Image src="/tg.svg" alt="" width={30} height={30} />
 							</a>
-							<a href="#" aria-label="LinkedIn">
+							<a href={settings.linkedinUrl} target="_blank" rel="noreferrer" aria-label="LinkedIn">
 								<Image src="/linkedin.svg" alt="" width={24} height={24} />
 							</a>
-							<a href="#" aria-label="X">
+							<a href={settings.xUrl} target="_blank" rel="noreferrer" aria-label="X">
 								<Image src="/x.svg" alt="" width={24} height={24} />
 							</a>
 						</div>
@@ -109,7 +108,7 @@ export default function Footer() {
 								{
 									legal.map((link) => {
 										return <li className="footer_nav-item" key={link.title}>
-											<LocalizedLink href={link.href}>{t(link.title)}</LocalizedLink>
+											<span>{t(link.title)}</span>
 										</li>
 									})
 								}
