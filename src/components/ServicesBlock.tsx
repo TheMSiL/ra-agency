@@ -46,7 +46,7 @@ export default function ServicesBlock({ title, subtitle, items, icon, href }: Se
 
 					if (!desktop || !allowMotion) {
 						gsap.set(block, { clearProps: 'height' });
-						gsap.set('.services_timeline-line, .services_circle, .services_item-text', {
+						gsap.set('.services_timeline-line, .services_circle, .services_item-text, .services_btn', {
 							clearProps: 'all',
 						});
 						return;
@@ -64,6 +64,7 @@ export default function ServicesBlock({ title, subtitle, items, icon, href }: Se
 					gsap.set('.services_timeline-line', { scaleX: 0, transformOrigin: 'center center' });
 					gsap.set('.services_circle', { autoAlpha: 0, scale: 0 });
 					gsap.set('.services_item-text', { autoAlpha: 0, y: 14 });
+					gsap.set('.services_btn', { autoAlpha: 0, y: 12 });
 
 					const timeline = gsap.timeline({
 						scrollTrigger: {
@@ -110,7 +111,13 @@ export default function ServicesBlock({ title, subtitle, items, icon, href }: Se
 							ease: 'power2.out',
 							stagger: 0.07,
 							duration: 0.42,
-						}, 0.56);
+						}, 0.56)
+						.to('.services_btn', {
+							autoAlpha: 1,
+							y: 0,
+							ease: 'power2.out',
+							duration: 0.2,
+						}, 0.82);
 
 					return () => {
 						timeline.kill();

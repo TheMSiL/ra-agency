@@ -42,17 +42,13 @@ const en = {
 	'numbers.title': 'Numbers We Stand Behind',
 	'numbers.intro': 'Every number reflects campaigns that deliver real results.',
 	'numbers.cost.title': 'Total clients',
-	'numbers.cost.text':
-		'Trusted by businesses worldwide',
+	'numbers.cost.text': 'Trusted by businesses worldwide',
 	'numbers.users.title': 'Managed ad spend',
-	'numbers.users.text':
-		'Advertising budget successfully managed',
+	'numbers.users.text': 'Advertising budget successfully managed',
 	'numbers.clients.title': 'Countries reached',
-	'numbers.clients.text':
-		'Campaigns launched across global markets',
+	'numbers.clients.text': 'Campaigns launched across global markets',
 	'numbers.budget.title': 'Average client ROAS',
-	'numbers.budget.text':
-		'Average return on ad spend across client campaigns',
+	'numbers.budget.text': 'Average return on ad spend across client campaigns',
 	'cases.title': 'Case Studies and Success Stories',
 	'cases.subtitle':
 		'Examples of advertising campaigns we launched and scaled for our clients',
@@ -96,7 +92,8 @@ const en = {
 		'Subscribe to our newsletter for regular quality insights',
 	'blog.subscribe': 'Subscribe',
 	'blog.subscribing': 'Subscribing...',
-	'blog.subscribeSuccess': 'You are subscribed. We will email you when a new article is published.',
+	'blog.subscribeSuccess':
+		'You are subscribed. We will email you when a new article is published.',
 	'blog.subscribeError': 'Could not subscribe right now. Please try again.',
 	'blog.follow': 'Follow us',
 	'blog.keepExploring': 'Keep exploring',
@@ -112,6 +109,8 @@ const en = {
 	'form.name': 'Name',
 	'form.method': 'Preferred contact method',
 	'form.telegramUser': 'Telegram Username',
+	'form.telegramInvalid': 'Enter a Telegram username starting with @, for example @username',
+	'form.emailInvalid': 'Enter a valid email address',
 	'form.details': 'Details',
 	'form.submit': 'Get started',
 	'form.close': 'Close form',
@@ -174,18 +173,15 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 			'Высокоэффективная реклама в Facebook и Instagram, созданная для масштабного привлечения платящих клиентов. Мы непрерывно оптимизируем кампании на основе данных в реальном времени, чтобы повышать ROAS, снижать CAC, увеличивать конверсию и максимизировать LTV.',
 		'hero.googleText':
 			'Полное управление воронкой Google Ads в поиске, КМС, YouTube, Performance Max и кампаниях для приложений. Мы оптимизируем кампании по конверсиям, CPA, ROAS, пожизненной ценности клиента и прибыльному росту выручки.',
-		'numbers.title': 'Цифры, за которыми мы стоим',
+		'numbers.title': 'Цифры за которыми мы стоим',
 		'numbers.intro':
 			'Каждая цифра отражает кампании, которые приносят реальные результаты.',
 		'numbers.cost.title': 'Всего клиентов',
-		'numbers.cost.text':
-			'Нам доверяют компании по всему миру',
+		'numbers.cost.text': 'Нам доверяют компании по всему миру',
 		'numbers.users.title': 'Рекламного бюджета под управлением',
-		'numbers.users.text':
-			'Успешно управляем рекламными бюджетами',
+		'numbers.users.text': 'Реализовано рекламного бюджета',
 		'numbers.clients.title': 'Стран охвачено',
-		'numbers.clients.text':
-			'Запускаем кампании на глобальных рынках',
+		'numbers.clients.text': 'Запускаем кампании на глобальных рынках',
 		'numbers.budget.title': 'Средний ROAS клиентов',
 		'numbers.budget.text':
 			'Средняя окупаемость рекламных расходов по кампаниям клиентов',
@@ -207,7 +203,8 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'reviews.title': 'Отзывы',
 		'talk.title': 'Готовы обсудить проект?',
 		'about.title': 'ABOUT US',
-		'about.pioneering': 'Performance-маркетинг, построенный вокруг роста бизнеса',
+		'about.pioneering':
+			'Performance-маркетинг, построенный вокруг роста бизнеса',
 		'about.pioneeringText':
 			'Реклама должна быть одной из самых прибыльных инвестиций бизнеса. Поэтому мы создаём системы, направленные на максимизацию выручки. Каждая кампания непрерывно оптимизируется по действительно важным показателям — ROAS, стоимости привлечения клиента, пожизненной ценности клиента и устойчивому росту бизнеса',
 		'about.core.title': 'НАША ИСТОРИЯ',
@@ -227,7 +224,8 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'blog.subscribeTitle': 'Подпишитесь на рассылку с полезными материалами',
 		'blog.subscribe': 'Подписаться',
 		'blog.subscribing': 'Подписываем...',
-		'blog.subscribeSuccess': 'Вы подписаны. Мы напишем вам, когда выйдет новая статья.',
+		'blog.subscribeSuccess':
+			'Вы подписаны. Мы напишем вам, когда выйдет новая статья.',
 		'blog.subscribeError': 'Не удалось оформить подписку. Попробуйте ещё раз.',
 		'blog.follow': 'Мы в соцсетях',
 		'blog.keepExploring': 'Читайте дальше',
@@ -243,11 +241,13 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'form.name': 'Имя',
 		'form.method': 'Предпочтительный способ связи',
 		'form.telegramUser': 'Имя пользователя Telegram',
+		'form.telegramInvalid': 'Введите имя пользователя Telegram с @, например @username',
+		'form.emailInvalid': 'Введите корректный адрес электронной почты',
 		'form.details': 'Подробности',
 		'form.submit': 'Начать',
 		'form.close': 'Закрыть форму',
 		'footer.text':
-			'Performance-маркетинг для быстрорастущих брендов. Создаём и масштабируем системы привлечения с предсказуемым ROI в Telegram Ads, Meta, Google и других каналах.',
+			'Performance-маркетинг для быстрорастущих брендов. Создаём и масштабируем системы привлечения аудитории с предсказуемым ROI в Telegram Ads, Meta, Google и других каналах.',
 		'footer.navigation': 'Навигация',
 		'footer.services': 'Услуги',
 		'footer.legal': 'Документы',
@@ -295,18 +295,15 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 			'Високоефективна реклама у Facebook та Instagram, створена для масштабного залучення платних клієнтів. Ми безперервно оптимізуємо кампанії на основі даних у реальному часі, щоб підвищувати ROAS, знижувати CAC, збільшувати конверсію та максимізувати LTV.',
 		'hero.googleText':
 			'Повне управління воронкою Google Ads у пошуку, КММ, YouTube, Performance Max і кампаніях для застосунків. Ми оптимізуємо кампанії за конверсіями, CPA, ROAS, довічною цінністю клієнта та прибутковим зростанням доходу.',
-		'numbers.title': 'Цифри, за якими ми стоїмо',
+		'numbers.title': 'Цифри за якими ми стоїмо',
 		'numbers.intro':
 			'Кожна цифра відображає кампанії, що приносять реальні результати.',
 		'numbers.cost.title': 'Усього клієнтів',
-		'numbers.cost.text':
-			'Нам довіряють компанії з усього світу',
+		'numbers.cost.text': 'Нам довіряють компанії з усього світу',
 		'numbers.users.title': 'Рекламного бюджету під управлінням',
-		'numbers.users.text':
-			'Успішно керуємо рекламними бюджетами',
+		'numbers.users.text': 'Реалізовано рекламного бюджету',
 		'numbers.clients.title': 'Країн охоплено',
-		'numbers.clients.text':
-			'Запускаємо кампанії на глобальних ринках',
+		'numbers.clients.text': 'Запускаємо кампанії на глобальних ринках',
 		'numbers.budget.title': 'Середній ROAS клієнтів',
 		'numbers.budget.text':
 			'Середня окупність рекламних витрат у кампаніях клієнтів',
@@ -328,7 +325,8 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'reviews.title': 'Відгуки',
 		'talk.title': 'Готові обговорити проєкт?',
 		'about.title': 'ABOUT US',
-		'about.pioneering': 'Performance-маркетинг, побудований навколо зростання бізнесу',
+		'about.pioneering':
+			'Performance-маркетинг, побудований навколо зростання бізнесу',
 		'about.pioneeringText':
 			'Реклама має бути однією з найприбутковіших інвестицій бізнесу. Тому ми створюємо системи, спрямовані на максимізацію доходу. Кожна кампанія безперервно оптимізується за справді важливими показниками — ROAS, вартістю залучення клієнта, довічною цінністю клієнта та сталим зростанням бізнесу',
 		'about.core.title': 'НАША ІСТОРІЯ',
@@ -348,7 +346,8 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'blog.subscribeTitle': 'Підпишіться на розсилку з корисними матеріалами',
 		'blog.subscribe': 'Підписатися',
 		'blog.subscribing': 'Підписуємо...',
-		'blog.subscribeSuccess': 'Ви підписані. Ми напишемо вам, коли вийде нова стаття.',
+		'blog.subscribeSuccess':
+			'Ви підписані. Ми напишемо вам, коли вийде нова стаття.',
 		'blog.subscribeError': 'Не вдалося оформити підписку. Спробуйте ще раз.',
 		'blog.follow': 'Ми в соцмережах',
 		'blog.keepExploring': 'Читайте далі',
@@ -364,11 +363,13 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'form.name': 'Ім’я',
 		'form.method': 'Бажаний спосіб зв’язку',
 		'form.telegramUser': 'Ім’я користувача Telegram',
+		'form.telegramInvalid': 'Введіть ім’я користувача Telegram з @, наприклад @username',
+		'form.emailInvalid': 'Введіть коректну адресу електронної пошти',
 		'form.details': 'Деталі',
 		'form.submit': 'Розпочати',
 		'form.close': 'Закрити форму',
 		'footer.text':
-			'Performance-маркетинг для брендів, що швидко зростають. Створюємо й масштабуємо системи залучення з передбачуваним ROI у Telegram Ads, Meta, Google та інших каналах.',
+			'Performance-маркетинг для брендів, що швидко зростають. Створюємо й масштабуємо системи залучення аудиторії з передбачуваним ROI у Telegram Ads, Meta, Google та інших каналах.',
 		'footer.navigation': 'Навігація',
 		'footer.services': 'Послуги',
 		'footer.legal': 'Документи',

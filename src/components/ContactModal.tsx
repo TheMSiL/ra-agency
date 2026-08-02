@@ -77,7 +77,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 				<h2 id="contact-form-title" className="contact_form-title">{t("form.title")}</h2>
 				<label className="contact_form-field">
 					<span>{t("form.name")}</span>
-					<input type="text" name="name" placeholder={t("form.name")} required maxLength={120} />
+					<input type="text" name="name" placeholder={t("form.name")} required minLength={2} maxLength={120} />
 				</label>
 				<fieldset className="contact_form-method">
 					<legend>{t("form.method")}</legend>
@@ -107,12 +107,23 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 						placeholder={contactMethod === "telegram" ? "@username" : "name@example.com"}
 						value={contactValue}
 						required
-						onChange={(event) => setContactValue(event.target.value)}
+						maxLength={contactMethod === "telegram" ? 33 : 254}
+						pattern={contactMethod === "telegram" ? "@[A-Za-z0-9_]{5,32}" : undefined}
+						title={contactMethod === "telegram" ? t("form.telegramInvalid") : t("form.emailInvalid")}
+						onChange={(event) => {
+							event.target.setCustomValidity("");
+							setContactValue(event.target.value);
+						}}
+						onInvalid={(event) => {
+							event.currentTarget.setCustomValidity(
+								contactMethod === "telegram" ? t("form.telegramInvalid") : t("form.emailInvalid"),
+							);
+						}}
 					/>
 				</label>
 				<label className="contact_form-field">
 					<span>{t("form.details")}</span>
-					<textarea name="details" placeholder={t("form.details")} rows={5} />
+					<textarea name="details" placeholder={t("form.details")} rows={5} required minLength={10} maxLength={4000} />
 				</label>
 				<p className={`contact_form-status contact_form-status--${status}`} role="status" aria-live="polite">
 					{status === "success" ? "Thank you! A manager will contact you shortly." : status === "error" ? "Something went wrong. Please try again." : ""}

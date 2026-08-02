@@ -39,8 +39,10 @@ export default function Cases({ casesItems }: { casesItems: CasesCardProps[] }) 
 						}
 					</div>
 					<LocalizedLink href="/cases" className='cases_block cases_other'>
-						<h3>70+</h3>
-						<p>{t("cases.other")}</p>
+						<div className="cases_other-content">
+							<h3>70+</h3>
+							<p>{t("cases.other")}</p>
+						</div>
 					</LocalizedLink>
 				</div>
 			</div>

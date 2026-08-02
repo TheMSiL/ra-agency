@@ -11,7 +11,6 @@ sudo systemctl start raagency
 systemctl is-active raagency
 curl -I https://raagency.tech
 
-
 --Если менялись зависимости, перед остановкой сервиса добавляем:--!
 
 bun install --frozen-lockfile

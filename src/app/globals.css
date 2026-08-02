@@ -9,22 +9,87 @@
 }
 
 /* Shared lead-form and limited-offer UI. */
-.contact_form-submit:disabled { cursor: wait; opacity: 0.65; }
-.contact_form-status { min-height: 20px; margin: 0 auto; color: #fff; text-align: center; }
-.contact_form-status--success { color: #8ef0a8; }
-.contact_form-status--error { color: #ff9c91; }
-.promo_modal { position: fixed; inset: 0; z-index: 4900; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.76); backdrop-filter: blur(7px); }
-.promo_card { position: relative; width: min(620px, 100%); padding: 56px 44px 44px; border: 1px solid #fa8a16; border-radius: 28px 12px; box-shadow: 0 0 50px rgba(250,138,22,.28); text-align: center; }
-.promo_close { position: absolute; top: 16px; right: 18px; border: 0; background: transparent; color: #fff; cursor: pointer; font-size: 34px; line-height: 1; }
-.promo_eyebrow { color: #fa8a16; font: 14px/1.4 var(--font-audiowide), sans-serif; letter-spacing: .12em; }
-.promo_card h2 { margin: 18px 0; font: 36px/1.2 var(--font-audiowide), sans-serif; }
-.promo_card p { max-width: 510px; margin: 0 auto 28px; font-size: 18px; line-height: 1.5; }
-.review_card-head img { border-radius: 50%; object-fit: cover; aspect-ratio: 1; }
+.contact_form-submit:disabled {
+	cursor: wait;
+	opacity: 0.65;
+}
+.contact_form-status {
+	min-height: 20px;
+	margin: 0 auto;
+	color: #fff;
+	text-align: center;
+}
+.contact_form-status--success {
+	color: #8ef0a8;
+}
+.contact_form-status--error {
+	color: #ff9c91;
+}
+.promo_modal {
+	position: fixed;
+	inset: 0;
+	z-index: 4900;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background: rgba(0, 0, 0, 0.76);
+	backdrop-filter: blur(7px);
+}
+.promo_card {
+	position: relative;
+	width: min(620px, 100%);
+	padding: 56px 44px 44px;
+	border: 1px solid #fa8a16;
+	border-radius: 28px 12px;
+	box-shadow: 0 0 50px rgba(250, 138, 22, 0.28);
+	text-align: center;
+}
+.promo_close {
+	position: absolute;
+	top: 16px;
+	right: 18px;
+	border: 0;
+	background: transparent;
+	color: #fff;
+	cursor: pointer;
+	font-size: 34px;
+	line-height: 1;
+}
+.promo_eyebrow {
+	color: #fa8a16;
+	font:
+		14px/1.4 var(--font-audiowide),
+		sans-serif;
+	letter-spacing: 0.12em;
+}
+.promo_card h2 {
+	margin: 18px 0;
+	font:
+		36px/1.2 var(--font-audiowide),
+		sans-serif;
+}
+.promo_card p {
+	max-width: 510px;
+	margin: 0 auto 28px;
+	font-size: 18px;
+	line-height: 1.5;
+}
+.review_card-head img {
+	border-radius: 50%;
+	object-fit: cover;
+	aspect-ratio: 1;
+}
 
 @media (max-width: 600px) {
-	.promo_card { padding: 48px 20px 28px; }
-	.promo_card h2 { font-size: clamp(24px, 7vw, 32px); }
-	.promo_card p { font-size: 16px; }
+	.promo_card {
+		padding: 48px 20px 28px;
+	}
+	.promo_card h2 {
+		font-size: clamp(24px, 7vw, 32px);
+	}
+	.promo_card p {
+		font-size: 16px;
+	}
 }
 
 @tailwind base;
@@ -1638,17 +1703,13 @@ a {
 	.floating_tg_label,
 	.floating_tg_icon-wrap {
 		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
+		inset: 0;
+		display: grid;
+		place-items: center;
 	}
 
 	.floating_tg_icon-wrap {
-		display: grid;
-		place-items: center;
-		left: calc(50% - 3px);
-		width: 100%;
-		height: 100%;
+		transform: translateX(-3px);
 		pointer-events: none;
 	}
 
@@ -1771,13 +1832,16 @@ a {
 	}
 
 	.contact_form-title {
+		width: calc(100% - 112px);
+		margin-inline: auto;
 		margin-bottom: 58px;
 		color: #fff;
 		text-align: center;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 48px;
+		font-size: clamp(36px, 4vw, 40px);
 		font-weight: 400;
 		line-height: 120%;
+		overflow-wrap: anywhere;
 	}
 
 	.what_subtitle {
@@ -2775,14 +2839,24 @@ a {
 	.cases_card-arrow {
 		max-width: 110px;
 		border-right: 1px solid transparent;
-		transition: 0.3s ease;
+		transition:
+			border-radius 0.3s ease,
+			box-shadow 0.3s ease;
 	}
 
 	.cases_card-arrow > img {
 		transition: 0.3s ease;
 	}
 
-	.cases_card-arrow:hover > img {
+	.cases_card-arrow:hover,
+	.cases_card-arrow:focus-visible {
+		border-radius: 10px;
+		box-shadow: 0 0 28px rgba(250, 138, 22, 0.38) inset;
+		outline: none;
+	}
+
+	.cases_card-arrow:hover > img,
+	.cases_card-arrow:focus-visible > img {
 		transform: scale(0.88);
 	}
 
@@ -2833,6 +2907,18 @@ a {
 		font-style: normal;
 		font-weight: 400;
 		line-height: 120%;
+	}
+
+	.cases_other-content {
+		display: inline-flex;
+		width: fit-content;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.cases_other p {
+		width: 100%;
+		text-align: center;
 	}
 
 	.cases_page-main {
@@ -4143,7 +4229,7 @@ a {
 		color: rgba(255, 255, 255, 0.78);
 		font-size: clamp(14px, 1vw, 17px);
 		line-height: 1.42;
-		text-align: justify;
+		text-align: start;
 	}
 	/* DNA annotations use section coordinates, independent of card dimensions. */
 	.we_build .we_build-item {

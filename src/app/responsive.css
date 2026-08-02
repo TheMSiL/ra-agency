@@ -140,6 +140,10 @@
 	.cases_bottom-items .cases_card:nth-child(n + 3) {
 		display: none;
 	}
+
+	.footer_nav {
+		gap: 24px;
+	}
 }
 
 @media (max-width: 1350px) {
@@ -180,10 +184,6 @@
 	.blog_subscribe-input {
 		flex: 1 1 auto;
 		width: 100%;
-	}
-
-	.footer_nav {
-		gap: 44px;
 	}
 
 	.services_block {
@@ -2222,6 +2222,7 @@
 
 	.contact_form-title {
 		font-size: 24px;
+		width: 75%;
 		max-width: 75%;
 		margin: 0 auto 5px;
 	}
