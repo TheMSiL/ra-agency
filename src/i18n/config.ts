@@ -34,7 +34,7 @@ const en = {
 	'hero.text': 'We don’t buy clicks. We take minds.',
 	'hero.next': 'What we do',
 	'hero.telegramText':
-		'We build, optimize and scale Telegram Ads campaigns focused on measurable business growth. From customer acquisition and CPA optimization to revenue, deposits, purchases and ROAS - we optimize for the metrics that actually grow your business, not clicks or impressions.',
+		'We build, optimize and scale Telegram Ads campaigns focused on measurable business growth. From customer acquisition and CPA optimization to revenue, deposits, purchases and ROAS - we optimize for the metrics that actually grow your business, not clicks or impressions',
 	'hero.metaText':
 		'Certified Meta Ads management across Facebook and Instagram - built around ROAS, CAC and scalable, profitable growth',
 	'hero.googleText':
@@ -115,7 +115,7 @@ const en = {
 	'form.submit': 'Get started',
 	'form.close': 'Close form',
 	'footer.text':
-		'Performance marketing partner for high-growth brands. We build and scale acquisition systems with predictable ROI across Telegram Ads, Meta, Google and beyond.',
+		'Performance marketing partner for high-growth brands. We build and scale acquisition systems with predictable ROI across Telegram Ads, Meta, Google and beyond',
 	'footer.navigation': 'Navigation',
 	'footer.services': 'Services',
 	'footer.legal': 'Legal',
@@ -168,7 +168,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'hero.text': 'Мы не покупаем клики. Мы завоёвываем внимание.',
 		'hero.next': 'Что мы делаем',
 		'hero.telegramText':
-			'Создаём, оптимизируем и масштабируем кампании в Telegram Ads с фокусом на измеримый рост бизнеса. От привлечения клиентов и оптимизации CPA до выручки, депозитов, покупок и ROAS — мы оптимизируем показатели, которые действительно развивают ваш бизнес, а не клики или показы.',
+			'Создаём, оптимизируем и масштабируем кампании в Telegram Ads с фокусом на измеримый рост бизнеса. От привлечения клиентов и оптимизации CPA до выручки, депозитов, покупок и ROAS — мы оптимизируем показатели, которые действительно развивают ваш бизнес, а не клики или показы',
 		'hero.metaText':
 			'Настройка и ведение Meta Ads под ключ: Facebook и Instagram. Работаем на результат - рост ROAS, снижение CAC и масштабируемый прибыльный рост',
 		'hero.googleText':
@@ -247,7 +247,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'form.submit': 'Начать',
 		'form.close': 'Закрыть форму',
 		'footer.text':
-			'Performance-маркетинг для быстрорастущих брендов. Создаём и масштабируем системы привлечения аудитории с предсказуемым ROI в Telegram Ads, Meta, Google и других каналах.',
+			'Performance-маркетинг для быстрорастущих брендов. Создаём и масштабируем системы привлечения аудитории с предсказуемым ROI в Telegram Ads, Meta, Google и других каналах',
 		'footer.navigation': 'Навигация',
 		'footer.services': 'Услуги',
 		'footer.legal': 'Документы',
@@ -290,7 +290,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'hero.text': 'Ми не купуємо кліки. Ми завойовуємо увагу.',
 		'hero.next': 'Що ми робимо',
 		'hero.telegramText':
-			'Створюємо, оптимізуємо й масштабуємо кампанії в Telegram Ads із фокусом на вимірюване зростання бізнесу. Від залучення клієнтів та оптимізації CPA до доходу, депозитів, покупок і ROAS — ми оптимізуємо показники, які справді розвивають ваш бізнес, а не кліки чи покази.',
+			'Створюємо, оптимізуємо й масштабуємо кампанії в Telegram Ads із фокусом на вимірюване зростання бізнесу. Від залучення клієнтів та оптимізації CPA до доходу, депозитів, покупок і ROAS — ми оптимізуємо показники, які справді розвивають ваш бізнес, а не кліки чи покази',
 		'hero.metaText':
 			'Налаштування та ведення Meta Ads під ключ: Facebook та Instagram. Працюємо на результат - зростання ROAS, зниження CAC і масштабоване прибуткове зростання',
 		'hero.googleText':
@@ -369,7 +369,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'form.submit': 'Розпочати',
 		'form.close': 'Закрити форму',
 		'footer.text':
-			'Performance-маркетинг для брендів, що швидко зростають. Створюємо й масштабуємо системи залучення аудиторії з передбачуваним ROI у Telegram Ads, Meta, Google та інших каналах.',
+			'Performance-маркетинг для брендів, що швидко зростають. Створюємо й масштабуємо системи залучення аудиторії з передбачуваним ROI у Telegram Ads, Meta, Google та інших каналах',
 		'footer.navigation': 'Навігація',
 		'footer.services': 'Послуги',
 		'footer.legal': 'Документи',

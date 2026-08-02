@@ -32,52 +32,52 @@ const telegramItems: Record<Locale, typeof items> = {
 	en: [
 		{
 			kicker: "01",
-			title: "High-Quality Traffic from Telegram",
-			text: "Reach highly engaged users who don't just install or sign up—they stay active, make purchases, complete deposits and generate long-term revenue.",
+			title: "High-Quality users from Telegram",
+			text: "Reach highly engaged users who don't just install or sign up - they stay active, make purchases, complete deposits and generate long-term revenue",
 		},
 		{
 			kicker: "02",
 			title: "End-to-End Analytics",
-			text: "Get complete real-time visibility across your entire funnel—from the first impression to repeat purchases. Track every key metric including CPA, CAC, ROAS, LTV, retention, conversion rate, revenue and more.",
+			text: "Get complete real-time visibility across your entire funnel - from the first impression to repeat purchases. Track every key metric including CPA, CAC, ROAS, LTV, retention, conversion rate, revenue and more",
 		},
 		{
 			kicker: "03",
-			title: "Dedicated Performance Team",
-			text: "Work with senior Telegram Ads specialists who manage your campaigns like an in-house growth team. We're available 24/7, proactively optimize every campaign and make data-driven decisions to maximize your results.",
+			title: "Senior Telegram Ads team",
+			text: "Work with senior Telegram Ads specialists who manage your campaigns like an in-house growth team. We're available 24/7, proactively optimize every campaign and make data-driven decisions to maximize your results",
 		},
 	],
 	ru: [
 		{
 			kicker: "01",
 			title: "Качественный трафик из Telegram",
-			text: "Привлекайте вовлечённых пользователей, которые не просто устанавливают приложение или регистрируются, а остаются активными, совершают покупки, вносят депозиты и приносят долгосрочный доход.",
+			text: "Мы охватываем максимально вовлечённых пользователей, которые не просто устанавливают приложение или регистрируются - они остаются активными, совершают покупки, делают депозиты и приносят долгосрочный доход",
 		},
 		{
 			kicker: "02",
-			title: "Сквозная аналитика",
-			text: "Получайте полную картину всей воронки в реальном времени — от первого показа до повторных покупок. Отслеживайте все ключевые показатели, включая CPA, CAC, ROAS, LTV, удержание, конверсию, выручку и другие метрики.",
+			title: "Сквозную аналитику",
+			text: "Полная видимость всей воронки в реальном времени - от первого показа до повторных покупок. Отслеживаем все ключевые метрики: CPA, CAC, ROAS, LTV, удержание, конверсию, доход и другие показатели",
 		},
 		{
 			kicker: "03",
-			title: "Выделенная performance-команда",
-			text: "Работайте с опытными специалистами по Telegram Ads, которые управляют кампаниями как внутренняя growth-команда. Мы доступны 24/7, проактивно оптимизируем каждую кампанию и принимаем решения на основе данных, чтобы максимизировать результат.",
+			title: "Лучших специалистов Telegram Ads",
+			text: "Рекламу для вашего проекта запускают лучшие профессионалы по Telegram Ads, которые управляют вашими кампаниями как внутренняя команда роста. Мы на связи 24/7, проактивно оптимизируем каждую кампанию и принимаем решения на основе данных, чтобы максимизировать результат",
 		},
 	],
 	ua: [
 		{
 			kicker: "01",
 			title: "Якісний трафік із Telegram",
-			text: "Залучайте активних користувачів, які не лише встановлюють застосунок або реєструються, а залишаються активними, здійснюють покупки, поповнюють депозити та генерують довгостроковий дохід.",
+			text: "Ми охоплюємо максимально залучених користувачів, які не просто встановлюють застосунок чи реєструються - вони залишаються активними, здійснюють покупки, роблять депозити та приносять довгостроковий дохід",
 		},
 		{
 			kicker: "02",
-			title: "Наскрізна аналітика",
-			text: "Отримуйте повну картину всієї воронки в реальному часі — від першого показу до повторних покупок. Відстежуйте всі ключові показники, зокрема CPA, CAC, ROAS, LTV, утримання, конверсію, дохід та інші метрики.",
+			title: "Детальну аналітику",
+			text: "Повна видимість усієї воронки в реальному часі - від першого показу до повторних покупок. Відстежуємо всі ключові метрики: CPA, CAC, ROAS, LTV, утримання, конверсію, дохід та інші показники",
 		},
 		{
 			kicker: "03",
-			title: "Виділена performance-команда",
-			text: "Працюйте з досвідченими фахівцями з Telegram Ads, які керують кампаніями як внутрішня growth-команда. Ми доступні 24/7, проактивно оптимізуємо кожну кампанію та ухвалюємо рішення на основі даних, щоб максимізувати результат.",
+			title: "Кращих із Telegram Ads",
+			text: "Ви працюєте зі старшими фахівцями з Telegram Ads, які керують вашими кампаніями як внутрішня команда росту. Ми на зв'язку 24/7, проактивно оптимізуємо кожну кампанію та ухвалюємо рішення на основі даних, щоб максимізувати результат",
 		},
 	],
 };

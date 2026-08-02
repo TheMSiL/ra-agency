@@ -29,7 +29,7 @@ export default function ContactsPage() {
 						</div>
 						<div className="contacts_list">
 							{contacts.map((contact, index) => (
-								<a className="contacts_item" href={contact.href} key={contact.label} target={contact.href.startsWith("http") ? "_blank" : undefined} rel={contact.href.startsWith("http") ? "noreferrer" : undefined}>
+								<a className={`contacts_item${contact.href ? "" : " social_link-disabled"}`} href={contact.href || undefined} key={contact.label} target={contact.href.startsWith("http") ? "_blank" : undefined} rel={contact.href.startsWith("http") ? "noreferrer" : undefined} aria-disabled={!contact.href}>
 									<span className="contacts_item-content">
 										<span className="contacts_item-index">0{index + 1}</span>
 										<span className="contacts_item-label">{contact.label}</span>

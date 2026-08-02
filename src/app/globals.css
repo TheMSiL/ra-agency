@@ -1794,6 +1794,12 @@ a {
 		height: auto;
 	}
 
+	.social_link-disabled {
+		opacity: 0.45;
+		cursor: default;
+		pointer-events: none;
+	}
+
 	.floating_tg_btn:hover {
 		background: rgba(0, 0, 0, 0.52);
 		box-shadow: 0 0 58px 0 rgba(250, 138, 22, 0.54) inset;

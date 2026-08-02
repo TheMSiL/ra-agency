@@ -65,10 +65,10 @@ export default function Footer() {
 					<div className="footer_intro">
 						<p className="footer_text">{t("footer.text")}</p>
 						<div className="burger_socials footer_socials" aria-label="Social links">
-							<a href={settings.telegramUrl} target="_blank" rel="noreferrer" aria-label="Telegram">
+							<a href={settings.telegramChannelUrl} target="_blank" rel="noreferrer" aria-label="Telegram">
 								<Image src="/tg.svg" alt="" width={30} height={30} />
 							</a>
-							<a href={settings.linkedinUrl} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+							<a href={settings.linkedinUrl || undefined} className={!settings.linkedinUrl ? "social_link-disabled" : undefined} target={settings.linkedinUrl ? "_blank" : undefined} rel={settings.linkedinUrl ? "noreferrer" : undefined} aria-label="LinkedIn (coming soon)" aria-disabled={!settings.linkedinUrl}>
 								<Image src="/linkedin.svg" alt="" width={24} height={24} />
 							</a>
 							<a href={settings.xUrl} target="_blank" rel="noreferrer" aria-label="X">
@@ -76,6 +76,7 @@ export default function Footer() {
 							</a>
 						</div>
 					</div>
+					<Image className="footer_logo-bg" src="/footer_logo.png" alt="footer_logo" width={600} height={431} unoptimized />
 					<div className="footer_nav">
 						<div className="footer_nav-column">
 							<h5 className="footer_nav-title">{t("footer.navigation")}</h5>
