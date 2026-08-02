@@ -82,7 +82,26 @@ const telegramItems: Record<Locale, typeof items> = {
 	],
 };
 
-const metaItems: typeof items = [
+const googleItems: Record<Locale, typeof items> = {
+	en: [
+		{ kicker: "01", title: "Target clients from Google", text: "We reach customers who are actively searching for your products or services through Google Search, Shopping, YouTube and Performance Max. They don't just visit - they convert, purchase and generate measurable revenue" },
+		{ kicker: "02", title: "End-to-end analytics", text: "We track the entire customer journey in real time - from the first search to repeat purchases, with complete visibility into CPA, CAC, ROAS, LTV, conversion rate, revenue and every key business metric" },
+		{ kicker: "03", title: "Senior team of Google Ads", text: "You work with certified Google Ads specialists who continuously optimize your campaigns using real performance data. We manage your advertising better than in-house growth teams proactively improving results every day" },
+	],
+	ru: [
+		{ kicker: "01", title: "Целевых пользователей из Google", text: "Мы охватываем клиентов, которые активно ищут ваши товары или услуги через Google Поиск, Shopping, YouTube и Performance Max. Они не просто заходят на сайт - они конвертируются, покупают и приносят измеримый доход" },
+		{ kicker: "02", title: "Сквозную аналитику", text: "Отслеживаем весь путь клиента в реальном времени - от первого поиска до повторных покупок, с полной видимостью CPA, CAC, ROAS, LTV, конверсии, дохода и всех ключевых бизнес-показателей" },
+		{ kicker: "03", title: "Команду профи по Google Ads", text: "Вы работаете с сертифицированными специалистами по Google Ads, которые непрерывно оптимизируют ваши кампании на основе реальных данных об эффективности. Мы управляем вашей рекламой лучше внутренних команд роста, проактивно улучшая результаты каждый день" },
+	],
+	ua: [
+		{ kicker: "01", title: "Цільових користувачів із Google", text: "Ми охоплюємо клієнтів, які активно шукають ваші товари або послуги через Google Пошук, Shopping, YouTube та Performance Max. Вони не просто заходять на сайт - вони конвертуються, купують і приносять вимірюваний дохід" },
+		{ kicker: "02", title: "Повну аналітику ефективності", text: "Ми відстежуємо весь шлях клієнта в реальному часі - від першого пошуку до повторних покупок, з повною видимістю CPA, CAC, ROAS, LTV, конверсії, доходу та всіх ключових бізнес-показників" },
+		{ kicker: "03", title: "Команду профі Google Ads", text: "Ви працюєте із сертифікованими фахівцями з Google Ads, які безперервно оптимізують ваші кампанії на основі реальних даних про ефективність. Ми керуємо вашою рекламою краще за внутрішні команди росту, проактивно покращуючи результати щодня" },
+	],
+};
+
+const metaItems: Record<Locale, typeof items> = {
+	en: [
 	{
 		kicker: "01",
 		title: "High-Quality Customers",
@@ -90,7 +109,7 @@ const metaItems: typeof items = [
 	},
 	{
 		kicker: "02",
-		title: "Complete Performance Analytics",
+		title: "End-to-end analytics",
 		text: "Track every stage of the customer journey in real time—from the first click to repeat purchases—with complete visibility into ROAS, CPA, CAC, LTV, revenue and every key business metric.",
 	},
 	{
@@ -98,7 +117,18 @@ const metaItems: typeof items = [
 		title: "Senior Meta Ads Team",
 		text: "Work with experienced Meta Ads specialists who continuously test, optimize and scale your campaigns. We act as an extension of your team and are always focused on maximizing your results.",
 	},
-];
+	],
+	ru: [
+		{ kicker: "01", title: "Качественных клиентов", text: "Мы охватываем людей, которые с наибольшей вероятностью совершат покупку, оформят подписку или станут постоянными клиентами - а не просто кликнут по объявлению" },
+		{ kicker: "02", title: "Сквозную аналитику", text: "Отслеживаем каждый этап пути клиента в реальном времени - от первого клика до повторных покупок - с полной видимостью ROAS, CPA, CAC, LTV, дохода и всех ключевых бизнес-показателей" },
+		{ kicker: "03", title: "Опытную команду по Meta Ads", text: "Вы работаете с опытными специалистами по Meta Ads, которые непрерывно тестируют, оптимизируют и масштабируют ваши кампании. Мы работаем как часть вашей команды, всегда фокусируясь на максимизации результата" },
+	],
+	ua: [
+		{ kicker: "01", title: "Якісних клієнтів", text: "Ми охоплюємо людей, які з найбільшою ймовірністю здійснять покупку, оформлять підписку або стануть постійними клієнтами - а не просто клікнуть по оголошенню" },
+		{ kicker: "02", title: "Повну аналітику", text: "Відстежуємо кожен етап шляху клієнта в реальному часі - від першого кліку до повторних покупок - з повною видимістю ROAS, CPA, CAC, LTV, доходу та всіх ключових бізнес-показників" },
+		{ kicker: "03", title: "Досвідчену команду з Meta Ads", text: "Ви працюєте з досвідченими фахівцями з Meta Ads, які безперервно тестують, оптимізують і масштабують ваші кампанії. Ми працюємо як частина вашої команди, завжди фокусуючись на максимізації результату" },
+	],
+};
 
 const SWIPE_THRESHOLD_PX = 40;
 const PIN_SCROLL_DISTANCE = 1500;
@@ -138,7 +168,7 @@ function AnimatedCount({ value }: { value: string }) {
 	);
 }
 
-export default function WhatYouGet({ variant = "default" }: { variant?: "default" | "telegram" | "meta" }) {
+export default function WhatYouGet({ variant = "default" }: { variant?: "default" | "telegram" | "google" | "meta" }) {
 	const { locale } = useI18n();
 	const defaultLocalizedItems = locale === "ru" ? [
 		{ kicker: "01", title: "Привлечение целевой аудитории", text: "Привлекаем пользователей, действительно заинтересованных в продукте, — не просто трафик, а потенциальных клиентов." },
@@ -149,7 +179,7 @@ export default function WhatYouGet({ variant = "default" }: { variant?: "default
 		{ kicker: "02", title: "Структура кампаній і тестування", text: "Вибудовуємо зрозумілу логіку кампаній, тестуємо креативи й аудиторії, зберігаючи контроль витрат." },
 		{ kicker: "03", title: "Масштабування робочих зв’язок", text: "Обережно збільшуємо бюджети, захищаємо сильні сегменти та пов’язуємо оптимізацію з бізнес-результатами." },
 	] : items;
-	const localizedItems = variant === "telegram" ? telegramItems[locale] : variant === "meta" ? metaItems : defaultLocalizedItems;
+	const localizedItems = variant === "telegram" ? telegramItems[locale] : variant === "google" ? googleItems[locale] : variant === "meta" ? metaItems[locale] : defaultLocalizedItems;
 	const itemCount = localizedItems.length;
 	const sectionTitle = locale === "ru" ? "Что вы получаете?" : locale === "ua" ? "Що ви отримуєте?" : "What you get?";
 	const [activeIndex, setActiveIndex] = useState(0);

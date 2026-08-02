@@ -76,7 +76,6 @@ export default function Footer() {
 							</a>
 						</div>
 					</div>
-					<Image className="footer_logo-bg" src='/footer_logo.png' alt="footer_logo" width={600} height={431} unoptimized />
 					<div className="footer_nav">
 						<div className="footer_nav-column">
 							<h5 className="footer_nav-title">{t("footer.navigation")}</h5>

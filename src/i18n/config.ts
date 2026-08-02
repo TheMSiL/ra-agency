@@ -36,9 +36,9 @@ const en = {
 	'hero.telegramText':
 		'We build, optimize and scale Telegram Ads campaigns focused on measurable business growth. From customer acquisition and CPA optimization to revenue, deposits, purchases and ROAS - we optimize for the metrics that actually grow your business, not clicks or impressions.',
 	'hero.metaText':
-		'High-performance Facebook & Instagram advertising built to acquire paying customers at scale. We continuously optimize campaigns using real-time data to improve ROAS, reduce CAC, increase conversion rates and maximize LTV.',
+		'Certified Meta Ads management across Facebook and Instagram - built around ROAS, CAC and scalable, profitable growth',
 	'hero.googleText':
-		'Full-funnel Google Ads management across Search, Display, YouTube, Performance Max and App Campaigns. We optimize campaigns around conversions, CPA, ROAS, customer lifetime value and profitable revenue growth.',
+		'Certified Google Ads management across Search, Shopping, YouTube and Performance Max - built around conversions, ROAS and profitable, scalable growth',
 	'numbers.title': 'Numbers We Stand Behind',
 	'numbers.intro': 'Every number reflects campaigns that deliver real results.',
 	'numbers.cost.title': 'Total clients',
@@ -170,9 +170,9 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'hero.telegramText':
 			'Создаём, оптимизируем и масштабируем кампании в Telegram Ads с фокусом на измеримый рост бизнеса. От привлечения клиентов и оптимизации CPA до выручки, депозитов, покупок и ROAS — мы оптимизируем показатели, которые действительно развивают ваш бизнес, а не клики или показы.',
 		'hero.metaText':
-			'Высокоэффективная реклама в Facebook и Instagram, созданная для масштабного привлечения платящих клиентов. Мы непрерывно оптимизируем кампании на основе данных в реальном времени, чтобы повышать ROAS, снижать CAC, увеличивать конверсию и максимизировать LTV.',
+			'Настройка и ведение Meta Ads под ключ: Facebook и Instagram. Работаем на результат - рост ROAS, снижение CAC и масштабируемый прибыльный рост',
 		'hero.googleText':
-			'Полное управление воронкой Google Ads в поиске, КМС, YouTube, Performance Max и кампаниях для приложений. Мы оптимизируем кампании по конверсиям, CPA, ROAS, пожизненной ценности клиента и прибыльному росту выручки.',
+			'Настройка и ведение Google Ads под ключ: Search, Shopping, YouTube, Performance Max. Работаем на результат - рост конверсий, ROAS и прибыли',
 		'numbers.title': 'Цифры за которыми мы стоим',
 		'numbers.intro':
 			'Каждая цифра отражает кампании, которые приносят реальные результаты.',
@@ -292,9 +292,9 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'hero.telegramText':
 			'Створюємо, оптимізуємо й масштабуємо кампанії в Telegram Ads із фокусом на вимірюване зростання бізнесу. Від залучення клієнтів та оптимізації CPA до доходу, депозитів, покупок і ROAS — ми оптимізуємо показники, які справді розвивають ваш бізнес, а не кліки чи покази.',
 		'hero.metaText':
-			'Високоефективна реклама у Facebook та Instagram, створена для масштабного залучення платних клієнтів. Ми безперервно оптимізуємо кампанії на основі даних у реальному часі, щоб підвищувати ROAS, знижувати CAC, збільшувати конверсію та максимізувати LTV.',
+			'Налаштування та ведення Meta Ads під ключ: Facebook та Instagram. Працюємо на результат - зростання ROAS, зниження CAC і масштабоване прибуткове зростання',
 		'hero.googleText':
-			'Повне управління воронкою Google Ads у пошуку, КММ, YouTube, Performance Max і кампаніях для застосунків. Ми оптимізуємо кампанії за конверсіями, CPA, ROAS, довічною цінністю клієнта та прибутковим зростанням доходу.',
+			'Налаштування та ведення Google Ads під ключ: Search, Shopping, YouTube, Performance Max. Працюємо на результат - зростання конверсій, ROAS і прибутку',
 		'numbers.title': 'Цифри за якими ми стоїмо',
 		'numbers.intro':
 			'Кожна цифра відображає кампанії, що приносять реальні результати.',

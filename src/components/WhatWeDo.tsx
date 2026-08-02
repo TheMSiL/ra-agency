@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { useI18n } from "@/context/I18nContext";
 import type { Locale } from "@/i18n/config";
 import { telegramAdsWhatWeDo } from "@/data/telegramAdsContent";
+import { googleAdsWhatWeDo, metaAdsWhatWeDo } from "@/data/performanceAdsContent";
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -48,17 +49,6 @@ const items: WhatWeDoItem[] = [
 		title: "Optimization and scaling",
 		description: "We optimize bids, creatives and landing routes continuously so the account can scale without losing efficiency.",
 	},
-];
-
-const metaItems: WhatWeDoItem[] = [
-	{ index: "01", title: "Market & Competitor Research", description: "We analyze your business, audience, competitors and Meta Ads Library to build a strategy tailored to your goals." },
-	{ index: "02", title: "Growth Strategy & KPI Planning", description: "We create a media plan with clear growth targets and performance goals based on CPA, ROAS, CAC and other key metrics." },
-	{ index: "03", title: "Business Manager Setup", description: "We guide you through setting up your Business Manager, ad account, payments and access to ensure a stable advertising infrastructure." },
-	{ index: "04", title: "Pixel & Conversion Tracking", description: "We help configure Meta Pixel, Conversions API and event tracking to provide accurate attribution and stronger optimization." },
-	{ index: "05", title: "Creative Strategy", description: "We prepare creative briefs, winning angles, hooks and recommendations for videos, statics and carousel ads built to perform." },
-	{ index: "06", title: "Campaign & Audience Structure", description: "We build scalable campaign structures with broad targeting, lookalikes, interests and retargeting audiences." },
-	{ index: "07", title: "Continuous A/B Testing", description: "We constantly test creatives, audiences, offers and campaign settings to improve performance and reduce acquisition costs." },
-	{ index: "08", title: "Scaling & Optimization", description: "We scale winning campaigns while instantly cutting underperforming ads to maximize ROAS and protect your budget." },
 ];
 
 const itemTranslations: Record<Exclude<Locale, "en">, Array<Pick<WhatWeDoItem, "title" | "description">>> = {
@@ -151,10 +141,10 @@ function getEndProgress(sceneWidth: number, sceneHeight: number, itemCount: numb
 	return START_PROGRESS + itemCount - 1.54 - adaptiveTrim;
 }
 
-export default function WhatWeDo({ variant = "default" }: { variant?: "default" | "telegram" | "meta" }) {
+export default function WhatWeDo({ variant = "default" }: { variant?: "default" | "telegram" | "google" | "meta" }) {
 	const { locale, t } = useI18n();
 	const defaultLocalizedItems = locale === "en" ? items : items.map((item, index) => ({ ...item, ...itemTranslations[locale][index] }));
-	const localizedItems = variant === "telegram" ? telegramAdsWhatWeDo[locale] : variant === "meta" ? metaItems : defaultLocalizedItems;
+	const localizedItems = variant === "telegram" ? telegramAdsWhatWeDo[locale] : variant === "google" ? googleAdsWhatWeDo[locale] : variant === "meta" ? metaAdsWhatWeDo[locale] : defaultLocalizedItems;
 	const itemCount = localizedItems.length;
 	const orbitItems = Array.from({ length: SCENE_SLOTS.length }, (_, index) => ({
 		...localizedItems[index % localizedItems.length],
