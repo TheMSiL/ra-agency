@@ -28,8 +28,11 @@ export default function ContactsPage() {
 							<p>{t("contact.intro")}</p>
 						</div>
 						<div className="contacts_list">
-							{contacts.map((contact, index) => (
-								<a className={`contacts_item${contact.href ? "" : " social_link-disabled"}`} href={contact.href || undefined} key={contact.label} target={contact.href.startsWith("http") ? "_blank" : undefined} rel={contact.href.startsWith("http") ? "noreferrer" : undefined} aria-disabled={!contact.href}>
+							{contacts.map((contact, index) => {
+								const isExternal = contact.href?.startsWith("http") ?? false;
+
+								return (
+									<a className={`contacts_item${contact.href ? "" : " social_link-disabled"}`} href={contact.href || undefined} key={contact.label} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noreferrer" : undefined} aria-disabled={!contact.href}>
 									<span className="contacts_item-content">
 										<span className="contacts_item-index">0{index + 1}</span>
 										<span className="contacts_item-label">{contact.label}</span>
@@ -38,8 +41,9 @@ export default function ContactsPage() {
 									<span className="contacts_item-arrow" aria-hidden="true">
 										<Image src="/cases_card-arrow.png" alt="" width={31} height={45} />
 									</span>
-								</a>
-							))}
+									</a>
+								);
+							})}
 						</div>
 					</main>
 				</div>
