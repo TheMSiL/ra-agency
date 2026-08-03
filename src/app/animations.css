@@ -13,11 +13,14 @@
 		white-space: pre-wrap;
 	}
 
-	.typewriter_char {
+	/* Only hide the characters when scripting is available to type them back in:
+	   without the guard a blocked bundle leaves the whole hero blank. */
+	html[data-js] .typewriter_char {
 		visibility: hidden;
 	}
 
-	.typewriter_char.is-visible {
+	.typewriter_char.is-visible,
+	html[data-js] .typewriter_char.is-visible {
 		visibility: visible;
 	}
 
@@ -49,14 +52,14 @@
 			animation-play-state: paused;
 		}
 
-		.typewriter_char {
+		html[data-js] .typewriter_char {
 			visibility: visible;
 		}
 
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.home_hero .hero_reveal {
+		html[data-js] .home_hero .hero_reveal {
 			opacity: 1;
 			visibility: visible;
 		}

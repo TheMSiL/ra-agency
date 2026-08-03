@@ -7,6 +7,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 import ContactModal from "@/components/ContactModal";
 import { useI18n } from "@/context/I18nContext";
+import { useAppReady } from "@/hooks/useAppReady";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,11 +15,20 @@ export default function FloatingTelegramButton() {
 	const { t } = useI18n();
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const buttonRef = useRef<HTMLButtonElement>(null);
+	const isAppReady = useAppReady();
 
+	// The morph animation is what makes the button visible, so it may only be
+	// armed once we know it can run. Without an anchor to morph from — or with
+	// reduced motion — the button stays a plain fixed CTA instead of vanishing.
 	useLayoutEffect(() => {
+		if (!isAppReady) return;
+
 		const button = buttonRef.current;
-			const heroAnchor = document.querySelector<HTMLElement>(".home_hero-btn-anchor");
-			if (!button || !heroAnchor) return;
+		const heroAnchor = document.querySelector<HTMLElement>(".home_hero-btn-anchor");
+		if (!button || !heroAnchor) return;
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+		button.classList.add("floating_tg_morph");
 
 		const context = gsap.context(() => {
 			const label = button.querySelector(".floating_tg_label");
@@ -80,15 +90,16 @@ export default function FloatingTelegramButton() {
 
 		return () => {
 			context.revert();
+			button.classList.remove("floating_tg_morph");
 		};
-	}, []);
+	}, [isAppReady]);
 
 	return (
 		<>
-			<button ref={buttonRef} className="floating_tg_btn floating_tg_morph" type="button" aria-label={t("common.message")} onClick={() => setIsFormOpen(true)}>
+			<button ref={buttonRef} className="floating_tg_btn" type="button" aria-label={t("common.message")} onClick={() => setIsFormOpen(true)}>
 				<span className="floating_tg_label">{t("common.message")}</span>
 				<span className="floating_tg_icon-wrap" aria-hidden="true">
-					<Image className="floating_tg_icon" src="/tg_btn.svg" alt="" width={52} height={41} priority />
+					<Image className="floating_tg_icon" src="/tg_btn.svg" alt="" width={52} height={41} fetchPriority="high" loading="eager" />
 				</span>
 			</button>
 			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />

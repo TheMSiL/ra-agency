@@ -116,7 +116,7 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 							<BlogPostMeta date={post.publishedAt} readTime={post.readTime} views={views} className="blog_article-stats" />
 						</header>
 						<p className="blog_article-lead">{post.description}</p>
-						<Image className="blog_article-image" src={post.image.url} alt={post.image.alt} width={1600} height={900} priority />
+						<Image className="blog_article-image" src={post.image.url} alt={post.image.alt} width={1600} height={900} loading="eager" fetchPriority="high" />
 						<div className="blog_article-body"><PortableText value={post.content} components={portableTextComponents} /></div>
 						<div ref={readCompleteRef} aria-hidden="true" />
 						{post.relatedArticles.length > 0 && (

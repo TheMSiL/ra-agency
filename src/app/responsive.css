@@ -1695,17 +1695,23 @@
 		padding-bottom: 64px;
 	}
 
+	.service_hero--meta {
+		background-position: 38% center;
+	}
+
+	.service_hero-content .sub_hero-title {
+		font-size: clamp(36px, 9.5vw, 60px);
+	}
+
 	.privacy_policy-page > .footer {
 		background-image:
 			linear-gradient(
 				to bottom,
 				#090400 0,
 				rgba(9, 4, 0, 0.65) 28px,
-				transparent 90px .service_hero--meta {background-position: 38% center;}
-					.service_hero-content .sub_hero-title
-					{font-size: clamp(36px, 9.5vw, 60px) ;}
+				transparent 90px
 			),
-			url('/footer_bg.png');
+			url('/footer_bg.webp');
 	}
 
 	.privacy_policy-content {

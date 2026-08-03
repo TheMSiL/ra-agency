@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 
 import { useI18n } from "@/context/I18nContext";
+import { useAppReady } from "@/hooks/useAppReady";
 import Header from "./Header";
 import TypewriterText from "./TypewriterText";
 
@@ -20,19 +21,19 @@ const serviceContent: Record<Exclude<HeroType, "home">, {
 	tg: {
 		title: "Telegram ads",
 		textKey: "hero.telegramText",
-		background: "/tg_hero-bg.png",
-		mobileBackground: "/tg_hero-mob_bg.png",
+		background: "/tg_hero-bg.webp",
+		mobileBackground: "/tg_hero-mob_bg.webp",
 	},
 	meta: {
 		title: "Meta ads",
 		textKey: "hero.metaText",
-		background: "/meta_bg.png",
-		mobileBackground: "/meta_bg-mob.png",
+		background: "/meta_bg.webp",
+		mobileBackground: "/meta_bg-mob.webp",
 	},
 	google: {
 		title: "Google ads",
 		textKey: "hero.googleText",
-		background: "/google_bg.png",
+		background: "/google_bg.webp",
 		mobileImage: { src: "/google_hero-mob.png", width: 402, height: 738 },
 	},
 };
@@ -44,6 +45,7 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 	const astronautMobileRef = useRef<HTMLImageElement>(null);
 	const roiMarqueeRef = useRef<HTMLDivElement>(null);
 	const alignRoiRef = useRef<() => void>(() => undefined);
+	const isAppReady = useAppReady();
 	const isHome = type === "home";
 	const content = isHome ? null : serviceContent[type];
 
@@ -90,7 +92,10 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 	useLayoutEffect(() => {
 		const hero = heroRef.current;
 		let updateRoiDepth: (() => void) | undefined;
+		let observer: IntersectionObserver | undefined;
+		let measure: (() => void) | undefined;
 
+		if (!isAppReady) return;
 		if (!hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
 		const context = gsap.context(() => {
@@ -109,16 +114,36 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				},
 			});
 
-			if (roiPills.length > 0) {
-				updateRoiDepth = () => {
-					const heroBox = hero.getBoundingClientRect();
-					const center = heroBox.left + heroBox.width / 2;
-					const depthRadius = Math.min(340, Math.max(150, heroBox.width * 0.18));
+			const track = hero.querySelector<HTMLElement>(".home_hero-roi-track");
 
-					roiPills.forEach((pill) => {
+			if (roiPills.length > 0 && track) {
+				// Reading a rect per pill on every frame forced a full layout 60
+				// times a second, which is what made the hero stutter. The pill
+				// positions inside the track never change, so they are measured
+				// once and only the animated track is read per frame.
+				let pillCenters: number[] = [];
+				let heroCenter = 0;
+				let depthRadius = 0;
+
+				measure = () => {
+					const heroBox = hero.getBoundingClientRect();
+					heroCenter = heroBox.left + heroBox.width / 2;
+					depthRadius = Math.min(340, Math.max(150, heroBox.width * 0.18));
+
+					// Offsets are stored relative to the track, so the marquee
+					// animation cancels out and they stay valid frame after frame.
+					const trackLeft = track.getBoundingClientRect().left;
+					pillCenters = roiPills.map((pill) => {
 						const box = pill.getBoundingClientRect();
-						const pillCenter = box.left + box.width / 2;
-						const offset = pillCenter - center;
+						return box.left + box.width / 2 - trackLeft;
+					});
+				};
+
+				updateRoiDepth = () => {
+					const trackLeft = track.getBoundingClientRect().left;
+
+					roiPills.forEach((pill, index) => {
+						const offset = trackLeft + pillCenters[index] - heroCenter;
 						const distance = Math.abs(offset);
 						const depth = 1 - gsap.utils.clamp(0, 1, distance / depthRadius);
 						const fold = Math.pow(depth, 1.45);
@@ -135,15 +160,31 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 					});
 				};
 
-				gsap.ticker.add(updateRoiDepth);
+				measure();
+				window.addEventListener("resize", measure);
+
+				// The marquee only matters while the hero is on screen; keeping the
+				// ticker running below the fold cost frames on the rest of the page.
+				observer = new IntersectionObserver(([entry]) => {
+					if (!updateRoiDepth) return;
+					if (entry.isIntersecting) {
+						measure?.();
+						gsap.ticker.add(updateRoiDepth);
+					} else {
+						gsap.ticker.remove(updateRoiDepth);
+					}
+				});
+				observer.observe(hero);
 			}
 		}, hero);
 
 		return () => {
+			if (measure) window.removeEventListener("resize", measure);
+			observer?.disconnect();
 			if (updateRoiDepth) gsap.ticker.remove(updateRoiDepth);
 			context.revert();
 		};
-	}, []);
+	}, [isAppReady]);
 
 	return (
 		<section
@@ -155,6 +196,22 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 				"--service-hero-bg-mobile": `url(${content.mobileBackground ?? content.background})`,
 			} as React.CSSProperties : undefined}
 		>
+			{/* React hoists these into <head>. The hero backdrop is a CSS
+			    background, so without a preload the browser only discovers it
+			    after the stylesheet is parsed — the reason the first screen
+			    stayed empty for a beat even on a fast connection. */}
+			{content && (
+				<link
+					rel="preload"
+					as="image"
+					href={content.background}
+					fetchPriority="high"
+					media={content.mobileBackground ? "(min-width: 769px)" : undefined}
+				/>
+			)}
+			{content?.mobileBackground && (
+				<link rel="preload" as="image" href={content.mobileBackground} fetchPriority="high" media="(max-width: 768px)" />
+			)}
 			<div className="home_hero-visible">
 				<Header />
 				<div className="content_container home_hero-container">
@@ -176,8 +233,8 @@ export default function Hero({ type = "home" }: { type?: HeroType }) {
 						<>
 							<span className="home_hero-planet-glow" aria-hidden="true" />
 							<Image src="/planet.png" alt="" width={1165} height={783} loading="eager" className="home_hero-planet" aria-hidden="true" />
-							<Image ref={astronautDesktopRef} src="/hero_img.png" alt="" width={1218} height={812} loading="eager" className="home_hero-image home_hero-image--desktop hero_reveal" onLoad={() => alignRoiRef.current()} />
-							<Image ref={astronautMobileRef} src="/home_hero_img-mob.png" alt="" width={402} height={457} loading="eager" className="home_hero-image home_hero-image--mobile hero_reveal" aria-hidden="true" onLoad={() => alignRoiRef.current()} />
+							<Image ref={astronautDesktopRef} src="/hero_img.png" alt="" width={1218} height={812} loading="eager" fetchPriority="high" className="home_hero-image home_hero-image--desktop hero_reveal" onLoad={() => alignRoiRef.current()} />
+							<Image ref={astronautMobileRef} src="/home_hero_img-mob.png" alt="" width={402} height={457} loading="eager" fetchPriority="high" className="home_hero-image home_hero-image--mobile hero_reveal" aria-hidden="true" onLoad={() => alignRoiRef.current()} />
 						</>
 					)}
 					{content?.mobileImage && (

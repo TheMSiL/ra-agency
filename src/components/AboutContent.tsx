@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/context/I18nContext";
+import { useAppReady } from "@/hooks/useAppReady";
 import { gsap } from "gsap";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
@@ -16,8 +17,11 @@ export default function AboutContent() {
 	const titleLead = lastSpace >= 0 ? aboutTitle.slice(0, lastSpace + 1) : aboutTitle;
 	const titleAccent = lastSpace >= 0 ? aboutTitle.slice(lastSpace + 1) : "";
 	const heroRef = useRef<HTMLDivElement>(null);
+	const isAppReady = useAppReady();
 
 	useLayoutEffect(() => {
+		if (!isAppReady) return;
+
 		const hero = heroRef.current;
 		if (!hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -32,7 +36,7 @@ export default function AboutContent() {
 		}, hero);
 
 		return () => context.revert();
-	}, []);
+	}, [isAppReady]);
 
 	return (
 		<div className="about_wrapper">
@@ -55,7 +59,8 @@ export default function AboutContent() {
 							alt="Astronaut floating in space"
 							width={1536}
 							height={1024}
-							priority
+							loading="eager"
+							fetchPriority="high"
 							sizes="(max-width: 700px) 145vw, (max-width: 1100px) 100vw, 76vw"
 						/>
 					</div>

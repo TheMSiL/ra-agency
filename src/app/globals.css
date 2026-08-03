@@ -1,12 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap');
-
-@font-face {
-	font-family: 'Angry';
-	src: url('/Angry.otf') format('opentype');
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}
+/* Fonts are self-hosted through next/font in app/layout.tsx. Loading them from
+   fonts.googleapis.com used to block the first paint on every page: the browser
+   had to parse this file before it could even discover the font request. */
 
 /* Shared lead-form and limited-offer UI. */
 .contact_form-submit:disabled {
@@ -97,8 +91,105 @@
 @tailwind utilities;
 
 :root {
-	--font-audiowide: 'Angry';
-	--font-mulish: 'Mulish';
+	--font-audiowide: var(--font-display, 'Angry');
+	--font-mulish: var(--font-body, 'Mulish');
+}
+
+/* Intro preloader. `data-loading` is set by the inline script in the root layout
+   before the first paint and removed once the first screen is fully painted, so
+   the visitor never sees the hero assemble itself piece by piece. */
+html[data-loading] body {
+	overflow: hidden;
+}
+
+.preloader {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: grid;
+	place-items: center;
+	background: #090400;
+	opacity: 1;
+	visibility: visible;
+	transition: opacity 0.5s ease, visibility 0s linear 0s;
+}
+
+html:not([data-loading]) .preloader {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+.preloader_inner {
+	display: grid;
+	gap: 28px;
+	justify-items: center;
+}
+
+.preloader_logo {
+	width: 96px;
+	height: 68px;
+	animation: preloaderPulse 1.6s ease-in-out infinite;
+	filter: drop-shadow(0 0 32px rgba(250, 138, 22, 0.45));
+}
+
+.preloader_bar {
+	width: 180px;
+	height: 3px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(250, 138, 22, 0.18);
+}
+
+.preloader_bar span {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+	background: #fa8a16;
+	transform: scaleX(0.02);
+	transform-origin: left center;
+	animation: preloaderProgress 4s cubic-bezier(0.16, 0.84, 0.28, 1) forwards;
+}
+
+html:not([data-loading]) .preloader_bar span {
+	animation: none;
+	transform: scaleX(1);
+}
+
+@keyframes preloaderPulse {
+	0%,
+	100% {
+		opacity: 0.55;
+		transform: scale(0.94);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes preloaderProgress {
+	from {
+		transform: scaleX(0.02);
+	}
+
+	to {
+		transform: scaleX(0.94);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.preloader_logo,
+	.preloader_bar span {
+		animation: none;
+	}
+
+	.preloader_bar span {
+		transform: scaleX(1);
+	}
 }
 
 .cookie_consent {
@@ -1220,7 +1311,7 @@ a {
 	}
 
 	.underFooter {
-		background: url('/underFooter.png');
+		background: url('/underFooter.webp');
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
@@ -1531,7 +1622,7 @@ a {
 		pointer-events: none;
 	}
 
-	.home_hero .hero_reveal {
+	html[data-js] .home_hero .hero_reveal {
 		opacity: 0;
 		visibility: hidden;
 	}
@@ -1711,6 +1802,13 @@ a {
 	.floating_tg_icon-wrap {
 		transform: translateX(-3px);
 		pointer-events: none;
+	}
+
+	/* Fallback shape: when the hero morph cannot run the button is just the
+	   round icon in the corner, so the label must not sit on top of it. */
+	.floating_tg_btn:not(.floating_tg_morph) .floating_tg_label {
+		opacity: 0;
+		visibility: hidden;
 	}
 
 	.home_hero-roi-marquee {
@@ -3989,7 +4087,7 @@ a {
 	.about_wrapper {
 		min-height: 100svh;
 		background-color: #000;
-		background-image: url('/about_hero-bg.png');
+		background-image: url('/about_hero-bg.webp');
 		background-repeat: no-repeat;
 		background-position: center top;
 		background-size: 100% 100svh;

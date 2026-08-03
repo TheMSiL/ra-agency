@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { useAppReady } from "@/hooks/useAppReady";
+
 type TypewriterTextProps = {
 	text: string;
 	delay?: number;
@@ -17,8 +19,11 @@ export default function TypewriterText({
 }: TypewriterTextProps) {
 	const characters = Array.from(text);
 	const [visibleCount, setVisibleCount] = useState(0);
+	const isAppReady = useAppReady();
 
 	useEffect(() => {
+		if (!isAppReady) return;
+
 		let intervalId: ReturnType<typeof setInterval> | undefined;
 		let revealId: number | undefined;
 		const resetId = window.setTimeout(() => {
@@ -47,7 +52,7 @@ export default function TypewriterText({
 			if (revealId) window.clearTimeout(revealId);
 			if (intervalId) clearInterval(intervalId);
 		};
-	}, [characters.length, delay, step]);
+	}, [characters.length, delay, step, isAppReady]);
 
 	return (
 		<span className={`typewriter_text ${className}`.trim()} aria-label={text}>
