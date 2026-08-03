@@ -19,6 +19,8 @@
 # scratch build dir and rollback copies created by scripts/deploy.sh
 /.next.build/
 /.next.backup-*/
+# older manual backups made before deploy.sh existed
+/.next.before-*/
 
 # production
 /build

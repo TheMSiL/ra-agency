@@ -35,9 +35,11 @@ step() { printf '\n\033[1;33m==> %s\033[0m\n' "$1"; }
 fail() { printf '\n\033[1;31m!! %s\033[0m\n' "$1" >&2; exit 1; }
 
 # ---------------------------------------------------------------- update code
-if [ -n "$(git status --porcelain)" ]; then
-	git status --short
-	fail "Working tree is dirty. Commit, stash or discard these changes first."
+# Only tracked changes matter: those are what a fast-forward pull would refuse or
+# clobber. Stray untracked files (old backup dirs, typo'd filenames) are harmless.
+if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+	git status --short --untracked-files=no
+	fail "Tracked files were modified on the server. Commit, stash or 'git checkout -- .' first."
 fi
 
 LOCK_BEFORE="$(git rev-parse HEAD:bun.lock HEAD:package.json 2>/dev/null || true)"

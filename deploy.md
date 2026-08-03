@@ -44,3 +44,4 @@ sudo systemctl stop raagency
 rm -rf .next && mv "$(ls -1dt .next.backup-* | head -1)" .next
 sudo systemctl start raagency
 ```
+frozen-lockfile
