@@ -18,10 +18,18 @@ const mulish = Mulish({
   variable: "--font-body",
 });
 
+// Angry.otf has no glyphs for $ + % × → € @ and friends, so those characters are
+// always drawn by the next font in the stack. next/font's own synthetic fallback
+// ("angry Fallback" = Arial at size-adjust: 153%) rendered them half again too
+// large, which clipped the "$" in "$11M+" and the promo title. Falling back to
+// Mulish keeps them at their natural size, the way they looked before the fonts
+// moved into next/font.
 const angry = localFont({
   src: "../../public/Angry.otf",
   display: "swap",
   variable: "--font-display",
+  adjustFontFallback: false,
+  fallback: ["Mulish", "Arial", "sans-serif"],
 });
 
 export const metadata: Metadata = {
