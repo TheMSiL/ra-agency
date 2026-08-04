@@ -35,6 +35,11 @@ step() { printf '\n\033[1;33m==> %s\033[0m\n' "$1"; }
 fail() { printf '\n\033[1;31m!! %s\033[0m\n' "$1" >&2; exit 1; }
 
 # ---------------------------------------------------------------- update code
+# Next maintains tsconfig.json itself and rewrites it on every build, so the file
+# is left dirty after each deploy and would block the next one. It is generated
+# output in all but name — drop the churn instead of stopping for it.
+git checkout -- tsconfig.json 2>/dev/null || true
+
 # Only tracked changes matter: those are what a fast-forward pull would refuse or
 # clobber. Stray untracked files (old backup dirs, typo'd filenames) are harmless.
 if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
