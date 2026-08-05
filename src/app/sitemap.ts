@@ -2,10 +2,13 @@ import type { MetadataRoute } from "next";
 import { locales, type Locale } from "@/i18n/config";
 import { getBlogPosts } from "@/sanity/lib/blog";
 import { getCaseStudies } from "@/sanity/lib/cases";
-import { CANONICAL_ORIGIN } from "@/seo/metadata";
+import { CANONICAL_ORIGIN, contentLanguagePaths } from "@/seo/metadata";
+import type { DocumentTranslation } from "@/sanity/lib/translations";
 
 const staticPaths = ["", "/about", "/cases", "/blog", "/contacts", "/google-ads", "/meta-ads", "/telegram-ads", "/privacy-policy", "/terms-of-service", "/cookie-policy"];
 const localizedUrl = (locale: Locale, path: string) => `${CANONICAL_ORIGIN}/${locale}${path}`;
+
+// Static pages keep the same path in every locale, so the prefix swap is valid.
 const alternates = (path: string) => ({
 	languages: {
 		en: localizedUrl("en", path),
@@ -13,6 +16,15 @@ const alternates = (path: string) => ({
 		uk: localizedUrl("ua", path),
 		"x-default": localizedUrl("en", path),
 	},
+});
+
+// Articles and case studies do not: each translation is its own Sanity document
+// with its own slug, so the alternates come from translation.metadata instead of
+// the prefix swap that used to advertise 404s here.
+const contentAlternates = (locale: Locale, path: string, translations?: DocumentTranslation[]) => ({
+	languages: Object.fromEntries(
+		Object.entries(contentLanguagePaths(locale, path, translations)).map(([key, value]) => [key, `${CANONICAL_ORIGIN}${value}`]),
+	),
 });
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -38,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				lastModified: post.publishedAt ?? undefined,
 				changeFrequency: "monthly",
 				priority: 0.7,
-				alternates: alternates(path),
+				alternates: contentAlternates(code, path, post.translations),
 			});
 		}
 		for (const item of caseStudies.filter(({ noindex }) => !noindex)) {
@@ -48,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				lastModified: item.publishedAt ?? undefined,
 				changeFrequency: "monthly",
 				priority: 0.7,
-				alternates: alternates(path),
+				alternates: contentAlternates(code, path, item.translations),
 			});
 		}
 	}

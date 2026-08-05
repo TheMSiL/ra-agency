@@ -2,6 +2,7 @@ import { defineQuery } from "next-sanity";
 import type { Locale } from "@/i18n/config";
 import { casesItems, type CasesCardProps } from "@/data/cases";
 import { sanityClient } from "./client";
+import { translationsProjection, type DocumentTranslation } from "./translations";
 
 export type SanityCaseStudy = CasesCardProps & {
 	language: Locale;
@@ -11,6 +12,7 @@ export type SanityCaseStudy = CasesCardProps & {
 	metaDescription?: string;
 	ogImageUrl?: string;
 	noindex?: boolean;
+	translations?: DocumentTranslation[];
 };
 
 const caseProjection = `
@@ -45,7 +47,8 @@ const casesQuery = defineQuery(`
 		(status == "scheduled" && defined(publishedAt) && publishedAt <= now())) &&
 		defined(slug.current)
 	] | order(isFeatured desc, publishedAt desc) {
-		${caseProjection}
+		${caseProjection},
+		${translationsProjection}
 	}
 `);
 
@@ -57,7 +60,8 @@ const caseQuery = defineQuery(`
 		(status == "scheduled" && defined(publishedAt) && publishedAt <= now())) &&
 		slug.current == $slug
 	][0] {
-		${caseProjection}
+		${caseProjection},
+		${translationsProjection}
 	}
 `);
 

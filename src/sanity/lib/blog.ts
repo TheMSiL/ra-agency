@@ -1,6 +1,7 @@
 import { defineQuery } from "next-sanity";
 import type { PortableTextBlock } from "@portabletext/types";
 import { sanityClient } from "./client";
+import { translationsProjection, type DocumentTranslation } from "./translations";
 import type { Locale } from "@/i18n/config";
 
 export type SanityBlogImage = {
@@ -28,6 +29,7 @@ export type SanityBlogPost = {
 	author: { name: string; bio?: string; avatarUrl?: string } | null;
 	relatedArticles: SanityBlogPost[];
 	recommendationSource?: "manual" | "auto";
+	translations?: DocumentTranslation[];
 };
 
 const articleProjection = `
@@ -65,7 +67,8 @@ const articlesQuery = defineQuery(`
 		defined(slug.current) &&
 		defined(coverImage.asset)
 	] | order(isFeatured desc, publishedAt desc) {
-		${articleProjection}
+		${articleProjection},
+		${translationsProjection}
 	}
 `);
 
@@ -78,6 +81,7 @@ const articleQuery = defineQuery(`
 		slug.current == $slug
 	][0] {
 		${articleProjection},
+		${translationsProjection},
 		"relatedArticles": relatedArticles[]->[
 			((status == "published" && (!defined(publishedAt) || publishedAt <= now())) ||
 			(status == "scheduled" && defined(publishedAt) && publishedAt <= now())) &&

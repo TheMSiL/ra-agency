@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import type { Locale } from "@/i18n/config";
+import { getLocaleMeta, hasLocale, type Locale } from "@/i18n/config";
+import type { DocumentTranslation } from "@/sanity/lib/translations";
 
 export const CANONICAL_ORIGIN = "https://raagency.tech";
 
@@ -53,6 +54,38 @@ const languagePath = (locale: Locale, path: string) => `/${locale}${path === "/"
 // showing the decorative hero planet for the homepage and a case-study cover for
 // /cases. Every page now carries a branded card rendered by /api/og instead.
 // Relative here on purpose — Next resolves it against metadataBase.
+// Static pages share one path across locales, so swapping the prefix is correct
+// here — but only here. See contentLanguagePaths for the Sanity-backed routes.
+const staticLanguagePaths = (path: string) => ({
+	en: languagePath("en", path),
+	ru: languagePath("ru", path),
+	uk: languagePath("ua", path),
+	"x-default": languagePath("en", path),
+});
+
+// Each language of an article or case study is a separate Sanity document with
+// its own slug ("ton-ads-explained" vs "ton-ads-explained-ru"), so hreflang built
+// by swapping the locale prefix pointed at URLs that 404. Only siblings the query
+// actually resolved are safe to advertise; a document with no translations gets
+// the self-reference alone rather than invented alternates.
+export function contentLanguagePaths(locale: Locale, path: string, translations?: DocumentTranslation[]) {
+	const section = path.slice(0, path.lastIndexOf("/"));
+	const canonical = languagePath(locale, path);
+	const languages: Record<string, string> = { [getLocaleMeta(locale).htmlLang]: canonical };
+
+	// translationsProjection reads two linkage mechanisms and may report the same
+	// language twice; the translation.metadata join comes first, so first wins.
+	for (const { language, slug } of translations ?? []) {
+		if (!slug || language === locale || !hasLocale(language)) continue;
+		const key = getLocaleMeta(language).htmlLang;
+		if (languages[key]) continue;
+		languages[key] = languagePath(language, `${section}/${slug}`);
+	}
+
+	languages["x-default"] = languages.en ?? canonical;
+	return languages;
+}
+
 const generatedOgImage = (title: string) => ({
 	url: `/api/og?title=${encodeURIComponent(title)}`,
 	width: 1200,
@@ -67,15 +100,7 @@ export function buildPageMetadata(locale: Locale, page: SeoPage, path: string): 
 	return {
 		title: copy.title,
 		description: copy.description,
-		alternates: {
-			canonical,
-			languages: {
-				en: languagePath("en", path),
-				ru: languagePath("ru", path),
-				uk: languagePath("ua", path),
-				"x-default": languagePath("en", path),
-			},
-		},
+		alternates: { canonical, languages: staticLanguagePaths(path) },
 		openGraph: {
 			type: "website",
 			siteName: "RA Agency",
@@ -97,6 +122,7 @@ export function buildContentMetadata({
 	description,
 	image,
 	noindex = false,
+	translations,
 }: {
 	locale: Locale;
 	path: string;
@@ -104,6 +130,7 @@ export function buildContentMetadata({
 	description: string;
 	image?: string;
 	noindex?: boolean;
+	translations?: DocumentTranslation[];
 }): Metadata {
 	const canonical = languagePath(locale, path);
 	// A case study or article without its own cover still gets the branded card
@@ -112,15 +139,7 @@ export function buildContentMetadata({
 	return {
 		title,
 		description,
-		alternates: {
-			canonical,
-			languages: {
-				en: languagePath("en", path),
-				ru: languagePath("ru", path),
-				uk: languagePath("ua", path),
-				"x-default": languagePath("en", path),
-			},
-		},
+		alternates: { canonical, languages: contentLanguagePaths(locale, path, translations) },
 		openGraph: { type: "article", siteName: "RA Agency", title, description, url: canonical, images },
 		twitter: { card: "summary_large_image", title, description, images },
 		robots: { index: !noindex, follow: !noindex },

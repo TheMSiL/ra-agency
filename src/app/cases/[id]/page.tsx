@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/cases/[id]">) {
 		description: item.metaDescription || `${item.problem}. ${item.triumph}.`,
 		image: item.ogImageUrl || item.company_logo,
 		noindex: item.noindex,
+		translations: item.translations,
 	});
 }
 

@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/blog/[id]">) {
 		description: post.metaDescription || post.description,
 		image: post.ogImageUrl || post.image.url,
 		noindex: post.noindex,
+		translations: post.translations,
 	});
 }
 
