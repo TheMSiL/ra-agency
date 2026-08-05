@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
 
-// TODO: Replace this value when the production domain is confirmed.
-export const CANONICAL_ORIGIN = "https://example.com";
+export const CANONICAL_ORIGIN = "https://raagency.tech";
 
 type SeoPage = "home" | "about" | "cases" | "blog" | "contacts" | "google" | "meta" | "telegram" | "privacy" | "terms" | "cookies";
 
@@ -50,9 +49,21 @@ const seoCopy: Record<Locale, Record<SeoPage, { title: string; description: stri
 
 const languagePath = (locale: Locale, path: string) => `/${locale}${path === "/" ? "" : path}`;
 
+// Without an og:image a scraper picks whatever <img> it finds first: Facebook was
+// showing the decorative hero planet for the homepage and a case-study cover for
+// /cases. Every page now carries a branded card rendered by /api/og instead.
+// Relative here on purpose — Next resolves it against metadataBase.
+const generatedOgImage = (title: string) => ({
+	url: `/api/og?title=${encodeURIComponent(title)}`,
+	width: 1200,
+	height: 630,
+	alt: title,
+});
+
 export function buildPageMetadata(locale: Locale, page: SeoPage, path: string): Metadata {
 	const copy = seoCopy[locale][page];
 	const canonical = languagePath(locale, path);
+	const images = [generatedOgImage(copy.title)];
 	return {
 		title: copy.title,
 		description: copy.description,
@@ -72,8 +83,9 @@ export function buildPageMetadata(locale: Locale, page: SeoPage, path: string): 
 			description: copy.description,
 			url: canonical,
 			locale: locale === "ua" ? "uk_UA" : locale === "ru" ? "ru_RU" : "en_US",
+			images,
 		},
-		twitter: { card: "summary", title: copy.title, description: copy.description },
+		twitter: { card: "summary_large_image", title: copy.title, description: copy.description, images },
 		robots: { index: true, follow: true },
 	};
 }
@@ -94,7 +106,9 @@ export function buildContentMetadata({
 	noindex?: boolean;
 }): Metadata {
 	const canonical = languagePath(locale, path);
-	const images = image ? [{ url: image }] : undefined;
+	// A case study or article without its own cover still gets the branded card
+	// rather than falling back to whatever the scraper scrapes.
+	const images = [image ? { url: image } : generatedOgImage(title)];
 	return {
 		title,
 		description,
@@ -108,7 +122,7 @@ export function buildContentMetadata({
 			},
 		},
 		openGraph: { type: "article", siteName: "RA Agency", title, description, url: canonical, images },
-		twitter: { card: image ? "summary_large_image" : "summary", title, description, images: image ? [image] : undefined },
+		twitter: { card: "summary_large_image", title, description, images },
 		robots: { index: !noindex, follow: !noindex },
 	};
 }

@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps<"/cases/[id]">) {
 		path: `/cases/${id}`,
 		title: item.metaTitle || item.case_title,
 		description: item.metaDescription || `${item.problem}. ${item.triumph}.`,
-		image: item.ogImageUrl || item.company_logo || "/logo.svg",
+		image: item.ogImageUrl || item.company_logo,
 		noindex: item.noindex,
 	});
 }
