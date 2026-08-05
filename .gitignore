@@ -28,6 +28,9 @@
 # misc
 .DS_Store
 *.pem
+# a project archive dropped in here once got committed and blew past GitHub's
+# 100 MB file limit, which rejects the whole push
+*.zip
 
 # debug
 npm-debug.log*
