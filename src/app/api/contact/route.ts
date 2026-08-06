@@ -10,8 +10,8 @@ export async function POST(request: Request) {
 		const contact = String(body.contact ?? "").trim().slice(0, 250);
 		const details = String(body.details ?? "").trim().slice(0, 4000);
 		const isValidContact = contactMethod === "email"
-			? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)
-			: /^@[A-Za-z0-9_]{5,32}$/.test(contact);
+			? contact.includes("@")
+			: contact.startsWith("@");
 		if (name.length < 2 || details.length < 10 || !isValidContact) {
 			return Response.json({ error: "Please fill in all fields with valid information." }, { status: 400 });
 		}

@@ -11,7 +11,7 @@ export type SiteSettings = {
 export const defaultSiteSettings: SiteSettings = {
 	telegramLabel: "RA Agency Bot", telegramUrl: "https://t.me/ra_agency_bot?start=ra_site_welcome",
 	telegramChannelLabel: "RA Agency", telegramChannelUrl: "https://t.me/+TCZaWDh2hdNkM2Q6",
-	email: "sales@raagency.tech", linkedinLabel: "Coming soon", linkedinUrl: "",
+	email: "sales@raagency.tech", linkedinLabel: "RA Agency", linkedinUrl: "https://www.linkedin.com/company/ra-agency-tech/",
 	xLabel: "@ra_agency_tech", xUrl: "https://x.com/ra_agency_tech?s=11",
 };
 
@@ -21,7 +21,14 @@ export function SiteSettingsProvider({ children }: { children: React.ReactNode }
 	const [settings, setSettings] = useState(defaultSiteSettings);
 	useEffect(() => {
 		fetch("/api/site-settings").then((response) => response.ok ? response.json() : null)
-			.then((data) => { if (data) setSettings({ ...defaultSiteSettings, ...data }); })
+			.then((data) => {
+				if (data) setSettings({
+					...defaultSiteSettings,
+					...data,
+					linkedinLabel: data.linkedinLabel || defaultSiteSettings.linkedinLabel,
+					linkedinUrl: data.linkedinUrl || defaultSiteSettings.linkedinUrl,
+				});
+			})
 			.catch(() => undefined);
 	}, []);
 	return <SiteSettingsContext.Provider value={settings}>{children}</SiteSettingsContext.Provider>;

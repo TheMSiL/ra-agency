@@ -2040,6 +2040,35 @@ a {
 		box-shadow: 0 0 30.3px 5px rgba(250, 138, 22, 0.24);
 	}
 
+	.contact_form-field--invalid input,
+	.contact_form-field--invalid textarea {
+		border-color: #ff6b5f;
+		box-shadow: 0 0 22px rgba(255, 107, 95, 0.22);
+	}
+
+	.contact_form-field-error {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		color: #ff9c91;
+		font-family: var(--font-mulish), Arial, sans-serif;
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 1.35;
+	}
+
+	.contact_form-field-error::before {
+		content: "!";
+		display: inline-grid;
+		width: 16px;
+		height: 16px;
+		flex: 0 0 16px;
+		place-items: center;
+		border: 1px solid currentColor;
+		border-radius: 50%;
+		font-size: 10px;
+	}
+
 	.contact_form-submit {
 		width: min(100%, 580px);
 		height: 48px;

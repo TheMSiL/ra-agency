@@ -11,14 +11,18 @@ type ContactModalProps = {
 	onClose: () => void;
 };
 
+type FieldErrors = Partial<Record<"name" | "contact" | "details", string>>;
+
 export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 	const { t } = useI18n();
 	const [contactMethod, setContactMethod] = useState<"telegram" | "email">("telegram");
 	const [contactValue, setContactValue] = useState("");
 	const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+	const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 	useBodyScrollLock(isOpen);
 	const handleClose = useCallback(() => {
 		setStatus("idle");
+		setFieldErrors({});
 		onClose();
 	}, [onClose]);
 
@@ -48,16 +52,33 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 		event.preventDefault();
 		if (status === "sending" || status === "success") return;
 		const formElement = event.currentTarget;
-		setStatus("sending");
 		const form = new FormData(formElement);
+		const name = String(form.get("name") ?? "").trim();
+		const contact = contactValue.trim();
+		const details = String(form.get("details") ?? "").trim();
+		const errors: FieldErrors = {};
+
+		if (name.length < 2) errors.name = t("form.nameInvalid");
+		if (contactMethod === "telegram" ? !contact.startsWith("@") : !contact.includes("@")) {
+			errors.contact = contactMethod === "telegram" ? t("form.telegramInvalid") : t("form.emailInvalid");
+		}
+		if (details.length < 10) errors.details = t("form.detailsInvalid");
+
+		if (Object.keys(errors).length > 0) {
+			setFieldErrors(errors);
+			setStatus("idle");
+			return;
+		}
+
+		setFieldErrors({});
+		setStatus("sending");
 		let attribution = {};
 		try { attribution = JSON.parse(String(form.get("attribution") ?? "{}")); } catch { /* ignore malformed client data */ }
 		try {
 			const response = await fetch("/api/contact", {
 				method: "POST", headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					name: form.get("name"), contactMethod,
-					contact: form.get(contactMethod), details: form.get("details"),
+					name, contactMethod, contact, details,
 					attribution, source: "contact-modal",
 				}),
 			});
@@ -69,15 +90,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
 	return (
 		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={handleClose}>
-			<form className="contact_form section_background" onClick={(event) => event.stopPropagation()} onSubmit={handleSubmit}>
+			<form className="contact_form section_background" noValidate onClick={(event) => event.stopPropagation()} onSubmit={handleSubmit}>
 				<AttributionFields />
 			<button className="contact_form-close" type="button" aria-label={t("form.close")} onClick={handleClose}>
 					x
 				</button>
 				<h2 id="contact-form-title" className="contact_form-title">{t("form.title")}</h2>
-				<label className="contact_form-field">
+				<label className={`contact_form-field${fieldErrors.name ? " contact_form-field--invalid" : ""}`}>
 					<span>{t("form.name")}</span>
-					<input type="text" name="name" placeholder={t("form.name")} required minLength={2} maxLength={120} />
+					<input type="text" name="name" placeholder={t("form.name")} maxLength={120} aria-invalid={Boolean(fieldErrors.name)} aria-describedby={fieldErrors.name ? "contact-name-error" : undefined} onChange={() => setFieldErrors((current) => ({ ...current, name: undefined }))} />
+					{fieldErrors.name && <small id="contact-name-error" className="contact_form-field-error">{fieldErrors.name}</small>}
 				</label>
 				<fieldset className="contact_form-method">
 					<legend>{t("form.method")}</legend>
@@ -92,6 +114,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 									onChange={() => {
 										setContactMethod(method);
 										setContactValue("");
+										setFieldErrors((current) => ({ ...current, contact: undefined }));
 									}}
 								/>
 								<span>{method === "telegram" ? "Telegram" : "Email"}</span>
@@ -99,31 +122,27 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 						))}
 					</div>
 				</fieldset>
-				<label className="contact_form-field">
+				<label className={`contact_form-field${fieldErrors.contact ? " contact_form-field--invalid" : ""}`}>
 					<span>{contactMethod === "telegram" ? t("form.telegramUser") : "Email"}</span>
 					<input
-						type={contactMethod === "telegram" ? "text" : "email"}
+						type="text"
 						name={contactMethod}
 						placeholder={contactMethod === "telegram" ? "@username" : "name@example.com"}
 						value={contactValue}
-						required
-						maxLength={contactMethod === "telegram" ? 33 : 254}
-						pattern={contactMethod === "telegram" ? "@[A-Za-z0-9_]{5,32}" : undefined}
-						title={contactMethod === "telegram" ? t("form.telegramInvalid") : t("form.emailInvalid")}
+						maxLength={254}
+						aria-invalid={Boolean(fieldErrors.contact)}
+						aria-describedby={fieldErrors.contact ? "contact-value-error" : undefined}
 						onChange={(event) => {
-							event.target.setCustomValidity("");
 							setContactValue(event.target.value);
-						}}
-						onInvalid={(event) => {
-							event.currentTarget.setCustomValidity(
-								contactMethod === "telegram" ? t("form.telegramInvalid") : t("form.emailInvalid"),
-							);
+							setFieldErrors((current) => ({ ...current, contact: undefined }));
 						}}
 					/>
+					{fieldErrors.contact && <small id="contact-value-error" className="contact_form-field-error">{fieldErrors.contact}</small>}
 				</label>
-				<label className="contact_form-field">
+				<label className={`contact_form-field${fieldErrors.details ? " contact_form-field--invalid" : ""}`}>
 					<span>{t("form.details")}</span>
-					<textarea name="details" placeholder={t("form.details")} rows={5} required minLength={10} maxLength={4000} />
+					<textarea name="details" placeholder={t("form.details")} rows={5} maxLength={4000} aria-invalid={Boolean(fieldErrors.details)} aria-describedby={fieldErrors.details ? "contact-details-error" : undefined} onChange={() => setFieldErrors((current) => ({ ...current, details: undefined }))} />
+					{fieldErrors.details && <small id="contact-details-error" className="contact_form-field-error">{fieldErrors.details}</small>}
 				</label>
 				<p className={`contact_form-status contact_form-status--${status}`} role="status" aria-live="polite">
 					{status === "success" ? "Thank you! A manager will contact you shortly." : status === "error" ? "Something went wrong. Please try again." : ""}

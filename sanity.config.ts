@@ -17,6 +17,10 @@ export default defineConfig({
 	basePath: "/studio",
 	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "missing",
 	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
+	auth: {
+		loginMethod: "dual",
+		redirectOnSingle: true,
+	},
 	plugins: [
 		structureTool(),
 		documentInternationalization({ supportedLanguages: languages, schemaTypes: ["article", "caseStudy"] }),

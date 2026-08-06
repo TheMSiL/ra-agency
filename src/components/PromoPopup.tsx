@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useI18n } from "@/context/I18nContext";
 import ContactModal from "./ContactModal";
+
+const PROMO_DELAY_MS = 30_000;
 
 const copy = {
 	en: { eyebrow: "LIMITED OFFER", title: "$250 OFF OUR COMMISSION", text: "Message our manager now to claim the discount and launch top-performing ads for your project.", cta: "Claim the discount", close: "Close offer" },
@@ -12,15 +15,21 @@ const copy = {
 
 export default function PromoPopup() {
 	const { locale } = useI18n();
+	const pathname = usePathname();
+	const isStudio = pathname === "/studio" || pathname.startsWith("/studio/");
 	const [open, setOpen] = useState(false);
 	const [formOpen, setFormOpen] = useState(false);
 	useEffect(() => {
+		if (isStudio) return;
 		if (sessionStorage.getItem("ra-promo-seen")) return;
-		const timer = window.setTimeout(() => setOpen(true), 7000);
+		const timer = window.setTimeout(() => setOpen(true), PROMO_DELAY_MS);
 		return () => window.clearTimeout(timer);
-	}, []);
+	}, [isStudio]);
 	const dismiss = () => { setOpen(false); sessionStorage.setItem("ra-promo-seen", "1"); };
 	const content = copy[locale];
+
+	if (isStudio) return null;
+
 	return <>
 		{open && <div className="promo_modal" role="dialog" aria-modal="true" aria-labelledby="promo-title" onClick={dismiss}>
 			<div className="promo_card section_background" onClick={(event) => event.stopPropagation()}>

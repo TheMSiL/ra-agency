@@ -13,7 +13,8 @@ async function main() {
 		telegramChannelLabel: "RA Agency",
 		telegramChannelUrl: "https://t.me/+TCZaWDh2hdNkM2Q6",
 		email: "sales@raagency.tech",
-		linkedinLabel: "Coming soon",
+		linkedinLabel: "RA Agency",
+		linkedinUrl: "https://www.linkedin.com/company/ra-agency-tech/",
 		xLabel: "@ra_agency_tech",
 		xUrl: "https://x.com/ra_agency_tech?s=11",
 	});
