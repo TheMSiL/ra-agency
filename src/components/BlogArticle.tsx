@@ -40,6 +40,11 @@ const portableTextComponents: PortableTextComponents = {
 
 export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 	const { t } = useI18n();
+	const localePaths = Object.fromEntries([
+		...(["en", "ru", "ua"] as const).map((locale) => [locale, `/${locale}/blog`]),
+		...[{ language: post.language, slug: post.slug }, ...(post.translations ?? [])]
+			.map(({ language, slug }) => [language, `/${language}/blog/${slug}`]),
+	]);
 	const [views, setViews] = useState(post.views);
 	const readCompleteRef = useRef<HTMLDivElement>(null);
 	const recommendationsRef = useRef<HTMLElement>(null);
@@ -108,7 +113,7 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 		<div className="wrapper blog_article-page">
 			<Background>
 				<div className="blog_page-content">
-					<Header />
+					<Header localePaths={localePaths} />
 					<main className="content_container blog_article">
 						<header className="blog_article-header">
 							<div className="blog_article-meta"><span>{post.type}</span></div>

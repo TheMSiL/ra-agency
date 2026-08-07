@@ -10,9 +10,10 @@ import ArrowDownSwitcherSvg from "../../public/svg/ArrowDownSwitcherSvg";
 interface LangSwitcherProps {
 	variant?: "header" | "burger";
 	onLocaleChange?: () => void;
+	localePaths?: Partial<Record<Locale, string>>;
 }
 
-export default function LangSwitcher({ variant = "header", onLocaleChange }: LangSwitcherProps) {
+export default function LangSwitcher({ variant = "header", onLocaleChange, localePaths }: LangSwitcherProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const { currentLocale, locales, setLocale, t } = useI18n();
 	const pathname = usePathname();
@@ -22,6 +23,12 @@ export default function LangSwitcher({ variant = "header", onLocaleChange }: Lan
 		setLocale(locale);
 		setIsOpen(false);
 		onLocaleChange?.();
+		const translatedPath = localePaths?.[locale];
+		if (translatedPath) {
+			router.push(translatedPath);
+			return;
+		}
+
 		const segments = pathname.split("/");
 		segments[1] = locale;
 		router.push(segments.join("/") || `/${locale}`);

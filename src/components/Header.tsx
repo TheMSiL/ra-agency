@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import Burger from "./Burger";
 import LangSwitcher from "./LangSwitcher";
 import LocalizedLink from "./LocalizedLink";
+import type { Locale } from "@/i18n/config";
 
-export default function Header() {
+export default function Header({ localePaths }: { localePaths?: Partial<Record<Locale, string>> }) {
 	const [isScrolled, setIsScrolled] = useState(false);
 
 	useEffect(() => {
@@ -27,9 +28,9 @@ export default function Header() {
 				</LocalizedLink>
 				<div className="flex items-center gap-10">
 					<div className="header_lang_switcher">
-						<LangSwitcher />
+						<LangSwitcher localePaths={localePaths} />
 					</div>
-					<Burger />
+					<Burger localePaths={localePaths} />
 				</div>
 			</div>
 		</header>

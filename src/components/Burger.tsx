@@ -12,6 +12,7 @@ import BurgerCloseSvg from "../../public/svg/BurgerCloseSvg";
 import BurgerSvg from "../../public/svg/BurgerSvg";
 import LangSwitcher from "./LangSwitcher";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import type { Locale } from "@/i18n/config";
 
 const menuItems = [
 	{ label: "nav.home", href: "/" }, { label: "nav.about", href: "/about" },
@@ -20,7 +21,7 @@ const menuItems = [
 	{ label: "nav.telegram", href: "/telegram-ads" }, { label: "nav.meta", href: "/meta-ads" },
 ] as const;
 
-export default function Burger() {
+export default function Burger({ localePaths }: { localePaths?: Partial<Record<Locale, string>> }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
 	const pathname = usePathname();
@@ -81,7 +82,7 @@ export default function Burger() {
 						aria-hidden={!isOpen}
 					>
 						<div className="burger_topbar">
-							<LangSwitcher variant="burger" onLocaleChange={handleMenuClick} />
+							<LangSwitcher variant="burger" onLocaleChange={handleMenuClick} localePaths={localePaths} />
 							<button
 								type="button"
 								className="burger_close"
