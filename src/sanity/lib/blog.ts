@@ -32,6 +32,26 @@ export type SanityBlogPost = {
 	translations?: DocumentTranslation[];
 };
 
+// Every article exists as three language documents joined by
+// @sanity/document-internationalization's translation.metadata, and the view
+// counter is incremented on whichever document was actually read. Reading the
+// bare `views` field would therefore show three unrelated counters for what
+// readers see as one article, so sum the whole translation group instead.
+// Articles that carry no join (a language published on its own) fall back to
+// their own count.
+//
+// Unlike translationsProjection this is safe to reuse in nested projections:
+// `^._id` inside `*[...]` resolves to the document currently being projected,
+// which is the related article rather than its parent.
+export const viewsProjection = `
+	"views": coalesce(
+		math::sum(*[_type == "translation.metadata" && references(^._id)][0].translations[]{
+			"count": coalesce(value->views, 0)
+		}.count),
+		coalesce(views, 0)
+	)
+`;
+
 const articleProjection = `
 	"id": _id,
 	"slug": slug.current,
@@ -41,7 +61,7 @@ const articleProjection = `
 	"type": coalesce(category->title[$language], category->title.en, category->title.ru, category->title.ua, ""),
 	publishedAt,
 	readTime,
-	views,
+	${viewsProjection},
 	isFeatured,
 	metaTitle,
 	metaDescription,

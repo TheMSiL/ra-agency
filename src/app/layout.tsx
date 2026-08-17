@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Mulish } from "next/font/google";
 import localFont from "next/font/local";
 import { I18nProvider } from "@/context/I18nContext";
@@ -77,6 +78,12 @@ export default function RootLayout({
         />
       </head>
       <body>
+        {/* Telegram Ads pixel. Unlike the attribution helpers in
+            src/analytics/attribution.ts this one is deliberately not gated on
+            the cookie banner — it loads for every visitor. */}
+        <Script id="telegram-pixel" strategy="afterInteractive">
+          {`(function(t,l,g,r,m){t[g]||(g=t[g]=function(){g.run?g.run.apply(g,arguments):g.queue.push(arguments)},g.queue=[],t=l.createElement(r),t.async=!0,t.src=m,l=l.getElementsByTagName(r)[0],l.parentNode.insertBefore(t,l))})(window,document,'tgp','script','https://telegram.org/js/pixel.js');tgp('init','TRVIyluI');`}
+        </Script>
         <I18nProvider>
           <SiteSettingsProvider>
           <Preloader />

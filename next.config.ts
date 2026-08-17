@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
+    // Next 16 only serves qualities listed here, and defaults to [75]. Editorial
+    // cover art is dark gradient artwork, which bands visibly when re-encoded at
+    // 75 — blog imagery opts into 90 instead.
+    qualities: [75, 90],
   },
 };
 

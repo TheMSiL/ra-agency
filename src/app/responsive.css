@@ -1943,7 +1943,6 @@
 
 	.blog_article-image {
 		max-height: 320px;
-		aspect-ratio: 16 / 9;
 	}
 
 	.blog_article-body {

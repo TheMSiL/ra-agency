@@ -1,5 +1,6 @@
 import { createClient } from "next-sanity";
 import { NextResponse, type NextRequest } from "next/server";
+import { viewsProjection } from "@/sanity/lib/blog";
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
@@ -25,11 +26,13 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ error: "Invalid article" }, { status: 400 });
 	}
 
+	// `views` here is the translation-group total, matching what the article page
+	// renders — the increment below still lands on this one document.
 	const article = await writeClient.fetch<{ id: string; views: number } | null>(
 		`*[_type == "article" && _id == $articleId && (
 			(status == "published" && (!defined(publishedAt) || publishedAt <= now())) ||
 			(status == "scheduled" && defined(publishedAt) && publishedAt <= now())
-		)][0]{"id": _id, "views": coalesce(views, 0)}`,
+		)][0]{"id": _id, ${viewsProjection}}`,
 		{ articleId },
 	);
 	if (!article) {
@@ -41,13 +44,13 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ views: article.views, counted: false });
 	}
 
-	const updated = await writeClient
+	await writeClient
 		.patch(articleId)
 		.setIfMissing({ views: 0 })
 		.inc({ views: 1 })
-		.commit<{ views?: number }>({ visibility: "sync" });
+		.commit({ visibility: "sync" });
 
-	const response = NextResponse.json({ views: updated.views ?? article.views + 1, counted: true });
+	const response = NextResponse.json({ views: article.views + 1, counted: true });
 	response.cookies.set(cookieName, "1", {
 		httpOnly: true,
 		sameSite: "lax",

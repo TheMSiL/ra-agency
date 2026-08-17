@@ -17,7 +17,14 @@ const portableTextComponents: PortableTextComponents = {
 	types: {
 		image: ({ value }) => value?.url ? (
 			<figure>
-				<Image src={value.url} alt={value.alt ?? ""} width={1200} height={800} />
+				<Image
+					src={value.url}
+					alt={value.alt ?? ""}
+					width={1200}
+					height={800}
+					sizes="(max-width: 1000px) 92vw, 920px"
+					quality={90}
+				/>
 				{value.caption && <figcaption>{value.caption}</figcaption>}
 			</figure>
 		) : null,
@@ -121,7 +128,17 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 							<BlogPostMeta date={post.publishedAt} readTime={post.readTime} views={views} className="blog_article-stats" />
 						</header>
 						<p className="blog_article-lead">{post.description}</p>
-						<Image className="blog_article-image" src={post.image.url} alt={post.image.alt} width={1600} height={900} loading="eager" fetchPriority="high" />
+						<Image
+							className="blog_article-image"
+							src={post.image.url}
+							alt={post.image.alt}
+							width={1600}
+							height={900}
+							sizes="(max-width: 1128px) 92vw, 1040px"
+							quality={90}
+							loading="eager"
+							fetchPriority="high"
+						/>
 						<div className="blog_article-body"><PortableText value={post.content} components={portableTextComponents} /></div>
 						<div ref={readCompleteRef} aria-hidden="true" />
 						{post.relatedArticles.length > 0 && (
@@ -135,7 +152,14 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 											position: index + 1,
 											source: item.recommendationSource ?? "auto",
 										})}>
-											<Image src={item.image.url} alt={item.image.alt} width={640} height={400} />
+											<Image
+												src={item.image.url}
+												alt={item.image.alt}
+												width={640}
+												height={400}
+												sizes="(max-width: 640px) 92vw, (max-width: 1280px) 48vw, 32vw"
+												quality={90}
+											/>
 											<div className="blog_recommended-content">
 												<p>{item.type}</p><h3>{item.title}</h3>
 												<div className="blog_recommended-description">{item.description}</div>

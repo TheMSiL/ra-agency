@@ -74,7 +74,15 @@ export default function BlogPageContent({ blogPosts }: { blogPosts: SanityBlogPo
 						{t("common.readMore")}
 					</LocalizedLink>
 				</div>
-				<Image className="blog_top-image" src={featuredPost.image.url} alt={featuredPost.image.alt} width={800} height={533} />
+				<Image
+					className="blog_top-image"
+					src={featuredPost.image.url}
+					alt={featuredPost.image.alt}
+					width={800}
+					height={533}
+					sizes="(max-width: 1200px) 92vw, 55vw"
+					quality={90}
+				/>
 			</div>
 			</>}
 			<div className="blog_bottom flex xl:flex-row flex-col items-stretch justify-between gap-5">

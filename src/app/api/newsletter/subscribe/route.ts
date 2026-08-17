@@ -52,10 +52,15 @@ export async function POST(request: Request) {
 
 		await sanityWriteClient.patch(id).set({ syncStatus: "synced", resendContactId: contactId }).commit();
 	} catch (error) {
+		// The subscriber is already stored in Sanity at this point, so a Resend
+		// outage (a suspended API key, a missing segment) must not read as a
+		// failed signup to the visitor — that loses the address twice over, once
+		// in Resend and again because they walk away. The document keeps
+		// syncStatus "failed" so the contact can be pushed once Resend is back.
 		await sanityWriteClient.patch(id).set({ syncStatus: "failed" }).commit();
 		console.error("Newsletter contact sync failed", error);
-		return NextResponse.json({ error: "Could not activate email delivery" }, { status: 502 });
+		return NextResponse.json({ ok: true, synced: false });
 	}
 
-	return NextResponse.json({ ok: true });
+	return NextResponse.json({ ok: true, synced: true });
 }

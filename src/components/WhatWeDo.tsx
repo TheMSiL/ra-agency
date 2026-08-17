@@ -224,7 +224,10 @@ export default function WhatWeDo({ variant = "default" }: { variant?: "default" 
 					const rotation = (midAngle * 180) / Math.PI * 0.55;
 					const orbitScale = lerp(upper.scale, lower.scale, 0.5);
 					let scale = orbitScale;
-					const desktopDrop = Math.min(88, Math.max(48, scene.clientHeight * 0.07));
+					// Nudge below the exact midpoint so the block's optical centre,
+					// not its box centre, sits between the two rays. Kept small —
+					// a larger drop pushed the text visibly off-centre.
+					const desktopDrop = Math.min(44, Math.max(24, scene.clientHeight * 0.035));
 					let itemY = (upperY + lowerY) / 2 + (isNarrowScene ? 0 : desktopDrop);
 
 					if (isNarrowScene) {

@@ -3639,11 +3639,18 @@ a {
 		box-shadow: 0 0 50px 0 rgba(250, 138, 22, 0.4) inset;
 	}
 
+	/* Cover art comes out of Sanity at anything from 3:2 to 21:9, so `cover`
+	   zoomed the widest banners until their headline ran off the card. `contain`
+	   over the panel's own dark fill keeps every cover whole; the artwork is
+	   black-backed, so the letterboxing reads as part of the image. */
 	.blog_top-image {
 		display: block;
 		width: 55%;
 		height: auto;
-		object-fit: cover;
+		max-height: 520px;
+		align-self: center;
+		object-fit: contain;
+		background: rgba(0, 0, 0, 0.35);
 	}
 
 	.blog_read-more {
@@ -3803,8 +3810,9 @@ a {
 
 	.blog_card-image {
 		width: 100%;
-		aspect-ratio: 16 / 10;
-		object-fit: cover;
+		aspect-ratio: 16 / 9;
+		object-fit: contain;
+		background: rgba(0, 0, 0, 0.35);
 		border: 0.625px solid #fa8a16;
 		box-shadow: 0 0 62.5px 0 rgba(250, 138, 22, 0.4) inset;
 		backdrop-filter: blur(6.25px);
@@ -3930,13 +3938,18 @@ a {
 		opacity: 0.75;
 	}
 
+	/* No fixed ratio: the hero renders at the cover's own proportions, so a 21:9
+	   banner is never letterboxed and a 3:2 one is never cropped. `max-height`
+	   only kicks in for the tallest covers, and `contain` letterboxes those
+	   rather than cutting their middle out. */
 	.blog_article-image {
 		display: block;
 		width: min(100%, 1040px);
-		max-height: 460px;
+		height: auto;
+		max-height: 560px;
 		margin-inline: auto;
-		aspect-ratio: 16 / 8;
-		object-fit: cover;
+		object-fit: contain;
+		background: rgba(0, 0, 0, 0.35);
 		border-radius: 19.95px 0 0 19.95px;
 		border: 0.625px solid #fa8a16;
 		box-shadow: 0 0 62.5px 0 rgba(250, 138, 22, 0.4) inset;
@@ -4060,7 +4073,8 @@ a {
 		width: 100%;
 		height: auto;
 		aspect-ratio: 16 / 9;
-		object-fit: cover;
+		object-fit: contain;
+		background: rgba(0, 0, 0, 0.35);
 		transition: transform 0.35s ease;
 	}
 
