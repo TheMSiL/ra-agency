@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useI18n } from "@/context/I18nContext";
+import { trackAnalyticsEvent } from "@/analytics/attribution";
 import AttributionFields from "./AttributionFields";
 
 type ContactModalProps = {
@@ -25,6 +26,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 		setFieldErrors({});
 		onClose();
 	}, [onClose]);
+
+	useEffect(() => {
+		if (isOpen) trackAnalyticsEvent("form_open", { form: "contact-modal", page: window.location.pathname });
+	}, [isOpen]);
 
 	useEffect(() => {
 		if (!isOpen) {
@@ -83,6 +88,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 				}),
 			});
 			if (response.ok) {
+				// GA4 recommended event name — flag it as a key event in the GA4 admin
+				// panel and it is counted as a conversion.
+				trackAnalyticsEvent("generate_lead", { form: "contact-modal", contact_method: contactMethod, page: window.location.pathname });
 				setStatus("success"); formElement.reset(); setContactValue("");
 			} else setStatus("error");
 		} catch { setStatus("error"); }

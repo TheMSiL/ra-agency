@@ -49,8 +49,17 @@ export function captureAttribution() {
 	if (hasConsent()) syncAttributionCookies();
 }
 
+// Google reads Consent Mode; Meta has its own two-value API and replays the
+// events it queued while revoked, so a visitor who accepts after browsing is
+// not measured from scratch.
+const updateTrackingConsent = (state: "granted" | "denied") => {
+	window.gtag?.("consent", "update", { ad_storage: state, ad_user_data: state, ad_personalization: state, analytics_storage: state });
+	window.fbq?.("consent", state === "granted" ? "grant" : "revoke");
+};
+
 export function grantAnalyticsConsent() {
 	localStorage.setItem(ATTRIBUTION_CONSENT_KEY, "granted");
+	updateTrackingConsent("granted");
 	for (const key of [ATTR_FIRST, ATTR_LAST, SESSION, SOURCE_ARTICLE]) {
 		const value = sessionStorage.getItem(key);
 		if (value && !localStorage.getItem(key)) localStorage.setItem(key, value);
@@ -62,6 +71,7 @@ export function grantAnalyticsConsent() {
 
 export function denyAnalyticsConsent() {
 	localStorage.setItem(ATTRIBUTION_CONSENT_KEY, "denied");
+	updateTrackingConsent("denied");
 	for (const key of [ATTR_FIRST, ATTR_LAST, SESSION, CLIENT_ID, SOURCE_ARTICLE]) localStorage.removeItem(key);
 	for (const key of [ATTR_FIRST, ATTR_LAST, CLIENT_ID]) setCookie(key, "", 0);
 	sessionStorage.removeItem(EVENT_QUEUE);
@@ -94,24 +104,41 @@ export function getAttributionPayload(): AttributionPayload {
 	};
 }
 
+function enrich(event: string, parameters: Record<string, unknown>) {
+	const payload = getAttributionPayload();
+	return { event, ...parameters, utm_source_first: payload.attribution_first?.utm_source, utm_campaign_first: payload.attribution_first?.utm_campaign, client_id: payload.client_id };
+}
+
+// dataLayer/fbq set identifying cookies, so they only ever fire with consent.
+function sendToAdPlatforms(event: string, enriched: Record<string, unknown>) {
+	window.dataLayer = window.dataLayer ?? [];
+	window.dataLayer.push(enriched);
+	if (typeof window.fbq === "function") window.fbq("trackCustom", event, enriched);
+}
+
 export function trackAnalyticsEvent(event: string, parameters: Record<string, unknown> = {}) {
+	const enriched = enrich(event, parameters);
+
+	// GA4 runs under Consent Mode, so it is measured for every visitor — before
+	// the banner is accepted the hit is cookieless rather than dropped, which
+	// keeps site-level reporting whole. It is sent here and nowhere else: the
+	// queue replayed on consent feeds only the ad platforms, so GA4 never
+	// records the same interaction twice.
+	window.gtag?.("event", event, enriched);
+
 	if (!hasConsent()) {
 		const queued = parse<Array<{ event: string; parameters: Record<string, unknown> }>>(sessionStorage.getItem(EVENT_QUEUE)) ?? [];
 		queued.push({ event, parameters });
 		sessionStorage.setItem(EVENT_QUEUE, JSON.stringify(queued.slice(-50)));
 		return;
 	}
-	const payload = getAttributionPayload();
-	const enriched = { event, ...parameters, utm_source_first: payload.attribution_first?.utm_source, utm_campaign_first: payload.attribution_first?.utm_campaign, client_id: payload.client_id };
-	window.dataLayer = window.dataLayer ?? [];
-	window.dataLayer.push(enriched);
-	if (hasConsent() && typeof window.fbq === "function") window.fbq("trackCustom", event, enriched);
+	sendToAdPlatforms(event, enriched);
 }
 
 function flushQueuedEvents() {
 	const queued = parse<Array<{ event: string; parameters: Record<string, unknown> }>>(sessionStorage.getItem(EVENT_QUEUE)) ?? [];
 	sessionStorage.removeItem(EVENT_QUEUE);
-	for (const item of queued) trackAnalyticsEvent(item.event, item.parameters);
+	for (const item of queued) sendToAdPlatforms(item.event, enrich(item.event, item.parameters));
 }
 
-declare global { interface Window { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void } }
+declare global { interface Window { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void; gtag?: (...args: unknown[]) => void } }
