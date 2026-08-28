@@ -1,5 +1,5 @@
 import { ATTRIBUTION_CONSENT_KEY } from "./attribution";
-import { GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID } from "./ids";
+import { GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID, OPENAI_PIXEL_ID } from "./ids";
 
 // The inline <head> script that has to run before anything else on the page.
 //
@@ -14,7 +14,7 @@ import { GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID } from "./ids";
 // denied — Google still counts the visit without identifying storage, and Meta
 // holds its events in the queue until the banner is accepted.
 export function analyticsBootstrapScript() {
-	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID) return "";
+	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID && !OPENAI_PIXEL_ID) return "";
 
 	const parts = [
 		`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}var c="denied";try{if(localStorage.getItem("${ATTRIBUTION_CONSENT_KEY}")==="granted")c="granted"}catch(e){}`,
@@ -27,6 +27,16 @@ export function analyticsBootstrapScript() {
 		// owned by RouteChangeTracker so that client-side navigations are counted
 		// too, and firing here as well would double the initial one.
 		parts.push(`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");if(c!=="granted")fbq("consent","revoke");fbq("init","${META_PIXEL_ID}");`);
+	}
+	if (OPENAI_PIXEL_ID) {
+		// OpenAI's own setup code, verbatim apart from the pixel id and the debug
+		// flag it ships switched on. Like the Telegram pixel in app/layout.tsx it
+		// is not gated on the cookie banner: oaiq exposes no consent API to revoke
+		// and re-grant through, and a conversion the ad account never receives is
+		// worse than useless to the campaign it is supposed to optimise. Reuses
+		// the vendor loader rather than a hand-rolled stub so the queue drains the
+		// way the SDK expects.
+		parts.push(`!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"${OPENAI_PIXEL_ID}"});`);
 	}
 	return parts.join("");
 }

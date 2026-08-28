@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useI18n } from "@/context/I18nContext";
 import { trackAnalyticsEvent } from "@/analytics/attribution";
+import { trackOpenAiConversion } from "@/analytics/openai";
 import AttributionFields from "./AttributionFields";
 
 type ContactModalProps = {
@@ -91,6 +92,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 				// GA4 recommended event name — flag it as a key event in the GA4 admin
 				// panel and it is counted as a conversion.
 				trackAnalyticsEvent("generate_lead", { form: "contact-modal", contact_method: contactMethod, page: window.location.pathname });
+				// The conversion OpenAI ads optimises against. Fires here and nowhere
+				// else: only a request the API actually accepted is a filled form.
+				trackOpenAiConversion("formfilled");
 				setStatus("success"); formElement.reset(); setContactValue("");
 			} else setStatus("error");
 		} catch { setStatus("error"); }

@@ -39,7 +39,7 @@ const angry = localFont({
 export const metadata: Metadata = {
 	metadataBase: new URL(CANONICAL_ORIGIN),
 	title: { default: "RA Agency", template: "%s | RA Agency" },
-	description: "Performance marketing agency for measurable and scalable growth.",
+	description: "Google Ads, Meta Ads and Telegram Ads for any niche, any GEO. Certified specialists, data-driven decisions, measurable results.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { setSourceArticle, trackAnalyticsEvent } from "@/analytics/attribution";
 import Background from "./Background";
+import BlogCover from "./BlogCover";
 import BlogPostMeta from "./BlogPostMeta";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -152,14 +153,7 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 											position: index + 1,
 											source: item.recommendationSource ?? "auto",
 										})}>
-											<Image
-												src={item.image.url}
-												alt={item.image.alt}
-												width={640}
-												height={400}
-												sizes="(max-width: 640px) 92vw, (max-width: 1280px) 48vw, 32vw"
-												quality={90}
-											/>
+											<BlogCover image={item.image} />
 											<div className="blog_recommended-content">
 												<p>{item.type}</p><h3>{item.title}</h3>
 												<div className="blog_recommended-description">{item.description}</div>

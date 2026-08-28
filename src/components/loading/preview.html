@@ -1,0 +1,315 @@
+<meta charset="utf-8" />
+<title>RA — boot screen</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  @font-face {
+    font-family: 'Angry';
+    src: url('/fonts/Angry.woff2') format('woff2'), url('/fonts/Angry.otf') format('opentype'),
+      url('/fonts/Angry.ttf') format('truetype');
+    font-display: swap;
+  }
+  html, body { margin: 0; height: 100%; background: #070401; overflow: hidden; }
+  #ra {
+    --void: #070401;
+    --p: 0;
+    --ra-display: 'Angry', 'Arial Black', 'Helvetica Neue', Impact, sans-serif;
+    --ra-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+    position: fixed; inset: 0; display: grid; place-items: center;
+    background: var(--void); opacity: 1;
+    transition: opacity 620ms cubic-bezier(.4,0,.2,1), transform 620ms cubic-bezier(.4,0,.2,1), filter 620ms cubic-bezier(.4,0,.2,1);
+  }
+  #ra[data-state='out'] { opacity: 0; transform: scale(1.05); filter: blur(8px); }
+  .haze { position: absolute; inset: 0;
+    background: radial-gradient(44vmin 44vmin at 50% 48%, rgba(250,138,22, calc(.04 + var(--p) * .07)), transparent 70%),
+      radial-gradient(120vmin 90vmin at 50% 120%, rgba(122,59,2,.14), transparent 70%); }
+  .vignette { position: absolute; inset: 0;
+    background: radial-gradient(80vmin 80vmin at 50% 50%, transparent 30%, rgba(0,0,0,.78) 100%); }
+  .dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+    -webkit-mask-image: radial-gradient(75vmax 75vmax at 50% 50%, #000 35%, transparent 92%);
+    mask-image: radial-gradient(75vmax 75vmax at 50% 50%, #000 35%, transparent 92%); }
+  #ra[data-state='out'] .dust { opacity: 0; transition: opacity 400ms ease; }
+  .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .scene { position: relative; width: min(460px, 88vw); height: min(460px, 88vw); }
+  .canvas { position: absolute; inset: 0; animation: fadeIn 700ms ease both;
+    -webkit-mask-image: radial-gradient(closest-side, #000 58%, transparent 97%);
+    mask-image: radial-gradient(closest-side, #000 58%, transparent 97%); }
+  .bloom { position: absolute; left: 50%; top: 50%; width: 62%; height: 62%; margin: -31% 0 0 -31%;
+    border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, rgba(255,197,118,.42) 0%, rgba(250,138,22,.2) 32%, rgba(250,138,22,.06) 54%, transparent 74%);
+    opacity: calc(.05 + var(--p) * var(--p) * .6);
+    transform: translateZ(0) scale(calc(.7 + var(--p) * .26)); will-change: opacity, transform; }
+  #ra[data-state='flash'] .bloom, #ra[data-state='out'] .bloom {
+    opacity: 1; transform: translateZ(0) scale(1.4);
+    transition: opacity 560ms cubic-bezier(.22,1,.36,1), transform 560ms cubic-bezier(.22,1,.36,1); }
+  .meta { display: flex; align-items: baseline; gap: 14px;
+    animation: rise 900ms cubic-bezier(.16,1,.3,1) 260ms both; }
+  .label { font-family: var(--ra-display); font-size: 12px; letter-spacing: .28em;
+    text-transform: uppercase; color: rgba(255,180,89,.4); }
+  .percent { font-family: var(--ra-mono); font-size: 11px; letter-spacing: .16em;
+    color: rgba(255,180,89,.8); font-variant-numeric: tabular-nums; min-width: 4ch; text-align: right; }
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+  .replay { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 10;
+    padding: 9px 18px; border: 1px solid rgba(250,138,22,.28); border-radius: 999px;
+    background: rgba(250,138,22,.06); color: #ffb459; font: 10px ui-monospace, monospace;
+    letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
+  .replay:hover { background: rgba(250,138,22,.14); }
+</style>
+
+<div id="ra" data-state="in">
+  <div class="haze"></div>
+  <div class="vignette"></div>
+  <canvas class="dust" id="dust"></canvas>
+  <div class="stage">
+    <div class="scene">
+      <div class="bloom"></div>
+      <div class="canvas" id="scene"></div>
+    </div>
+    <div class="meta"><span class="label">Loading</span><span class="percent" id="pct">0%</span></div>
+  </div>
+</div>
+<button class="replay" id="replay">Проиграть снова</button>
+
+<script>
+const POS_B64 = "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";
+const IDX_B64 = "CQADAAAAAwAGAAAADQAJAAAAEAANAAAAEAAAABMAEwAXAB0AEwAaABcAEwAdACAAEwAgACMAEwAjACkAJgAQABMALQAmABMANAATACkAMAAtABMANAAwABMANwA0ACkAKQA6ADcAKQA+ADoAKQBBAD4AKQBEAEEAKQBHAEQAKQBKAEcAKQBNAEoAKQBQAE0AUABTAE0AUwBQAFYAVgBQAFkAWQBQAFwAXABQAF8AYgBfAFAAZQBiAFAAZQBQAGgAawBlAGgAbwBrAGgAcwBvAGgAdgBzAGgAaAB5AHYAaAB8AHkAhQB/AHwAfwCCAHwAaACFAHwAmACIAIUAiACLAIUAhQCOAJQAhQCRAI4AhQCUAH8AmwCYAIUAaACbAIUAmwCeAJgAaAChAJsAoQCkAJsAaACnAKEAjgCqAJQAlACtAH8AlACwAK0ArQCzAH8AfwC2AIIAUAC5AGgAuQC8AGgAUAC/ALkAKQDCAFAALQDFACYALQDIAMUAyADLAMUAxQDOACYAxQDRAM4AzgDUACYAIwDXACkAJgDaABAAJgDdANoA2gDgABAAIADkACMAHQDnACAAFwDqAB0AEADtAA0A8ADzAO0A7QDzAA0A9gDzAPAA+QDzAPYA/QDzAPkAAQHzAP0ABQHzAAEBCAHzAAUBCwHzAAgBDgHzAAsBEQHzAA4BFAHzABEBFwHzABQBDQAaAQkADQAdARoBGgEhAQkACQAlAQMACQAoASUBJQErAQMAAwAuAQYAOwExATUBNQExATgBPgExATsBQgExAT4BQgFFATEBRQFOAUgBRQFIAUsBRQFRAU4BRQFUAVEBRQFaAVQBVwFFAUIBXQFFAVcBYwFaAUUBYAFFAV0BYwFFAWABZwFaAWMBWgFnAWoBWgFqAW0BWgFtAXEBWgFxAXQBWgF0AXcBWgF3AXoBWgF6AX0BWgF9AYABgAF9AYMBgwGGAYABhgGJAYABiQGMAYABjAGPAYABkgGAAY8BlQGAAZIBlQGYAYABmwGYAZUBngGYAZsBogGYAZ4BpgGYAaIBmAGmAakBmAGpAawBtQGsAa8BrwGsAbIBmAGsAbUBxwG1AbgBuAG1AbsBtQHEAb4BtQG+AcEBtQGvAcQBygG1AccBmAG1AcoBygHHAc0BmAHKAdAB0AHKAdMBmAHQAdYBvgHEAdkBxAGvAd0BxAHdAeAB3QGvAeMBrwGyAeYBgAGYAekB6QGYAewBgAHpAe8BWgGAAfIBXQFXAfUBXQH1AfgB+AH1AfsB9QFXAf4B9QH+AQEC/gFXAQQCVAFaAQcCVwFCAQsCVwELAg8CCwJCARICUQFUARUCTgFRARgCSAFOARsCQgE+AR4CIQIeAiQCHgI+ASQCJwIhAiQCKwInAiQCLwIrAiQCMwIvAiQCNgIzAiQCOQI2AiQCPAI5AiQCPwI8AiQCQgI/AiQCRQJCAiQCSAJFAiQCPgE7AUsCPgFLAk8CSwI7AVICOwE1AVYCOwFWAlkCVgI1AVwCNQE4AV8CAgAIADoBAgA6ATQBFgABADMBFQAyAUcBGwAUAEYBGwBGAUwBGAAcAE0BGABNAUkBLgAxAGEBLgBhAV4BMwA1AGUBMgBkAWIBNgA4AGgBNgBoAWYBOQA7AGsBOQBrAWkBPQA/AG8BPABuAWwBQABCAHIBQAByAXABQwBFAHUBQwB1AXMBRgBIAHgBRgB4AXYBSQBLAHsBSQB7AXkBTABOAH4BTAB+AXwBTwBUAIQBTwCEAX8BVQBYAIgBVQCIAYUBVwBbAIsBVwCLAYcBWgBeAI4BWgCOAYoBXQBhAJEBXQCRAY0BYABkAJQBYACUAZABYwBnAJcBYwCXAZMBZgBuAJ0BZgCdAZYBbQByAKEBbACgAZwBcQB1AKUBcACkAZ8BdAB4AKgBdACoAaMBdwB7AKsBdwCrAacBegB+AK4BegCuAaoBfQCDALMBfQCzAa0BigCZAMgBigDIAboBjACJALkBjAC5AbwBhwCNAL0BhwC9AbcBkwCGALYBkwC2AcMBkACSAMIBkADCAcABoACcAMsBoADLAc8BmgCfAM4BmgDOAckBpgCiANEBpgDRAdUBnQClANQBnQDUAcwBqQBpAJkBqQCZAdgBowCoANcBowDXAdIBrACPAL8BrAC/AdwBlwCrANsBlgDaAcYBsgCVAMUBsgDFAeIBrwCxAOEBrwDhAd8BtQCuAN4BtQDeAeUBgQC0AOQBgQDkAbEBuACAALABuACwAegBhAC3AOcBhADnAbQBvgC6AOoBvgDqAe4BagC9AO0BagDtAZoBwQBRAIEBwQCBAfEBuwDAAPABuwDwAesBwwAsAFwBwwBcAfMBUgDEAPQBUgD0AYIBygAvAF8BygBfAfoBzQDJAPkBzQD5Af0BxwDMAPwBxwD8AfcB0wDGAPYB0wD2AQMC0ADSAAIC0AACAgAC1gDPAP8B1gD/AQYCJwDVAAUCJwAFAlgB2AAlAFYB2ABWAQgCKwDZAAoCKgAJAlsB3gAoAFkB3gBZARAC2wDfABEC2wARAgwC4gDcAA4C4QANAhMCEQDjABQCEQAUAkMB5QAiAFMB5QBTARYCJADmABcCJAAXAlUB6AAfAFAB6ABQARkCIQDpABoCIQAaAlIB6wAZAEoB6wBKARwCHgDsAB0CHgAdAk8B7gASAEQB7gBEAR8C8gDvACAC8gAgAiMCDwD0ACUCDwAlAkEB+ADxACIC+AAiAioC+wD3ACgC/AApAi4C/wD6ACwCAAEtAjICAwH+ADACBAExAjUCBwECATQCBwE0AjgCCgEGATcCCgE3AjsCDQEJAToCDQE6Aj4CEAEMAT0CEAE9AkECEwEPAUACEwFAAkQCFgESAUMCFgFDAkcCGQEVAUYCGQFGAkoC9QAYAUkC9QBJAiYCHwEOAD8BIAFAAVECHAEeAVACHAFQAk4CIwEbAUwCJAFNAlUCCwAiAVMCDABUAj0BKgEKADwBKgE8AVsCJwEpAVoCJwFaAlgCLAEmAVcCLAFXAl0CBAAtAV4CBABeAjYBLwEFADcBLwE3AWACBwAwAWECBwBhAjkB";
+
+function bin(s) {
+  const b = atob(s);
+  const u = new Uint8Array(b.length);
+  for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i);
+  return u.buffer;
+}
+function triangles() {
+  const positions = new Float32Array(bin(POS_B64));
+  const indices = new Uint16Array(bin(IDX_B64));
+  const out = new Float32Array(indices.length * 3);
+  for (let i = 0; i < indices.length; i++) {
+    const v = indices[i] * 3;
+    out[i*3] = positions[v]; out[i*3+1] = positions[v+1]; out[i*3+2] = positions[v+2];
+  }
+  return out;
+}
+
+const VERT = `
+attribute vec3 aCentroid; attribute vec3 aScatter; attribute vec3 aAxis;
+attribute float aDelay;
+uniform float uProgress;
+varying vec3 vNormal; varying vec3 vView; varying float vT;
+mat3 axisRot(vec3 axis, float angle) {
+  float c = cos(angle); float s = sin(angle); float t = 1.0 - c; vec3 a = normalize(axis);
+  return mat3(
+    t*a.x*a.x + c,     t*a.x*a.y - s*a.z, t*a.x*a.z + s*a.y,
+    t*a.x*a.y + s*a.z, t*a.y*a.y + c,     t*a.y*a.z - s*a.x,
+    t*a.x*a.z - s*a.y, t*a.y*a.z + s*a.x, t*a.z*a.z + c);
+}
+void main() {
+  float t = clamp((uProgress - aDelay) / 0.5, 0.0, 1.0);
+  t = 1.0 - pow(1.0 - t, 3.0);
+  vT = t;
+  mat3 r = axisRot(aAxis, (1.0 - t) * 3.4);
+  vec3 local = r * ((position - aCentroid) * mix(0.55, 1.0, t));
+  vec3 pos = aCentroid + local + aScatter * (1.0 - t);
+  vNormal = normalize(normalMatrix * (r * normal));
+  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+  vView = -mv.xyz;
+  gl_Position = projectionMatrix * mv;
+}`;
+
+const FRAG = `
+precision highp float;
+uniform vec3 uDark; uniform vec3 uMid; uniform vec3 uHot;
+varying vec3 vNormal; varying vec3 vView; varying float vT;
+void main() {
+  vec3 n = normalize(vNormal);
+  if (!gl_FrontFacing) n = -n;
+  vec3 v = normalize(vView);
+  float key = max(dot(n, normalize(vec3(-0.45, 0.75, 0.55))), 0.0);
+  float fill = max(dot(n, normalize(vec3(0.6, -0.4, 0.35))), 0.0) * 0.35;
+  float rim = pow(1.0 - max(dot(n, v), 0.0), 2.6);
+  vec3 col = mix(uDark, uMid, key);
+  col = mix(col, uHot, key * key * 0.55 + rim * 0.7);
+  col += uMid * fill;
+  col *= mix(0.45, 1.0, vT);
+  gl_FragColor = vec4(col, smoothstep(0.0, 0.3, vT));
+}`;
+
+let setProgress = function () {};
+(function scene3d() {
+  const host = document.getElementById('scene');
+  if (!window.THREE) { host.innerHTML = '<p style="color:#fa8a16;font:12px monospace">three.js не загрузился</p>'; return; }
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.domElement.style.cssText = 'width:100%;height:100%;display:block';
+  host.appendChild(renderer.domElement);
+
+  const sc = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+  camera.position.set(0, 0, 6.2);
+
+  const tri = triangles();
+  const count = tri.length / 9;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(tri, 3));
+  geo.computeVertexNormals();
+
+  const centroid = new Float32Array(count*9), scatter = new Float32Array(count*9),
+        axis = new Float32Array(count*9), delay = new Float32Array(count*3);
+  for (let f = 0; f < count; f++) {
+    const o = f * 9;
+    const cx = (tri[o] + tri[o+3] + tri[o+6]) / 3;
+    const cy = (tri[o+1] + tri[o+4] + tri[o+7]) / 3;
+    const cz = (tri[o+2] + tri[o+5] + tri[o+8]) / 3;
+
+    // равномерно по сфере: (random - 0.5) по осям давал кубическое облако
+    let dx = 0, dy = 0, dz = 0, l2 = 2;
+    while (l2 > 1 || l2 < 1e-6) {
+      dx = Math.random()*2 - 1; dy = Math.random()*2 - 1; dz = Math.random()*2 - 1;
+      l2 = dx*dx + dy*dy + dz*dz;
+    }
+    const l = Math.sqrt(l2); dx /= l; dy /= l; dz /= l;
+
+    const r = 0.55 + Math.cbrt(Math.random()) * 1.0;
+    const len = Math.hypot(cx, cy) || 1;
+    const sx = (dx*0.72 + (cx/len)*0.42) * r;
+    const sy = (dy*0.72 + (cy/len)*0.42) * r;
+    const sz = dz * r * 0.85;
+
+    const ax = Math.random()-0.5, ay = Math.random()-0.5, az = Math.random()-0.5;
+    const d = ((cx + 1) / 2) * 0.34 + Math.random() * 0.14;
+
+    for (let k = 0; k < 3; k++) {
+      const p = o + k*3;
+      centroid[p]=cx; centroid[p+1]=cy; centroid[p+2]=cz;
+      scatter[p]=sx; scatter[p+1]=sy; scatter[p+2]=sz;
+      axis[p]=ax; axis[p+1]=ay; axis[p+2]=az;
+      delay[f*3+k]=d;
+    }
+  }
+  geo.setAttribute('aCentroid', new THREE.BufferAttribute(centroid, 3));
+  geo.setAttribute('aScatter', new THREE.BufferAttribute(scatter, 3));
+  geo.setAttribute('aAxis', new THREE.BufferAttribute(axis, 3));
+  geo.setAttribute('aDelay', new THREE.BufferAttribute(delay, 1));
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader: VERT, fragmentShader: FRAG, transparent: true, side: THREE.DoubleSide,
+    uniforms: {
+      uProgress: { value: 0 },
+      uDark: { value: new THREE.Color('#4a1f02') },
+      uMid: { value: new THREE.Color('#fa8a16') },
+      uHot: { value: new THREE.Color('#ffd9a0') },
+    },
+  });
+
+  const group = new THREE.Group();
+  group.add(new THREE.Mesh(geo, material));
+  sc.add(group);
+
+  function resize() {
+    const w = host.clientWidth || 1, h = host.clientHeight || 1;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  resize();
+  new ResizeObserver(resize).observe(host);
+
+  let p = 0;
+  setProgress = (v) => { p = v; };
+  const t0 = performance.now();
+  (function loop(now) {
+    const time = (now - t0) / 1000;
+    material.uniforms.uProgress.value = p;
+    const settle = 1 - Math.pow(1 - Math.min(p, 1), 3);
+    group.rotation.y = (1 - settle) * -1.05 + Math.sin(time * 0.45) * 0.13 * settle;
+    group.rotation.x = (1 - settle) * 0.4 + Math.sin(time * 0.33 + 1.2) * 0.06 * settle;
+    group.position.z = (1 - settle) * -1.2;
+    renderer.render(sc, camera);
+    requestAnimationFrame(loop);
+  })(t0);
+})();
+
+/* ---------- пыль ---------- */
+(function dustField() {
+  const canvas = document.getElementById('dust');
+  const ctx = canvas.getContext('2d');
+  const rand = (a, b) => a + Math.random() * (b - a);
+  let w, h, motes;
+  function build() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    w = Math.max(1, rect.width); h = Math.max(1, rect.height);
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.round(Math.min(180, ((w * h) / 1e6) * 62));
+    motes = Array.from({ length: count }, () => {
+      const z = Math.random();
+      return { x: Math.random()*w, y: Math.random()*h, r: rand(.35,.9)+z*1.5, z,
+        vy: -(rand(2,7)+z*9)/60, sway: rand(6,22)*(.4+z),
+        phase: Math.random()*Math.PI*2, twinkle: rand(.4,1.6) };
+    });
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'lighter';
+    const boost = 0.75 + (window.__raP || 0) * 0.55;
+    const time = t / 1000;
+    for (const m of motes) {
+      m.y += m.vy;
+      if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; }
+      const x = m.x + Math.sin(time * 0.28 + m.phase) * m.sway;
+      const flicker = 0.62 + 0.38 * Math.sin(time * m.twinkle + m.phase);
+      const alpha = (0.06 + m.z * 0.34) * flicker * boost;
+      if (m.z > 0.55) {
+        const g = ctx.createRadialGradient(x, m.y, 0, x, m.y, m.r * 5);
+        g.addColorStop(0, 'rgba(255,214,130,' + alpha * 0.5 + ')');
+        g.addColorStop(1, 'rgba(255,190,90,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, m.y, m.r * 5, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = 'rgba(255,206,112,' + alpha + ')';
+      ctx.beginPath(); ctx.arc(x, m.y, m.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(draw);
+  }
+  build(); new ResizeObserver(build).observe(canvas); requestAnimationFrame(draw);
+})();
+
+/* ---------- прогресс ---------- */
+const ra = document.getElementById('ra');
+const pct = document.getElementById('pct');
+let raf, v;
+
+function run() {
+  cancelAnimationFrame(raf);
+  v = 0; ra.dataset.state = 'in';
+  ra.style.setProperty('--p', 0); window.__raP = 0;
+  pct.textContent = '0%'; setProgress(0);
+  ra.querySelectorAll('.canvas, .meta').forEach((el) => {
+    el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+  });
+
+  const start = performance.now();
+  let last = start;
+  const tick = (now) => {
+    const dt = Math.min(64, now - last); last = now;
+    const e = now - start;
+    const target = e > 3000 ? 100 : 92 * (1 - Math.exp(-e / 900));
+    v += (target - v) * (1 - Math.exp(-dt / 170));
+    if (v > 99.5) v = 100;
+    ra.style.setProperty('--p', (v / 100).toFixed(4));
+    window.__raP = v / 100;
+    setProgress(v / 100);
+    pct.textContent = Math.round(v) + '%';
+    if (v < 100) raf = requestAnimationFrame(tick);
+    else {
+      ra.dataset.state = 'flash';
+      setTimeout(() => (ra.dataset.state = 'out'), 520);
+      setTimeout(run, 2400);
+    }
+  };
+  raf = requestAnimationFrame(tick);
+}
+document.getElementById('replay').onclick = run;
+run();
+</script>

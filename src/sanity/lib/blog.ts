@@ -7,6 +7,9 @@ import type { Locale } from "@/i18n/config";
 export type SanityBlogImage = {
 	url: string;
 	alt: string;
+	// Set in Studio (coverImage has `hotspot: true`). Drives the CDN crop so a
+	// banner is cut around what the editor marked, not around its centre.
+	hotspot?: { x: number; y: number } | null;
 };
 
 export type SanityBlogPost = {
@@ -69,7 +72,8 @@ const articleProjection = `
 	noindex,
 	"image": {
 		"url": coverImage.asset->url,
-		"alt": coverImage.alt
+		"alt": coverImage.alt,
+		"hotspot": coverImage.hotspot{x, y}
 	},
 	"content": body[]{
 		...,

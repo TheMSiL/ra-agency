@@ -1,0 +1,203 @@
+/* ------------------------------------------------------------------
+   RA — boot screen. Знак собирается из осколков своего же 3D-меша.
+   Палитра снята пипеткой с оригинального рендера.
+------------------------------------------------------------------- */
+
+.root {
+  --void: #070401;
+  --flame: #fa8a16;
+  --glow: #ffb459;
+
+  --p: 0; /* 0..1, прогресс */
+
+  /* Angry is already self-hosted by next/font in app/layout.tsx and exposed as
+     --font-display; loading a second copy from /fonts here would double the
+     request and re-introduce the FOUT next/font exists to remove. */
+  --ra-display: var(--font-display), 'Arial Black', 'Helvetica Neue', Impact, sans-serif;
+  --ra-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--void);
+
+  opacity: 1;
+  transition:
+    opacity 620ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 620ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 620ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.root[data-state='out'] {
+  opacity: 0;
+  transform: scale(1.05);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* ---------- фон ---------- */
+
+.haze {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      44vmin 44vmin at 50% 48%,
+      rgba(250, 138, 22, calc(0.04 + var(--p) * 0.07)),
+      transparent 70%
+    ),
+    radial-gradient(120vmin 90vmin at 50% 120%, rgba(122, 59, 2, 0.14), transparent 70%);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80vmin 80vmin at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.78) 100%);
+}
+
+.dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(75vmax 75vmax at 50% 50%, #000 35%, transparent 92%);
+  mask-image: radial-gradient(75vmax 75vmax at 50% 50%, #000 35%, transparent 92%);
+}
+
+.root[data-state='out'] .dust {
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+/* ---------- сцена ---------- */
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+}
+
+/* запас по площади, чтобы осколкам было куда разлетаться */
+.scene {
+  position: relative;
+  width: min(460px, 88vw);
+  height: min(460px, 88vw);
+}
+
+/* Мягкая маска по краю — вторая половина лечения «квадрата».
+   Осколок, долетевший до границы канваса, растворяется, а не срезается
+   прямой линией. Без неё любой разлёт рано или поздно упрётся в рамку. */
+.canvas {
+  position: absolute;
+  inset: 0;
+  animation: fadeIn 700ms ease both;
+  -webkit-mask-image: radial-gradient(closest-side, #000 58%, transparent 97%);
+  mask-image: radial-gradient(closest-side, #000 58%, transparent 97%);
+}
+
+/* ореол — отдельный слой на композиторе: только opacity и transform */
+.bloom {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 62%;
+  height: 62%;
+  margin: -31% 0 0 -31%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(255, 197, 118, 0.42) 0%,
+    rgba(250, 138, 22, 0.2) 32%,
+    rgba(250, 138, 22, 0.06) 54%,
+    transparent 74%
+  );
+  opacity: calc(0.05 + var(--p) * var(--p) * 0.6);
+  transform: translateZ(0) scale(calc(0.7 + var(--p) * 0.26));
+  will-change: opacity, transform;
+}
+
+.root[data-state='flash'] .bloom,
+.root[data-state='out'] .bloom {
+  opacity: 1;
+  transform: translateZ(0) scale(1.4);
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- счётчик ---------- */
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  animation: rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 260ms both;
+}
+
+.label {
+  font-family: var(--ra-display);
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 180, 89, 0.4);
+}
+
+.percent {
+  font-family: var(--ra-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(255, 180, 89, 0.8);
+  font-variant-numeric: tabular-nums;
+  min-width: 4ch;
+  text-align: right;
+}
+
+/* ---------- анимации ---------- */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas,
+  .meta {
+    animation: none;
+  }
+  .dust {
+    display: none;
+  }
+  .root {
+    transition-duration: 200ms;
+  }
+  .root[data-state='out'] {
+    transform: none;
+    filter: none;
+  }
+}
