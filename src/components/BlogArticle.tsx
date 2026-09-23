@@ -9,6 +9,7 @@ import { setSourceArticle, trackAnalyticsEvent } from "@/analytics/attribution";
 import Background from "./Background";
 import BlogCover from "./BlogCover";
 import BlogPostMeta from "./BlogPostMeta";
+import Breadcrumbs from "./Breadcrumbs";
 import Footer from "./Footer";
 import Header from "./Header";
 import LocalizedLink from "./LocalizedLink";
@@ -123,6 +124,7 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 				<div className="blog_page-content">
 					<Header localePaths={localePaths} />
 					<main className="content_container blog_article">
+						<Breadcrumbs items={[{ label: t("nav.blog"), href: "/blog" }, { label: post.title }]} />
 						<header className="blog_article-header">
 							<div className="blog_article-meta"><span>{post.type}</span></div>
 							<h1>{post.title}</h1>

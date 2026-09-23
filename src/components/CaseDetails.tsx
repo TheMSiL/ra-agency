@@ -6,6 +6,7 @@ import { useLayoutEffect, useRef } from "react";
 import { useI18n } from "@/context/I18nContext";
 import type { CaseResult, CasesCardProps, CaseStep } from "@/data/cases";
 import Background from "./Background";
+import Breadcrumbs from "./Breadcrumbs";
 import Footer from "./Footer";
 import Header from "./Header";
 import Talk from "./Talk";
@@ -103,6 +104,7 @@ export default function CaseDetails({ caseItem }: { caseItem: CasesCardProps }) 
 				<div className="case_page">
 					<Header />
 					<main className="case_page-main content_container">
+						<Breadcrumbs items={[{ label: t("nav.cases"), href: "/cases" }, { label: caseItem.case_title }]} />
 						<h1 className="case_page-title font-display numbers_gradient-text">{caseItem.case_title}</h1>
 						<section ref={timelineRef} className="case_timeline" aria-label={`${caseItem.steps ?? steps.length} project steps`}>
 							{steps.map((step, index) => (

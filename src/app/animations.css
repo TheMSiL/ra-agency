@@ -398,3 +398,46 @@
 			display: none;
 		}
 	}
+
+	/* The floating CTA is the only always-on entry to the contact form, and it
+	   reads as a decorative Telegram badge until it moves. A double hop every few
+	   seconds is enough to register without turning into a distraction.
+	
+	   It animates .floating_tg_icon-wrap rather than the button: GSAP owns the
+	   button, .floating_tg_label and .floating_tg_icon for the hero morph, and
+	   two owners of one transform fight. The -3px keeps the wrapper's own offset
+	   from globals.css, which a bare translateY would drop. */
+	@keyframes ctaNudge {
+		0%,
+		86%,
+		100% {
+			transform: translate(-3px, 0);
+		}
+
+		89% {
+			transform: translate(-3px, -7px);
+		}
+
+		92% {
+			transform: translate(-3px, 0);
+		}
+
+		95% {
+			transform: translate(-3px, -4px);
+		}
+
+		98% {
+			transform: translate(-3px, 0);
+		}
+	}
+
+	.floating_tg_btn .floating_tg_icon-wrap {
+		animation: ctaNudge 5.5s ease-in-out infinite;
+	}
+
+	/* An element that jumps on its own is exactly what this preference is for. */
+	@media (prefers-reduced-motion: reduce) {
+		.floating_tg_btn .floating_tg_icon-wrap {
+			animation: none;
+		}
+	}

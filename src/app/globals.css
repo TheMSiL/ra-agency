@@ -1617,7 +1617,7 @@ a {
 		color: #fff5ec;
 		text-align: center;
 		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 20px;
+		font-size: 19px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 140%; /* 22.4px */
@@ -1821,6 +1821,62 @@ a {
 		opacity: 0;
 		pointer-events: none;
 		transform: translateY(12px) scale(0.92);
+	}
+
+	/* Bottom-left, because the Telegram CTA owns bottom-right. Smaller and
+	   quieter than that button on purpose: this one is a utility, not an offer. */
+	.scroll_top-btn {
+		position: fixed;
+		left: 38px;
+		bottom: 38px;
+		z-index: 2400;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 54px;
+		height: 54px;
+		border: 1.5px solid rgba(250, 138, 22, 0.75);
+		border-radius: 50%;
+		background: rgba(0, 0, 0, 0.45);
+		box-shadow: 0 0 40px 0 rgba(250, 138, 22, 0.28) inset;
+		color: #fa8a16;
+		cursor: pointer;
+		backdrop-filter: blur(8px);
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(12px) scale(0.92);
+		transition:
+			opacity 0.3s ease,
+			transform 0.3s ease,
+			border-color 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.scroll_top-btn.is-visible {
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateY(0) scale(1);
+	}
+
+	.scroll_top-btn:hover,
+	.scroll_top-btn:focus-visible {
+		border-color: #fa8a16;
+		box-shadow: 0 0 28px rgba(250, 138, 22, 0.42) inset;
+	}
+
+	body.burger_menu_open .scroll_top-btn {
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(12px) scale(0.92);
+	}
+
+	@media (max-width: 768px) {
+		.scroll_top-btn {
+			left: 18px;
+			bottom: 18px;
+			width: 46px;
+			height: 46px;
+		}
 	}
 
 	.contact_modal {
@@ -3281,6 +3337,59 @@ a {
 	}
 	.case_page-main {
 		padding-top: clamp(54px, 7vw, 110px);
+	}
+
+	/* Shared by the case and article pages. Deliberately quiet: the trail is a
+	   wayfinding aid above the title, not a second navigation bar. */
+	.breadcrumbs {
+		margin-bottom: clamp(20px, 2.4vw, 36px);
+	}
+
+	.breadcrumbs_list {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: clamp(12px, 1.1vw, 14px);
+		line-height: 1.4;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	.breadcrumbs_item {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		min-width: 0;
+	}
+
+	.breadcrumbs_link {
+		color: rgba(255, 245, 236, 0.62);
+		text-decoration: none;
+		transition: color 0.25s ease;
+	}
+
+	.breadcrumbs_link:hover,
+	.breadcrumbs_link:focus-visible {
+		color: #fa8a16;
+	}
+
+	.breadcrumbs_separator {
+		color: rgba(250, 138, 22, 0.55);
+	}
+
+	/* The last crumb repeats the <h1> right below it, so it is clipped rather
+	   than allowed to wrap into a second line of title-length text. */
+	.breadcrumbs_current {
+		display: block;
+		max-width: min(100%, 420px);
+		overflow: hidden;
+		color: rgba(255, 245, 236, 0.92);
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.case_page-title {
 		font-size: clamp(36px, 5.1vw, 82px);

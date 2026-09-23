@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import { I18nProvider } from "@/context/I18nContext";
 import { locales } from "@/i18n/config";
 import ScrollToTop from "@/components/ScrollToTop";
+import ScrollTopButton from "@/components/ScrollTopButton";
 import "./globals.css";
 import "./animations.css";
 import "./responsive.css";
@@ -123,6 +124,7 @@ export default function RootLayout({
           <SiteSettingsProvider>
           <Preloader />
           <ScrollToTop />
+          <ScrollTopButton />
           <AnalyticsBootstrap />
           {children}
           <PromoPopup />
