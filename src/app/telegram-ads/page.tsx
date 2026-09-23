@@ -20,7 +20,7 @@ export default async function TgAdsPage() {
 			<WhatYouGet variant="telegram" />
 			<WhatWeDo variant="telegram" />
 			<div className="section_background">
-				<Cases casesItems={cases} />
+				<Cases casesItems={cases} channel="telegram" />
 				<Reviews reviewsData={reviews} />
 				<Talk />
 			</div>
