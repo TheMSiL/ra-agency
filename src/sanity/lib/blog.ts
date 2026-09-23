@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 import type { PortableTextBlock } from "@portabletext/types";
-import { sanityClient } from "./client";
+import { fetchWithFallback, sanityClient } from "./client";
 import { translationsProjection, type DocumentTranslation } from "./translations";
 import type { Locale } from "@/i18n/config";
 
@@ -117,9 +117,16 @@ const articleQuery = defineQuery(`
 `);
 
 export async function getBlogPosts(language: Locale): Promise<SanityBlogPost[]> {
-	return sanityClient.fetch(articlesQuery, { language }, { next: { revalidate: 60, tags: ["articles"] } });
+	return fetchWithFallback(
+		"articles",
+		() => sanityClient.fetch<SanityBlogPost[]>(articlesQuery, { language }, { next: { revalidate: 60, tags: ["articles"] } }),
+		[],
+	);
 }
 
+// The article itself is deliberately unguarded — see the note on getCaseStudy.
+// Its recommendations are not: getBlogPosts() degrading to [] only costs the
+// "keep exploring" rail at the bottom of the page.
 export async function getBlogPost(language: Locale, slug: string): Promise<SanityBlogPost | null> {
 	const [post, posts] = await Promise.all([
 		sanityClient.fetch<SanityBlogPost | null>(articleQuery, { language, slug }, { next: { revalidate: 60, tags: ["articles", `article:${slug}`] } }),

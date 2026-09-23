@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Mulish } from "next/font/google";
 import localFont from "next/font/local";
 import { I18nProvider } from "@/context/I18nContext";
+import { locales } from "@/i18n/config";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 import "./animations.css";
@@ -58,6 +59,15 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+// <html> is owned by this layout, which sits above app/[locale] and so cannot
+// know the language of the page being rendered without opting the whole site
+// out of static rendering. The inline script below stamps the right value from
+// the URL before the first paint instead; I18nContext keeps it in step on
+// client-side navigation between languages.
+const HTML_LANG_BY_LOCALE = JSON.stringify(
+  Object.fromEntries(locales.map(({ code, htmlLang }) => [code, htmlLang])),
+);
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -74,10 +84,11 @@ export default function RootLayout({
             their elements only when scripting can actually reveal them again —
             without it a stalled bundle left the hero and its CTA blank.
             `data-loading` shows the preloader; the timeout is the failsafe that
-            releases the page even if the React bundle never executes. */}
+            releases the page even if the React bundle never executes. `lang` is
+            corrected here rather than on <html> above — see HTML_LANG_BY_LOCALE. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(e){e.dataset.js="1";e.dataset.loading="1";setTimeout(function(){if(e.hasAttribute("data-loading")){e.removeAttribute("data-loading");e.setAttribute("data-app-ready","1")}},6000)})(document.documentElement);history.scrollRestoration="manual";window.scrollTo(0,0);`,
+            __html: `(function(e){e.dataset.js="1";e.dataset.loading="1";var l=(${HTML_LANG_BY_LOCALE})[location.pathname.split("/")[1]];if(l)e.lang=l;setTimeout(function(){if(e.hasAttribute("data-loading")){e.removeAttribute("data-loading");e.setAttribute("data-app-ready","1")}},6000)})(document.documentElement);history.scrollRestoration="manual";window.scrollTo(0,0);`,
           }}
         />
         {/* Consent Mode defaults plus the gtag()/fbq() queue stubs. Must stay

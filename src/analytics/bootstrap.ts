@@ -17,7 +17,7 @@ export function analyticsBootstrapScript() {
 	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID && !OPENAI_PIXEL_ID) return "";
 
 	const parts = [
-		`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}var c="denied";try{if(localStorage.getItem("${ATTRIBUTION_CONSENT_KEY}")==="granted")c="granted"}catch(e){}`,
+		`window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};var c="denied";try{if(localStorage.getItem("${ATTRIBUTION_CONSENT_KEY}")==="granted")c="granted"}catch(e){}`,
 	];
 	if (GA_MEASUREMENT_ID || GTM_CONTAINER_ID) {
 		parts.push(`gtag("consent","default",{ad_storage:c,ad_user_data:c,ad_personalization:c,analytics_storage:c,functionality_storage:"granted",security_storage:"granted"});`);
@@ -38,5 +38,11 @@ export function analyticsBootstrapScript() {
 		// way the SDK expects.
 		parts.push(`!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"${OPENAI_PIXEL_ID}"});`);
 	}
-	return parts.join("");
+	// Emitted from two places and written to be safe when both fire. The <head>
+	// copy in app/layout.tsx is the one that normally runs, before the first
+	// paint; components/Analytics.tsx emits it a second time because React does
+	// not execute a <script> it renders on the client, which is exactly what
+	// happens to the <head> copy on a notFound() route — leaving those pages
+	// with no Consent Mode defaults and no pixel queues at all.
+	return `if(!window.__raAnalyticsBootstrapped){window.__raAnalyticsBootstrapped=1;${parts.join("")}}`;
 }

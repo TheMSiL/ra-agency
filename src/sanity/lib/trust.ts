@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 import type { Locale } from "@/i18n/config";
-import { sanityClient } from "./client";
+import { fetchWithFallback, sanityClient } from "./client";
 
 export type TrustedCompany = {
 	id: string;
@@ -25,5 +25,9 @@ const trustedCompaniesQuery = defineQuery(`
 `);
 
 export async function getTrustedCompanies(language: Locale): Promise<TrustedCompany[]> {
-	return sanityClient.fetch(trustedCompaniesQuery, { language }, { next: { revalidate: 60, tags: ["trusted-companies"] } });
+	return fetchWithFallback(
+		"trusted companies",
+		() => sanityClient.fetch<TrustedCompany[]>(trustedCompaniesQuery, { language }, { next: { revalidate: 60, tags: ["trusted-companies"] } }),
+		[],
+	);
 }

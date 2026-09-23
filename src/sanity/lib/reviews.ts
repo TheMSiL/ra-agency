@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 import type { Locale } from "@/i18n/config";
-import { sanityClient } from "./client";
+import { fetchWithFallback, sanityClient } from "./client";
 
 export type SanityReview = {
 	id: string;
@@ -23,5 +23,9 @@ const reviewsQuery = defineQuery(`
 `);
 
 export async function getReviews(language: Locale): Promise<SanityReview[]> {
-	return sanityClient.fetch(reviewsQuery, { language }, { next: { revalidate: 60, tags: ["reviews"] } });
+	return fetchWithFallback(
+		"reviews",
+		() => sanityClient.fetch<SanityReview[]>(reviewsQuery, { language }, { next: { revalidate: 60, tags: ["reviews"] } }),
+		[],
+	);
 }

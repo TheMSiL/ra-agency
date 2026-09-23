@@ -57,10 +57,13 @@ export default function Footer() {
 	return (
 		<footer id="contact" className="footer section_background pt-10">
 			<div className="content_container footer_container">
-				<h1 className="home_hero-title footer_title " data-title="RA AGENCY">
+				{/* A wordmark, not a heading: as an <h1> this gave every page on the
+				    site a second top-level heading competing with its real one. The
+				    styling is entirely class-driven, so the tag carries no weight. */}
+				<div className="home_hero-title footer_title " data-title="RA AGENCY">
 					<span className="footer_title-word">RA</span>{" "}
 					<span className="footer_title-word">AGENCY</span>
-				</h1>
+				</div>
 				<div className="footer_layout">
 					<div className="footer_intro">
 						<p className="footer_text">{t("footer.text")}</p>
