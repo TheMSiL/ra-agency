@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { trackAnalyticsEvent } from "@/analytics/attribution";
 
 export default function ContactsPage() {
 	const { t } = useI18n();
@@ -32,7 +33,7 @@ export default function ContactsPage() {
 								const isExternal = contact.href?.startsWith("http") ?? false;
 
 								return (
-									<a className={`contacts_item${contact.href ? "" : " social_link-disabled"}`} href={contact.href || undefined} key={contact.label} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noreferrer" : undefined} aria-disabled={!contact.href}>
+									<a className={`contacts_item${contact.href ? "" : " social_link-disabled"}`} href={contact.href || undefined} key={contact.label} onClick={() => contact.href && trackAnalyticsEvent("contact_click", { method: contact.label.toLowerCase(), placement: "contacts-page", page: window.location.pathname })} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noreferrer" : undefined} aria-disabled={!contact.href}>
 									<span className="contacts_item-content">
 										<span className="contacts_item-index">0{index + 1}</span>
 										<span className="contacts_item-label">{contact.label}</span>

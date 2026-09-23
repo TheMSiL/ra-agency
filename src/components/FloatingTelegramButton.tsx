@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import ContactModal from "@/components/ContactModal";
+import { trackAnalyticsEvent } from "@/analytics/attribution";
 import { useI18n } from "@/context/I18nContext";
 import { useAppReady } from "@/hooks/useAppReady";
 
@@ -96,13 +97,13 @@ export default function FloatingTelegramButton() {
 
 	return (
 		<>
-			<button ref={buttonRef} className="floating_tg_btn" type="button" aria-label={t("common.message")} onClick={() => setIsFormOpen(true)}>
+			<button ref={buttonRef} className="floating_tg_btn" type="button" aria-label={t("common.message")} onClick={() => { trackAnalyticsEvent("cta_click", { cta_location: "floating", page: window.location.pathname }); setIsFormOpen(true); }}>
 				<span className="floating_tg_label">{t("common.message")}</span>
 				<span className="floating_tg_icon-wrap" aria-hidden="true">
 					<Image className="floating_tg_icon" src="/tg_btn.svg" alt="" width={52} height={41} fetchPriority="high" loading="eager" />
 				</span>
 			</button>
-			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} source="floating" />
 		</>
 	);
 }

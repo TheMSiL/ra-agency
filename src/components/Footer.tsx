@@ -4,6 +4,7 @@ import { useI18n } from "@/context/I18nContext";
 import Image from "next/image";
 import LocalizedLink from "./LocalizedLink";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { trackAnalyticsEvent } from "@/analytics/attribution";
 
 const navigation = [
 	{
@@ -68,13 +69,13 @@ export default function Footer() {
 					<div className="footer_intro">
 						<p className="footer_text">{t("footer.text")}</p>
 						<div className="burger_socials footer_socials" aria-label="Social links">
-							<a href={settings.telegramChannelUrl} target="_blank" rel="noreferrer" aria-label="Telegram">
+							<a href={settings.telegramChannelUrl} target="_blank" rel="noreferrer" aria-label="Telegram" onClick={() => trackAnalyticsEvent("contact_click", { method: "telegram", placement: "footer", page: window.location.pathname })}>
 								<Image src="/tg.svg" alt="" width={30} height={30} />
 							</a>
-							<a href={settings.linkedinUrl || undefined} className={!settings.linkedinUrl ? "social_link-disabled" : undefined} target={settings.linkedinUrl ? "_blank" : undefined} rel={settings.linkedinUrl ? "noreferrer" : undefined} aria-label="LinkedIn" aria-disabled={!settings.linkedinUrl}>
+							<a href={settings.linkedinUrl || undefined} className={!settings.linkedinUrl ? "social_link-disabled" : undefined} target={settings.linkedinUrl ? "_blank" : undefined} rel={settings.linkedinUrl ? "noreferrer" : undefined} aria-label="LinkedIn" aria-disabled={!settings.linkedinUrl} onClick={() => settings.linkedinUrl && trackAnalyticsEvent("contact_click", { method: "linkedin", placement: "footer", page: window.location.pathname })}>
 								<Image src="/linkedin.svg" alt="" width={24} height={24} />
 							</a>
-							<a href={settings.xUrl} target="_blank" rel="noreferrer" aria-label="X">
+							<a href={settings.xUrl} target="_blank" rel="noreferrer" aria-label="X" onClick={() => trackAnalyticsEvent("contact_click", { method: "x", placement: "footer", page: window.location.pathname })}>
 								<Image src="/x.svg" alt="" width={24} height={24} />
 							</a>
 						</div>

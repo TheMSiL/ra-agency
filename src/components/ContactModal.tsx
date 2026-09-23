@@ -11,11 +11,17 @@ import AttributionFields from "./AttributionFields";
 type ContactModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
+	/**
+	 * Which CTA opened the form. Rides along on form_open and generate_lead so
+	 * the funnel from the promo popup to a submitted lead can be read off GA4
+	 * instead of guessed at.
+	 */
+	source?: "floating" | "talk" | "promo";
 };
 
 type FieldErrors = Partial<Record<"name" | "contact" | "details", string>>;
 
-export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
+export default function ContactModal({ isOpen, onClose, source = "floating" }: ContactModalProps) {
 	const { t } = useI18n();
 	const [contactMethod, setContactMethod] = useState<"telegram" | "email">("telegram");
 	const [contactValue, setContactValue] = useState("");
@@ -29,8 +35,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 	}, [onClose]);
 
 	useEffect(() => {
-		if (isOpen) trackAnalyticsEvent("form_open", { form: "contact-modal", page: window.location.pathname });
-	}, [isOpen]);
+		if (isOpen) trackAnalyticsEvent("form_open", { form: "contact-modal", cta_location: source, page: window.location.pathname });
+	}, [isOpen, source]);
 
 	useEffect(() => {
 		if (!isOpen) {
@@ -91,7 +97,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 			if (response.ok) {
 				// GA4 recommended event name — flag it as a key event in the GA4 admin
 				// panel and it is counted as a conversion.
-				trackAnalyticsEvent("generate_lead", { form: "contact-modal", contact_method: contactMethod, page: window.location.pathname });
+				trackAnalyticsEvent("generate_lead", { form: "contact-modal", contact_method: contactMethod, cta_location: source, page: window.location.pathname });
 				// The conversion OpenAI ads optimises against. Fires here and nowhere
 				// else: only a request the API actually accepted is a filled form.
 				trackOpenAiConversion("formfilled");

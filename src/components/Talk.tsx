@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import ContactModal from "@/components/ContactModal";
+import { trackAnalyticsEvent } from "@/analytics/attribution";
 import { useI18n } from "@/context/I18nContext";
 
 const radarItems = [
@@ -257,6 +258,7 @@ export default function Talk() {
 								wasButtonDraggedRef.current = false;
 								return;
 							}
+							trackAnalyticsEvent("cta_click", { cta_location: "talk", page: window.location.pathname });
 							setIsFormOpen(true);
 						}}
 					>
@@ -266,7 +268,7 @@ export default function Talk() {
 				</div>
 			</div>
 
-			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+			<ContactModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} source="talk" />
 		</section>
 	);
 }
