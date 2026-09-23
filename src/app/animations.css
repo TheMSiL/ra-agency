@@ -24,6 +24,16 @@
 		visibility: visible;
 	}
 
+	/* Same guard, same reason. The twelve orbit items in WhatWeDo are absolutely
+	   positioned and carry no coordinates of their own — GSAP places them and
+	   hides all but the two or three on screen. Until it has run they all sit on
+	   top of each other at the same spot and the section reads as garbled text,
+	   so they stay hidden until scripting can lay them out. autoAlpha writes an
+	   inline visibility, which is what reveals the visible ones. */
+	html[data-js] .what_we_do-item {
+		visibility: hidden;
+	}
+
 	.home_hero-title.typewriter_host,
 	.about_hero-title {
 		background: none;

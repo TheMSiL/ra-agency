@@ -294,81 +294,98 @@ export default function WhatWeDo({ variant = "default" }: { variant?: "default" 
 				});
 			};
 
-			media.add(
-				{
-					allowMotion: "(prefers-reduced-motion: no-preference)",
-				},
-				(mediaContext) => {
-					const { allowMotion } = mediaContext.conditions as {
-						allowMotion: boolean;
-					};
+			// Laying the items out is not part of the animation, so it happens here
+			// rather than inside matchMedia.
+			//
+			// gsap.matchMedia() only invokes its callback while one of the supplied
+			// conditions matches, and this one had a single condition: motion is
+			// allowed. A visitor with Reduce Motion turned on matched nothing, the
+			// callback never ran, and the twelve absolutely-positioned items — which
+			// get every coordinate from applyFrame() — stayed piled on the same spot,
+			// rendering the whole section as overlapping text. It was deterministic,
+			// on every service page, on desktop as well as mobile.
+			const motionQuery = window.matchMedia("(prefers-reduced-motion: no-preference)");
 
-					updateCircleMetrics();
-					progress.value = START_PROGRESS;
-					applyFrame();
+			updateCircleMetrics();
+			progress.value = START_PROGRESS;
+			applyFrame();
 
-					if (
-						!allowMotion ||
-						itemNodes.some((node) => !node) ||
-						markerNodes.some((node) => !node) ||
-						rayNodes.some((node) => !node)
-					) {
+			// Resizing still has to re-measure for those visitors. When motion is
+			// allowed the branch below owns resize, and re-measuring twice would
+			// fight its address-bar guard.
+			const handleStaticResize = () => {
+				if (motionQuery.matches) {
+					return;
+				}
+
+				updateCircleMetrics();
+				applyFrame();
+			};
+
+			window.addEventListener("resize", handleStaticResize);
+
+			media.add("(prefers-reduced-motion: no-preference)", () => {
+				if (
+					itemNodes.some((node) => !node) ||
+					markerNodes.some((node) => !node) ||
+					rayNodes.some((node) => !node)
+				) {
+					return;
+				}
+
+				const hasMobilePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+				let viewportWidth = window.innerWidth;
+				let resizeFrame = 0;
+
+				const handleResize = () => {
+					const nextViewportWidth = window.innerWidth;
+
+					// Mobile Safari fires resize while its address bar opens and
+					// closes. Refreshing a pinned ScrollTrigger at that moment
+					// changes the spacer height and makes the page jump.
+					if (hasMobilePointer && Math.abs(nextViewportWidth - viewportWidth) < 2) {
 						return;
 					}
 
-					const hasMobilePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-					let viewportWidth = window.innerWidth;
-					let resizeFrame = 0;
+					viewportWidth = nextViewportWidth;
+					window.cancelAnimationFrame(resizeFrame);
+					resizeFrame = window.requestAnimationFrame(() => {
+						updateCircleMetrics();
+						applyFrame();
+						ScrollTrigger.refresh();
+					});
+				};
 
-					const handleResize = () => {
-						const nextViewportWidth = window.innerWidth;
+				window.addEventListener("resize", handleResize);
 
-						// Mobile Safari fires resize while its address bar opens and
-						// closes. Refreshing a pinned ScrollTrigger at that moment
-						// changes the spacer height and makes the page jump.
-						if (hasMobilePointer && Math.abs(nextViewportWidth - viewportWidth) < 2) {
-							return;
-						}
-
-						viewportWidth = nextViewportWidth;
-						window.cancelAnimationFrame(resizeFrame);
-						resizeFrame = window.requestAnimationFrame(() => {
+				const tween = gsap.to(progress, {
+					value: () => circleMetrics.endProgress,
+					ease: "none",
+					onUpdate: applyFrame,
+					scrollTrigger: {
+						trigger: root,
+						start: "top top",
+						end: `+=${PIN_SCROLL_DISTANCE + Math.max(0, itemCount - 6) * 240}`,
+						scrub: 1,
+						pin: true,
+						anticipatePin: 1,
+						invalidateOnRefresh: true,
+						onRefresh: () => {
 							updateCircleMetrics();
 							applyFrame();
-							ScrollTrigger.refresh();
-						});
-					};
-
-					window.addEventListener("resize", handleResize);
-
-					const tween = gsap.to(progress, {
-						value: () => circleMetrics.endProgress,
-						ease: "none",
-						onUpdate: applyFrame,
-						scrollTrigger: {
-							trigger: root,
-							start: "top top",
-							end: `+=${PIN_SCROLL_DISTANCE + Math.max(0, itemCount - 6) * 240}`,
-							scrub: 1,
-							pin: true,
-							anticipatePin: 1,
-							invalidateOnRefresh: true,
-							onRefresh: () => {
-								updateCircleMetrics();
-								applyFrame();
-							},
 						},
-					});
+					},
+				});
 
-					return () => {
-						window.removeEventListener("resize", handleResize);
-						window.cancelAnimationFrame(resizeFrame);
-						tween.kill();
-					};
-				},
-			);
+				return () => {
+					window.removeEventListener("resize", handleResize);
+					window.cancelAnimationFrame(resizeFrame);
+					tween.kill();
+				};
+			});
 
 			return () => {
+				window.removeEventListener("resize", handleStaticResize);
 				media.revert();
 			};
 		}, root);
