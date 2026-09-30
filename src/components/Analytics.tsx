@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Script from "next/script";
-import { GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID } from "@/analytics/ids";
+import { CLARITY_PROJECT_ID, GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID } from "@/analytics/ids";
 import { analyticsBootstrapScript } from "@/analytics/bootstrap";
 import RouteChangeTracker from "./RouteChangeTracker";
 
@@ -12,7 +12,7 @@ import RouteChangeTracker from "./RouteChangeTracker";
 // analyticsBootstrapScript() writes into <head>, so none may load earlier than
 // afterInteractive.
 export default function Analytics() {
-	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID) return null;
+	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID && !CLARITY_PROJECT_ID) return null;
 	const bootstrap = analyticsBootstrapScript();
 	return (
 		<>

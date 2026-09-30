@@ -1712,7 +1712,6 @@ a {
 	}
 
 	.floating_tg_icon-wrap {
-		transform: translateX(-3px);
 		pointer-events: none;
 	}
 
@@ -1799,9 +1798,50 @@ a {
 		will-change: opacity, transform;
 	}
 
-	.floating_tg_btn img {
-		width: 52px;
+	.floating_tg_icon {
+		width: 48px;
 		height: auto;
+		overflow: visible;
+	}
+
+	.floating_tg_dot {
+		fill: #2a1405;
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+
+	/* The dots "type" while the pointer is on the button, like a chat's
+	   someone-is-writing indicator. */
+	@keyframes floatingCtaTyping {
+		0%,
+		60%,
+		100% {
+			transform: translateY(0);
+		}
+
+		30% {
+			transform: translateY(-3px);
+		}
+	}
+
+	.floating_tg_btn:hover .floating_tg_dot,
+	.floating_tg_btn:focus-visible .floating_tg_dot {
+		animation: floatingCtaTyping 1s ease-in-out infinite;
+	}
+
+	.floating_tg_btn .floating_tg_dot:nth-of-type(2) {
+		animation-delay: 0.15s;
+	}
+
+	.floating_tg_btn .floating_tg_dot:nth-of-type(3) {
+		animation-delay: 0.3s;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.floating_tg_btn:hover .floating_tg_dot,
+		.floating_tg_btn:focus-visible .floating_tg_dot {
+			animation: none;
+		}
 	}
 
 	.social_link-disabled {
@@ -1824,32 +1864,28 @@ a {
 	}
 
 	/* Bottom-left, because the Telegram CTA owns bottom-right. Smaller and
-	   quieter than that button on purpose: this one is a utility, not an offer. */
+	   quieter than that button on purpose: this one is a utility, not an offer.
+	   The ring around it fills with the page's scroll progress, so it doubles as
+	   a "how far down am I" gauge. */
 	.scroll_top-btn {
 		position: fixed;
 		left: 38px;
 		bottom: 38px;
 		z-index: 2400;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 54px;
-		height: 54px;
-		border: 1.5px solid rgba(250, 138, 22, 0.75);
+		width: 60px;
+		height: 60px;
+		padding: 0;
+		border: 0;
 		border-radius: 50%;
-		background: rgba(0, 0, 0, 0.45);
-		box-shadow: 0 0 40px 0 rgba(250, 138, 22, 0.28) inset;
+		background: none;
 		color: #fa8a16;
 		cursor: pointer;
-		backdrop-filter: blur(8px);
 		opacity: 0;
 		pointer-events: none;
 		transform: translateY(12px) scale(0.92);
 		transition:
 			opacity 0.3s ease,
-			transform 0.3s ease,
-			border-color 0.3s ease,
-			box-shadow 0.3s ease;
+			transform 0.3s ease;
 	}
 
 	.scroll_top-btn.is-visible {
@@ -1858,10 +1894,85 @@ a {
 		transform: translateY(0) scale(1);
 	}
 
-	.scroll_top-btn:hover,
 	.scroll_top-btn:focus-visible {
-		border-color: #fa8a16;
-		box-shadow: 0 0 28px rgba(250, 138, 22, 0.42) inset;
+		outline: 2px solid #fa8a16;
+		outline-offset: 4px;
+	}
+
+	.scroll_top-ring {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		fill: none;
+		stroke-width: 2;
+		transform: rotate(-90deg);
+	}
+
+	.scroll_top-ring-track {
+		stroke: rgba(250, 138, 22, 0.18);
+	}
+
+	.scroll_top-ring-fill {
+		stroke: #fa8a16;
+		stroke-linecap: round;
+		stroke-dasharray: 100;
+		stroke-dashoffset: calc(100 - var(--scroll-progress, 0));
+		filter: drop-shadow(0 0 4px rgba(250, 138, 22, 0.6));
+	}
+
+	.scroll_top-core {
+		position: absolute;
+		inset: 7px;
+		overflow: hidden;
+		border-radius: 50%;
+		background: rgba(0, 0, 0, 0.55);
+		box-shadow: 0 0 24px 0 rgba(250, 138, 22, 0.22) inset;
+		backdrop-filter: blur(8px);
+		transition:
+			background 0.3s ease,
+			box-shadow 0.3s ease,
+			color 0.3s ease;
+	}
+
+	/* The first chevron sits centred; the second waits 16px below the rim. */
+	.scroll_top-track {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		transform: translate(-50%, -10px);
+		transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+	}
+
+	.scroll_top-icon {
+		display: block;
+		flex: none;
+	}
+
+	.scroll_top-btn:hover .scroll_top-core,
+	.scroll_top-btn:focus-visible .scroll_top-core {
+		background: #fa8a16;
+		box-shadow: 0 0 22px 0 rgba(250, 138, 22, 0.55);
+		color: #0d0d0d;
+	}
+
+	.scroll_top-btn:hover .scroll_top-track,
+	.scroll_top-btn:focus-visible .scroll_top-track {
+		transform: translate(-50%, -46px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.scroll_top-track {
+			transition: none;
+		}
+
+		.scroll_top-btn:hover .scroll_top-track,
+		.scroll_top-btn:focus-visible .scroll_top-track {
+			transform: translate(-50%, -10px);
+		}
 	}
 
 	body.burger_menu_open .scroll_top-btn {
@@ -1874,8 +1985,12 @@ a {
 		.scroll_top-btn {
 			left: 18px;
 			bottom: 18px;
-			width: 46px;
-			height: 46px;
+			width: 50px;
+			height: 50px;
+		}
+
+		.scroll_top-core {
+			inset: 6px;
 		}
 	}
 
@@ -2584,37 +2699,6 @@ a {
 		padding: clamp(24px, 3vh, 38px) 0 18px;
 	}
 
-	.cases_section .cases_card-main,
-	.cases_page-grid .cases_card-main {
-		height: calc(clamp(300px, 34vh, 380px) - 60px);
-		margin-top: 60px;
-		flex-shrink: 0;
-		gap: 0;
-	}
-
-	.cases_section .cases_card-main--title,
-	.cases_page-grid .cases_card-main--title {
-		font-size: clamp(24px, 1.65vw, 30px);
-		line-height: 1.35;
-	}
-
-	.cases_section .cases_card-info--item,
-	.cases_page-grid .cases_card-info--item {
-		padding: 14px 20px;
-	}
-
-	.cases_section .cases_card-info--item-title,
-	.cases_page-grid .cases_card-info--item-title {
-		margin-bottom: 6px;
-		font-size: 22px;
-	}
-
-	.cases_section .cases_card-info--item-desc,
-	.cases_page-grid .cases_card-info--item-desc {
-		font-size: 18px;
-		line-height: 1.35;
-	}
-
 	.cases_row {
 		display: flex;
 		align-items: stretch;
@@ -2628,7 +2712,6 @@ a {
 	}
 
 	.cases_card {
-		border-radius: 7.547px 25.158px;
 		display: flex;
 		flex-direction: column;
 		max-width: 500px;
@@ -2636,143 +2719,214 @@ a {
 		position: relative;
 	}
 
-	.cases_card-type {
-		border-radius: 7.547px 0;
-		padding: 15px 37px;
-		width: fit-content;
-		color: #fff;
-		text-align: center;
-		-webkit-text-stroke-width: 0.4px;
-		-webkit-text-stroke-color: #000;
-		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 20px;
-		font-style: normal;
-		font-weight: 400;
-		line-height: 140%;
+	/* Case card: cover, the three-step story, the numbers, one clear CTA. Cards in
+	   a row stretch to the tallest one, so the CTA is pushed to the bottom to keep
+	   the buttons of neighbouring cards on one line. */
+	.case_tile {
+		overflow: hidden;
+		border: 1px solid rgba(250, 138, 22, 0.55);
+		border-radius: 18px;
+		background: linear-gradient(180deg, #1c1008 0%, #0c0603 100%);
+		box-shadow: 0 0 48px 0 rgba(250, 138, 22, 0.12) inset;
+		transition:
+			border-color 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.case_tile:hover {
+		border-color: rgba(250, 138, 22, 0.85);
+		box-shadow: 0 0 56px 0 rgba(250, 138, 22, 0.2) inset;
+	}
+
+	.case_tile-cover {
+		position: relative;
+		display: grid;
+		place-items: center;
+		aspect-ratio: 2 / 1;
+		overflow: hidden;
+		border-bottom: 1px solid rgba(250, 138, 22, 0.55);
+		background: radial-gradient(ellipse at 50% 60%, #2a1a0f 0%, #140b05 70%);
+	}
+
+	.case_tile-cover-image {
+		object-fit: cover;
+		transition: transform 0.6s ease;
+	}
+
+	.case_tile:hover .case_tile-cover-image {
+		transform: scale(1.04);
+	}
+
+	.case_tile-cover-logo {
+		width: clamp(56px, 18%, 96px);
+		height: auto;
+		border-radius: 50%;
+		opacity: 0.85;
+	}
+
+	.case_tile-channel {
 		position: absolute;
 		top: 0;
 		left: 0;
+		z-index: 1;
+		padding: 10px 22px;
+		border: 1px solid rgba(250, 138, 22, 0.55);
+		border-top: 0;
+		border-left: 0;
+		border-bottom-right-radius: 14px;
+		background: #0f0804;
+		color: #fff;
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 15px;
+		line-height: 1.3;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
 	}
 
-	.cases_card-type p {
-		display: inline;
-		text-transform: capitalize;
-	}
-
-	.cases_card-main {
-		height: 440px;
-		margin-top: 60px;
+	.case_tile-body {
 		display: flex;
+		flex: 1 1 auto;
 		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		gap: 0;
-		padding: 28px 20px 0;
-		flex-shrink: 0;
+		padding: 26px 26px 24px;
 	}
 
-	.cases_card-main--company {
+	.case_tile-company {
+		margin-bottom: 10px;
+		overflow: hidden;
+		color: rgba(255, 245, 236, 0.72);
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-overflow: ellipsis;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	.case_tile-title {
+		margin-bottom: 18px;
+		color: #fff;
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: clamp(20px, 1.45vw, 24px);
+		font-weight: 400;
+		line-height: 1.3;
+		text-transform: uppercase;
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+	}
+
+	/* Cards side by side share a row, so the title and each step reserve their
+	   full three lines: the steps and their dividers then sit on the same lines
+	   across the row instead of drifting with each card's copy length. */
+	@media (min-width: 1051px) {
+		.case_tile-title {
+			min-height: calc(3 * 1.3em);
+		}
+
+		.case_tile-step-text {
+			min-height: calc(3 * 1.45em);
+		}
+	}
+
+	.case_tile-accent {
+		color: #ffab52;
+	}
+
+	.case_tile-steps {
+		margin: 0 0 24px;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid rgba(250, 138, 22, 0.28);
+	}
+
+	.case_tile-step {
+		display: grid;
+		grid-template-columns: 44px minmax(0, 1fr);
+		padding: 14px 0;
+		border-bottom: 1px solid rgba(250, 138, 22, 0.28);
+	}
+
+	.case_tile-step-index {
+		color: #fa8a16;
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	.case_tile-step-title {
+		margin-bottom: 4px;
+		color: #fff;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 1.4;
+	}
+
+	.case_tile-step-text {
+		display: -webkit-box;
+		overflow: hidden;
+		color: rgba(255, 245, 236, 0.78);
+		font-size: 14px;
+		line-height: 1.45;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+	}
+
+	/* Visuals come from the site-wide .btn; this only lays it out in the card. */
+	.case_tile-cta {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 12px;
-		width: 100%;
-		min-width: 0;
-		color: #fff;
-		text-align: center;
-		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 20.25px;
-		font-style: normal;
-		font-weight: 400;
-		line-height: 140%; /* 28.35px */
-		text-transform: uppercase;
+		gap: 10px;
+		margin-top: auto;
+		padding: 16px 20px;
+		font-size: 16px;
+		letter-spacing: 0.04em;
+	}
+
+	/* Caps-only label: its visual middle sits above the line box's, so the
+	   chevron is lifted to meet the letters rather than the box. */
+	.case_tile-cta svg {
+		transform: translateY(-0.16em);
+		transition: transform 0.3s ease;
+	}
+
+	.case_tile-cta:hover svg,
+	.case_tile-cta:focus-visible svg {
+		transform: translate(3px, -0.16em);
+	}
+
+	.case_tile-cta:focus-visible {
+		border-radius: 10px;
+		box-shadow: 0 0 28px rgba(250, 138, 22, 0.38) inset;
+		outline: 2px solid #fa8a16;
+		outline-offset: 3px;
+	}
+
+	@media (max-width: 480px) {
+		.case_tile-body {
+			padding: 22px 18px 20px;
+		}
+
+		.case_tile-channel {
+			padding: 8px 16px;
+			font-size: 13px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.case_tile-cover-image,
+		.case_tile-cta svg {
+			transition: none;
+		}
 	}
 
 	.review_card-head img {
 		border-radius: 50%;
 		object-fit: cover;
 		aspect-ratio: 1;
-	}
-
-	.cases_card-main--company p {
-		min-width: 0;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	.cases_card-main--body {
-		display: flex;
-		flex: 1 1 auto;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		min-height: 0;
-		padding-bottom: 28px;
-	}
-
-	.cases_card-main--title {
-		text-transform: uppercase;
-		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 32px;
-		line-height: 140%;
-		max-width: 460px;
-		text-align: center;
-		display: -webkit-box;
-		min-height: 0;
-		overflow: hidden;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 3;
-		line-clamp: 3;
-	}
-
-	.cases_card-info {
-		position: relative;
-		z-index: 1;
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(110px, 110px);
-		border-radius: 0 0 7.547px 25.158px;
-		overflow: hidden;
-		margin-top: auto;
-		height: 100%;
-	}
-
-	.cases_card-info--items {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		width: 100%;
-	}
-
-	.cases_card-info--item {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		padding: clamp(18px, 1.5vw, 24px);
-	}
-
-	.cases_card-info > .cases_card-info--item {
-		align-items: center;
-		justify-content: center;
-		padding: 0;
-	}
-
-	.cases_card-info--item-title {
-		margin-bottom: 10px;
-		color: #fff;
-		font-size: 20px;
-		font-weight: 600;
-		line-height: 140%;
-	}
-
-	.cases_card-info--item-desc {
-		font-weight: 300;
-		line-height: 140%;
-		display: -webkit-box;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 3;
-		line-clamp: 3;
 	}
 
 	.contacts_page-main {
@@ -2935,39 +3089,6 @@ a {
 	.contacts_item-arrow img {
 		width: 16px;
 		height: auto;
-	}
-
-	.cases_card-arrow {
-		max-width: 110px;
-		border-right: 1px solid transparent;
-		transition:
-			border-radius 0.3s ease,
-			box-shadow 0.3s ease;
-	}
-
-	.cases_card-arrow > img {
-		transition: 0.3s ease;
-	}
-
-	.cases_card-arrow:hover,
-	.cases_card-arrow:focus-visible {
-		border-radius: 10px;
-		box-shadow: 0 0 28px rgba(250, 138, 22, 0.38) inset;
-		outline: none;
-	}
-
-	.cases_card-arrow:hover > img,
-	.cases_card-arrow:focus-visible > img {
-		transform: scale(0.88);
-	}
-
-	.cases_card-read-more {
-		display: none;
-		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
-		font-size: 18px;
-		line-height: 1.15;
-		text-align: center;
-		text-transform: uppercase;
 	}
 
 	.cases_bottom-items {
@@ -3378,6 +3499,7 @@ a {
 	}
 
 	.breadcrumbs_separator {
+		display: inline-flex;
 		color: rgba(250, 138, 22, 0.55);
 	}
 

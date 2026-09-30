@@ -39,6 +39,12 @@ export const caseStudy = defineType({
 		defineField({ name: "language", type: "string", readOnly: true, hidden: true }),
 		defineField({ name: "title", title: "Case title", type: "string", group: "content", validation: (rule) => rule.required() }),
 		defineField({
+			name: "titleAccents", title: "Highlighted words", type: "array", group: "content",
+			of: [defineArrayMember({ type: "string" })],
+			options: { layout: "tags" },
+			description: "Words or phrases from the title to show in orange on the case card, e.g. \"201 deals\". Must match the title text; letter case does not matter.",
+		}),
+		defineField({
 			name: "slug", title: "Slug", type: "slug", group: "content",
 			options: { source: "title", maxLength: 96, isUnique: isUniqueCaseSlug },
 			validation: (rule) => rule.required(),
@@ -47,6 +53,11 @@ export const caseStudy = defineType({
 		defineField({
 			name: "companyLogo", title: "Company logo", type: "image", group: "content", options: { hotspot: true },
 			fields: [{ name: "alt", title: "Alternative text", type: "string", validation: (rule) => rule.required() }],
+		}),
+		defineField({
+			name: "coverImage", title: "Card cover", type: "image", group: "content", options: { hotspot: true },
+			description: "Photo or screenshot at the top of the case card, about 2:1. Without it the card shows the company logo.",
+			fields: [{ name: "alt", title: "Alternative text", type: "string" }],
 		}),
 		defineField({
 			name: "channel", title: "Advertising channel", type: "string", group: "content",

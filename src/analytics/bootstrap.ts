@@ -1,5 +1,5 @@
 import { ATTRIBUTION_CONSENT_KEY } from "./attribution";
-import { GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID, OPENAI_PIXEL_ID } from "./ids";
+import { CLARITY_PROJECT_ID, GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID, OPENAI_PIXEL_ID } from "./ids";
 
 // The inline <head> script that has to run before anything else on the page.
 //
@@ -14,7 +14,7 @@ import { GA_MEASUREMENT_ID, GTM_CONTAINER_ID, META_PIXEL_ID, OPENAI_PIXEL_ID } f
 // denied — Google still counts the visit without identifying storage, and Meta
 // holds its events in the queue until the banner is accepted.
 export function analyticsBootstrapScript() {
-	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID && !OPENAI_PIXEL_ID) return "";
+	if (!GA_MEASUREMENT_ID && !GTM_CONTAINER_ID && !META_PIXEL_ID && !OPENAI_PIXEL_ID && !CLARITY_PROJECT_ID) return "";
 
 	const parts = [
 		`window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};var c="denied";try{if(localStorage.getItem("${ATTRIBUTION_CONSENT_KEY}")==="granted")c="granted"}catch(e){}`,
@@ -37,6 +37,13 @@ export function analyticsBootstrapScript() {
 		// the vendor loader rather than a hand-rolled stub so the queue drains the
 		// way the SDK expects.
 		parts.push(`!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"${OPENAI_PIXEL_ID}"});`);
+	}
+	if (CLARITY_PROJECT_ID) {
+		// Clarity's own snippet, verbatim apart from the project id. Consent is
+		// passed through its v2 API: denied keeps recording but without cookies,
+		// so a visitor who never answers the banner is still seen, just not linked
+		// across sessions. updateTrackingConsent() flips it when the banner is used.
+		parts.push(`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","${CLARITY_PROJECT_ID}");clarity("consentv2",{ad_Storage:c,analytics_Storage:c});`);
 	}
 	// Emitted from two places and written to be safe when both fire. The <head>
 	// copy in app/layout.tsx is the one that normally runs, before the first

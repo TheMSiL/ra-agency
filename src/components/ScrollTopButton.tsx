@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { useI18n } from "@/context/I18nContext";
@@ -20,11 +20,19 @@ export default function ScrollTopButton() {
 	const pathname = usePathname();
 	const isStudio = pathname === "/studio" || pathname.startsWith("/studio/");
 	const [visible, setVisible] = useState(false);
+	const buttonRef = useRef<HTMLButtonElement>(null);
 
 	useEffect(() => {
 		if (isStudio) return;
 
-		const update = () => setVisible(window.scrollY > window.innerHeight * SHOW_AFTER_RATIO);
+		const update = () => {
+			const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+			const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+			// Written straight to a custom property: the ring moves on every scroll
+			// frame, and a React render per frame would be wasted work.
+			buttonRef.current?.style.setProperty("--scroll-progress", String(progress * 100));
+			setVisible(window.scrollY > window.innerHeight * SHOW_AFTER_RATIO);
+		};
 
 		update();
 		window.addEventListener("scroll", update, { passive: true });
@@ -43,6 +51,7 @@ export default function ScrollTopButton() {
 
 	return (
 		<button
+			ref={buttonRef}
 			type="button"
 			className={`scroll_top-btn${visible ? " is-visible" : ""}`}
 			onClick={scrollUp}
@@ -50,9 +59,21 @@ export default function ScrollTopButton() {
 			tabIndex={visible ? 0 : -1}
 			aria-hidden={!visible}
 		>
-			<svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-				<path d="M12 19V5M12 5l-7 7M12 5l7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+			<svg className="scroll_top-ring" viewBox="0 0 60 60" aria-hidden="true">
+				<circle className="scroll_top-ring-track" cx="30" cy="30" r="28" />
+				<circle className="scroll_top-ring-fill" cx="30" cy="30" r="28" pathLength="100" />
 			</svg>
+			<span className="scroll_top-core" aria-hidden="true">
+				{/* Two stacked chevrons: on hover the first slides out the top and the
+				    second follows it in from below, so the arrow reads as moving up. */}
+				<span className="scroll_top-track">
+					{[0, 1].map((i) => (
+						<svg key={i} className="scroll_top-icon" viewBox="0 0 24 24" width="20" height="20" fill="none">
+							<path d="M6 15l6-6 6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+						</svg>
+					))}
+				</span>
+			</span>
 		</button>
 	);
 }

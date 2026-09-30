@@ -14,7 +14,11 @@ export interface CasesCardProps {
 	company_name: string;
 	company_logo?: string;
 	company_logo_alt?: string;
+	cover_image?: string;
+	cover_image_alt?: string;
 	case_title: string;
+	/** Phrases of case_title the card tints in the accent colour. */
+	title_accents?: string[];
 	id: string;
 	problem: string;
 	fix: string;

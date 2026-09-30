@@ -12,6 +12,7 @@ import { getCaseStudies } from "@/sanity/lib/cases";
 import { getReviews } from "@/sanity/lib/reviews";
 import { getTrustedCompanies } from "@/sanity/lib/trust";
 import { buildPageMetadata } from "@/seo/metadata";
+import { homeJsonLd } from "@/seo/structuredData";
 import { notFound } from "next/navigation";
 
 const telegramService = {
@@ -75,6 +76,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 	];
 	return (
 		<div className="wrapper">
+			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd(locale)) }} />
 			<Hero />
 			<ServicesBlock title={localizedServices[0].title} subtitle={localizedServices[0].subtitle} items={localizedServices[0].items} icon={localizedServices[0].icon} href="/telegram-ads" />
 			<ServicesBlock title={localizedServices[1].title} subtitle={localizedServices[1].subtitle} items={localizedServices[1].items} icon={localizedServices[1].icon} href="/meta-ads" />

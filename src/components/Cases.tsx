@@ -37,21 +37,7 @@ export default function Cases({ casesItems, channel }: { casesItems: CasesCardPr
 				<div className="cases_row">
 					<div className="cases_bottom-items">
 						{
-							visibleCases.map((item) => (
-								<CasesCard
-									key={item.id}
-									company_name={item.company_name}
-									company_logo={item.company_logo}
-									company_logo_alt={item.company_logo_alt}
-									case_title={item.case_title}
-									id={item.id}
-									problem={item.problem}
-									fix={item.fix}
-									work={item.work}
-									triumph={item.triumph}
-									type={item.type}
-								/>
-							))
+							visibleCases.map((item) => <CasesCard key={item.id} {...item} />)
 						}
 					</div>
 					<LocalizedLink href="/cases" className='cases_block cases_other'>

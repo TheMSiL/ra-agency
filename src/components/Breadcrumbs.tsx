@@ -53,7 +53,15 @@ export default function Breadcrumbs({ items }: { items: Crumb[] }) {
 							)}
 							{!isCurrent && (
 								<span className="breadcrumbs_separator" aria-hidden="true">
-									/
+									<svg viewBox="0 0 16 16" width="12" height="12" fill="none">
+										<path
+											d="M6 3.5 10.5 8 6 12.5"
+											stroke="currentColor"
+											strokeWidth="1.6"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
 								</span>
 							)}
 						</li>

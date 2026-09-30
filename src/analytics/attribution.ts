@@ -55,6 +55,7 @@ export function captureAttribution() {
 const updateTrackingConsent = (state: "granted" | "denied") => {
 	window.gtag?.("consent", "update", { ad_storage: state, ad_user_data: state, ad_personalization: state, analytics_storage: state });
 	window.fbq?.("consent", state === "granted" ? "grant" : "revoke");
+	window.clarity?.("consentv2", { ad_Storage: state, analytics_Storage: state });
 };
 
 export function grantAnalyticsConsent() {
@@ -141,4 +142,4 @@ function flushQueuedEvents() {
 	for (const item of queued) sendToAdPlatforms(item.event, enrich(item.event, item.parameters));
 }
 
-declare global { interface Window { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void; gtag?: (...args: unknown[]) => void } }
+declare global { interface Window { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void; gtag?: (...args: unknown[]) => void; clarity?: (...args: unknown[]) => void } }

@@ -405,29 +405,28 @@
 	
 	   It animates .floating_tg_icon-wrap rather than the button: GSAP owns the
 	   button, .floating_tg_label and .floating_tg_icon for the hero morph, and
-	   two owners of one transform fight. The -3px keeps the wrapper's own offset
-	   from globals.css, which a bare translateY would drop. */
+	   two owners of one transform fight. */
 	@keyframes ctaNudge {
 		0%,
 		86%,
 		100% {
-			transform: translate(-3px, 0);
+			transform: translateY(0);
 		}
 
 		89% {
-			transform: translate(-3px, -7px);
+			transform: translateY(-7px);
 		}
 
 		92% {
-			transform: translate(-3px, 0);
+			transform: translateY(0);
 		}
 
 		95% {
-			transform: translate(-3px, -4px);
+			transform: translateY(-4px);
 		}
 
 		98% {
-			transform: translate(-3px, 0);
+			transform: translateY(0);
 		}
 	}
 
