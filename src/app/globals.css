@@ -2001,15 +2001,21 @@ a {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		overflow-y: auto;
 		padding: 48px;
 		background: rgba(0, 0, 0, 0.78);
 		backdrop-filter: blur(6px);
 	}
 
+	/* margin: auto centres the form like align-items: center does, but falls
+	   back to the top edge when the form is taller than the window, so on a
+	   short screen the title and the close button can still be scrolled to
+	   instead of being pushed off above the viewport. */
 	.contact_form {
 		position: relative;
 		display: grid;
 		width: 100%;
+		margin: auto;
 		max-width: 920px;
 		min-height: 560px;
 		padding: 36px;

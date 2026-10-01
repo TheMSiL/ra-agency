@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useI18n } from "@/context/I18nContext";
@@ -106,7 +107,12 @@ export default function ContactModal({ isOpen, onClose, source = "floating" }: C
 		} catch { setStatus("error"); }
 	}
 
-	return (
+	// Portalled to <body>: rendered in place, the modal sits inside whichever
+	// section opened it, and a transform on any ancestor (GSAP sets them while
+	// animating) turns position: fixed into "fixed to that section" — the
+	// overlay then covers only part of the page and the footer paints over it.
+	// It only ever opens on a click, so document exists by the time this runs.
+	return createPortal(
 		<div className="contact_modal" role="dialog" aria-modal="true" aria-labelledby="contact-form-title" onClick={handleClose}>
 			<form className="contact_form section_background" noValidate onClick={(event) => event.stopPropagation()} onSubmit={handleSubmit}>
 				<AttributionFields />
@@ -167,6 +173,7 @@ export default function ContactModal({ isOpen, onClose, source = "floating" }: C
 				</p>
 				<button className="contact_form-submit" type="submit" disabled={status === "sending" || status === "success"}>{status === "sending" ? "Sending…" : t("form.submit")}</button>
 			</form>
-		</div>
+		</div>,
+		document.body,
 	);
 }
