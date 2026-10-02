@@ -1,4 +1,6 @@
 import Cases from "@/components/Cases";
+import ContactForm from "@/components/ContactForm";
+import Faq from "@/components/Faq";
 import FloatingTelegramButton from "@/components/FloatingTelegramButton";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
@@ -7,6 +9,7 @@ import Reviews from "@/components/Reviews";
 import ServicesBlock from "@/components/ServicesBlock";
 import Talk from "@/components/Talk";
 import Trust from "@/components/Trust";
+import { faqItems } from "@/data/faq";
 import { hasLocale } from "@/i18n/config";
 import { getCaseStudies } from "@/sanity/lib/cases";
 import { getReviews } from "@/sanity/lib/reviews";
@@ -86,6 +89,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 				<Cases casesItems={cases} />
 				<Trust companies={trustedCompanies} />
 				<Reviews reviewsData={reviews} />
+				<Faq items={faqItems[locale]} />
+				<section className="contact_section">
+					<div className="content_container">
+						<ContactForm source="inline" variant="inline" />
+					</div>
+				</section>
 				<Talk />
 			</div>
 			<Footer />

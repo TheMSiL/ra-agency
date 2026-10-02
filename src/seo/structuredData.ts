@@ -1,3 +1,4 @@
+import { faqItems } from "@/data/faq";
 import { getLocaleMeta, type Locale } from "@/i18n/config";
 import { CANONICAL_ORIGIN } from "./metadata";
 
@@ -17,7 +18,7 @@ const SOCIAL_PROFILES = [
  * ties the social profiles to the brand. Both are what Google looks at when it
  * decides a query is a search for this site, the case in which it shows
  * sitelinks. The logo is the square touch icon: Google crops logos to a square
- * and wants at least 112px.
+ * and wants at least 112px. FAQPage mirrors the FAQ block rendered on the page.
  */
 export function homeJsonLd(locale: Locale) {
 	const homeUrl = `${CANONICAL_ORIGIN}/${locale}`;
@@ -46,6 +47,17 @@ export function homeJsonLd(locale: Locale) {
 				url: homeUrl,
 				inLanguage: getLocaleMeta(locale).htmlLang,
 				publisher: { "@id": ORGANIZATION_ID },
+			},
+			{
+				"@type": "FAQPage",
+				"@id": `${homeUrl}#faq`,
+				url: homeUrl,
+				inLanguage: getLocaleMeta(locale).htmlLang,
+				mainEntity: faqItems[locale].map((item) => ({
+					"@type": "Question",
+					name: item.question,
+					acceptedAnswer: { "@type": "Answer", text: item.answer },
+				})),
 			},
 		],
 	};

@@ -1472,6 +1472,46 @@
 		height: 36px;
 	}
 
+	.contact_form.contact_form--inline {
+		margin: 0;
+		padding-top: 36px;
+	}
+
+	.contact_section {
+		padding-bottom: 72px;
+	}
+
+	.faq {
+		padding-block: 20px 72px;
+	}
+
+	.faq .numbers_title {
+		margin-bottom: 32px;
+	}
+
+	.faq_list {
+		gap: 12px;
+	}
+
+	.faq_question button {
+		gap: 16px;
+		padding: 20px 22px;
+	}
+
+	.faq_index {
+		flex-basis: 24px;
+		font-size: 14px;
+	}
+
+	.faq_question-text {
+		font-size: 18px;
+	}
+
+	.faq_answer p {
+		padding: 0 22px 22px 62px;
+		font-size: 16px;
+	}
+
 	.floating_tg_btn {
 		right: 16px;
 		bottom: 16px;
@@ -2108,6 +2148,41 @@
 		width: 75%;
 		max-width: 75%;
 		margin: 0 auto 5px;
+	}
+
+	.contact_form--inline .contact_form-title {
+		width: 100%;
+		max-width: 100%;
+		margin-bottom: 24px;
+	}
+
+	.contact_form.contact_form--inline {
+		padding: 28px 18px 24px;
+	}
+
+	.faq_question button {
+		gap: 12px;
+		padding: 16px;
+	}
+
+	.faq_index {
+		flex-basis: 20px;
+		font-size: 12px;
+	}
+
+	.faq_question-text {
+		font-size: 15px;
+	}
+
+	.faq_toggle {
+		flex-basis: 36px;
+		height: 32px;
+	}
+
+	.faq_answer p {
+		padding: 0 16px 18px;
+		font-size: 15px;
+		line-height: 150%;
 	}
 
 	#home .home_hero-content {

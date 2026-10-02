@@ -2186,6 +2186,166 @@ a {
 		box-shadow: 0 0 28px rgba(250, 138, 22, 0.38) inset;
 	}
 
+	/* The same form as the modal, sitting open on the page. */
+	.contact_section {
+		padding-block: 20px 100px;
+	}
+
+	.contact_form--inline .contact_form-title {
+		width: 100%;
+	}
+
+	.faq {
+		padding-block: 40px 100px;
+	}
+
+	.faq .numbers_title {
+		margin-bottom: 48px;
+	}
+
+	.faq_list {
+		display: grid;
+		gap: 16px;
+		max-width: 1100px;
+		margin-inline: auto;
+	}
+
+	.faq_item {
+		border: 0.5px solid rgba(250, 138, 22, 0.55);
+		border-radius: 16px 8px;
+		background: rgba(0, 0, 0, 0.55);
+		box-shadow: 0 0 40px rgba(250, 138, 22, 0.08) inset;
+		transition:
+			border-color 0.3s ease,
+			background 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.faq_item:hover,
+	.faq_item--open {
+		border-color: #fa8a16;
+	}
+
+	.faq_item--open {
+		background: rgba(0, 0, 0, 0.78);
+		box-shadow:
+			0 0 30.3px 5px rgba(250, 138, 22, 0.14),
+			0 0 62px rgba(250, 138, 22, 0.14) inset;
+	}
+
+	.faq_question button {
+		display: flex;
+		align-items: center;
+		gap: 24px;
+		width: 100%;
+		padding: 26px 32px;
+		color: #fff7ed;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.faq_question button:focus-visible {
+		border-radius: 16px 8px;
+		outline: 1px solid #ffb15a;
+		outline-offset: -6px;
+	}
+
+	.faq_index {
+		flex: 0 0 28px;
+		color: #fa8a16;
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 16px;
+		line-height: 1;
+	}
+
+	.faq_question-text {
+		flex: 1;
+		font-family: var(--font-audiowide), var(--font-mulish), Arial, sans-serif;
+		font-size: 22px;
+		font-weight: 400;
+		line-height: 130%;
+	}
+
+	.faq_toggle {
+		position: relative;
+		flex: 0 0 44px;
+		height: 38px;
+		border: 0.5px solid #fa8a16;
+		border-radius: 0 10px;
+		background: rgba(0, 0, 0, 0.2);
+		transition:
+			border-radius 0.3s ease,
+			background 0.3s ease;
+	}
+
+	.faq_toggle::before,
+	.faq_toggle::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 14px;
+		height: 1.5px;
+		background: #fff7ed;
+		transform: translate(-50%, -50%);
+		transition: transform 0.3s ease;
+	}
+
+	.faq_toggle::after {
+		transform: translate(-50%, -50%) rotate(90deg);
+	}
+
+	.faq_item--open .faq_toggle {
+		border-radius: 10px;
+		background: rgba(250, 138, 22, 0.18);
+	}
+
+	.faq_item--open .faq_toggle::after {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+
+	/* 0fr -> 1fr animates to the answer's natural height without measuring it.
+	   visibility flips only once the panel has closed, so a collapsed answer
+	   drops out of the tab order and the accessibility tree. */
+	.faq_answer {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.35s ease;
+	}
+
+	.faq_item--open .faq_answer {
+		grid-template-rows: 1fr;
+	}
+
+	.faq_answer-inner {
+		min-height: 0;
+		overflow: hidden;
+		visibility: hidden;
+		transition: visibility 0s linear 0.35s;
+	}
+
+	.faq_item--open .faq_answer-inner {
+		visibility: visible;
+		transition-delay: 0s;
+	}
+
+	.faq_answer p {
+		padding: 0 100px 28px 84px;
+		color: rgba(255, 255, 255, 0.78);
+		font-family: var(--font-mulish), Arial, sans-serif;
+		font-size: 18px;
+		line-height: 160%;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.faq_answer,
+		.faq_toggle,
+		.faq_toggle::before,
+		.faq_toggle::after {
+			transition: none;
+		}
+	}
+
 	.footer {
 		position: relative;
 		overflow: hidden;

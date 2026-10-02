@@ -71,6 +71,7 @@ const en = {
 	'cases.meta': 'Meta Ads',
 	'trust.title': 'We’re trusted by',
 	'reviews.title': 'Reviews',
+	'faq.title': 'FAQ',
 	'talk.title': 'Are you ready to talk?',
 	'about.title': 'ABOUT US',
 	'about.pioneering': 'Performance marketing built around business growth',
@@ -222,6 +223,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'cases.more': 'Подробнее',
 		'trust.title': 'Нам доверяют',
 		'reviews.title': 'Отзывы',
+		'faq.title': 'Частые вопросы',
 		'talk.title': 'Готовы обсудить проект?',
 		'about.title': 'ABOUT US',
 		'about.pioneering':
@@ -356,6 +358,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'cases.more': 'Детальніше',
 		'trust.title': 'Нам довіряють',
 		'reviews.title': 'Відгуки',
+		'faq.title': 'Часті запитання',
 		'talk.title': 'Готові обговорити проєкт?',
 		'about.title': 'ABOUT US',
 		'about.pioneering':
