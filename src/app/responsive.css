@@ -110,7 +110,7 @@
 	}
 
 	.cases_section .cases_bottom-items .cases_card:nth-child(n + 3) {
-		display: flex;
+		display: grid;
 	}
 
 	.cases_section .cases_other {
@@ -1876,29 +1876,8 @@
 		background-position: 28% center;
 	}
 
-	.blog_article-header {
-		padding: 20px;
-	}
-
-	.blog_article-meta {
-		font-size: 18px;
-	}
-
-	.blog_article-meta time {
-		font-size: 14px;
-	}
-
 	.blog_recommended {
 		margin-top: 40px;
-	}
-
-	.blog_article-image {
-		max-height: 320px;
-	}
-
-	.blog_article-body {
-		margin-top: 30px;
-		font-size: 15px;
 	}
 
 	.blog_recommended-link {
@@ -2952,10 +2931,6 @@
 	.blog_post-meta {
 		gap: 6px;
 		font-size: 11px;
-	}
-
-	.blog_article-stats {
-		font-size: 12px;
 	}
 
 	.trust_marquee {

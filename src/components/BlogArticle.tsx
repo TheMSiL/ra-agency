@@ -2,10 +2,10 @@
 
 import type { SanityBlogPost } from "@/sanity/lib/blog";
 import { useI18n } from "@/context/I18nContext";
-import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { setSourceArticle, trackAnalyticsEvent } from "@/analytics/attribution";
+import ArticleBody, { getArticleHeadings } from "./ArticleBody";
 import Background from "./Background";
 import BlogCover from "./BlogCover";
 import BlogPostMeta from "./BlogPostMeta";
@@ -15,37 +15,8 @@ import Header from "./Header";
 import LocalizedLink from "./LocalizedLink";
 import Talk from "./Talk";
 
-const portableTextComponents: PortableTextComponents = {
-	types: {
-		image: ({ value }) => value?.url ? (
-			<figure>
-				<Image
-					src={value.url}
-					alt={value.alt ?? ""}
-					width={1200}
-					height={800}
-					sizes="(max-width: 1000px) 92vw, 920px"
-					quality={90}
-				/>
-				{value.caption && <figcaption>{value.caption}</figcaption>}
-			</figure>
-		) : null,
-		callout: () => null,
-		embed: ({ value }) => {
-			if (!value?.url) return null;
-			const youtubeId = value.url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^?&/]+)/)?.[1];
-			return youtubeId ? (
-				<iframe src={`https://www.youtube-nocookie.com/embed/${youtubeId}`} title="Embedded video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-			) : <a href={value.url} target="_blank" rel="noopener noreferrer">Open embedded content</a>;
-		},
-	},
-	marks: {
-		link: ({ children, value }) => {
-			const external = typeof value?.href === "string" && /^https?:\/\//.test(value.href);
-			return <a href={value?.href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>{children}</a>;
-		},
-	},
-};
+// Below this a contents list is more chrome than help.
+const MIN_TOC_HEADINGS = 3;
 
 export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 	const { t } = useI18n();
@@ -54,6 +25,8 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 		...[{ language: post.language, slug: post.slug }, ...(post.translations ?? [])]
 			.map(({ language, slug }) => [language, `/${language}/blog/${slug}`]),
 	]);
+	const headings = useMemo(() => getArticleHeadings(post.content), [post.content]);
+	const hasToc = headings.length >= MIN_TOC_HEADINGS;
 	const [views, setViews] = useState(post.views);
 	const readCompleteRef = useRef<HTMLDivElement>(null);
 	const recommendationsRef = useRef<HTMLElement>(null);
@@ -125,24 +98,36 @@ export default function BlogArticle({ post }: { post: SanityBlogPost }) {
 					<Header localePaths={localePaths} />
 					<main className="content_container blog_article">
 						<Breadcrumbs items={[{ label: t("nav.blog"), href: "/blog" }, { label: post.title }]} />
-						<header className="blog_article-header">
-							<div className="blog_article-meta"><span>{post.type}</span></div>
-							<h1>{post.title}</h1>
-							<BlogPostMeta date={post.publishedAt} readTime={post.readTime} views={views} className="blog_article-stats" />
-						</header>
-						<p className="blog_article-lead">{post.description}</p>
-						<Image
-							className="blog_article-image"
-							src={post.image.url}
-							alt={post.image.alt}
-							width={1600}
-							height={900}
-							sizes="(max-width: 1128px) 92vw, 1040px"
-							quality={90}
-							loading="eager"
-							fetchPriority="high"
-						/>
-						<div className="blog_article-body"><PortableText value={post.content} components={portableTextComponents} /></div>
+						<article className={`blog_sheet${hasToc ? " blog_sheet--toc" : ""}`}>
+							<header className="blog_sheet-head">
+								{post.type && <p className="blog_sheet-category">{post.type}</p>}
+								<h1>{post.title}</h1>
+								<BlogPostMeta date={post.publishedAt} readTime={post.readTime} views={views} className="blog_sheet-meta" />
+								{post.description && <p className="blog_sheet-lead">{post.description}</p>}
+								<Image
+									className="blog_sheet-cover"
+									src={post.image.url}
+									alt={post.image.alt}
+									width={1600}
+									height={900}
+									sizes="(max-width: 900px) calc(100vw - 60px), 760px"
+									quality={90}
+									loading="eager"
+									fetchPriority="high"
+								/>
+							</header>
+							{hasToc && (
+								<nav className="blog_toc" aria-labelledby="blog-toc-title">
+									<p className="blog_toc-title" id="blog-toc-title">{t("blog.contents")}</p>
+									<ol>
+										{headings.map((heading) => (
+											<li key={heading.id}><a href={`#${heading.id}`}>{heading.text}</a></li>
+										))}
+									</ol>
+								</nav>
+							)}
+							<ArticleBody articleId={post.id} content={post.content} headings={headings} />
+						</article>
 						<div ref={readCompleteRef} aria-hidden="true" />
 						{post.relatedArticles.length > 0 && (
 							<section className="blog_recommended" ref={recommendationsRef}>

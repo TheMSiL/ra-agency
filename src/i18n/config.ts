@@ -103,6 +103,7 @@ const en = {
 	'blog.readArticle': 'Read article',
 	'blog.minRead': 'min read',
 	'blog.views': 'views',
+	'blog.contents': 'Contents',
 	'contact.title': 'Contacts',
 	'contact.intro':
 		'Have a project in mind or want to scale what already works? Pick the channel that suits you — we are always within reach.',
@@ -253,6 +254,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'blog.readArticle': 'Читать статью',
 		'blog.minRead': 'мин чтения',
 		'blog.views': 'просмотров',
+		'blog.contents': 'Содержание',
 		'contact.title': 'Контакты',
 		'contact.intro':
 			'Есть проект или хотите масштабировать то, что уже работает? Выберите удобный канал — мы всегда на связи.',
@@ -386,6 +388,7 @@ export const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
 		'blog.readArticle': 'Читати статтю',
 		'blog.minRead': 'хв читання',
 		'blog.views': 'переглядів',
+		'blog.contents': 'Зміст',
 		'contact.title': 'Контакти',
 		'contact.intro':
 			'Маєте проєкт або хочете масштабувати те, що вже працює? Оберіть зручний канал — ми завжди на зв’язку.',

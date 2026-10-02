@@ -55,6 +55,11 @@ export const viewsProjection = `
 	)
 `;
 
+// Reading time is optional in Studio. ~1,500 characters a minute is what the
+// hand-entered times on the first articles averaged out to; `+ 0.4999` turns
+// GROQ's round() into a ceiling.
+const estimatedReadTime = "math::max([1, round(length(pt::text(body)) / 1500 + 0.4999)])";
+
 const articleProjection = `
 	"id": _id,
 	"slug": slug.current,
@@ -63,7 +68,7 @@ const articleProjection = `
 	"description": excerpt,
 	"type": coalesce(category->title[$language], category->title.en, category->title.ru, category->title.ua, ""),
 	publishedAt,
-	readTime,
+	"readTime": coalesce(readTime, ${estimatedReadTime}),
 	${viewsProjection},
 	isFeatured,
 	metaTitle,
@@ -77,7 +82,11 @@ const articleProjection = `
 	},
 	"content": body[]{
 		...,
-		_type == "image" => {"url": asset->url}
+		_type == "image" => {
+			"url": asset->url,
+			"dimensions": asset->metadata.dimensions{width, height},
+			"lqip": asset->metadata.lqip
+		}
 	},
 	"author": author->{name, "bio": coalesce(bio[$language], bio.en, bio.ru, bio.ua), "avatarUrl": avatar.asset->url}
 `;
